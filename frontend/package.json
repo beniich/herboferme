@@ -86,6 +86,7 @@
     "prettier": "^3.2.5",
     "tailwindcss": "^3.4.17",
     "@parcel/watcher": "^2.5.0",
+    "@parcel/watcher-linux-x64-glibc": "^2.5.0",
     "typescript": "^5.7.3",
     "vitest": "^3.2.4"
   }
