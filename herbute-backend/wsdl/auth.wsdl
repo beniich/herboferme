@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ═══════════════════════════════════════════════════════════════════
+  auth.wsdl — Contrat WSDL du Service d'Authentification Herbute
+  ═══════════════════════════════════════════════════════════════════
+
+  WSDL = Web Services Description Language
+  Ce fichier EST le contrat officiel du service SOAP.
+  Il décrit EXACTEMENT :
+    - Les opérations disponibles (équivalent des endpoints REST)
+    - Les types de données (request/response)
+    - L'URL du service (binding)
+
+  Toute modification ici DOIT être versionnée et communiquée
+  aux clients qui ont généré leur stub depuis ce WSDL.
+
+  Endpoints exposés :
+    POST /soap/auth  →  SOAPAction: "Login"
+    POST /soap/auth  →  SOAPAction: "RefreshToken"
+    POST /soap/auth  →  SOAPAction: "Logout"
+    POST /soap/auth  →  SOAPAction: "GetCurrentUser"
+    POST /soap/auth  →  SOAPAction: "ForgotPassword"
+    POST /soap/auth  →  SOAPAction: "ResetPassword"
+    POST /soap/auth  →  SOAPAction: "VerifyEmail"
+
+  Version REST équivalente : /api/auth/*
+  ═══════════════════════════════════════════════════════════════════
+-->
+
+<definitions
+  name="HerbuteAuthService"
+  targetNamespace="http://herbute.ma/soap/auth"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:tns="http://herbute.ma/soap/auth"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 1 — TYPES (Schémas XSD des données)
+       Équivalent des interfaces TypeScript / DTOs
+       ═══════════════════════════════════════════════════════ -->
+  <types>
+    <xsd:schema targetNamespace="http://herbute.ma/soap/auth">
+
+      <!-- ─── Énumérations ─────────────────────────────── -->
+      <xsd:simpleType name="UserRole">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="super_admin"/>
+          <xsd:enumeration value="admin"/>
+          <xsd:enumeration value="manager"/>
+          <xsd:enumeration value="employe"/>
+          <xsd:enumeration value="veterinaire"/>
+          <xsd:enumeration value="comptable"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+
+      <xsd:simpleType name="SubscriptionPlan">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="essai"/>
+          <xsd:enumeration value="essentiel"/>
+          <xsd:enumeration value="professionnel"/>
+          <xsd:enumeration value="entreprise"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+
+      <xsd:simpleType name="AuthErrorCode">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="INVALID_CREDENTIALS"/>
+          <xsd:enumeration value="ACCOUNT_LOCKED"/>
+          <xsd:enumeration value="ACCOUNT_DISABLED"/>
+          <xsd:enumeration value="EMAIL_NOT_VERIFIED"/>
+          <xsd:enumeration value="TOKEN_EXPIRED"/>
+          <xsd:enumeration value="TOKEN_INVALID"/>
+          <xsd:enumeration value="WEAK_PASSWORD"/>
+          <xsd:enumeration value="EMAIL_EXISTS"/>
+          <xsd:enumeration value="INVALID_RESET_TOKEN"/>
+          <xsd:enumeration value="RATE_LIMITED"/>
+          <xsd:enumeration value="INTERNAL_ERROR"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+
+      <!-- ─── Types complexes réutilisables ─────────────── -->
+
+      <!-- Profil utilisateur retourné après login ou GetCurrentUser -->
+      <xsd:complexType name="UserProfile">
+        <xsd:sequence>
+          <xsd:element name="id"      type="xsd:string"/>
+          <xsd:element name="email"   type="xsd:string"/>
+          <xsd:element name="nom"     type="xsd:string"/>
+          <xsd:element name="prenom"  type="xsd:string"/>
+          <xsd:element name="role"    type="tns:UserRole"/>
+          <xsd:element name="plan"    type="tns:SubscriptionPlan"/>
+          <xsd:element name="farmId"  type="xsd:string" minOccurs="0"/>
+          <xsd:element name="lastLogin" type="xsd:dateTime" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <!-- Réponse standard en cas de succès -->
+      <xsd:complexType name="ServiceResponse">
+        <xsd:sequence>
+          <xsd:element name="success" type="xsd:boolean"/>
+          <xsd:element name="message" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <!-- Fault détaillé (erreur métier) -->
+      <xsd:complexType name="AuthFault">
+        <xsd:sequence>
+          <xsd:element name="code"    type="tns:AuthErrorCode"/>
+          <xsd:element name="message" type="xsd:string"/>
+          <xsd:element name="retryAfterSeconds" type="xsd:int" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+
+      <!-- ─── Login ───────────────────────────────────── -->
+      <xsd:element name="LoginRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="email"    type="xsd:string"/>
+            <xsd:element name="password" type="xsd:string"/>
+            <!-- Optionnel: durée de session souhaitée en minutes -->
+            <xsd:element name="sessionDurationMinutes" type="xsd:int" minOccurs="0" default="15"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="LoginResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="success"      type="xsd:boolean"/>
+            <xsd:element name="accessToken"  type="xsd:string"/>
+            <!-- Le refresh token est retourné ICI en SOAP (pas de cookie)
+                 Le client SOAP doit le stocker de façon sécurisée -->
+            <xsd:element name="refreshToken" type="xsd:string"/>
+            <xsd:element name="expiresAt"    type="xsd:dateTime"/>
+            <xsd:element name="user"         type="tns:UserProfile"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+
+      <!-- ─── RefreshToken ─────────────────────────────── -->
+      <xsd:element name="RefreshTokenRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="refreshToken" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="RefreshTokenResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="success"      type="xsd:boolean"/>
+            <xsd:element name="accessToken"  type="xsd:string"/>
+            <xsd:element name="refreshToken" type="xsd:string"/>
+            <xsd:element name="expiresAt"    type="xsd:dateTime"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+
+      <!-- ─── Logout ───────────────────────────────────── -->
+      <xsd:element name="LogoutRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <!-- logoutAll=true révoque TOUTES les sessions de l'utilisateur -->
+            <xsd:element name="logoutAll" type="xsd:boolean" minOccurs="0" default="false"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="LogoutResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="success" type="xsd:boolean"/>
+            <xsd:element name="message" type="xsd:string"/>
+            <xsd:element name="sessionsRevoked" type="xsd:int"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+
+      <!-- ─── GetCurrentUser ───────────────────────────── -->
+      <!-- Pas de body request — le token est dans le WS-Security Header -->
+      <xsd:element name="GetCurrentUserRequest">
+        <xsd:complexType>
+          <xsd:sequence/>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="GetCurrentUserResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="success" type="xsd:boolean"/>
+            <xsd:element name="user"    type="tns:UserProfile"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+
+      <!-- ─── ForgotPassword ───────────────────────────── -->
+      <xsd:element name="ForgotPasswordRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="email" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="ForgotPasswordResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="success" type="xsd:boolean"/>
+            <xsd:element name="message" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+
+      <!-- ─── ResetPassword ────────────────────────────── -->
+      <xsd:element name="ResetPasswordRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="resetToken"   type="xsd:string"/>
+            <xsd:element name="newPassword"  type="xsd:string"/>
+            <xsd:element name="confirmPassword" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="ResetPasswordResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="success" type="xsd:boolean"/>
+            <xsd:element name="message" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+
+      <!-- ─── VerifyEmail ──────────────────────────────── -->
+      <xsd:element name="VerifyEmailRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="verificationToken" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="VerifyEmailResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="success" type="xsd:boolean"/>
+            <xsd:element name="message" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+
+      <!-- ─── AuthFault (élément de Fault) ─────────────── -->
+      <xsd:element name="AuthFaultDetail" type="tns:AuthFault"/>
+
+    </xsd:schema>
+  </types>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 2 — MESSAGES (Entrées/Sorties de chaque opération)
+       Chaque message pointe vers un élément XSD défini ci-dessus
+       ═══════════════════════════════════════════════════════ -->
+
+  <message name="LoginInput">
+    <part name="parameters" element="tns:LoginRequest"/>
+  </message>
+  <message name="LoginOutput">
+    <part name="parameters" element="tns:LoginResponse"/>
+  </message>
+
+  <message name="RefreshTokenInput">
+    <part name="parameters" element="tns:RefreshTokenRequest"/>
+  </message>
+  <message name="RefreshTokenOutput">
+    <part name="parameters" element="tns:RefreshTokenResponse"/>
+  </message>
+
+  <message name="LogoutInput">
+    <part name="parameters" element="tns:LogoutRequest"/>
+  </message>
+  <message name="LogoutOutput">
+    <part name="parameters" element="tns:LogoutResponse"/>
+  </message>
+
+  <message name="GetCurrentUserInput">
+    <part name="parameters" element="tns:GetCurrentUserRequest"/>
+  </message>
+  <message name="GetCurrentUserOutput">
+    <part name="parameters" element="tns:GetCurrentUserResponse"/>
+  </message>
+
+  <message name="ForgotPasswordInput">
+    <part name="parameters" element="tns:ForgotPasswordRequest"/>
+  </message>
+  <message name="ForgotPasswordOutput">
+    <part name="parameters" element="tns:ForgotPasswordResponse"/>
+  </message>
+
+  <message name="ResetPasswordInput">
+    <part name="parameters" element="tns:ResetPasswordRequest"/>
+  </message>
+  <message name="ResetPasswordOutput">
+    <part name="parameters" element="tns:ResetPasswordResponse"/>
+  </message>
+
+  <message name="VerifyEmailInput">
+    <part name="parameters" element="tns:VerifyEmailRequest"/>
+  </message>
+  <message name="VerifyEmailOutput">
+    <part name="parameters" element="tns:VerifyEmailResponse"/>
+  </message>
+
+  <!-- Fault commun à toutes les opérations -->
+  <message name="AuthFaultMessage">
+    <part name="fault" element="tns:AuthFaultDetail"/>
+  </message>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 3 — PORT TYPE (Interface abstraite)
+       Définit les opérations sans spécifier le protocole
+       (comme une interface TypeScript sans implémentation)
+       ═══════════════════════════════════════════════════════ -->
+
+  <portType name="HerbuteAuthPortType">
+
+    <operation name="Login">
+      <documentation>
+        Authentifie un utilisateur avec email/password.
+        Retourne une paire de tokens (access + refresh) et le profil.
+        Rate limited: 10 tentatives / 15 min par email.
+      </documentation>
+      <input  message="tns:LoginInput"/>
+      <output message="tns:LoginOutput"/>
+      <fault  name="AuthFault" message="tns:AuthFaultMessage"/>
+    </operation>
+
+    <operation name="RefreshToken">
+      <documentation>
+        Renouvelle l'access token via le refresh token.
+        Le refresh token courant est révoqué et remplacé (rotation).
+        Ne nécessite pas de WS-Security header (token expiré).
+      </documentation>
+      <input  message="tns:RefreshTokenInput"/>
+      <output message="tns:RefreshTokenOutput"/>
+      <fault  name="AuthFault" message="tns:AuthFaultMessage"/>
+    </operation>
+
+    <operation name="Logout">
+      <documentation>
+        Révoque le refresh token courant.
+        Si logoutAll=true, révoque toutes les sessions actives.
+        Nécessite WS-Security header avec access token valide.
+      </documentation>
+      <input  message="tns:LogoutInput"/>
+      <output message="tns:LogoutOutput"/>
+      <fault  name="AuthFault" message="tns:AuthFaultMessage"/>
+    </operation>
+
+    <operation name="GetCurrentUser">
+      <documentation>
+        Retourne le profil complet de l'utilisateur authentifié.
+        Nécessite WS-Security header avec access token valide.
+      </documentation>
+      <input  message="tns:GetCurrentUserInput"/>
+      <output message="tns:GetCurrentUserOutput"/>
+      <fault  name="AuthFault" message="tns:AuthFaultMessage"/>
+    </operation>
+
+    <operation name="ForgotPassword">
+      <documentation>
+        Déclenche l'envoi d'un email de réinitialisation.
+        Réponse identique qu'un compte existe ou non (anti-énumération).
+      </documentation>
+      <input  message="tns:ForgotPasswordInput"/>
+      <output message="tns:ForgotPasswordOutput"/>
+      <fault  name="AuthFault" message="tns:AuthFaultMessage"/>
+    </operation>
+
+    <operation name="ResetPassword">
+      <documentation>
+        Réinitialise le mot de passe avec le token reçu par email.
+        Révoque toutes les sessions actives après succès.
+      </documentation>
+      <input  message="tns:ResetPasswordInput"/>
+      <output message="tns:ResetPasswordOutput"/>
+      <fault  name="AuthFault" message="tns:AuthFaultMessage"/>
+    </operation>
+
+    <operation name="VerifyEmail">
+      <documentation>
+        Vérifie l'adresse email avec le token reçu à l'inscription.
+      </documentation>
+      <input  message="tns:VerifyEmailInput"/>
+      <output message="tns:VerifyEmailOutput"/>
+      <fault  name="AuthFault" message="tns:AuthFaultMessage"/>
+    </operation>
+
+  </portType>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 4 — BINDING (Protocole concret = SOAP 1.1)
+       Lie le portType abstrait au protocole SOAP/HTTP
+       ═══════════════════════════════════════════════════════ -->
+
+  <binding name="HerbuteAuthBinding" type="tns:HerbuteAuthPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <operation name="Login">
+      <soap:operation soapAction="http://herbute.ma/soap/auth/Login"/>
+      <input>  <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+      <fault name="AuthFault">
+        <soap:fault name="AuthFault" use="literal"/>
+      </fault>
+    </operation>
+
+    <operation name="RefreshToken">
+      <soap:operation soapAction="http://herbute.ma/soap/auth/RefreshToken"/>
+      <input>  <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+      <fault name="AuthFault">
+        <soap:fault name="AuthFault" use="literal"/>
+      </fault>
+    </operation>
+
+    <operation name="Logout">
+      <soap:operation soapAction="http://herbute.ma/soap/auth/Logout"/>
+      <input>  <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+      <fault name="AuthFault">
+        <soap:fault name="AuthFault" use="literal"/>
+      </fault>
+    </operation>
+
+    <operation name="GetCurrentUser">
+      <soap:operation soapAction="http://herbute.ma/soap/auth/GetCurrentUser"/>
+      <input>  <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+      <fault name="AuthFault">
+        <soap:fault name="AuthFault" use="literal"/>
+      </fault>
+    </operation>
+
+    <operation name="ForgotPassword">
+      <soap:operation soapAction="http://herbute.ma/soap/auth/ForgotPassword"/>
+      <input>  <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+      <fault name="AuthFault">
+        <soap:fault name="AuthFault" use="literal"/>
+      </fault>
+    </operation>
+
+    <operation name="ResetPassword">
+      <soap:operation soapAction="http://herbute.ma/soap/auth/ResetPassword"/>
+      <input>  <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+      <fault name="AuthFault">
+        <soap:fault name="AuthFault" use="literal"/>
+      </fault>
+    </operation>
+
+    <operation name="VerifyEmail">
+      <soap:operation soapAction="http://herbute.ma/soap/auth/VerifyEmail"/>
+      <input>  <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+      <fault name="AuthFault">
+        <soap:fault name="AuthFault" use="literal"/>
+      </fault>
+    </operation>
+
+  </binding>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 5 — SERVICE (URL physique du endpoint)
+       ═══════════════════════════════════════════════════════ -->
+
+  <service name="HerbuteAuthService">
+    <documentation>
+      Service d'Authentification Herbute — SOAP 1.1
+      WSDL disponible : http://localhost:2065/soap/auth?wsdl
+      Coexiste avec REST : http://localhost:2065/api/auth/*
+    </documentation>
+    <port name="HerbuteAuthPort" binding="tns:HerbuteAuthBinding">
+      <soap:address location="http://localhost:2065/soap/auth"/>
+    </port>
+  </service>
+
+</definitions>

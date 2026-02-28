@@ -1,0 +1,451 @@
+﻿
+> herbute-backend@1.0.0 lint
+> eslint . --ext .ts,.js
+
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\config\db.ts
+   9:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  19:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\controllers\complaintController.ts
+    9:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   37:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   53:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   67:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   68:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   82:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   92:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  116:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  126:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  143:79  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  156:70  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  169:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  170:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  210:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  211:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\middleware\authenticate.ts
+  58:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\middleware\authorize.ts
+  48:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  52:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  80:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\middleware\errorHandler.ts
+   56:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   58:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  110:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  123:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\middleware\organization.ts
+   8:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  42:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  50:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  63:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  73:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  89:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\middleware\security.ts
+   10:8   warning  'jwt' is defined but never used                    @typescript-eslint/no-unused-vars
+   38:3   warning  ES2015 module syntax is preferred over namespaces  @typescript-eslint/no-namespace
+   89:17  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  138:36  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  164:29  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  192:76  warning  Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\middleware\upload.ts
+  20:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  20:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  20:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\models\ADSyncLog.ts
+  23:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\models\AuditLog.ts
+  8:15  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\models\ITAsset.ts
+  63:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\ad.ts
+  14:22  warning  'req' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  26:48  warning  Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  39:19  warning  Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  45:47  warning  Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  51:19  warning  Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  57:47  warning  Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  74:19  warning  Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  81:46  warning  Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  87:19  warning  Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\admin.ts
+    9:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   10:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  120:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  130:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\analytics.ts
+   27:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   29:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   62:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  131:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  219:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  222:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  261:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  326:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  383:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  384:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  402:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  476:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\assignments.ts
+  16:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  25:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\audit.ts
+  13:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  24:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  62:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\auth.ts
+   25:10  warning  'HERBUTE_ROUTES' is defined but never used  @typescript-eslint/no-unused-vars
+  299:35  warning  Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\billing.ts
+   18:20   warning  'NotFoundAppError' is defined but never used  @typescript-eslint/no-unused-vars
+   26:31   warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+   70:101  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+   78:44   warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+   93:66   warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+  135:10   warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+  164:28   warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\dashboard.ts
+   14:61  warning  Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+   21:15  warning  'crops' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  101:52  warning  Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\devops.ts
+   5:10  warning  'AuthenticatedRequest' is defined but never used  @typescript-eslint/no-unused-vars
+  17:57  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  29:19  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  41:63  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  52:19  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\feedback.ts
+  12:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\fleet.ts
+   8:10  warning  'HERBUTE_ROUTES' is defined but never used  @typescript-eslint/no-unused-vars
+  17:51  warning  Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\googleAuth.ts
+   3:8   warning  'jwt' is defined but never used                                         @typescript-eslint/no-unused-vars
+  15:60  warning  'next' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  96:21  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\hr.ts
+  8:10  warning  'HERBUTE_ROUTES' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\inventory.ts
+   28:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   65:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   78:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   99:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  101:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  130:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  146:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  168:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  218:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  234:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  247:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  249:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  269:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  304:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\it-assets.ts
+    4:23  warning  'sendError' is defined but never used             @typescript-eslint/no-unused-vars
+    5:10  warning  'AuthenticatedRequest' is defined but never used  @typescript-eslint/no-unused-vars
+   14:42  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   18:18  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   38:19  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   45:47  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   75:19  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   82:45  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   96:19  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  103:43  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  118:19  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  125:45  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  138:19  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  145:48  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  157:19  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  164:58  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  188:19  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\it-tickets.ts
+   13:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   17:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   40:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   47:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   97:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  104:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  121:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  128:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  164:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  171:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  173:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  197:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  204:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  226:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  233:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  261:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  268:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  292:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\knowledge.ts
+  12:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  54:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\members.ts
+    1:18  warning  'Request' is defined but never used       @typescript-eslint/no-unused-vars
+    7:10  warning  'Organization' is defined but never used  @typescript-eslint/no-unused-vars
+    8:10  warning  'logger' is defined but never used        @typescript-eslint/no-unused-vars
+   13:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   13:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   39:66  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   70:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   89:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  131:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  150:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  169:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  184:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  194:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\memberships.ts
+   17:66  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   39:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   54:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   65:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  125:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  141:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  157:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  168:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  179:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  194:15  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  213:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\messages.ts
+   9:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  14:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  47:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\monitoring.ts
+   15:61  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   35:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   42:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   60:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   77:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   87:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   99:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  108:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  129:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\network.ts
+    5:10  warning  'AuthenticatedRequest' is defined but never used  @typescript-eslint/no-unused-vars
+   14:49  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   16:19  warning  'status' is assigned a value but never used       @typescript-eslint/no-unused-vars
+   18:18  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   32:19  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   39:53  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   51:19  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   58:50  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   66:19  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   73:53  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   86:19  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   93:56  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  105:19  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  112:61  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  136:19  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  143:62  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  163:19  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  170:47  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  202:19  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\organizations.ts
+    1:18  warning  'Request' is defined but never used       @typescript-eslint/no-unused-vars
+   24:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   72:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   83:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   94:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  102:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  112:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  141:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  151:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  178:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\planning.ts
+  8:10  warning  'HERBUTE_ROUTES' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\routes\teams.ts
+   5:16  warning  'param' is defined but never used         @typescript-eslint/no-unused-vars
+  17:65  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  43:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  69:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\scripts\check-user.ts
+  25:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\scripts\performance-diagnostic.ts
+  25:16  warning  'measureApiEndpoint' is defined but never used  @typescript-eslint/no-unused-vars
+  38:21  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  72:21  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\scripts\seedE2E.ts
+   1:8   warning  'mongoose' is defined but never used      @typescript-eslint/no-unused-vars
+  29:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\scripts\seedPlanning.ts
+  1:8  warning  'mongoose' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\scripts\test-monitoring-access.ts
+   38:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   58:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   73:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  117:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  141:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  166:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\scripts\testAPI.ts
+  35:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\scripts\verify-connection.ts
+  13:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\scripts\verify-login.ts
+  30:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\services\adService.ts
+   26:15  warning  Unexpected any. Specify a different type                                  @typescript-eslint/no-explicit-any
+   27:23  warning  Unexpected any. Specify a different type                                  @typescript-eslint/no-explicit-any
+   58:52  warning  Unexpected any. Specify a different type                                  @typescript-eslint/no-explicit-any
+   71:34  warning  'reject' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+   72:54  warning  Unexpected any. Specify a different type                                  @typescript-eslint/no-explicit-any
+   87:38  warning  Unexpected any. Specify a different type                                  @typescript-eslint/no-explicit-any
+   97:40  warning  Unexpected any. Specify a different type                                  @typescript-eslint/no-explicit-any
+  107:57  warning  Unexpected any. Specify a different type                                  @typescript-eslint/no-explicit-any
+  107:70  warning  Unexpected any. Specify a different type                                  @typescript-eslint/no-explicit-any
+  118:13  warning  Unexpected any. Specify a different type                                  @typescript-eslint/no-explicit-any
+  120:62  warning  Unexpected any. Specify a different type                                  @typescript-eslint/no-explicit-any
+  125:21  warning  Unexpected any. Specify a different type                                  @typescript-eslint/no-explicit-any
+  202:23  warning  Unexpected any. Specify a different type                                  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\services\complaintService.ts
+   10:37  warning  Unexpected any. Specify a different type                                      @typescript-eslint/no-explicit-any
+   11:22  warning  Unexpected any. Specify a different type                                      @typescript-eslint/no-explicit-any
+  172:64  warning  'approvedBy' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  213:88  warning  'rejectedBy' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\services\eventBus.ts
+   8:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  20:64  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\services\networkService.ts
+   3:8   warning  'NetworkDevice' is defined but never used                                 @typescript-eslint/no-unused-vars
+   4:8   warning  'ITAsset' is defined but never used                                       @typescript-eslint/no-unused-vars
+  46:11  warning  'results' is assigned a value but never used                              @typescript-eslint/no-unused-vars
+  74:34  warning  'reject' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  86:40  warning  Unexpected any. Specify a different type                                  @typescript-eslint/no-explicit-any
+  86:55  warning  Unexpected any. Specify a different type                                  @typescript-eslint/no-explicit-any
+  98:17  warning  'oidStr' is assigned a value but never used                               @typescript-eslint/no-unused-vars
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\services\notificationService.ts
+   8:12  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  94:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\services\pfSenseService.ts
+   95:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  125:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  177:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  208:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  226:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\services\sagaConsumer.ts
+  11:35  warning  'topic' is defined but never used. Allowed unused args must match /^_/u      @typescript-eslint/no-unused-vars
+  11:42  warning  'partition' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\services\schedulingService.ts
+  3:21  warning  'IComplaint' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\services\secretService.ts
+  31:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  63:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\services\securityAuditService.ts
+  25:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  26:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  27:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\services\securityService.ts
+   27:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   27:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   32:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   34:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   54:78  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  100:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  116:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  147:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  192:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  210:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\services\security\index.ts
+  170:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\services\socketService.ts
+    9:10  warning  Unexpected any. Specify a different type                                 @typescript-eslint/no-explicit-any
+   38:34  warning  'token' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+   55:50  warning  Unexpected any. Specify a different type                                 @typescript-eslint/no-explicit-any
+   65:61  warning  Unexpected any. Specify a different type                                 @typescript-eslint/no-explicit-any
+   77:66  warning  Unexpected any. Specify a different type                                 @typescript-eslint/no-explicit-any
+  297:60  warning  Unexpected any. Specify a different type                                 @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\services\subscriptionService.ts
+   7:26  warning  'SubscriptionError' is defined but never used  @typescript-eslint/no-unused-vars
+  64:50  warning  Unexpected any. Specify a different type       @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\services\tokenService.ts
+   7:10  warning  'Types' is defined but never used         @typescript-eslint/no-unused-vars
+  27:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\types\request.ts
+  11:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\utils\AppError.ts
+  68:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  75:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\utils\envValidator.ts
+  36:7  warning  'OPTIONAL_VARS' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\utils\errorHandler.ts
+  16:10  warning  'validationResult' is defined but never used      @typescript-eslint/no-unused-vars
+  19:3   warning  'TokenExpiredAppError' is defined but never used  @typescript-eslint/no-unused-vars
+  20:3   warning  'TokenInvalidAppError' is defined but never used  @typescript-eslint/no-unused-vars
+  35:29  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  85:15  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  86:39  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\utils\rateLimiters.ts
+  22:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  47:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  60:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\utils\requestId.ts
+  10:3  warning  ES2015 module syntax is preferred over namespaces  @typescript-eslint/no-namespace
+
+C:\Users\pc gold\projet dash\herbute\herbute-backend\src\utils\validator.ts
+  15:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  15:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Ô£û 312 problems (0 errors, 312 warnings)
+

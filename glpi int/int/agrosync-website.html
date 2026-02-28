@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AgroSync — Farm Intelligence Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,300&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --earth: #1a1209;
+    --soil: #2d1f0e;
+    --bark: #3d2a14;
+    --amber: #c8821a;
+    --gold: #e8a94a;
+    --straw: #f0d898;
+    --moss: #4a7c2f;
+    --leaf: #6fa83d;
+    --sage: #8fbc5a;
+    --sky: #7ab5d4;
+    --cream: #faf6ec;
+    --parchment: #f0e8d4;
+    --ink: #1a120a;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--earth);
+    color: var(--parchment);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CURSOR */
+  .cursor { position: fixed; width: 12px; height: 12px; background: var(--sage); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform .1s ease, width .3s ease, height .3s ease, background .3s ease; mix-blend-mode: difference; }
+  .cursor-ring { position: fixed; width: 40px; height: 40px; border: 1px solid rgba(143,188,90,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: all .25s ease; }
+
+  /* NAVBAR */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 60px;
+    background: linear-gradient(to bottom, rgba(26,18,9,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .nav-logo-icon {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--moss), var(--leaf));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 4px 20px rgba(111,168,61,0.3);
+  }
+  .nav-logo-text { font-family: 'Fraunces', serif; font-size: 20px; color: var(--straw); letter-spacing: -0.5px; }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #5a4a30;
+    text-decoration: none;
+    transition: color .3s;
+    position: relative;
+  }
+  .nav-links a:hover { color: var(--sage); }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 1px; background: var(--sage);
+    transform: scaleX(0); transform-origin: right;
+    transition: transform .3s ease;
+  }
+  .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+  .nav-cta {
+    padding: 10px 24px;
+    background: transparent;
+    border: 1px solid rgba(143,188,90,0.4);
+    border-radius: 6px;
+    color: var(--sage);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all .3s;
+  }
+  .nav-cta:hover { background: rgba(143,188,90,0.12); border-color: var(--sage); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 120px 60px 80px;
+    position: relative; z-index: 2;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px;
+    background: rgba(143,188,90,0.1);
+    border: 1px solid rgba(143,188,90,0.25);
+    border-radius: 100px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 36px;
+    width: fit-content;
+  }
+  .hero-badge::before { content: '●'; font-size: 8px; animation: blink 2s infinite; }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(52px, 6vw, 80px);
+    line-height: 1.0;
+    color: var(--straw);
+    margin-bottom: 8px;
+    font-weight: 800;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--sage);
+    font-weight: 300;
+  }
+  .hero-subtitle {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(36px, 4vw, 54px);
+    line-height: 1.1;
+    color: #4a3820;
+    margin-bottom: 28px;
+    font-weight: 400;
+  }
+  .hero-desc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    color: #6a5038;
+    max-width: 420px;
+    margin-bottom: 48px;
+  }
+  .hero-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .btn-primary {
+    padding: 16px 36px;
+    background: linear-gradient(135deg, var(--moss), var(--leaf));
+    border: none; border-radius: 8px;
+    color: var(--cream);
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    transition: all .3s;
+    box-shadow: 0 8px 32px rgba(74,124,47,0.3);
+    cursor: none;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(74,124,47,0.4); }
+  .btn-secondary {
+    display: flex; align-items: center; gap: 10px;
+    padding: 16px 28px;
+    background: transparent;
+    border: 1px solid rgba(240,216,152,0.15);
+    border-radius: 8px;
+    color: #7a6040;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition: all .3s;
+    cursor: none;
+  }
+  .btn-secondary:hover { color: var(--straw); border-color: rgba(240,216,152,0.3); }
+  .hero-stats {
+    display: flex; gap: 36px;
+    margin-top: 56px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .hero-stat-val {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    color: var(--gold);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .hero-stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #3a2810;
+  }
+
+  .hero-right {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    padding: 120px 60px 80px 20px;
+  }
+  /* Decorative background */
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    top: 10%; right: -10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(ellipse, rgba(74,124,47,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-right::after {
+    content: '';
+    position: absolute;
+    bottom: 15%; left: 5%;
+    width: 300px; height: 300px;
+    background: radial-gradient(ellipse, rgba(200,130,26,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  /* FLOATING DASHBOARD MOCKUP */
+  .dashboard-mockup {
+    width: 100%;
+    max-width: 560px;
+    position: relative;
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+  .mockup-frame {
+    background: rgba(20,14,8,0.95);
+    border: 1px solid rgba(143,188,90,0.15);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow:
+      0 40px 80px rgba(0,0,0,0.6),
+      0 0 0 1px rgba(255,255,255,0.04),
+      inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .mockup-bar {
+    height: 44px;
+    background: rgba(14,10,5,0.9);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex; align-items: center; padding: 0 16px; gap: 6px;
+  }
+  .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .mockup-bar-title {
+    flex: 1; text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #3a2a1a;
+    letter-spacing: 2px;
+  }
+  .mockup-body { display: flex; min-height: 360px; }
+  .mockup-sidebar {
+    width: 52px;
+    background: rgba(10,7,3,0.8);
+    border-right: 1px solid rgba(255,255,255,0.04);
+    padding: 12px 8px;
+    display: flex; flex-direction: column; gap: 6px; align-items: center;
+  }
+  .mockup-nav-item {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    transition: background .2s;
+  }
+  .mockup-nav-item.active { background: rgba(143,188,90,0.18); }
+  .mockup-content { flex: 1; padding: 16px; overflow: hidden; }
+  .mockup-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .mockup-kpi {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 10px;
+  }
+  .mockup-kpi-label { font-family: 'JetBrains Mono', monospace; font-size: 7px; color: #3a2a1a; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .mockup-kpi-val { font-family: 'Fraunces', serif; font-size: 14px; color: var(--straw); font-weight: 700; }
+  .mockup-kpi-trend { font-family: 'JetBrains Mono', monospace; font-size: 7px; margin-top: 2px; }
+  .mockup-charts { display: grid; grid-template-columns: 1.4fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .mockup-chart-box {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 10px; overflow: hidden;
+  }
+  .mockup-chart-title { font-family: 'JetBrains Mono', monospace; font-size: 7px; color: #4a3820; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .mini-bars { display: flex; align-items: flex-end; gap: 3px; height: 50px; }
+  .mini-bar-el {
+    flex: 1;
+    border-radius: 2px 2px 0 0;
+    transition: height .3s ease;
+  }
+  .mockup-list { display: flex; flex-direction: column; gap: 4px; }
+  .mockup-list-item {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    font-family: 'JetBrains Mono', monospace; font-size: 7.5px;
+  }
+  .mockup-badge { padding: 2px 6px; border-radius: 10px; font-size: 7px; }
+  /* Floating cards */
+  .float-card {
+    position: absolute;
+    background: rgba(20,14,8,0.95);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 14px 18px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+  }
+  .float-card-1 {
+    top: -24px; right: -20px;
+    animation: float 5s 1s ease-in-out infinite;
+  }
+  .float-card-2 {
+    bottom: 40px; left: -30px;
+    animation: float 7s 2s ease-in-out infinite;
+  }
+
+  /* FEATURES STRIP */
+  .features-strip {
+    border-top: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    background: rgba(255,255,255,0.015);
+    overflow: hidden;
+    padding: 18px 0;
+    position: relative;
+  }
+  .features-strip-inner {
+    display: flex;
+    gap: 56px;
+    animation: marquee 30s linear infinite;
+    white-space: nowrap;
+  }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .strip-item {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #3a2a1a;
+    flex-shrink: 0;
+  }
+  .strip-item span:first-child { font-size: 16px; }
+  .strip-dot { width: 4px; height: 4px; background: var(--bark); border-radius: 50%; flex-shrink: 0; }
+
+  /* MODULES SECTION */
+  .section { padding: 120px 60px; }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(36px, 4vw, 54px);
+    color: var(--straw);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .section-title em { font-style: italic; color: #4a3820; font-weight: 300; }
+  .section-desc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.9;
+    color: #4a3820;
+    max-width: 500px;
+    margin-bottom: 60px;
+  }
+
+  /* MODULES GRID */
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .module-card {
+    background: var(--earth);
+    padding: 40px 36px;
+    transition: background .3s;
+    position: relative;
+    overflow: hidden;
+    cursor: none;
+  }
+  .module-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--card-color);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .4s ease;
+  }
+  .module-card:hover { background: rgba(255,255,255,0.02); }
+  .module-card:hover::before { transform: scaleX(1); }
+  .module-icon {
+    font-size: 32px;
+    margin-bottom: 20px;
+    display: block;
+    transition: transform .3s;
+  }
+  .module-card:hover .module-icon { transform: scale(1.15); }
+  .module-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--straw);
+    margin-bottom: 10px;
+  }
+  .module-desc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    line-height: 1.8;
+    color: #3a2810;
+    margin-bottom: 20px;
+  }
+  .module-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .module-tag {
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    background: rgba(255,255,255,0.04);
+    color: #4a3820;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .module-count {
+    position: absolute;
+    top: 28px; right: 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #2a1a0a;
+    letter-spacing: 1px;
+  }
+
+  /* SCREENS SECTION */
+  .screens-section { padding: 120px 0; background: rgba(255,255,255,0.01); }
+  .screens-header { padding: 0 60px; margin-bottom: 60px; }
+  .screens-scroll {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    padding: 0 60px 40px;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+  }
+  .screens-scroll::-webkit-scrollbar { display: none; }
+  .screen-item {
+    flex-shrink: 0;
+    width: 320px;
+    scroll-snap-align: start;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.07);
+    background: var(--soil);
+    transition: transform .3s, box-shadow .3s;
+    cursor: none;
+  }
+  .screen-item:hover { transform: translateY(-8px); box-shadow: 0 32px 60px rgba(0,0,0,0.5); }
+  .screen-preview {
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    background: var(--earth);
+  }
+  .screen-info { padding: 20px; }
+  .screen-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--straw);
+    margin-bottom: 6px;
+  }
+  .screen-module {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #3a2810;
+  }
+
+  /* PRICING */
+  .pricing-section { padding: 120px 60px; }
+  .pricing-grid { display: grid; grid-template-columns: 1fr 1.1fr 1fr; gap: 20px; max-width: 1000px; margin: 0 auto; }
+  .pricing-card {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 40px 32px;
+    position: relative;
+    transition: transform .3s;
+    cursor: none;
+  }
+  .pricing-card:hover { transform: translateY(-6px); }
+  .pricing-card.featured {
+    background: rgba(74,124,47,0.1);
+    border-color: rgba(143,188,90,0.3);
+    transform: scale(1.02);
+  }
+  .pricing-card.featured:hover { transform: scale(1.02) translateY(-6px); }
+  .pricing-badge-feat {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    padding: 4px 16px;
+    background: linear-gradient(135deg, var(--moss), var(--leaf));
+    border-radius: 100px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--cream);
+    white-space: nowrap;
+  }
+  .pricing-name {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    color: var(--straw);
+    margin-bottom: 8px;
+  }
+  .pricing-tagline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #3a2810;
+    letter-spacing: 1px;
+    margin-bottom: 28px;
+  }
+  .pricing-price {
+    font-family: 'Fraunces', serif;
+    font-size: 44px;
+    color: var(--gold);
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .pricing-price sub { font-size: 18px; color: #4a3820; font-weight: 400; }
+  .pricing-cycle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #3a2810;
+    margin-bottom: 32px;
+    letter-spacing: 1px;
+  }
+  .pricing-divider { height: 1px; background: rgba(255,255,255,0.06); margin-bottom: 24px; }
+  .pricing-features { list-style: none; margin-bottom: 32px; }
+  .pricing-features li {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #5a4030;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .pricing-features li::before { content: '✓'; color: var(--sage); font-size: 10px; flex-shrink: 0; }
+  .pricing-features li.disabled { color: #2a1a0a; }
+  .pricing-features li.disabled::before { content: '×'; color: #2a1a0a; }
+  .pricing-btn {
+    width: 100%; padding: 14px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: var(--straw);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all .3s; cursor: none;
+  }
+  .pricing-btn.primary {
+    background: linear-gradient(135deg, var(--moss), var(--leaf));
+    border: none;
+    color: var(--cream);
+    box-shadow: 0 8px 24px rgba(74,124,47,0.3);
+  }
+  .pricing-btn:hover { transform: translateY(-2px); }
+  .pricing-btn.primary:hover { box-shadow: 0 16px 36px rgba(74,124,47,0.4); }
+
+  /* TESTIMONIALS */
+  .testimonials-section { padding: 120px 60px; background: rgba(255,255,255,0.01); }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .testimonial-card {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 32px;
+  }
+  .testimonial-quote {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--straw);
+    margin-bottom: 24px;
+    font-style: italic;
+    font-weight: 300;
+  }
+  .testimonial-author { display: flex; align-items: center; gap: 12px; }
+  .testimonial-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .testimonial-name { font-family: 'Syne', sans-serif; font-size: 13px; color: var(--straw); font-weight: 700; }
+  .testimonial-role { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #3a2810; letter-spacing: 1px; }
+
+  /* CTA SECTION */
+  .cta-section {
+    padding: 120px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 700px; height: 500px;
+    background: radial-gradient(ellipse, rgba(74,124,47,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .cta-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(40px, 5vw, 68px);
+    color: var(--straw);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .cta-title em { font-style: italic; color: var(--sage); }
+  .cta-desc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #4a3820;
+    max-width: 480px;
+    margin: 0 auto 48px;
+    line-height: 2;
+    letter-spacing: 0.5px;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 60px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 60px;
+  }
+  .footer-brand-name { font-family: 'Fraunces', serif; font-size: 22px; color: var(--straw); margin-bottom: 12px; }
+  .footer-brand-desc { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #3a2810; line-height: 1.9; margin-bottom: 24px; max-width: 260px; }
+  .footer-col-title { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #5a4030; margin-bottom: 20px; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-links a { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #3a2810; text-decoration: none; transition: color .2s; }
+  .footer-links a:hover { color: var(--sage); }
+  .footer-bottom {
+    padding: 24px 60px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #2a1a0a;
+    letter-spacing: 1px;
+  }
+
+  /* GRAIN OVERLAY */
+  .grain {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 1000;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+  }
+
+  /* ANIMATIONS */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: .1s; }
+  .reveal-delay-2 { transition-delay: .2s; }
+  .reveal-delay-3 { transition-delay: .3s; }
+  .reveal-delay-4 { transition-delay: .4s; }
+
+  /* UTILITY */
+  .text-center { text-align: center; }
+  .flex-center { display: flex; justify-content: center; }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">🌾</div>
+    <span class="nav-logo-text">AgroSync</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#modules">Modules</a></li>
+    <li><a href="#screens">Aperçu</a></li>
+    <li><a href="#pricing">Tarifs</a></li>
+    <li><a href="#about">À Propos</a></li>
+  </ul>
+  <a href="#pricing" class="nav-cta">Démarrer →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">Plateforme Agricole Intelligente</div>
+    <h1 class="hero-title">Gérez votre<br/>ferme avec<br/><em>précision</em></h1>
+    <p class="hero-subtitle">sans compromis.</p>
+    <p class="hero-desc">AgroSync réunit élevage, cultures, comptabilité et logistique dans un seul outil conçu pour les exploitations agricoles modernes du Maroc.</p>
+    <div class="hero-actions">
+      <a href="#pricing" class="btn-primary">Essai gratuit 14 jours</a>
+      <a href="#screens" class="btn-secondary">▶ Voir la démo</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-val">60+</div>
+        <div class="hero-stat-label">Écrans</div>
+      </div>
+      <div>
+        <div class="hero-stat-val">10</div>
+        <div class="hero-stat-label">Modules</div>
+      </div>
+      <div>
+        <div class="hero-stat-val">100%</div>
+        <div class="hero-stat-label">Exportable</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="dashboard-mockup">
+
+      <!-- Floating card 1 -->
+      <div class="float-card float-card-1">
+        <div style="font-size:10px;color:#3a2810;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Bénéfice Net</div>
+        <div style="font-family:'Fraunces',serif;font-size:22px;color:#e8a94a;font-weight:700;">53 600 DH</div>
+        <div style="font-size:9px;color:#4a7c2f;font-family:'JetBrains Mono',monospace;margin-top:4px;">▲ 22.7% vs dernier mois</div>
+      </div>
+
+      <div class="mockup-frame">
+        <div class="mockup-bar">
+          <div class="mockup-dot" style="background:#c0392b;"></div>
+          <div class="mockup-dot" style="background:#d4a843;"></div>
+          <div class="mockup-dot" style="background:#4a7c2f;"></div>
+          <div class="mockup-bar-title">AGROSYNC — FERME AL BARAKA</div>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-sidebar">
+            <div class="mockup-nav-item active">🌾</div>
+            <div class="mockup-nav-item">🐄</div>
+            <div class="mockup-nav-item">🌿</div>
+            <div class="mockup-nav-item">🥕</div>
+            <div class="mockup-nav-item">💰</div>
+            <div class="mockup-nav-item">📒</div>
+            <div class="mockup-nav-item">📊</div>
+          </div>
+          <div class="mockup-content">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#3a2810;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">VUE GÉNÉRALE — FÉV. 2026</div>
+            <div class="mockup-row">
+              <div class="mockup-kpi" style="border-top:2px solid #4a7c2f;">
+                <div class="mockup-kpi-label">C.A.</div>
+                <div class="mockup-kpi-val">142K</div>
+                <div class="mockup-kpi-trend" style="color:#4a7c2f;">▲ 12%</div>
+              </div>
+              <div class="mockup-kpi" style="border-top:2px solid #c0392b;">
+                <div class="mockup-kpi-label">Charges</div>
+                <div class="mockup-kpi-val">89K</div>
+                <div class="mockup-kpi-trend" style="color:#c0392b;">▲ 3%</div>
+              </div>
+              <div class="mockup-kpi" style="border-top:2px solid #d4a843;">
+                <div class="mockup-kpi-label">Bénéfice</div>
+                <div class="mockup-kpi-val">53K</div>
+                <div class="mockup-kpi-trend" style="color:#d4a843;">▲ 22%</div>
+              </div>
+              <div class="mockup-kpi" style="border-top:2px solid #6b9fc4;">
+                <div class="mockup-kpi-label">Tréso.</div>
+                <div class="mockup-kpi-val">284K</div>
+                <div class="mockup-kpi-trend" style="color:#6b9fc4;">▲ 8%</div>
+              </div>
+            </div>
+            <div class="mockup-charts">
+              <div class="mockup-chart-box">
+                <div class="mockup-chart-title">Revenus par Secteur</div>
+                <div class="mini-bars">
+                  <div class="mini-bar-el" style="height:85%;background:#c8956c;"></div>
+                  <div class="mini-bar-el" style="height:73%;background:#e8943a;"></div>
+                  <div class="mini-bar-el" style="height:48%;background:#5a9e6f;"></div>
+                  <div class="mini-bar-el" style="height:23%;background:#7bc67e;"></div>
+                  <div class="mini-bar-el" style="height:60%;background:#c8956c;opacity:.5;"></div>
+                  <div class="mini-bar-el" style="height:78%;background:#e8943a;opacity:.5;"></div>
+                </div>
+              </div>
+              <div class="mockup-chart-box">
+                <div class="mockup-chart-title">Alertes Actives</div>
+                <div class="mockup-list">
+                  <div class="mockup-list-item"><span class="mockup-badge" style="background:rgba(212,168,67,.2);color:#d4a843;">⚠</span><span style="color:#6a5040;">Semences bas</span></div>
+                  <div class="mockup-list-item"><span class="mockup-badge" style="background:rgba(192,57,43,.2);color:#c0392b;">!</span><span style="color:#6a5040;">Vaccination J-3</span></div>
+                  <div class="mockup-list-item"><span class="mockup-badge" style="background:rgba(90,158,111,.2);color:#5a9e6f;">●</span><span style="color:#6a5040;">Récolte demain</span></div>
+                </div>
+              </div>
+            </div>
+            <!-- Transactions -->
+            <div style="font-family:'JetBrains Mono',monospace;font-size:7px;color:#3a2810;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Transactions Récentes</div>
+            <div class="mockup-list">
+              <div class="mockup-list-item"><span style="color:#4a7c2f;font-weight:700;width:40px;">+4 800</span><span style="color:#5a4030;flex:1;">Vente lait coopérative</span><span style="color:#3a2810;">23/02</span></div>
+              <div class="mockup-list-item"><span style="color:#c0392b;font-weight:700;width:40px;">-2 100</span><span style="color:#5a4030;flex:1;">Aliment bétail</span><span style="color:#3a2810;">22/02</span></div>
+              <div class="mockup-list-item"><span style="color:#4a7c2f;font-weight:700;width:40px;">+6 400</span><span style="color:#5a4030;flex:1;">Herbes séchées export</span><span style="color:#3a2810;">20/02</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating card 2 -->
+      <div class="float-card float-card-2">
+        <div style="font-size:9px;color:#3a2810;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;font-family:'JetBrains Mono',monospace;">Cheptel</div>
+        <div style="display:flex;gap:12px;">
+          <div style="text-align:center;"><div style="font-family:'Fraunces',serif;font-size:16px;color:#c8956c;font-weight:700;">48</div><div style="font-size:9px;color:#3a2810;font-family:'JetBrains Mono',monospace;">🐄 Bovins</div></div>
+          <div style="text-align:center;"><div style="font-family:'Fraunces',serif;font-size:16px;color:#c8956c;font-weight:700;">120</div><div style="font-size:9px;color:#3a2810;font-family:'JetBrains Mono',monospace;">🐑 Ovins</div></div>
+          <div style="text-align:center;"><div style="font-family:'Fraunces',serif;font-size:16px;color:#c8956c;font-weight:700;">340</div><div style="font-size:9px;color:#3a2810;font-family:'JetBrains Mono',monospace;">🐓 Volaille</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES STRIP -->
+<div class="features-strip">
+  <div class="features-strip-inner">
+    <div class="strip-item"><span>🐄</span> Gestion du Cheptel</div><div class="strip-dot"></div>
+    <div class="strip-item"><span>🌿</span> Herbes & Aromates</div><div class="strip-dot"></div>
+    <div class="strip-item"><span>📊</span> Rapports & Export PDF</div><div class="strip-dot"></div>
+    <div class="strip-item"><span>💰</span> Budget & Finance</div><div class="strip-dot"></div>
+    <div class="strip-item"><span>🪴</span> Pépinière</div><div class="strip-dot"></div>
+    <div class="strip-item"><span>📈</span> Investissements & ROI</div><div class="strip-dot"></div>
+    <div class="strip-item"><span>📒</span> Comptabilité & TVA</div><div class="strip-dot"></div>
+    <div class="strip-item"><span>🥕</span> Légumes & Fruits</div><div class="strip-dot"></div>
+    <div class="strip-item"><span>🗓️</span> Planning des Cultures</div><div class="strip-dot"></div>
+    <div class="strip-item"><span>🏥</span> Santé Vétérinaire</div><div class="strip-dot"></div>
+    <!-- repeated for seamless -->
+    <div class="strip-item"><span>🐄</span> Gestion du Cheptel</div><div class="strip-dot"></div>
+    <div class="strip-item"><span>🌿</span> Herbes & Aromates</div><div class="strip-dot"></div>
+    <div class="strip-item"><span>📊</span> Rapports & Export PDF</div><div class="strip-dot"></div>
+    <div class="strip-item"><span>💰</span> Budget & Finance</div><div class="strip-dot"></div>
+    <div class="strip-item"><span>🪴</span> Pépinière</div><div class="strip-dot"></div>
+    <div class="strip-item"><span>📈</span> Investissements & ROI</div><div class="strip-dot"></div>
+    <div class="strip-item"><span>📒</span> Comptabilité & TVA</div><div class="strip-dot"></div>
+    <div class="strip-item"><span>🥕</span> Légumes & Fruits</div><div class="strip-dot"></div>
+  </div>
+</div>
+
+<!-- MODULES -->
+<section class="section" id="modules">
+  <div class="reveal">
+    <div class="section-label">Ce que vous gérez</div>
+    <h2 class="section-title">Tous vos secteurs,<br/><em>un seul espace</em></h2>
+    <p class="section-desc">10 modules spécialisés, 60+ écrans, des données connectées. Chaque aspect de votre exploitation agricole, enfin centralisé.</p>
+  </div>
+  <div class="modules-grid reveal">
+    <div class="module-card" style="--card-color:#c8956c;">
+      <span class="module-count">6 sous-modules</span>
+      <span class="module-icon">🐄</span>
+      <div class="module-name">Élevage</div>
+      <p class="module-desc">Inventaire du cheptel, suivi vétérinaire, production laitière et gestion de la reproduction.</p>
+      <div class="module-tags">
+        <span class="module-tag">Troupeau</span>
+        <span class="module-tag">Santé</span>
+        <span class="module-tag">Production</span>
+        <span class="module-tag">Alimentation</span>
+      </div>
+    </div>
+    <div class="module-card" style="--card-color:#5a9e6f;">
+      <span class="module-count">4 sous-modules</span>
+      <span class="module-icon">🌿</span>
+      <div class="module-name">Herbes & Aromates</div>
+      <p class="module-desc">Parcelles, récoltes, séchage et ventes à l'export. Traçabilité de bout en bout.</p>
+      <div class="module-tags">
+        <span class="module-tag">Parcelles</span>
+        <span class="module-tag">Séchage</span>
+        <span class="module-tag">Export</span>
+      </div>
+    </div>
+    <div class="module-card" style="--card-color:#e8943a;">
+      <span class="module-count">5 sous-modules</span>
+      <span class="module-icon">🥕</span>
+      <div class="module-name">Légumes & Fruits</div>
+      <p class="module-desc">Planning des cultures, gestion des parcelles, récoltes, stocks et ventes aux marchés.</p>
+      <div class="module-tags">
+        <span class="module-tag">Planning</span>
+        <span class="module-tag">Stocks</span>
+        <span class="module-tag">Marchés</span>
+      </div>
+    </div>
+    <div class="module-card" style="--card-color:#7bc67e;">
+      <span class="module-count">3 sous-modules</span>
+      <span class="module-icon">🪴</span>
+      <div class="module-name">Pépinière</div>
+      <p class="module-desc">Catalogue des plantes, suivi de germination des semis et gestion des ventes pépinière.</p>
+      <div class="module-tags">
+        <span class="module-tag">Catalogue</span>
+        <span class="module-tag">Semis</span>
+        <span class="module-tag">Ventes</span>
+      </div>
+    </div>
+    <div class="module-card" style="--card-color:#d4a843;">
+      <span class="module-count">4 sous-modules</span>
+      <span class="module-icon">💰</span>
+      <div class="module-name">Budget & Finance</div>
+      <p class="module-desc">Budget annuel, suivi mensuel, prévisionnel et trésorerie. Pilotez vos finances avec clarté.</p>
+      <div class="module-tags">
+        <span class="module-tag">Budget</span>
+        <span class="module-tag">Prévisionnel</span>
+        <span class="module-tag">Trésorerie</span>
+      </div>
+    </div>
+    <div class="module-card" style="--card-color:#b87cb8;">
+      <span class="module-count">6 sous-modules</span>
+      <span class="module-icon">📒</span>
+      <div class="module-name">Comptabilité</div>
+      <p class="module-desc">Recettes, dépenses, journal comptable, bilan P&L, TVA et rapports fiscaux complets.</p>
+      <div class="module-tags">
+        <span class="module-tag">Bilan</span>
+        <span class="module-tag">TVA</span>
+        <span class="module-tag">Export PDF</span>
+      </div>
+    </div>
+    <div class="module-card" style="--card-color:#6b9fc4;">
+      <span class="module-count">5 sous-modules</span>
+      <span class="module-icon">📈</span>
+      <div class="module-name">Investissements</div>
+      <p class="module-desc">Équipements, infrastructures, terres, analyse ROI et gestion des prêts & financements.</p>
+      <div class="module-tags">
+        <span class="module-tag">ROI</span>
+        <span class="module-tag">Machines</span>
+        <span class="module-tag">Prêts</span>
+      </div>
+    </div>
+    <div class="module-card" style="--card-color:#8b9e6f;">
+      <span class="module-count">4 sous-modules</span>
+      <span class="module-icon">📊</span>
+      <div class="module-name">Rapports & Export</div>
+      <p class="module-desc">Rapport d'activité, performance par secteur, exports PDF et Excel en un clic.</p>
+      <div class="module-tags">
+        <span class="module-tag">PDF</span>
+        <span class="module-tag">Excel</span>
+        <span class="module-tag">Analyse</span>
+      </div>
+    </div>
+    <div class="module-card" style="--card-color:#9e9e8f;">
+      <span class="module-count">3 sous-modules</span>
+      <span class="module-icon">⚙️</span>
+      <div class="module-name">Paramètres</div>
+      <p class="module-desc">Gestion des utilisateurs & rôles, informations de la ferme et préférences de notifications.</p>
+      <div class="module-tags">
+        <span class="module-tag">Utilisateurs</span>
+        <span class="module-tag">Rôles</span>
+        <span class="module-tag">Notifications</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENS GALLERY -->
+<section class="screens-section" id="screens">
+  <div class="screens-header reveal">
+    <div class="section-label">Aperçu de l'interface</div>
+    <h2 class="section-title">60+ écrans,<br/><em>mode sombre & clair</em></h2>
+  </div>
+  <div class="screens-scroll">
+    <!-- Screen cards with visual mockups -->
+    <div class="screen-item">
+      <div class="screen-preview" style="background:linear-gradient(135deg,#1a1209,#2d1f0e);">
+        <div style="position:absolute;inset:16px;border:1px solid rgba(143,188,90,0.15);border-radius:10px;overflow:hidden;background:rgba(10,7,3,0.6);">
+          <div style="height:30px;background:rgba(5,3,1,0.8);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;padding:0 12px;gap:5px;">
+            <div style="width:7px;height:7px;border-radius:50%;background:#c0392b;"></div>
+            <div style="width:7px;height:7px;border-radius:50%;background:#d4a843;"></div>
+            <div style="width:7px;height:7px;border-radius:50%;background:#4a7c2f;"></div>
+          </div>
+          <div style="padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+            <div style="background:rgba(143,188,90,0.08);border-radius:6px;padding:8px;border-top:2px solid #4a7c2f;"><div style="font-size:8px;color:#3a2810;font-family:monospace;">C.A.</div><div style="font-size:14px;color:#f0d898;font-family:serif;">142K</div></div>
+            <div style="background:rgba(192,57,43,0.08);border-radius:6px;padding:8px;border-top:2px solid #c0392b;"><div style="font-size:8px;color:#3a2810;font-family:monospace;">Charges</div><div style="font-size:14px;color:#f0d898;font-family:serif;">89K</div></div>
+            <div style="background:rgba(212,168,67,0.08);border-radius:6px;padding:8px;border-top:2px solid #d4a843;"><div style="font-size:8px;color:#3a2810;font-family:monospace;">Bénéfice</div><div style="font-size:14px;color:#e8a94a;font-family:serif;">53K</div></div>
+            <div style="background:rgba(107,159,196,0.08);border-radius:6px;padding:8px;border-top:2px solid #6b9fc4;"><div style="font-size:8px;color:#3a2810;font-family:monospace;">Tréso.</div><div style="font-size:14px;color:#f0d898;font-family:serif;">284K</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-info">
+        <div class="screen-name">Vue Générale (Dark)</div>
+        <div class="screen-module">Dashboard Principal</div>
+      </div>
+    </div>
+
+    <div class="screen-item">
+      <div class="screen-preview" style="background:linear-gradient(135deg,#faf6ec,#f0e8d4);">
+        <div style="position:absolute;inset:16px;border:1px solid rgba(0,0,0,0.08);border-radius:10px;overflow:hidden;background:white;">
+          <div style="height:30px;background:#f8f4ee;border-bottom:1px solid rgba(0,0,0,0.06);display:flex;align-items:center;padding:0 12px;gap:5px;">
+            <div style="width:7px;height:7px;border-radius:50%;background:#c0392b;"></div>
+            <div style="width:7px;height:7px;border-radius:50%;background:#d4a843;"></div>
+            <div style="width:7px;height:7px;border-radius:50%;background:#4a7c2f;"></div>
+          </div>
+          <div style="padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+            <div style="background:#f0fae8;border-radius:6px;padding:8px;border-top:2px solid #4a7c2f;"><div style="font-size:8px;color:#9a8070;font-family:monospace;">C.A.</div><div style="font-size:14px;color:#1a120a;font-family:serif;">142K</div></div>
+            <div style="background:#fdf0ee;border-radius:6px;padding:8px;border-top:2px solid #c0392b;"><div style="font-size:8px;color:#9a8070;font-family:monospace;">Charges</div><div style="font-size:14px;color:#1a120a;font-family:serif;">89K</div></div>
+            <div style="background:#fdf8ee;border-radius:6px;padding:8px;border-top:2px solid #d4a843;"><div style="font-size:8px;color:#9a8070;font-family:monospace;">Bénéfice</div><div style="font-size:14px;color:#c8821a;font-family:serif;">53K</div></div>
+            <div style="background:#eef6fd;border-radius:6px;padding:8px;border-top:2px solid #6b9fc4;"><div style="font-size:8px;color:#9a8070;font-family:monospace;">Tréso.</div><div style="font-size:14px;color:#1a120a;font-family:serif;">284K</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-info">
+        <div class="screen-name">Vue Générale (Light)</div>
+        <div class="screen-module">Dashboard Principal</div>
+      </div>
+    </div>
+
+    <div class="screen-item">
+      <div class="screen-preview" style="background:linear-gradient(135deg,#1a0e08,#2d1a0a);">
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;padding:20px;">
+          <div style="font-size:9px;color:#c8956c;font-family:monospace;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Module Élevage</div>
+          <div style="font-family:serif;font-size:18px;color:#f0d898;margin-bottom:14px;">Gestion du Cheptel</div>
+          <div style="display:flex;gap:8px;margin-bottom:12px;">
+            <div style="flex:1;background:rgba(200,149,108,0.12);border:1px solid rgba(200,149,108,0.2);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:13px;color:#c8956c;font-family:serif;font-weight:700;">48</div><div style="font-size:7px;color:#3a2010;font-family:monospace;">🐄 Bovins</div></div>
+            <div style="flex:1;background:rgba(200,149,108,0.12);border:1px solid rgba(200,149,108,0.2);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:13px;color:#c8956c;font-family:serif;font-weight:700;">120</div><div style="font-size:7px;color:#3a2010;font-family:monospace;">🐑 Ovins</div></div>
+            <div style="flex:1;background:rgba(200,149,108,0.12);border:1px solid rgba(200,149,108,0.2);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:13px;color:#c8956c;font-family:serif;font-weight:700;">340</div><div style="font-size:7px;color:#3a2010;font-family:monospace;">🐓 Volaille</div></div>
+          </div>
+          <div style="flex:1;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:8px;">
+            <div style="font-size:7px;color:#3a2010;font-family:monospace;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Inventaire Cheptel</div>
+            <div style="font-size:8px;color:#7a5a3a;font-family:monospace;line-height:2.2;">🐄 Vaches Holstein × 28 · 840K DH<br/>🐑 Brebis Sardi × 95 · 285K DH<br/>🐓 Poulets Cobb500 × 200 · 20K DH</div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-info">
+        <div class="screen-name">Élevage — Cheptel (Dark)</div>
+        <div class="screen-module">Module Élevage</div>
+      </div>
+    </div>
+
+    <div class="screen-item">
+      <div class="screen-preview" style="background:linear-gradient(135deg,#0e1a0a,#142212);">
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;padding:20px;">
+          <div style="font-size:9px;color:#5a9e6f;font-family:monospace;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Module Herbes</div>
+          <div style="font-family:serif;font-size:18px;color:#f0d898;margin-bottom:14px;">Stocks & Séchage</div>
+          <div style="flex:1;background:rgba(90,158,111,0.06);border:1px solid rgba(90,158,111,0.15);border-radius:10px;padding:12px;">
+            <div style="font-size:7px;color:#2a4a2a;font-family:monospace;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">Racks de Séchage</div>
+            <div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:8px;color:#6a9a6a;font-family:monospace;">Thym #402 — Rack B2</span><span style="font-size:8px;color:#5a9e6f;font-family:monospace;">80%</span></div><div style="height:4px;background:rgba(255,255,255,0.05);border-radius:2px;"><div style="width:80%;height:100%;background:#5a9e6f;border-radius:2px;"></div></div></div>
+            <div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:8px;color:#6a9a6a;font-family:monospace;">Origan #405 — Rack A1</span><span style="font-size:8px;color:#d4a843;font-family:monospace;">20%</span></div><div style="height:4px;background:rgba(255,255,255,0.05);border-radius:2px;"><div style="width:20%;height:100%;background:#d4a843;border-radius:2px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:8px;color:#6a9a6a;font-family:monospace;">Menthe #398 — Rack C3</span><span style="font-size:8px;color:#8fbc5a;font-family:monospace;">95%</span></div><div style="height:4px;background:rgba(255,255,255,0.05);border-radius:2px;"><div style="width:95%;height:100%;background:#8fbc5a;border-radius:2px;"></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-info">
+        <div class="screen-name">Herbes — Séchage (Dark)</div>
+        <div class="screen-module">Module Herbes & Aromates</div>
+      </div>
+    </div>
+
+    <div class="screen-item">
+      <div class="screen-preview" style="background:linear-gradient(135deg,#0a0d16,#0e1220);">
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;padding:20px;">
+          <div style="font-size:9px;color:#b87cb8;font-family:monospace;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Module Comptabilité</div>
+          <div style="font-family:serif;font-size:18px;color:#f0d898;margin-bottom:14px;">Bilan & P&L</div>
+          <div style="background:rgba(184,124,184,0.06);border:1px solid rgba(184,124,184,0.15);border-radius:10px;padding:12px;font-family:monospace;font-size:8px;">
+            <div style="color:#b87cb8;letter-spacing:1px;margin-bottom:8px;">COMPTE DE RÉSULTAT</div>
+            <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="color:#4a3820;">Ventes Élevage</span><span style="color:#4a7c2f;">+58 400 DH</span></div>
+            <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="color:#4a3820;">Ventes Légumes</span><span style="color:#4a7c2f;">+42 600 DH</span></div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(184,124,184,0.2);background:rgba(255,255,255,0.03);"><span style="color:#f0d898;font-weight:700;">TOTAL PRODUITS</span><span style="color:#f0d898;font-weight:700;">142 800 DH</span></div>
+            <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="color:#4a3820;">Main d'œuvre</span><span style="color:#c0392b;">-28 000 DH</span></div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;background:rgba(143,188,90,0.1);margin-top:4px;border-radius:4px;padding-left:4px;"><span style="color:#8fbc5a;font-weight:700;">✅ RÉSULTAT NET</span><span style="color:#8fbc5a;font-weight:700;">+53 600 DH</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-info">
+        <div class="screen-name">Comptabilité — P&L (Dark)</div>
+        <div class="screen-module">Module Comptabilité</div>
+      </div>
+    </div>
+
+    <div class="screen-item">
+      <div class="screen-preview" style="background:linear-gradient(135deg,#fdfaf4,#f5eedd);">
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;padding:20px;">
+          <div style="font-size:9px;color:#c8821a;font-family:monospace;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Module Budget</div>
+          <div style="font-family:serif;font-size:18px;color:#1a120a;margin-bottom:14px;">Budget Annuel 2026</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="background:white;border-radius:8px;padding:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:8px;color:#9a8070;font-family:monospace;">Revenus Réalisés</span><span style="font-size:8px;color:#4a7c2f;font-family:monospace;">15.9%</span></div>
+              <div style="height:5px;background:#f0e8d8;border-radius:3px;"><div style="width:15.9%;height:100%;background:#4a7c2f;border-radius:3px;"></div></div>
+              <div style="display:flex;justify-content:space-between;margin-top:3px;"><span style="font-size:7px;color:#c8a070;font-family:monospace;">142 800 DH</span><span style="font-size:7px;color:#c8a070;font-family:monospace;">900 000 DH</span></div>
+            </div>
+            <div style="background:white;border-radius:8px;padding:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:8px;color:#9a8070;font-family:monospace;">Charges Consommées</span><span style="font-size:8px;color:#c0392b;font-family:monospace;">17.1%</span></div>
+              <div style="height:5px;background:#f0e8d8;border-radius:3px;"><div style="width:17.1%;height:100%;background:#c0392b;border-radius:3px;"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-info">
+        <div class="screen-name">Budget Annuel (Light)</div>
+        <div class="screen-module">Module Budget & Finance</div>
+      </div>
+    </div>
+
+    <div class="screen-item">
+      <div class="screen-preview" style="background:linear-gradient(135deg,#0a0e16,#0c1220);">
+        <div style="position:absolute;inset:0;padding:20px;display:flex;flex-direction:column;">
+          <div style="font-size:9px;color:#6b9fc4;font-family:monospace;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Module Investissements</div>
+          <div style="font-family:serif;font-size:18px;color:#f0d898;margin-bottom:14px;">Analyse ROI</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;">
+            <div style="background:rgba(107,159,196,0.1);border:1px solid rgba(107,159,196,0.2);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:14px;color:#6b9fc4;font-family:serif;font-weight:700;">1.2M</div><div style="font-size:7px;color:#2a3040;font-family:monospace;">DH investis</div></div>
+            <div style="background:rgba(143,188,90,0.1);border:1px solid rgba(143,188,90,0.2);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:14px;color:#8fbc5a;font-family:serif;font-weight:700;">12.4%</div><div style="font-size:7px;color:#2a3a20;font-family:monospace;">ROI annualisé</div></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:10px;flex:1;">
+            <div style="font-size:7px;color:#2a3040;font-family:monospace;margin-bottom:8px;">ACTIFS</div>
+            <div style="font-size:8px;color:#6a7a9a;font-family:monospace;line-height:2.2;">🚜 John Deere 8R · 280K DH · +8.5% ROI<br/>🏗️ Silo Grain #04 · 145K DH · +15.2% ROI<br/>💧 Pivot Irrigation · 85K DH · -2.0% ROI</div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-info">
+        <div class="screen-name">Investissements ROI (Dark)</div>
+        <div class="screen-module">Module Investissements</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div style="text-align:center;margin-bottom:60px;" class="reveal">
+    <div class="section-label">Tarification transparente</div>
+    <h2 class="section-title">Choisissez votre<br/><em>formule</em></h2>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4a3820;max-width:400px;margin:0 auto;line-height:2;">Sans engagement ni surprise. Passez à l'échelon supérieur à tout moment.</p>
+  </div>
+  <div class="pricing-grid reveal">
+    <div class="pricing-card">
+      <div class="pricing-name">Essentiel</div>
+      <div class="pricing-tagline">Pour commencer</div>
+      <div class="pricing-price">490<sub> DH</sub></div>
+      <div class="pricing-cycle">/mois · facturation annuelle</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>Dashboard principal</li>
+        <li>1 module au choix</li>
+        <li>Export CSV</li>
+        <li>1 utilisateur</li>
+        <li class="disabled">Export PDF complet</li>
+        <li class="disabled">Multi-modules</li>
+        <li class="disabled">Multi-utilisateurs</li>
+        <li class="disabled">Support prioritaire</li>
+      </ul>
+      <button class="pricing-btn">Commencer →</button>
+    </div>
+
+    <div class="pricing-card featured">
+      <div class="pricing-badge-feat">⭐ Recommandé</div>
+      <div class="pricing-name">Professionnel</div>
+      <div class="pricing-tagline">Pour les exploitations actives</div>
+      <div class="pricing-price">1 490<sub> DH</sub></div>
+      <div class="pricing-cycle">/mois · facturation annuelle</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>Tous les modules (10)</li>
+        <li>60+ écrans actifs</li>
+        <li>Export PDF + Excel</li>
+        <li>Jusqu'à 5 utilisateurs</li>
+        <li>Alertes & Notifications</li>
+        <li>Comptabilité complète</li>
+        <li>Support prioritaire</li>
+        <li class="disabled">Multi-fermes</li>
+      </ul>
+      <button class="pricing-btn primary">Essai 14 jours gratuit →</button>
+    </div>
+
+    <div class="pricing-card">
+      <div class="pricing-name">Entreprise</div>
+      <div class="pricing-tagline">Pour les grandes exploitations</div>
+      <div class="pricing-price">Sur<sub> mesure</sub></div>
+      <div class="pricing-cycle">Devis personnalisé</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>Toutes les fonctions Pro</li>
+        <li>Multi-fermes & multi-sites</li>
+        <li>Utilisateurs illimités</li>
+        <li>API & intégrations</li>
+        <li>Tableau de bord consolidé</li>
+        <li>Formation sur site</li>
+        <li>SLA dédié 24/7</li>
+        <li>Personnalisation UI</li>
+      </ul>
+      <button class="pricing-btn">Nous contacter →</button>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section" id="about">
+  <div style="text-align:center;margin-bottom:60px;" class="reveal">
+    <div class="section-label">Ils nous font confiance</div>
+    <h2 class="section-title">Des gérants qui <em>voient la différence</em></h2>
+  </div>
+  <div class="testimonials-grid reveal">
+    <div class="testimonial-card">
+      <p class="testimonial-quote">"Avant AgroSync, je passais des heures sur Excel pour réconcilier mes comptes d'élevage. Maintenant le bilan est généré en un clic, et je peux enfin voir ma marge réelle par secteur."</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar" style="background:rgba(200,149,108,0.15);">🧑‍🌾</div>
+        <div>
+          <div class="testimonial-name">Ahmed Benali</div>
+          <div class="testimonial-role">Gérant — Ferme Al Baraka, Rabat</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-quote">"La gestion de la pépinière était un cauchemar. Aujourd'hui, je suis les germinations, les ventes et les stocks depuis mon téléphone. L'export PDF pour les clients est un vrai plus."</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar" style="background:rgba(123,198,126,0.15);">👩‍🌾</div>
+        <div>
+          <div class="testimonial-name">Fatima Ouahbi</div>
+          <div class="testimonial-role">Directrice — Pépinière Atlas, Meknès</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-quote">"Le module investissements m'a aidé à justifier l'achat de notre nouveau pivot d'irrigation auprès de la banque. Le calcul du ROI est propre et crédible."</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar" style="background:rgba(107,159,196,0.15);">👨‍💼</div>
+        <div>
+          <div class="testimonial-name">Khalid Elaoufi</div>
+          <div class="testimonial-role">Gérant — Exploitation Souss, Agadir</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="reveal">
+    <div class="section-label text-center">Rejoignez AgroSync</div>
+    <h2 class="cta-title">Votre ferme mérite<br/>une gestion <em>intelligente</em></h2>
+    <p class="cta-desc">14 jours d'essai gratuit. Aucune carte bancaire requise. Installation en moins de 5 minutes.</p>
+    <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;">
+      <a href="#pricing" class="btn-primary">Démarrer l'essai gratuit →</a>
+      <a href="#screens" class="btn-secondary">📷 Voir tous les écrans</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <div style="width:36px;height:36px;background:linear-gradient(135deg,#4a7c2f,#6fa83d);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;">🌾</div>
+      <div class="footer-brand-name">AgroSync</div>
+    </div>
+    <p class="footer-brand-desc">La plateforme de gestion agricole conçue pour les exploitations marocaines modernes. 10 modules, 60+ écrans, mode sombre & clair.</p>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#2a1a0a;letter-spacing:1px;">v2.0 · FARM MANAGER · 2026</div>
+  </div>
+  <div>
+    <div class="footer-col-title">Produit</div>
+    <ul class="footer-links">
+      <li><a href="#">Fonctionnalités</a></li>
+      <li><a href="#">Modules</a></li>
+      <li><a href="#">Aperçu des écrans</a></li>
+      <li><a href="#">Mises à jour</a></li>
+      <li><a href="#">Roadmap</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Ressources</div>
+    <ul class="footer-links">
+      <li><a href="#">Documentation</a></li>
+      <li><a href="#">Tutoriels vidéo</a></li>
+      <li><a href="#">Blog agricole</a></li>
+      <li><a href="#">Centre d'aide</a></li>
+      <li><a href="#">API Reference</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Société</div>
+    <ul class="footer-links">
+      <li><a href="#">À propos</a></li>
+      <li><a href="#">Tarifs</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">Politique de confidentialité</a></li>
+      <li><a href="#">CGU</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2026 AgroSync Farm Manager · Tous droits réservés</span>
+  <span>Maroc 🇲🇦 · support@agrosync.ma</span>
+</div>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; });
+  function animateRing() { rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(animateRing); }
+  animateRing();
+  document.querySelectorAll('a, button, .module-card, .screen-item, .pricing-card').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.style.width = '6px'; cursor.style.height = '6px'; ring.style.width = '60px'; ring.style.height = '60px'; });
+    el.addEventListener('mouseleave', () => { cursor.style.width = '12px'; cursor.style.height = '12px'; ring.style.width = '40px'; ring.style.height = '40px'; });
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // Stagger children inside reveal grids
+  document.querySelectorAll('.modules-grid, .testimonials-grid, .pricing-grid').forEach(grid => {
+    grid.querySelectorAll(':scope > *').forEach((child, i) => {
+      child.style.opacity = '0';
+      child.style.transform = 'translateY(24px)';
+      child.style.transition = `opacity .6s ${i * 0.08}s ease, transform .6s ${i * 0.08}s ease`;
+    });
+  });
+  const gridObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll(':scope > *').forEach(child => {
+          child.style.opacity = '1'; child.style.transform = 'translateY(0)';
+        });
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.modules-grid, .testimonials-grid, .pricing-grid').forEach(g => gridObserver.observe(g));
+
+  // Hero entrance animation
+  document.querySelectorAll('.hero-left > *').forEach((el, i) => {
+    el.style.opacity = '0'; el.style.transform = 'translateY(20px)';
+    el.style.transition = `opacity .8s ${0.1 + i * 0.12}s ease, transform .8s ${0.1 + i * 0.12}s ease`;
+    setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, 50);
+  });
+</script>
+</body>
+</html>

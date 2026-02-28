@@ -1,0 +1,328 @@
+<!--
+  ═══════════════════════════════════════════════════════════════
+  soap-examples.xml — Exemples de requêtes SOAP prêts à l'emploi
+  ═══════════════════════════════════════════════════════════════
+
+  Comment utiliser ces exemples :
+    1. SoapUI    : File > New SOAP Project > WSDL URL > /soap/auth?wsdl
+    2. Postman   : New Request > Body > raw > XML > coller l'envelope
+    3. cURL      : voir les commandes en bas de ce fichier
+    4. Insomnia  : New Request > Body > XML
+
+  Endpoint : POST http://localhost:2065/soap/auth
+  Header   : Content-Type: text/xml; charset=utf-8
+  Header   : SOAPAction: "http://herbute.ma/auth/{NomOperation}"
+  ═══════════════════════════════════════════════════════════════
+-->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     OPÉRATION 1 : Login
+     SOAPAction: "http://herbute.ma/auth/Login"
+     ═══════════════════════════════════════════════════════ -->
+<Login_Request>
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope
+  xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:auth="http://herbute.ma/auth">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <auth:LoginRequest>
+      <auth:email>ahmed@ferme-albaraka.ma</auth:email>
+      <auth:password>MonMotDePasse@1234!</auth:password>
+    </auth:LoginRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
+</Login_Request>
+
+<!-- Réponse attendue (succès) -->
+<Login_Response_Success>
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <soapenv:Body>
+    <LoginResponse xmlns="http://herbute.ma/auth">
+      <success>true</success>
+      <message>Connecté avec succès.</message>
+      <user>
+        <id>64abc123def456</id>
+        <email>ahmed@ferme-albaraka.ma</email>
+        <nom>Benali</nom>
+        <prenom>Ahmed</prenom>
+        <role>proprietaire</role>
+        <plan>professionnel</plan>
+        <farmId>64farm789xyz</farmId>
+        <lastLogin>2026-02-27T10:30:00.000Z</lastLogin>
+      </user>
+      <token>
+        <accessToken>eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...</accessToken>
+        <tokenType>Bearer</tokenType>
+        <expiresIn>900</expiresIn>
+        <expiresAt>2026-02-27T10:45:00.000Z</expiresAt>
+      </token>
+    </LoginResponse>
+  </soapenv:Body>
+</soapenv:Envelope>
+</Login_Response_Success>
+
+<!-- Réponse attendue (erreur — SOAP Fault) -->
+<Login_Response_Fault>
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <soapenv:Body>
+    <soapenv:Fault>
+      <faultcode>tns:INVALID_CREDENTIALS</faultcode>
+      <faultstring>Identifiants invalides.</faultstring>
+    </soapenv:Fault>
+  </soapenv:Body>
+</soapenv:Envelope>
+</Login_Response_Fault>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     OPÉRATION 2 : Register
+     SOAPAction: "http://herbute.ma/auth/Register"
+     ═══════════════════════════════════════════════════════ -->
+<Register_Request>
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope
+  xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:auth="http://herbute.ma/auth">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <auth:RegisterRequest>
+      <auth:email>nouveau@ferme.ma</auth:email>
+      <auth:password>NouveauMdp@2026!</auth:password>
+      <auth:nom>Alami</auth:nom>
+      <auth:prenom>Hassan</auth:prenom>
+      <auth:telephone>+212661234567</auth:telephone>
+      <auth:farmName>Ferme Beni Mellal</auth:farmName>
+    </auth:RegisterRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
+</Register_Request>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     OPÉRATION 3 : GetCurrentUser
+     SOAPAction: "http://herbute.ma/auth/GetCurrentUser"
+     (remplacer eyJ... par un vrai access token JWT)
+     ═══════════════════════════════════════════════════════ -->
+<GetCurrentUser_Request>
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope
+  xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:auth="http://herbute.ma/auth">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <auth:GetCurrentUserRequest>
+      <auth:accessToken>eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NGFiYzEyMyIsImVtYWlsIjoiYWhtZWRAZmVybWUubWEiLCJyb2xlIjoicHJvcHJpZXRhaXJlIiwicGxhbiI6InByb2Zlc3Npb25uZWwiLCJmYXJtSWQiOiI2NGZhcm03ODkifQ.SIGNATURE</auth:accessToken>
+    </auth:GetCurrentUserRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
+</GetCurrentUser_Request>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     OPÉRATION 4 : RefreshToken
+     SOAPAction: "http://herbute.ma/auth/RefreshToken"
+
+     Deux cas :
+     A) Client browser : cookie refresh_token envoyé automatiquement
+        → laisser <refreshToken> vide
+     B) Client enterprise (Java, C#) : passer le token explicitement
+     ═══════════════════════════════════════════════════════ -->
+
+<!-- Cas A : Browser (cookie HttpOnly automatique) -->
+<RefreshToken_Request_Browser>
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope
+  xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:auth="http://herbute.ma/auth">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <auth:RefreshTokenRequest/>
+  </soapenv:Body>
+</soapenv:Envelope>
+</RefreshToken_Request_Browser>
+
+<!-- Cas B : Client Enterprise (token explicite) -->
+<RefreshToken_Request_Enterprise>
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope
+  xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:auth="http://herbute.ma/auth">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <auth:RefreshTokenRequest>
+      <auth:refreshToken>a3f4c8e2b1d9f7a6c5b4e3d2f1a0c9b8e7d6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1</auth:refreshToken>
+    </auth:RefreshTokenRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
+</RefreshToken_Request_Enterprise>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     OPÉRATION 5 : Logout
+     SOAPAction: "http://herbute.ma/auth/Logout"
+     ═══════════════════════════════════════════════════════ -->
+
+<!-- Logout session courante -->
+<Logout_Request_Single>
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope
+  xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:auth="http://herbute.ma/auth">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <auth:LogoutRequest>
+      <auth:accessToken>eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...</auth:accessToken>
+      <auth:logoutAll>false</auth:logoutAll>
+    </auth:LogoutRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
+</Logout_Request_Single>
+
+<!-- Logout toutes les sessions -->
+<Logout_Request_All>
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope
+  xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:auth="http://herbute.ma/auth">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <auth:LogoutRequest>
+      <auth:accessToken>eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...</auth:accessToken>
+      <auth:logoutAll>true</auth:logoutAll>
+    </auth:LogoutRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
+</Logout_Request_All>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     OPÉRATION 6 : ForgotPassword
+     SOAPAction: "http://herbute.ma/auth/ForgotPassword"
+     ═══════════════════════════════════════════════════════ -->
+<ForgotPassword_Request>
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope
+  xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:auth="http://herbute.ma/auth">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <auth:ForgotPasswordRequest>
+      <auth:email>ahmed@ferme-albaraka.ma</auth:email>
+    </auth:ForgotPasswordRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
+</ForgotPassword_Request>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     OPÉRATION 7 : ResetPassword
+     SOAPAction: "http://herbute.ma/auth/ResetPassword"
+     ═══════════════════════════════════════════════════════ -->
+<ResetPassword_Request>
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope
+  xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:auth="http://herbute.ma/auth">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <auth:ResetPasswordRequest>
+      <auth:token>a3f4c8e2b1d9f7a6c5b4e3d2f1a0c9b8e7d6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1</auth:token>
+      <auth:password>NouveauMotDePasse@2026!</auth:password>
+    </auth:ResetPasswordRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
+</ResetPassword_Request>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     OPÉRATION 8 : ValidateToken
+     SOAPAction: "http://herbute.ma/auth/ValidateToken"
+     Utile pour les services tiers — vérifie sans accès DB
+     ═══════════════════════════════════════════════════════ -->
+<ValidateToken_Request>
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope
+  xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:auth="http://herbute.ma/auth">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <auth:ValidateTokenRequest>
+      <auth:accessToken>eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...</auth:accessToken>
+    </auth:ValidateTokenRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
+</ValidateToken_Request>
+
+<!-- Réponse attendue (token valide) -->
+<ValidateToken_Response_Valid>
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <soapenv:Body>
+    <ValidateTokenResponse xmlns="http://herbute.ma/auth">
+      <valid>true</valid>
+      <userId>64abc123def456</userId>
+      <email>ahmed@ferme-albaraka.ma</email>
+      <role>proprietaire</role>
+      <plan>professionnel</plan>
+      <expiresAt>2026-02-27T10:45:00.000Z</expiresAt>
+    </ValidateTokenResponse>
+  </soapenv:Body>
+</soapenv:Envelope>
+</ValidateToken_Response_Valid>
+
+
+<!--
+  ═══════════════════════════════════════════════════════════════
+  COMMANDES cURL ÉQUIVALENTES
+  ═══════════════════════════════════════════════════════════════
+
+  # Login
+  curl -X POST http://localhost:2065/soap/auth \
+    -H "Content-Type: text/xml; charset=utf-8" \
+    -H 'SOAPAction: "http://herbute.ma/auth/Login"' \
+    -c cookies.txt \
+    -d '<?xml version="1.0"?>
+  <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:auth="http://herbute.ma/auth">
+    <soapenv:Body>
+      <auth:LoginRequest>
+        <auth:email>ahmed@ferme.ma</auth:email>
+        <auth:password>MonMotDePasse@1234!</auth:password>
+      </auth:LoginRequest>
+    </soapenv:Body>
+  </soapenv:Envelope>'
+
+  # GetCurrentUser (avec le token récupéré au login)
+  curl -X POST http://localhost:2065/soap/auth \
+    -H "Content-Type: text/xml; charset=utf-8" \
+    -H 'SOAPAction: "http://herbute.ma/auth/GetCurrentUser"' \
+    -b cookies.txt \
+    -d '<?xml version="1.0"?>
+  <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:auth="http://herbute.ma/auth">
+    <soapenv:Body>
+      <auth:GetCurrentUserRequest>
+        <auth:accessToken>VOTRE_ACCESS_TOKEN_ICI</auth:accessToken>
+      </auth:GetCurrentUserRequest>
+    </soapenv:Body>
+  </soapenv:Envelope>'
+
+  # ValidateToken (rapide, sans DB)
+  curl -X POST http://localhost:2065/soap/auth \
+    -H "Content-Type: text/xml; charset=utf-8" \
+    -H 'SOAPAction: "http://herbute.ma/auth/ValidateToken"' \
+    -d '<?xml version="1.0"?>
+  <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:auth="http://herbute.ma/auth">
+    <soapenv:Body>
+      <auth:ValidateTokenRequest>
+        <auth:accessToken>VOTRE_JWT_ICI</auth:accessToken>
+      </auth:ValidateTokenRequest>
+    </soapenv:Body>
+  </soapenv:Envelope>'
+
+  # Récupérer le WSDL
+  curl http://localhost:2065/soap/auth?wsdl
+  ═══════════════════════════════════════════════════════════════
+-->
