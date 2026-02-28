@@ -130,14 +130,14 @@ router.put('/tickets/:id', async (req: Request, res: Response, next: NextFunctio
     const { name, status, priority, type, content } = req.body;
 
     // Construire le payload GLPI (seuls les champs fournis)
-    const input: Record<string, unknown> = { id: parseInt(id) };
+    const input: Record<string, unknown> = { id: parseInt(String(id)) };
     if (name     !== undefined) input.name     = name;
     if (status   !== undefined) input.status   = parseInt(String(status));
     if (priority !== undefined) input.priority = parseInt(String(priority));
     if (type     !== undefined) input.type     = parseInt(String(type));
     if (content  !== undefined) input.content  = content;
 
-    await glpiRequest('PUT', `/Ticket/${id}`, { input });
+    await glpiRequest('PUT', `/Ticket/${String(id)}`, { input });
 
     res.json({ success: true, message: 'Ticket mis à jour dans GLPI.' });
   } catch (err: any) {

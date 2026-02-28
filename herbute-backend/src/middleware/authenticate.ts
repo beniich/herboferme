@@ -14,15 +14,6 @@ import { Request, Response, NextFunction } from 'express';
 import { verifyAccessToken } from '../utils/tokens.js';
 import type { JwtPayload } from '@reclamtrack/shared';
 
-// Étendre le type Request d'Express pour inclure user
-declare global {
-  namespace Express {
-    interface Request {
-      user?: JwtPayload;
-    }
-  }
-}
-
 // ─────────────────────────────────────────────
 // Extraction du token depuis la requête
 // Priorité : Cookie HttpOnly > Header Authorization

@@ -21,12 +21,12 @@
  *   - Le WSDL est servi automatiquement à /soap/auth?wsdl
  */
 
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import { Request, Response } from 'express';
-import { User } from '.js';
-import { RefreshToken } from '.js';
-import { generateTokenPair, verifyAccessToken, hashRefreshToken } from '.js';
+import { User } from '../models/user.model.js';
+import { RefreshToken } from '../models/refresh-token.model.js';
+import { generateTokenPair, verifyAccessToken, hashRefreshToken } from '../utils/tokens.js';
 
 // ─────────────────────────────────────────────
 // Types internes SOAP

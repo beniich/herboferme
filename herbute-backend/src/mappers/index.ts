@@ -1,262 +1,177 @@
 /**
- * ═══════════════════════════════════════════════════════
- * @reclamtrack/shared — Source unique de vérité
- * ═══════════════════════════════════════════════════════
+ * ═══════════════════════════════════════════════════════════════
+ * mappers/index.ts — Transformateurs de données Sheets → Herbute
+ * ═══════════════════════════════════════════════════════════════
  *
- * Ce fichier centralise :
- *  1. HERBUTE_ROUTES  — Toutes les URIs du backend Herbute
- *  2. Types TypeScript partagés (JWT, User, Rôles, Plans)
- *  3. Contrats d'API (Request/Response types)
+ * Chaque mapper prend une ligne brute Google Sheets (clé=colonne, valeur=string)
+ * et la transforme en objet typé du modèle Herbute.
  *
- * Usage :
- *  - Backend  : import { HERBUTE_ROUTES } from '@reclamtrack/shared'
- *  - Frontend : import { HERBUTE_ROUTES, type JwtPayload } from '@reclamtrack/shared'
- *
- * ⚠️  Toute modification d'URL backend DOIT passer par ce fichier.
- *      Une règle ESLint custom bloque les strings URI bruts dans le frontend.
+ * Les mappers respectent les columnMappings configurés par l'utilisateur
+ * dans la page Settings. Si aucun mapping n'est défini, ils tentent une
+ * détection automatique par similarité de nom de colonne.
  */
 
-// ═══════════════════════════════════════════════════════
-// SECTION 1 — ROUTES API (source unique de vérité des URIs)
-// ═══════════════════════════════════════════════════════
+import type { ColumnMapping } from '../models/datasource.model.js';
+import type { SheetRow } from '../services/sheets.service.js';
 
-/**
- * Toutes les routes du backend Herbute (backend unique post-migration)
- * Utilisées par le frontend ET le backend lui-même pour éviter les typos.
- */
-export const HERBUTE_ROUTES = {
-  // ─────────────────────────────────────────────
-  // Auth & IAM (migré depuis ReclamTrack)
-  // ─────────────────────────────────────────────
-  auth: {
-    register:      '/api/auth/register',
-    login:         '/api/auth/login',
-    logout:        '/api/auth/logout',
-    logoutAll:     '/api/auth/logout-all',
-    refresh:       '/api/auth/refresh',
-    me:            '/api/auth/me',
-    forgotPassword:'/api/auth/forgot-password',
-    resetPassword: '/api/auth/reset-password',
-    verifyEmail:   (token: string) => `/api/auth/verify-email/${token}`,
-  },
+// ─────────────────────────────────────────────
+// Utilitaires de transformation
+// ─────────────────────────────────────────────
+const applyTransform = (value: string, transform?: string): unknown => {
+  if (!value || value.trim() === '') return null;
+  switch (transform) {
+    case 'uppercase':  return value.toUpperCase().trim();
+    case 'lowercase':  return value.toLowerCase().trim();
+    case 'number':     return parseFloat(value.replace(/[^\d.,]/g, '').replace(',', '.')) || 0;
+    case 'boolean':    return ['oui', 'yes', 'true', '1', 'vrai'].includes(value.toLowerCase().trim());
+    case 'date_iso': {
+      const parts = value.split(/[/\-.]/);
+      if (parts.length === 3) {
+        if (parseInt(parts[0]) > 12) {
+          return new Date(`${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`).toISOString();
+        }
+        return new Date(value).toISOString();
+      }
+      return value;
+    }
+    default: return value.trim();
+  }
+};
 
-  // ─────────────────────────────────────────────
-  // Fleet & Équipements
-  // ─────────────────────────────────────────────
-  fleet: {
-    vehicles:     '/fleet/vehicles',
-    vehicleById:  (id: string) => `/fleet/vehicles/${id}`,
-    maintenance:  '/fleet/maintenance',
-    maintenanceById: (id: string) => `/fleet/maintenance/${id}`,
-    fuelLogs:     '/fleet/fuel-logs',
-    inspections:  '/fleet/inspections',
-  },
+const applyMappings = (
+  row:      SheetRow,
+  mappings: ColumnMapping[]
+): Record<string, unknown> => {
+  const result: Record<string, unknown> = {};
+  for (const mapping of mappings) {
+    const rawValue = row[mapping.sheetColumn];
+    if (rawValue !== undefined) {
+      result[mapping.targetField] = applyTransform(rawValue, mapping.transform);
+    }
+  }
+  return result;
+};
 
-  // ─────────────────────────────────────────────
-  // Ressources Humaines (Agricole)
-  // ─────────────────────────────────────────────
-  hr: {
-    staff:         '/hr/staff',
-    staffById:     (id: string) => `/hr/staff/${id}`,
-    roster:        '/hr/roster',
-    rosterById:    (id: string) => `/hr/roster/${id}`,
-    leaves:        '/hr/leaves',
-    leaveById:     (id: string) => `/hr/leaves/${id}`,
-    leaveApprove:  (id: string) => `/hr/leaves/${id}/approve`,
-    leaveReject:   (id: string) => `/hr/leaves/${id}/reject`,
-    contracts:     '/hr/contracts',
-    payroll:       '/hr/payroll',
-  },
+const normalize = (s: string) =>
+  s.toLowerCase()
+   .normalize('NFD')
+   .replace(/[\u0300-\u036f]/g, '')
+   .replace(/[\s_\-.]/g, '');
 
-  // ─────────────────────────────────────────────
-  // Planning & Opérations
-  // ─────────────────────────────────────────────
-  planning: {
-    schedule:          '/planning/schedule',
-    scheduleById:      (id: string) => `/planning/schedule/${id}`,
-    interventions:     '/planning/interventions',
-    interventionById:  (id: string) => `/planning/interventions/${id}`,
-    tasks:             '/planning/tasks',
-    taskById:          (id: string) => `/planning/tasks/${id}`,
-  },
+const autoMap = (row: SheetRow, fieldAliases: Record<string, string[]>): Record<string, unknown> => {
+  const result: Record<string, unknown> = {};
+  const rowKeys = Object.keys(row);
 
-  // ─────────────────────────────────────────────
-  // Communication & Connaissance
-  // ─────────────────────────────────────────────
-  messaging: {
-    conversations:    '/messaging/conversations',
-    conversationById: (id: string) => `/messaging/conversations/${id}`,
-    messages:         (convId: string) => `/messaging/conversations/${convId}/messages`,
-    feedback:         '/messaging/feedback',
-    knowledge:        '/messaging/knowledge',
-    knowledgeById:    (id: string) => `/messaging/knowledge/${id}`,
-  },
+  for (const [targetField, aliases] of Object.entries(fieldAliases)) {
+    const normalizedAliases = aliases.map(normalize);
+    const matchedKey = rowKeys.find(k => normalizedAliases.includes(normalize(k)));
+    if (matchedKey) {
+      result[targetField] = row[matchedKey]?.trim() || null;
+    }
+  }
+  return result;
+};
 
-  // ─────────────────────────────────────────────
-  // Dashboard & Analytics
-  // ─────────────────────────────────────────────
-  dashboard: {
-    kpis:            '/dashboard/kpis',
-    farmSummary:     '/dashboard/farm-summary',
-    fleetSummary:    '/dashboard/fleet-summary',
-    staffSummary:    '/dashboard/staff-summary',
-  },
+// ═══════════════════════════════════════════════════════════════
+// MAPPER FLEET
+// ═══════════════════════════════════════════════════════════════
+const FLEET_ALIASES: Record<string, string[]> = {
+  immatriculation: ['immatriculation', 'plaque', 'matricule', 'registration'],
+  marque:          ['marque', 'brand', 'fabricant'],
+  modele:          ['modele', 'model', 'type vehicule'],
+  type:            ['type', 'categorie'],
+  annee:           ['annee', 'year'],
+  kilometrage:     ['kilometrage', 'km', 'odometer'],
+  statut:          ['statut', 'status', 'etat'],
+  prochaineMaintenance: ['prochaine maintenance', 'next maintenance'],
+};
 
-  // ─────────────────────────────────────────────
-  // Health Check
-  // ─────────────────────────────────────────────
-  health: '/health',
-} as const;
+export const mapFleetRow = (row: SheetRow, mappings: ColumnMapping[]): Record<string, unknown> => {
+  const base = mappings.length > 0 ? applyMappings(row, mappings) : autoMap(row, FLEET_ALIASES);
+  if (base.type) {
+    const t = String(base.type).toLowerCase();
+    if (t.includes('tracteur')) base.type = 'tracteur';
+    else if (t.includes('camion')) base.type = 'camion';
+    else if (t.includes('utilitaire')) base.type = 'utilitaire';
+    else base.type = 'autre';
+  }
+  if (base.statut) {
+    const s = String(base.statut).toLowerCase();
+    if (s.includes('actif')) base.statut = 'actif';
+    else if (s.includes('maintenance')) base.statut = 'en_maintenance';
+    else base.statut = 'hors_service';
+  }
+  return base;
+};
 
-// Type utilitaire pour extraire les valeurs de routes
-export type HerbuteRoute = string;
+// ═══════════════════════════════════════════════════════════════
+// MAPPER HR
+// ═══════════════════════════════════════════════════════════════
+const HR_STAFF_ALIASES: Record<string, string[]> = {
+  nom:          ['nom', 'name'],
+  prenom:       ['prenom', 'first name'],
+  poste:        ['poste', 'position'],
+  secteur:      ['secteur', 'department'],
+  typeContrat:  ['type contrat', 'contrat'],
+  salaireBase:  ['salaire', 'salary'],
+  dateEmbauche: ['date embauche', 'hire date'],
+};
 
+export const mapHrStaffRow = (row: SheetRow, mappings: ColumnMapping[]): Record<string, unknown> => {
+  const base = mappings.length > 0 ? applyMappings(row, mappings) : autoMap(row, HR_STAFF_ALIASES);
+  if (base.typeContrat) {
+    const t = String(base.typeContrat).toLowerCase();
+    if (t.includes('cdi')) base.typeContrat = 'cdi';
+    else if (t.includes('cdd')) base.typeContrat = 'cdd';
+    else if (t.includes('saisonnier')) base.typeContrat = 'saisonnier';
+    else base.typeContrat = 'interim';
+  }
+  return base;
+};
 
-// ═══════════════════════════════════════════════════════
-// SECTION 2 — TYPES TYPESCRIPT PARTAGÉS
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+// MAPPER PLANNING
+// ═══════════════════════════════════════════════════════════════
+const PLANNING_ALIASES: Record<string, string[]> = {
+  titre:        ['titre', 'title'],
+  dateDebut:    ['date debut', 'start date'],
+  dateFin:      ['date fin', 'end date'],
+  responsable:  ['responsable', 'assigned to'],
+};
 
-// Rôles utilisateur (synchronisés avec le schéma Mongoose)
-export type UserRole =
-  | 'super_admin'
-  | 'admin'
-  | 'manager'
-  | 'employe'
-  | 'veterinaire'
-  | 'comptable';
+export const mapPlanningRow = (row: SheetRow, mappings: ColumnMapping[]): Record<string, unknown> => {
+  const base = mappings.length > 0 ? applyMappings(row, mappings) : autoMap(row, PLANNING_ALIASES);
+  return base;
+};
 
-// Plans d'abonnement
-export type SubscriptionPlan =
-  | 'essai'
-  | 'essentiel'
-  | 'professionnel'
-  | 'entreprise';
+// ═══════════════════════════════════════════════════════════════
+// MAPPER DASHBOARD
+// ═══════════════════════════════════════════════════════════════
+const DASHBOARD_ALIASES: Record<string, string[]> = {
+  indicateur:   ['indicateur', 'kpi'],
+  valeur:       ['valeur', 'value'],
+  unite:        ['unite', 'unit'],
+};
 
-// Payload JWT (ce qui est encodé dans le token)
-export interface JwtPayload {
-  sub:    string;  // User ID
-  email:  string;
-  role:   UserRole;
-  farmId?: string;
-  plan:   SubscriptionPlan;
-  org?:   string;  // Organization ID
-  iat?:   number;  // Issued at (auto JWT)
-  exp?:   number;  // Expiration (auto JWT)
-}
+export const mapDashboardRow = (row: SheetRow, mappings: ColumnMapping[]): Record<string, unknown> => {
+  const base = mappings.length > 0 ? applyMappings(row, mappings) : autoMap(row, DASHBOARD_ALIASES);
+  return base;
+};
 
-// Données utilisateur pour générer un token
-export interface UserTokenData {
-  id:             string;
-  email:          string;
-  role:           UserRole;
-  farmId?:        string;
-  plan:           SubscriptionPlan;
-  organizationId?: string;
-}
-
-// Paire de tokens retournée par generateTokenPair
-export interface TokenPair {
-  accessToken:      string;
-  refreshToken:     string;
-  refreshTokenHash: string;
-  expiresIn:        string;
-}
-
-
-// ═══════════════════════════════════════════════════════
-// SECTION 3 — CONTRATS D'API (Request / Response)
-// ═══════════════════════════════════════════════════════
-
-// Auth
-export interface LoginRequest {
-  email:    string;
-  password: string;
-}
-
-export interface LoginResponse {
-  message: string;
-  user: {
-    id:     string;
-    email:  string;
-    nom:    string;
-    prenom: string;
-    role:   UserRole;
-    plan:   SubscriptionPlan;
-    farmId?: string;
-  };
-}
-
-export interface RegisterRequest {
-  email:       string;
-  password:    string;
-  nom:         string;
-  prenom:      string;
-  telephone?:  string;
-  farmName?:   string;
-  role?:       UserRole;
-}
-
-// Erreur API standardisée
-export interface ApiError {
-  error:    string;
-  code?:    string;
-  details?: string[];
-}
-
-// Pagination
-export interface PaginationMeta {
-  page:  number;
-  limit: number;
-  total: number;
-  pages: number;
-}
-
-export interface PaginatedResponse<T> {
-  data:       T[];
-  pagination: PaginationMeta;
-}
-
-// Vehicle (Fleet)
-export interface Vehicle {
-  id:           string;
-  farmId:       string;
-  immatriculation: string;
-  marque:       string;
-  modele:       string;
-  type:         'tracteur' | 'camion' | 'utilitaire' | 'autre';
-  annee:        number;
-  kilometrage:  number;
-  statut:       'actif' | 'en_maintenance' | 'hors_service';
-  prochaineMaintenance?: string;
-  createdAt:    string;
-  updatedAt:    string;
-}
-
-// Staff (HR)
-export interface StaffMember {
-  id:          string;
-  farmId:      string;
-  userId?:     string;
-  nom:         string;
-  prenom:      string;
-  poste:       string;
-  secteur:     string;
-  typeContrat: 'cdi' | 'cdd' | 'saisonnier' | 'interim';
-  salaireBase: number;
-  dateEmbauche: string;
-  isActive:    boolean;
-}
-
-// Leave (Congés)
-export interface Leave {
-  id:          string;
-  staffId:     string;
-  farmId:      string;
-  type:        'conge_paye' | 'maladie' | 'sans_solde' | 'autre';
-  dateDebut:   string;
-  dateFin:     string;
-  nbJours:     number;
-  statut:      'en_attente' | 'approuve' | 'refuse' | 'annule';
-  motif?:      string;
-  approvedBy?: string;
-}
+// ─────────────────────────────────────────────
+// Dispatcher principal par module
+// ─────────────────────────────────────────────
+export const mapRowByModule = (
+  module:   string,
+  row:      SheetRow,
+  mappings: ColumnMapping[]
+): Record<string, unknown> => {
+  switch (module) {
+    case 'fleet':     return mapFleetRow(row, mappings);
+    case 'hr':        return mapHrStaffRow(row, mappings);
+    case 'planning':  return mapPlanningRow(row, mappings);
+    case 'dashboard': return mapDashboardRow(row, mappings);
+    default:
+      return Object.fromEntries(Object.entries(row).map(([k, v]) => [k, v]));
+  }
+};

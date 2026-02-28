@@ -7,17 +7,13 @@
 
 import 'express';
 import type { Document } from 'mongoose';
+import type { JwtPayload } from '@reclamtrack/shared';
 
 declare global {
   namespace Express {
     interface Request {
       /** Authenticated user payload decoded from JWT */
-      user?: {
-        id: string;
-        _id?: string;
-        role: string;
-        email?: string;
-      };
+      user?: JwtPayload;
       /** Organization ID extracted from x-organization-id header */
       organizationId?: string;
       /** Populated membership document (set by requireOrganization) */

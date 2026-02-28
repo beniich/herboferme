@@ -22,7 +22,7 @@ export type SyncStatus       = 'idle' | 'syncing' | 'success' | 'error';
 // Mapping : quelle colonne Sheets → quel champ
 // Ex: { sheetColumn: "Immatriculation", targetField: "immatriculation" }
 // ─────────────────────────────────────────────
-interface ColumnMapping {
+export interface ColumnMapping {
   sheetColumn:  string;   // Nom exact de la colonne dans Google Sheets
   targetField:  string;   // Nom du champ dans le modèle Herbute
   transform?:   'uppercase' | 'lowercase' | 'date_iso' | 'number' | 'boolean';

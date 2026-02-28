@@ -22,7 +22,7 @@
 import path from 'path';
 import fs from 'fs';
 import { Application, Request, Response } from 'express';
-import { soap } from 'strong-soap';
+import soap from 'strong-soap';
 import { AuthSoapService } from '../services/auth.soap.service.js';
 
 const { server: soapServer } = soap;

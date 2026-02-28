@@ -217,7 +217,7 @@ router.post('/:id/sync', authorize('admin', 'manager'), async (req: Request, res
     res.status(202).json({ message: 'Synchronisation lancée.', dataSourceId: req.params.id });
 
     // Lancer en arrière-plan
-    syncDataSource(req.params.id).catch(err =>
+    syncDataSource(String(req.params.id)).catch(err =>
       console.error(`[Sync manuel] ${req.params.id}:`, err.message)
     );
   } catch (err) { next(err); }
@@ -284,7 +284,7 @@ router.get('/data/:module', async (req: Request, res: Response, next: NextFuncti
 
     const result = await getCachedData(
       req.user!.farmId!,
-      module,
+      String(module),
       page,
       limit,
       search,
