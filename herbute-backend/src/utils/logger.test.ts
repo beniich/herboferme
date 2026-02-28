@@ -5,8 +5,7 @@ import { describe, it, expect, vi } from 'vitest';
 // Mock winston
 vi.mock('winston', () => {
     const format = vi.fn((fn) => {
-        if (typeof fn === 'function') return fn;
-        return { transform: (info) => info };
+        return () => ({ transform: (info) => (typeof fn === 'function' ? fn(info) : info) });
     });
     format.combine = vi.fn();
     format.timestamp = vi.fn();

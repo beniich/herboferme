@@ -33,7 +33,7 @@
     "@radix-ui/react-slot": "^1.2.4",
     "@react-google-maps/api": "^2.20.8",
     "@react-oauth/google": "^0.13.4",
-    "@reclamtrack/shared": "file:../../ticket/reclamtrack/shared",
+    "@reclamtrack/shared": "file:../shared",
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/typography": "^0.5.19",
     "@tanstack/react-query": "^5.90.21",
