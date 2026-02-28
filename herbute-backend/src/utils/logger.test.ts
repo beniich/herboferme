@@ -4,26 +4,21 @@ import { describe, it, expect, vi } from 'vitest';
 
 // Mock winston
 vi.mock('winston', () => {
-    const format = {
-        combine: vi.fn(),
-        timestamp: vi.fn(),
-        printf: vi.fn(),
-        colorize: vi.fn(),
-    };
+    const format = vi.fn((fn) => {
+        if (typeof fn === 'function') return fn;
+        return { transform: (info) => info };
+    });
+    format.combine = vi.fn();
+    format.timestamp = vi.fn();
+    format.printf = vi.fn();
+    format.colorize = vi.fn();
+    format.errors = vi.fn();
+    format.json = vi.fn();
     const transports = {
         Console: vi.fn(),
         File: vi.fn(),
     };
-    return {
-        default: {
-            format,
-            transports,
-            createLogger: vi.fn().mockReturnValue({
-                info: vi.fn(),
-                error: vi.fn(),
-                debug: vi.fn(),
-            }),
-        },
+    const winston = {
         format,
         transports,
         createLogger: vi.fn().mockReturnValue({
@@ -31,6 +26,10 @@ vi.mock('winston', () => {
             error: vi.fn(),
             debug: vi.fn(),
         }),
+    };
+    return {
+        ...winston,
+        default: winston
     };
 });
 
