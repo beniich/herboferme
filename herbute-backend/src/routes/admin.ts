@@ -5,15 +5,22 @@ import { securityService } from '../services/securityService.js';
 
 const router = Router();
 
-// Middleware admin simulé si 'authorize' n'existe pas
+/**
+ * Middleware for administrative access control.
+ * Restricts access to users with 'admin' or 'super_admin' roles.
+ */
 const adminOnly = (req: Request, res: Response, next: any) => {
   const user = (req as any).user;
-  if (user && user.role === 'admin') {
+  const isAdmin = user && (user.role === 'admin' || user.role === 'super_admin');
+
+  if (isAdmin) {
     next();
   } else {
-    // Pour dev, on laisse passer ou on mock
-    // res.status(403).json({ message: 'Accès administrateur requis' });
-    next();
+    res.status(403).json({
+      success: false,
+      error: 'Accès administrateur requis',
+      code: 'FORBIDDEN_ADMIN_ONLY',
+    });
   }
 };
 
