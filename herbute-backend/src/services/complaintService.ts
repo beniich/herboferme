@@ -141,28 +141,33 @@ export class ComplaintService {
 
     /**
      * Get complaint statistics
+     * ⚡ Bolt: Optimized to use a single aggregation pipeline with $facet
+     * This reduces database round-trips from 3 to 1, improving response time.
      */
     async getComplaintStats(organizationId: string) {
-        const total = await Complaint.countDocuments({ organizationId });
-        const byStatus = await Complaint.aggregate([
+        const stats = await Complaint.aggregate([
             { $match: { organizationId: new Types.ObjectId(organizationId) } },
-            { $group: { _id: '$status', count: { $sum: 1 } } }
-        ]);
-        const byPriority = await Complaint.aggregate([
-            { $match: { organizationId: new Types.ObjectId(organizationId) } },
-            { $group: { _id: '$priority', count: { $sum: 1 } } }
+            {
+                $facet: {
+                    total: [{ $count: 'count' }],
+                    byStatus: [{ $group: { _id: '$status', count: { $sum: 1 } } }],
+                    byPriority: [{ $group: { _id: '$priority', count: { $sum: 1 } } }],
+                },
+            },
         ]);
 
+        const result = stats[0];
+
         return {
-            total,
-            byStatus: byStatus.reduce((acc, item) => {
+            total: result.total[0]?.count || 0,
+            byStatus: result.byStatus.reduce((acc: Record<string, number>, item: any) => {
                 acc[item._id] = item.count;
                 return acc;
             }, {} as Record<string, number>),
-            byPriority: byPriority.reduce((acc, item) => {
+            byPriority: result.byPriority.reduce((acc: Record<string, number>, item: any) => {
                 acc[item._id] = item.count;
                 return acc;
-            }, {} as Record<string, number>)
+            }, {} as Record<string, number>),
         };
     }
 
