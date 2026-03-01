@@ -1,4 +1,5 @@
-﻿import { authenticate as protect, requireOrganization } from '../middleware/security.js';
+﻿import { Router } from 'express';
+import { authenticate as protect, requireOrganization } from '../middleware/security.js';
 import { Complaint } from '../models/Complaint.js';
 import { Team } from '../models/Team.js';
 import Animal from '../models/Animal.js';
@@ -12,12 +13,28 @@ const router = Router();
 /* GET /api/dashboard */
 router.get('/', [protect, requireOrganization], async (req: any, res, next) => {
     try {
-        const organizationId = req.organizationId;
+        const organizationId = new mongoose.Types.ObjectId(req.organizationId);
 
         // 1. Agriculture Stats
         const latestKPI = await FarmKPI.findOne({ organizationId }).sort({ year: -1, month: -1 });
-        const animals = await Animal.find({ organizationId });
-        const crops = await Crop.find({ organizationId });
+
+        // Optimization: Use MongoDB aggregation for animal counts instead of in-memory reduction
+        const animalStats = await Animal.aggregate([
+            { $match: { organizationId } },
+            {
+                $facet: {
+                    total: [{ $group: { _id: null, count: { $sum: '$count' } } }],
+                    poultry: [
+                        { $match: { type: { $regex: /poul/i } } },
+                        { $group: { _id: null, count: { $sum: '$count' } } }
+                    ],
+                    bovine: [
+                        { $match: { type: { $regex: /vache|bovin/i } } },
+                        { $group: { _id: null, count: { $sum: '$count' } } }
+                    ]
+                }
+            }
+        ]);
 
         const agroStats = {
             financials: latestKPI || {
@@ -27,45 +44,66 @@ router.get('/', [protect, requireOrganization], async (req: any, res, next) => {
                 cashFlow: 0
             },
             cheptel: {
-                total: animals.reduce((sum, a) => sum + a.count, 0),
-                poultry: animals.filter(a => a.type.toLowerCase().includes('poul')).reduce((sum, a) => sum + a.count, 0),
-                bovine: animals.filter(a => a.type.toLowerCase().includes('vache') || a.type.toLowerCase().includes('bovin')).reduce((sum, a) => sum + a.count, 0)
+                total: animalStats[0]?.total[0]?.count || 0,
+                poultry: animalStats[0]?.poultry[0]?.count || 0,
+                bovine: animalStats[0]?.bovine[0]?.count || 0
             },
             cultures: {
                 totalHa: 218, // Could be aggregated from parcel models
                 categories: await Crop.aggregate([
-                    { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
+                    { $match: { organizationId } },
                     { $group: { _id: '$category', count: { $sum: 1 } } }
                 ])
             }
         };
 
         // 2. IT (GLPI) Stats
+        // Optimization: Consolidate IT ticket stats into a single aggregation with $facet
+        const itTicketResults = await ITTicket.aggregate([
+            { $match: { organizationId } },
+            {
+                $facet: {
+                    total: [{ $count: 'count' }],
+                    byStatus: [
+                        { $group: { _id: '$status', count: { $sum: 1 } } }
+                    ],
+                    byPriority: [
+                        { $group: { _id: '$priority', count: { $sum: 1 } } }
+                    ],
+                    slaBreach: [
+                        { $match: { 'sla.breached': true } },
+                        { $count: 'count' }
+                    ]
+                }
+            }
+        ]);
+
         const itStats = {
-            total: await ITTicket.countDocuments({ organizationId }),
-            byStatus: await ITTicket.aggregate([
-                { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
-                { $group: { _id: '$status', count: { $sum: 1 } } }
-            ]),
-            byPriority: await ITTicket.aggregate([
-                { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
-                { $group: { _id: '$priority', count: { $sum: 1 } } }
-            ]),
-            slaBreach: await ITTicket.countDocuments({ 
-                organizationId, 
-                'sla.breached': true 
-            })
+            total: itTicketResults[0]?.total[0]?.count || 0,
+            byStatus: itTicketResults[0]?.byStatus || [],
+            byPriority: itTicketResults[0]?.byPriority || [],
+            slaBreach: itTicketResults[0]?.slaBreach[0]?.count || 0
         };
 
         // 3. Maintenance/Operations (Complaints) Stats
-        const totalComplaints = await Complaint.countDocuments({ organizationId });
-        const statusStats = await Complaint.aggregate([
-            { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
-            { $group: { _id: '$status', count: { $sum: 1 } } }
+        // Optimization: Consolidate complaint stats into a single aggregation with $facet
+        const complaintResults = await Complaint.aggregate([
+            { $match: { organizationId } },
+            {
+                $facet: {
+                    total: [{ $count: 'count' }],
+                    byStatus: [
+                        { $group: { _id: '$status', count: { $sum: 1 } } }
+                    ]
+                }
+            }
         ]);
 
+        const totalComplaints = complaintResults[0]?.total[0]?.count || 0;
+        const statusStats = complaintResults[0]?.byStatus || [];
+
         const teamStats = await Team.aggregate([
-            { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
+            { $match: { organizationId } },
             {
                 $lookup: {
                     from: 'assignments',
@@ -83,7 +121,7 @@ router.get('/', [protect, requireOrganization], async (req: any, res, next) => {
                             $filter: {
                                 input: '$assignments',
                                 as: 'a',
-                                cond: { $ne: ['$$a.status', 'terminé'] }
+                                cond: { $ne: ['$$a.status', 'terminÃ©'] }
                             }
                         }
                     }
