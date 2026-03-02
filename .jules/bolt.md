@@ -1,0 +1,3 @@
+## 2026-02-24 - [Dashboard Performance Optimization]
+**Learning:** Sequential 'await' calls for multiple data groups (Agro, IT, Maintenance) created a significant bottleneck in the /api/dashboard route. Additionally, fetching large collections like 'Animal' into memory for simple filtering (e.g., regex checks on 'type') led to unnecessary Node.js heap pressure.
+**Action:** Always parallelize independent data fetching groups using 'Promise.all'. Prefer offloading counts, regex-based filtering, and grouping to MongoDB via aggregation pipelines and '$facet' to minimize network overhead and memory usage in the backend service.
