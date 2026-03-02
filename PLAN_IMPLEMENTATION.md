@@ -47,18 +47,18 @@ GET    /api/animals/stats        → Statistiques (totaux, valeur)
 ### 1.2 Formulaires Frontend
 
 #### Page Élevage `/elevage`
-- [ ] Tableau dynamique (charge depuis `/api/animals?category=LIVESTOCK`)
-- [ ] Bouton "➕ Ajouter un animal" → Modal de saisie
-- [ ] Champs : Type, Race, Nombre, Âge moyen, Statut, Valeur estimée
-- [ ] Édition inline ou modal
-- [ ] Suppression avec confirmation
-- [ ] KPIs calculés dynamiquement (total têtes, valeur totale)
-- [ ] Graphique production lait (données saisies manuellement)
+- [x] Tableau dynamique (charge depuis `/api/animals?category=LIVESTOCK`)
+- [x] Bouton "➕ Ajouter un animal" → Modal de saisie
+- [x] Champs : Type, Race, Nombre, Âge moyen, Statut, Valeur estimée
+- [x] Édition inline ou modal
+- [x] Suppression avec confirmation
+- [x] KPIs calculés dynamiquement (total têtes, valeur totale)
+- [x] Graphique production lait (données saisies manuellement)
 
 #### Page Volaille `/volaille`
-- [ ] Même logique, filtrée `category=POULTRY`
-- [ ] KPIs : effectifs pondeuses, ponte/jour, mortalité
-- [ ] Saisie : Espèce, Lot, Nombre, Ponte quotidienne, Statut sanitaire
+- [x] Même logique, filtrée `category=POULTRY`
+- [x] KPIs : effectifs pondeuses, ponte/jour, mortalité
+- [x] Saisie : Espèce, Lot, Nombre, Ponte quotidienne, Statut sanitaire
 
 ---
 
@@ -78,23 +78,23 @@ GET    /api/crops/stats          → Statistiques par catégorie
 ### 2.2 Formulaires Frontend
 
 #### Légumes & Fruits `/legumes`
-- [ ] Tableau dynamique (charge depuis `/api/crops?category=VEGETABLE`)
-- [ ] Modal "Nouvelle Culture" : Nom, Parcelle, Date plantation, Date récolte prévue, Rendement estimé
-- [ ] Statuts visuels : Planté / En croissance / Prêt à récolter / Récolté
-- [ ] Bouton "Enregistrer récolte" sur chaque ligne
-- [ ] KPIs dynamiques
+- [x] Tableau dynamique (charge depuis `/api/crops?category=VEGETABLE`)
+- [x] Modal "Nouvelle Culture" : Nom, Parcelle, Date plantation, Date récolte prévue, Rendement estimé
+- [x] Statuts visuels : Planté / En croissance / Prêt à récolter / Récolté
+- [x] Bouton "Enregistrer récolte" sur chaque ligne
+- [x] KPIs dynamiques
 
 #### Herbes & Aromates `/herbes`
-- [ ] Même logique, filtrée `category=HERB`
-- [ ] Champs spéciaux : Type de séchage, Qualité, Prix au kg
+- [x] Même logique, filtrée `category=HERB`
+- [x] Champs spéciaux : Type de séchage, Qualité, Prix au kg
 
 #### Pépinière `/pepiniere`
-- [ ] Filtrée `category=NURSERY`
-- [ ] Suivi des plants, taux de reprise
+- [x] Filtrée `category=NURSERY`
+- [x] Suivi des plants, taux de reprise
 
 #### Parcelles `/parcelles`
-- [ ] Vue carte ou grille des parcelles
-- [ ] Saisie : Superficie, Culture en cours, Statut sol, Irrigation
+- [x] Vue carte ou grille des parcelles
+- [x] Saisie : Superficie, Culture en cours, Statut sol, Irrigation
 
 ---
 
@@ -114,55 +114,55 @@ GET    /api/finance/export        → Export Excel
 ### 3.2 Formulaires Frontend
 
 #### Comptabilité `/comptabilite`
-- [ ] Tableau des transactions (pagination)
-- [ ] Modal "Nouvelle Transaction" :
+- [x] Tableau des transactions (pagination)
+- [x] Modal "Nouvelle Transaction" :
   - Type : Recette / Dépense
   - Catégorie (Ventes, Intrants, Santé, Charges...)
   - Secteur (Élevage, Légumes, Herbes, Général)
   - Montant (DH)
   - Description
   - Date
-- [ ] Filtres par type, secteur, période
-- [ ] Export Excel
+- [x] Filtres par type, secteur, période
+- [x] Export Excel
 
 #### Budget & Finance `/budget`
-- [ ] KPIs calculés automatiquement depuis les transactions
-- [ ] Graphiques : revenus vs dépenses par mois
-- [ ] Bénéfice net, trésorerie
+- [x] KPIs calculés automatiquement depuis les transactions
+- [x] Graphiques : revenus vs dépenses par mois
+- [x] Bénéfice net, trésorerie
 
 ---
 
 ## 🌿 PHASE 4 — MODULES SUPPORT (Priorité 2)
 
 ### Irrigation `/irrigation`
-- [ ] Backend : Modèle `IrrigationLog` (parcelle, volume, durée, date)
-- [ ] Formulaire : Saisie de session d'arrosage
-- [ ] KPIs : eau consommée, coût
+- [x] Backend : Modèle `IrrigationLog` (parcelle, volume, durée, date)
+- [x] Formulaire : Saisie de session d'arrosage
+- [x] KPIs : eau consommée, coût
 
 ### Forêt `/foret`
-- [ ] Backend : Utiliser `Crop` avec `category=FOREST`
-- [ ] Formulaire : Zone, espèces, année plantation, surface
+- [x] Backend : Utiliser `Crop` avec `category=FOREST`
+- [x] Formulaire : Zone, espèces, année plantation, surface
 
 ### Domaine & Infrastructure `/domaine`
-- [ ] Backend : Utiliser `FarmTransaction` + nouveau modèle `Asset`
-- [ ] Formulaire : Bâtiments, équipements fixes, entretien
+- [x] Backend : Utiliser `FarmTransaction` + nouveau modèle `Asset`
+- [x] Formulaire : Bâtiments, équipements fixes, entretien
 
 ### Météo `/meteo`
-- [ ] Intégration API OpenWeatherMap (optionnel)
-- [ ] Sinon : Saisie manuelle des relevés quotidiens
+- [x] Intégration API OpenWeatherMap (optionnel)
+- [x] Sinon : Saisie manuelle des relevés quotidiens
 
 ---
 
 ## 🔄 PHASE 5 — CONNEXION DONNÉES STATIQUES (Priorité 2)
 
 ### Dashboard `/dashboard`
-- [ ] Connecter le bloc météo à une source réelle
-- [ ] KPIs financiers depuis `/api/finance/kpis`
-- [ ] Transactions récentes depuis `/api/finance/transactions?limit=5`
-- [ ] Alertes depuis `/api/animals` (santé) + `/api/crops` (récolte proche)
+- [x] Connecter le bloc météo à une source réelle
+- [x] KPIs financiers depuis `/api/finance/kpis`
+- [x] Transactions récentes depuis `/api/finance/transactions?limit=5`
+- [x] Alertes depuis `/api/animals` (santé) + `/api/crops` (récolte proche)
 
 ### Analytics `/analytics`
-- [ ] Graphiques depuis les vraies données :
+- [x] Graphiques depuis les vraies données :
   - Réclamations par mois
   - Transactions par secteur
   - Évolution cheptel

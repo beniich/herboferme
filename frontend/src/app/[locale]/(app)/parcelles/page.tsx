@@ -1,8 +1,48 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { cropsApi } from '@/lib/api';
+import toast from 'react-hot-toast';
+
+interface Crop {
+  _id: string;
+  name: string;
+  category: string;
+  plotId: string;
+  status: string;
+  plantedDate: string;
+  surface?: number;
+}
+
+const STATUS_MAP: Record<string, { label: string; pill: string }> = {
+  PLANTED:   { label: 'Planté',          pill: 'pill-blue' },
+  GROWING:   { label: 'En croissance',   pill: 'pill-green' },
+  READY:     { label: 'Prêt à récolter', pill: 'pill-gold' },
+  HARVESTED: { label: 'Récolté',         pill: 'pill-teal' },
+};
 
 export default function ParcellesPage() {
+  const [crops, setCrops] = useState<Crop[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const res = await cropsApi.getAll() as any;
+      setCrops(res?.data || []);
+    } catch {
+      toast.error('Erreur lors du chargement des parcelles');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { fetchData(); }, [fetchData]);
+
+  const uniquePlots = new Set(crops.map(c => c.plotId)).size;
+  const totalSurface = crops.reduce((sum, c) => sum + (c.surface || 0), 0);
+  const activeIrrigation = crops.filter(c => c.status === 'GROWING' || c.status === 'PLANTED').length;
+
   return (
     <div className="page active" id="page-parcelles">
       <div style={{ padding: '24px' }}>
@@ -14,55 +54,60 @@ export default function ParcellesPage() {
           <div className="kpi-card" style={{ '--kpi-color': 'var(--green)' } as React.CSSProperties}>
             <div className="kpi-icon">🗺️</div>
             <div className="kpi-label">Nb Parcelles</div>
-            <div className="kpi-value">24<span className="kpi-unit">unités</span></div>
+            <div className="kpi-value">{loading ? '—' : uniquePlots}<span className="kpi-unit">unités</span></div>
             <div className="kpi-trend neutral">= stable</div>
           </div>
           <div className="kpi-card" style={{ '--kpi-color': 'var(--green2)' } as React.CSSProperties}>
             <div className="kpi-icon">🌾</div>
             <div className="kpi-label">Surface Cultivée</div>
-            <div className="kpi-value">218<span className="kpi-unit">ha</span></div>
-            <div className="kpi-trend up">▲ 2.5%</div>
+            <div className="kpi-value">{loading ? '—' : totalSurface}<span className="kpi-unit">ha</span></div>
           </div>
           <div className="kpi-card" style={{ '--kpi-color': 'var(--teal)' } as React.CSSProperties}>
             <div className="kpi-icon">💧</div>
-            <div className="kpi-label">Irrigation active</div>
-            <div className="kpi-value">18<span className="kpi-unit">parc.</span></div>
-            <div className="kpi-trend neutral">75% total</div>
+            <div className="kpi-label">Cultures Actives</div>
+            <div className="kpi-value">{loading ? '—' : activeIrrigation}<span className="kpi-unit">parc.</span></div>
           </div>
           <div className="kpi-card" style={{ '--kpi-color': 'var(--gold)' } as React.CSSProperties}>
             <div className="kpi-icon">🚜</div>
-            <div className="kpi-label">Traitement en cours</div>
-            <div className="kpi-value">2<span className="kpi-unit">parc.</span></div>
-            <div className="kpi-trend neutral">Parcelle P7, P12</div>
+            <div className="kpi-label">Prêt à récolter</div>
+            <div className="kpi-value">{loading ? '—' : crops.filter(c => c.status === 'READY').length}<span className="kpi-unit">parc.</span></div>
           </div>
         </div>
 
         <div className="panel">
           <div className="panel-header">
             <div className="panel-title"><div className="dot" style={{ background: 'var(--green)' }}></div>Registre des Parcelles</div>
+            <div className="panel-action" onClick={fetchData} style={{ cursor: 'pointer' }}>↺ Actualiser</div>
           </div>
           <div className="panel-body" style={{ padding: '0' }}>
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nom / Localisation</th>
-                  <th>Culture</th>
-                  <th>Surface</th>
-                  <th>Stade</th>
-                  <th>Statut</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td>P01</td><td>Plaine Nord A</td><td>🌿 Menthe</td><td>12 ha</td><td>Récolte</td><td><span className="pill pill-green">Opérationnel</span></td></tr>
-                <tr><td>P02</td><td>Plaine Nord B</td><td>🌿 Absinthe</td><td>8.5 ha</td><td>Croissance</td><td><span className="pill pill-green">Opérationnel</span></td></tr>
-                <tr><td>P03</td><td>Colline Ouest</td><td>🌳 Oliviers</td><td>24 ha</td><td>Entretien</td><td><span className="pill pill-green">Opérationnel</span></td></tr>
-                <tr><td>P04</td><td>Zone Basse</td><td>🥕 Carottes</td><td>5.2 ha</td><td>Semis</td><td><span className="pill pill-teal">Irrigation</span></td></tr>
-                <tr><td>P05</td><td>Plaine Est</td><td>🌾 Blé tendre</td><td>42 ha</td><td>Croissance</td><td><span className="pill pill-green">Opérationnel</span></td></tr>
-                <tr><td>P06</td><td>Zone Sud</td><td>🍅 Tomates</td><td>4.8 ha</td><td>Floraison</td><td><span className="pill pill-gold">Traitement</span></td></tr>
-                <tr><td>P07</td><td>Zone Sud-Est</td><td>🧅 Oignons</td><td>6.5 ha</td><td>Croissance</td><td><span className="pill pill-green">Opérationnel</span></td></tr>
-              </tbody>
-            </table>
+            {loading ? (
+              <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>Chargement…</div>
+            ) : crops.length === 0 ? (
+              <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>Aucune parcelle ou culture enregistrée</div>
+            ) : (
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Parcelle (Plot ID)</th>
+                    <th>Culture</th>
+                    <th>Surface (ha)</th>
+                    <th>Date de Plantation</th>
+                    <th>Statut Moteur</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {crops.map(c => (
+                    <tr key={c._id}>
+                      <td style={{ fontWeight: 700 }}>{c.plotId || 'N/A'}</td>
+                      <td>{c.name}</td>
+                      <td style={{ fontFamily: 'var(--font-mono)' }}>{c.surface || '0'}</td>
+                      <td>{c.plantedDate ? new Date(c.plantedDate).toLocaleDateString() : 'N/A'}</td>
+                      <td><span className={`pill ${STATUS_MAP[c.status]?.pill || 'pill-green'}`}>{STATUS_MAP[c.status]?.label || c.status}</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
 
