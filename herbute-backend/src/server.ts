@@ -56,7 +56,16 @@ app.use(
 
 app.use(
   cors({
-    origin: true, // Autorise toutes les origines dynamiquement
+    origin: (origin, callback) => {
+      const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',').map((o) => o.trim()).filter(Boolean) || [];
+      // Allow requests with no origin (like mobile apps or curl requests)
+      // or check against the whitelist
+      if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV === 'development') {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
   })
 );

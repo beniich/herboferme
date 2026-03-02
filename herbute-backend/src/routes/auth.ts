@@ -13,7 +13,7 @@
  */
 
 import { Router, Request, Response, NextFunction } from 'express';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import rateLimit from 'express-rate-limit';
 import { authenticate } from '../middleware/authenticate';

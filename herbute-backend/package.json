@@ -62,6 +62,7 @@
     "@types/yamljs": "^0.2.34",
     "@typescript-eslint/eslint-plugin": "^7.6.0",
     "@typescript-eslint/parser": "^7.6.0",
+    "axios": "^1.13.6",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "jest": "^30.2.0",
@@ -70,6 +71,7 @@
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vitest": "^4.0.18"
   }
 }
