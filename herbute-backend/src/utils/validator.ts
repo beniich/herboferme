@@ -5,7 +5,7 @@
  */
 import { Request, Response, NextFunction } from 'express';
 import { ValidationChain, validationResult } from 'express-validator';
-import { validationErrorResponse } from '../utils/apiResponse';
+import { validationErrorResponse } from '../utils/apiResponse.js';
 
 /** Run validation chains and return 400 if any fail */
 export function validate(req: Request, res: Response, next: NextFunction): void {

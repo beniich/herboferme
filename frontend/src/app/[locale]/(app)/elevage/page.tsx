@@ -126,10 +126,6 @@ export default function ElevagePage({
   const totalVal = animals.reduce((s, a) => s + a.estimatedValue, 0);
 
   return (
-import PageHeader from '@/components/layout/PageHeader';
-
-// ... inside ElevagePage
-  return (
     <div className="page active" id="page-elevage">
       <div style={{ padding: '24px' }}>
 

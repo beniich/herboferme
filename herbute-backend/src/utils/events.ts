@@ -1,4 +1,4 @@
-﻿/**
+/**
  * routes/events.ts
  * Server-Sent Events / Saga event handler.
  * Moved from index.ts to avoid inline require() and keep app clean.
@@ -7,10 +7,10 @@
  * POST /api/events/notify  â†’ Internal: trigger notification event (dev only)
  */
 import { Router, Request, Response } from 'express';
-import { authenticate } from '../middleware/security';
+import { authenticate } from '../middleware/security.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
-import { sendSuccess } from '../utils/apiResponse';
-import logger from '../utils/logger';
+import { sendSuccess } from '../utils/apiResponse.js';
+import logger from '../utils/logger.js';
 
 const router = Router();
 

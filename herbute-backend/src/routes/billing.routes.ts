@@ -16,12 +16,12 @@ import Stripe from 'stripe';
 import bcrypt   from 'bcryptjs';
 import crypto   from 'crypto';
 import express  from 'express';
-import { authenticate } from '../middleware/authenticate';
-import { authorize }    from '../middleware/authorize';
-import { User }         from '../models/user.model';
-import { Subscription } from '../models/subscription.model';
-import { sendActivationEmail, sendAdminNotification } from '../services/email.service';
-import { generateTokenPair } from '../utils/tokens';
+import { authenticate } from '../middleware/authenticate.js';
+import { authorize }    from '../middleware/authorize.js';
+import { User }         from '../models/user.model.js';
+import { Subscription } from '../models/subscription.model.js';
+import { sendActivationEmail, sendAdminNotification } from '../services/email.service.js';
+import { generateTokenPair } from '../utils/tokens.js';
 
 const router = Router();
 

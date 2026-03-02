@@ -6,7 +6,7 @@
 
 import { Router, Request, Response, NextFunction } from 'express';
 import axios from 'axios';
-import { authenticate } from '../middleware/authenticate';
+import { authenticate } from '../middleware/authenticate.js';
 
 const router = Router();
 router.use(authenticate);

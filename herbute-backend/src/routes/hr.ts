@@ -3,8 +3,8 @@
  */
 
 import { Router } from 'express';
-import { authenticate } from '../middleware/authenticate';
-import { authorize } from '../middleware/authorize';
+import { authenticate } from '../middleware/authenticate.js';
+import { authorize } from '../middleware/authorize.js';
 import { HERBUTE_ROUTES } from '@reclamtrack/shared';
 
 const router = Router();

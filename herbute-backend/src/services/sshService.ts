@@ -12,7 +12,7 @@ import { NodeSSH } from 'node-ssh';
 
 import fs from 'fs';
 import { SshAppError } from '../utils/AppError.js';
-import logger from '../utils/logger';
+import logger from '../utils/logger.js';
 
 interface SshConfig {
   host: string;

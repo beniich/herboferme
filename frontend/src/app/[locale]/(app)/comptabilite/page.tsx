@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { financeApi } from '@/lib/api';
 import toast from 'react-hot-toast';
+import PageHeader from '@/components/layout/PageHeader';
 
 interface Transaction {
   _id: string;
@@ -117,10 +118,6 @@ export default function ComptabilitePage() {
 
   const categories = form.type === 'recette' ? CATEGORIES_RECETTE : CATEGORIES_DEPENSE;
 
-  return (
-import PageHeader from '@/components/layout/PageHeader';
-
-// ... inside ComptabilitePage
   return (
     <div className="page active">
       <div style={{ padding: '24px' }}>

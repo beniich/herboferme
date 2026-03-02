@@ -39,6 +39,10 @@ const jetbrains = JetBrains_Mono({
     variable: '--font-mono'
 });
 
+export function generateStaticParams() {
+    return routing.locales.map((locale) => ({ locale }));
+}
+
 export default async function LocaleLayout({
     children,
     params

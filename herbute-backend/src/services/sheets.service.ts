@@ -20,7 +20,7 @@
 
 import axios from 'axios';
 import { parse as parseCsv } from 'csv-parse/sync';
-import type { IDataSource } from '../models/datasource.model';
+import type { IDataSource } from '../models/datasource.model.js';
 
 // ─────────────────────────────────────────────
 // Type de retour : tableau de lignes normalisées

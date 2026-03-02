@@ -14,7 +14,7 @@
  */
 
 import mongoose, { Schema, Document } from 'mongoose';
-import type { DataSourceModule } from './datasource.model';
+import type { DataSourceModule } from './datasource.model.js';
 
 export interface ISyncCache extends Document {
   dataSourceId: mongoose.Types.ObjectId;

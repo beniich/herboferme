@@ -9,13 +9,13 @@
  */
 import { Router, Request, Response } from 'express';
 import { body, query } from 'express-validator';
-import { sshService } from '../services/sshService';
-import { authenticate, requireAdmin } from '../middleware/security';
+import { sshService } from '../services/sshService.js';
+import { authenticate, requireAdmin } from '../middleware/security.js';
 import { authLimiter as sshLimiter } from '../middleware/rateLimiters.js';
 import { validator as validate } from '../middleware/validator.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
-import { sendSuccess } from '../utils/apiResponse';
-import logger from '../utils/logger';
+import { sendSuccess } from '../utils/apiResponse.js';
+import logger from '../utils/logger.js';
 
 const router = Router();
 

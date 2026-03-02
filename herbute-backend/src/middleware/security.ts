@@ -26,6 +26,7 @@ export interface JwtPayload {
   id?: string;
   _id?: string;
   sub?: string;
+  organizationId?: string;
   orgId?: string;
   org?: string;
   role: string;

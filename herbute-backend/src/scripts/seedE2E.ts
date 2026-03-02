@@ -1,8 +1,8 @@
 ﻿import mongoose from 'mongoose';
-import { Complaint } from '../models/Complaint';
-import { User } from '../models/user.model';
-import { Team } from '../models/Team';
-import { connectDB } from '../config/db';
+import { Complaint } from '../models/Complaint.js';
+import { User } from '../models/user.model.js';
+import { Team } from '../models/Team.js';
+import { connectDB } from '../config/db.js';
 import dotenv from 'dotenv';
 import path from 'path';
 
