@@ -6,8 +6,9 @@ import Crop from '../models/Crop.js';
 import FarmKPI from '../models/FarmKPI.js';
 import ITTicket from '../models/ITTicket.js';
 import mongoose from 'mongoose';
-import express from 'express';
-const router = express.Router();
+import { Router } from 'express';
+
+const router = Router();
 
 /* GET /api/dashboard */
 router.get('/', [protect, requireOrganization], async (req: any, res, next) => {

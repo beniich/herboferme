@@ -19,7 +19,11 @@
     "@types/multer": "^2.0.0",
     "@types/uuid": "^10.0.0",
     "activedirectory2": "^2.2.0",
+<<<<<<< HEAD
     "axios": "^1.7.9",
+=======
+    "axios": "^1.13.6",
+>>>>>>> fix-build-errors-6199326676945094280
     "bcryptjs": "^2.4.3",
     "bullmq": "^5.70.1",
     "compression": "^1.8.1",

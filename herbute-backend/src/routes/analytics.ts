@@ -392,11 +392,11 @@ router.get('/export/:type', async (req: Request, res: Response) => {
       low: 'FF22C55E',
     };
     const statusColors: Record<string, string> = {
-      résolue: 'FF22C55E',
-      fermée: 'FF64748B',
+      'résolue': 'FF22C55E',
+      'fermée': 'FF64748B',
       'en cours': 'FF3B82F6',
-      nouvelle: 'FFF59E0B',
-      rejetée: 'FFEF4444',
+      'nouvelle': 'FFF59E0B',
+      'rejetée': 'FFEF4444',
     };
 
     complaints.forEach((c: any, idx: number) => {
