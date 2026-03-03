@@ -29,7 +29,7 @@ export default function FeedbackList({ feedbacks }: Props) {
                     ))
                 ) : (
                     <div className="py-12 text-center">
-                        <p className="text-sm text-slate-500 dark:text-slate-400">Aucun feedback trouvé.</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">Aucun feedback trouv  .</p>
                     </div>
                 )}
             </div>

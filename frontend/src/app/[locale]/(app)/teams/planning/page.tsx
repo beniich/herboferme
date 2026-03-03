@@ -136,7 +136,7 @@ export default function PlanningPage() {
                                 <button className="px-4 py-1.5 text-sm font-bold bg-white dark:bg-slate-700 rounded shadow-sm">Today</button>
                                 <button className="p-1.5 hover:bg-white dark:hover:bg-slate-700 rounded shadow-sm transition-all"><span className="material-symbols-outlined text-lg">chevron_right</span></button>
                             </div>
-                            <h1 className="text-xl font-bold">October 2 – 8, 2023</h1>
+                            <h1 className="text-xl font-bold">October 2     8, 2023</h1>
                         </div>
                         <div className="flex items-center gap-4">
                             <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-lg">
@@ -203,7 +203,7 @@ export default function PlanningPage() {
                                         <span className="material-symbols-outlined text-sm">priority_high</span>
                                     </div>
                                     <p className="text-xs font-bold truncate">Emergency: Water Main</p>
-                                    <p className="text-[10px] opacity-80">Team Alpha • West End</p>
+                                    <p className="text-[10px] opacity-80">Team Alpha     West End</p>
                                 </div>
                                 <div className="hover:-translate-y-px hover:shadow-md bg-water/10 border-l-4 border-water p-2 rounded-r-lg cursor-pointer transition-all opacity-60">
                                     <p className="text-[10px] font-bold text-water uppercase">15:30 - 17:00</p>

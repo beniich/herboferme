@@ -7,7 +7,7 @@ export interface NavItem {
     icon?: string;
     badge?: string;
     children?: NavItem[];
-    roles?: string[]; // Roles autorisés à voir cet élément
+    roles?: string[]; // Roles autoris  s    voir cet   l  ment
 }
 
 export const mainNavigation: NavItem[] = [
@@ -18,18 +18,18 @@ export const mainNavigation: NavItem[] = [
         roles: ['admin', 'manager', 'technician', 'staff']
     },
     {
-        label: 'Réclamations',
+        label: 'R  clamations',
         href: '/complaints',
         icon: 'report_problem',
         roles: ['admin', 'manager', 'technician', 'staff'],
         children: [
             {
-                label: 'Nouvelle réclamation',
+                label: 'Nouvelle r  clamation',
                 href: '/complaints/new',
                 icon: 'add_circle'
             },
             {
-                label: 'Liste des réclamations',
+                label: 'Liste des r  clamations',
                 href: '/complaints/list',
                 icon: 'list'
             }
@@ -42,13 +42,13 @@ export const mainNavigation: NavItem[] = [
         roles: ['admin', 'manager', 'technician']
     },
     {
-        label: 'Équipes',
+        label: '  quipes',
         href: '/teams',
         icon: 'groups',
         roles: ['admin', 'manager'],
         children: [
             {
-                label: 'Gestion équipes',
+                label: 'Gestion   quipes',
                 href: '/teams',
                 icon: 'group'
             },
@@ -77,7 +77,7 @@ export const mainNavigation: NavItem[] = [
                 icon: 'warehouse'
             },
             {
-                label: 'Nouvelle réquisition',
+                label: 'Nouvelle r  quisition',
                 href: '/inventory/requisition',
                 icon: 'add_shopping_cart'
             },
@@ -152,7 +152,7 @@ export const adminNavigation: NavItem[] = [
                 icon: 'people'
             },
             {
-                label: 'Catégories',
+                label: 'Cat  gories',
                 href: '/admin/categories',
                 icon: 'category'
             },
@@ -162,7 +162,7 @@ export const adminNavigation: NavItem[] = [
                 icon: 'history'
             },
             {
-                label: 'Intégrations',
+                label: 'Int  grations',
                 href: '/admin/integrations',
                 icon: 'extension'
             },
@@ -172,7 +172,7 @@ export const adminNavigation: NavItem[] = [
                 icon: 'payments'
             },
             {
-                label: 'Informations système',
+                label: 'Informations syst  me',
                 href: '/admin/info',
                 icon: 'info'
             }
@@ -192,7 +192,7 @@ export const userNavigation: NavItem[] = [
         icon: 'notifications'
     },
     {
-        label: 'Déconnexion',
+        label: 'D  connexion',
         href: '/logout',
         icon: 'logout'
     }
@@ -206,7 +206,7 @@ export const publicRoutes = [
     '/system-info'
 ];
 
-// Routes qui nécessitent une authentification
+// Routes qui n  cessitent une authentification
 export const protectedRoutes = [
     '/dashboard',
     '/complaints',
@@ -275,7 +275,7 @@ export const apiRoutes = {
 // Helper function to check if user has access to a route
 export function hasAccess(userRole: string, navItem: NavItem): boolean {
     if (!navItem.roles || navItem.roles.length === 0) {
-        return true; // Accessible à tous si pas de rôles spécifiés
+        return true; // Accessible    tous si pas de r  les sp  cifi  s
     }
     return navItem.roles.includes(userRole);
 }

@@ -1,6 +1,6 @@
-﻿/**
+/**
  * models/Subscription.ts
- * Organization subscription â€” synced from Stripe via webhook.
+ * Organization subscription          synced from Stripe via webhook.
  */
 import mongoose, { Document, Schema, Types } from 'mongoose';
 
@@ -23,7 +23,7 @@ export interface ISubscription extends Document {
   isActive(): boolean;
 }
 
-/** Feature sets per plan â€” single source of truth */
+/** Feature sets per plan          single source of truth */
 export const PLAN_FEATURES: Record<SubscriptionPlan, string[]> = {
   starter: ['complaints:basic', 'reports:basic'],
   pro: ['complaints:basic', 'complaints:advanced', 'reports:basic', 'reports:advanced', 'api_access'],

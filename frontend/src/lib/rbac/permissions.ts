@@ -142,7 +142,7 @@ export const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
     ],
 };
 
-// Vérification des permissions
+// V  rification des permissions
 export function hasPermission(userRole: Role | string, permission: Permission): boolean {
     const roleKey = userRole as Role;
     const permissions = ROLE_PERMISSIONS[roleKey] || [];

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file organization.dto.ts
  * @description DTOs and validators for organization and membership routes.
  * @module backend/dto
@@ -6,7 +6,7 @@
 
 import { body, param } from 'express-validator';
 
-// â”€â”€ Interfaces â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//                  Interfaces
 
 export interface CreateOrganizationDto {
   name: string;
@@ -23,13 +23,13 @@ export interface UpdateMemberRoleDto {
   roles: string[];
 }
 
-// â”€â”€ Validators â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//                  Validators
 
 export const createOrganizationValidators = [
   body('name')
     .trim()
     .isLength({ min: 2, max: 100 })
-    .withMessage('Le nom doit contenir entre 2 et 100 caractÃ¨res'),
+    .withMessage('Le nom doit contenir entre 2 et 100 caract    res'),
   body('slug')
     .optional()
     .trim()
@@ -44,15 +44,15 @@ export const inviteMemberValidators = [
   body('roles')
     .optional()
     .isArray()
-    .withMessage('roles doit Ãªtre un tableau')
+    .withMessage('roles doit     tre un tableau')
     .custom((arr: string[]) => arr.every((r) => typeof r === 'string'))
-    .withMessage('Chaque rÃ´le doit Ãªtre une chaÃ®ne'),
+    .withMessage('Chaque r    le doit     tre une cha    ne'),
 ];
 
 export const updateMemberRoleValidators = [
   body('roles')
     .isArray({ min: 1 })
-    .withMessage('Au moins un rÃ´le est requis')
+    .withMessage('Au moins un r    le est requis')
     .custom((arr: string[]) => arr.every((r) => typeof r === 'string')),
 ];
 
@@ -71,13 +71,13 @@ export const CreateApiKeyDto = [
   body('scopes')
     .optional()
     .isArray()
-    .withMessage('scopes doit Ãªtre un tableau'),
+    .withMessage('scopes doit     tre un tableau'),
   body('rateLimit')
     .optional()
     .isInt({ min: 1 })
-    .withMessage('rateLimit doit Ãªtre un entier positif'),
+    .withMessage('rateLimit doit     tre un entier positif'),
   body('expiresInDays')
     .optional()
     .isInt({ min: 1 })
-    .withMessage('expiresInDays doit Ãªtre un entier positif'),
+    .withMessage('expiresInDays doit     tre un entier positif'),
 ];

@@ -1,7 +1,7 @@
 export const SERVICES = [
     {
         id: 'ia_hosting',
-        title: 'Hébergement IA & Cloud',
+        title: 'H  bergement IA & Cloud',
         status: 'operational' as const,
         details: [
             { label: 'Technologie', value: 'IA-Powered Hosting', highlight: true },
@@ -16,12 +16,12 @@ export const SERVICES = [
         details: [
             { label: 'Hardware', value: 'NVIDIA A100 / H100', highlight: true },
             { label: 'Usage', value: 'Deep Learning & Big Data' },
-            { label: 'Provisioning', value: 'Instantané' },
+            { label: 'Provisioning', value: 'Instantan  ' },
         ],
     },
     {
         id: 'cybersecurity',
-        title: 'Sécurité Auto-Pilotée',
+        title: 'S  curit   Auto-Pilot  e',
         status: 'operational' as const,
         details: [
             { label: 'Bouclier', value: 'ESET & CloudLinux', highlight: true },
@@ -31,7 +31,7 @@ export const SERVICES = [
     },
     {
         id: 'managed_services',
-        title: 'Services Gérés Premium',
+        title: 'Services G  r  s Premium',
         status: 'operational' as const,
         details: [
             { label: 'Expertise', value: '24/7 Managed Cloud', highlight: true },
@@ -54,9 +54,9 @@ export const SERVICES = [
         title: 'Marketing & Outils SEO',
         status: 'operational' as const,
         details: [
-            { label: 'Audit', value: 'SEO Crawler Intégré', highlight: true },
+            { label: 'Audit', value: 'SEO Crawler Int  gr  ', highlight: true },
             { label: 'Conversion', value: 'A/B Testing & Heatmaps' },
-            { label: 'Reporting', value: 'Analytics Avancés' },
+            { label: 'Reporting', value: 'Analytics Avanc  s' },
         ],
     },
 ];

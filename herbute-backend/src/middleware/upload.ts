@@ -1,4 +1,4 @@
-﻿import multer from 'multer';
+import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
@@ -21,7 +21,7 @@ const fileFilter = (req: any, file: any, cb: any) => {
     if (file.mimetype.startsWith('image/') || file.mimetype === 'application/pdf') {
         cb(null, true);
     } else {
-        cb(new Error('Format de fichier non supportÃ©'), false);
+        cb(new Error('Format de fichier non support    '), false);
     }
 };
 

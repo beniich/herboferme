@@ -1,4 +1,4 @@
-﻿// db-fixtures.ts â€“ donnÃ©es factices pour l'administration de base de donnÃ©es
+// db-fixtures.ts          donn    es factices pour l'administration de base de donn    es
 
 // --- Clusters & Replicas ---
 export const clusters = [

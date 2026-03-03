@@ -1,4 +1,4 @@
-﻿/**
+/**
  * utils/logger.ts
  * Centralized Winston logger.
  * - Structured JSON in production
@@ -21,7 +21,7 @@ function redact(obj: unknown, depth = 0): unknown {
   if (depth > 5 || obj === null || typeof obj !== 'object') return obj;
   if (Array.isArray(obj)) return obj.map(i => redact(i, depth + 1));
 
-  const result: Record<string, unknown> = {};
+  const result: Record<string, unknown> = { /* Intentionally empty */ };
   for (const [key, val] of Object.entries(obj as Record<string, unknown>)) {
     if (SENSITIVE_KEYS.some(s => key.toLowerCase().includes(s.toLowerCase()))) {
       result[key] = '[REDACTED]';

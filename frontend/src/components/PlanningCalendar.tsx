@@ -26,16 +26,16 @@ export default function PlanningCalendar() {
                     <thead className="bg-gray-50">
                         <tr>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Équipe
+                                  quipe
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Date / Heure Début
+                                Date / Heure D  but
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Date / Heure Fin
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Réclamation
+                                R  clamation
                             </th>
                         </tr>
                     </thead>
@@ -43,7 +43,7 @@ export default function PlanningCalendar() {
                         {slots.length === 0 ? (
                             <tr>
                                 <td colSpan={4} className="px-6 py-4 text-center text-gray-500">
-                                    Aucun créneau prévu
+                                    Aucun cr  neau pr  vu
                                 </td>
                             </tr>
                         ) : (

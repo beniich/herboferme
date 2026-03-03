@@ -37,12 +37,12 @@ export default function ClusterCard({ cluster }: { cluster: ClusterProps }) {
 
             {cluster.role === "master" && (
                 <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">
-                    Version {cluster.version} • Uptime {cluster.uptime}
+                    Version {cluster.version}     Uptime {cluster.uptime}
                 </p>
             )}
             {cluster.role === "replica" && (
                 <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">
-                    Version {cluster.version} • Lag {cluster.lag}s
+                    Version {cluster.version}     Lag {cluster.lag}s
                 </p>
             )}
 
@@ -53,7 +53,7 @@ export default function ClusterCard({ cluster }: { cluster: ClusterProps }) {
                 </div>
                 <div>
                     <p className="font-medium text-slate-700 dark:text-slate-300">RAM</p>
-                    <p className="text-slate-600 dark:text-slate-400">{cluster.ram?.used ?? "–"} GB / {cluster.ram?.total ?? "–"} GB</p>
+                    <p className="text-slate-600 dark:text-slate-400">{cluster.ram?.used ?? "   "} GB / {cluster.ram?.total ?? "   "} GB</p>
                 </div>
                 <div>
                     <p className="font-medium text-slate-700 dark:text-slate-300">IOPS</p>

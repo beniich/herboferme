@@ -1,4 +1,4 @@
-﻿import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import AuditLog from '../models/AuditLog.js';
 import { complaintService } from '../services/complaintService.js';
 import { eventBus } from '../services/eventBus.js';
@@ -243,7 +243,7 @@ export class ComplaintController {
         complaintId: complaint._id,
         rejectedBy: userId,
         rejectionReason,
-        status: 'rejetÃ©e',
+        status: 'rejet    e',
         timestamp: new Date(),
       });
 

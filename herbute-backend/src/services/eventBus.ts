@@ -1,4 +1,4 @@
-﻿import { producer } from '../config/kafka.js';
+import { producer } from '../config/kafka.js';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 
@@ -28,15 +28,15 @@ export const eventBus = {
 
         if (process.env.DISABLE_KAFKA === 'true') {
             // HTTP Fallback Mode
-            console.log(`ðŸ“¡ [HTTP BUS] Publishing: [${topic}] ${eventType}`);
+            console.log(`          [HTTP BUS] Publishing: [${topic}] ${eventType}`);
             const subscribers = SUBSCRIBERS[topic] || [];
 
             for (const url of subscribers) {
                 try {
                     await axios.post(url, { topic, ...message });
-                    console.log(`   âž¡ Sent to ${url}`);
+                    console.log(`          Sent to ${url}`);
                 } catch (err) {
-                    // console.error(`   âŒ Failed to send to ${url}`, err.message);
+                    // console.error(`          Failed to send to ${url}`, err.message);
                     // Silently fail or log minimal to avoid spam in dev
                 }
             }
@@ -47,9 +47,9 @@ export const eventBus = {
                     topic,
                     messages: [{ value: JSON.stringify(message) }],
                 });
-                console.log(`ðŸ“¡ [KAFKA] Event published: [${topic}] ${eventType}`);
+                console.log(`          [KAFKA] Event published: [${topic}] ${eventType}`);
             } catch (error) {
-                console.error(`âŒ Failed to publish event [${topic}] ${eventType}:`, error);
+                console.error(`       Failed to publish event [${topic}] ${eventType}:`, error);
             }
         }
     },

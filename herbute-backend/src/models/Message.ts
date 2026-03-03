@@ -1,4 +1,4 @@
-﻿import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IMessage extends Document {
     senderId: mongoose.Types.ObjectId; // ou "system"
@@ -25,7 +25,7 @@ const MessageSchema = new Schema({
     }
 }, { timestamps: true });
 
-// Index pour rÃ©cupÃ©ration rapide
+// Index pour r    cup    ration rapide
 MessageSchema.index({ recipientId: 1, read: 1 });
 MessageSchema.index({ groupId: 1, createdAt: -1 });
 

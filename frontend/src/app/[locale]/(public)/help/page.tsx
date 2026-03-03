@@ -155,7 +155,7 @@ export default function HelpPage() {
 
             <footer className="bg-slate-100 dark:bg-black/40 py-16 border-t border-primary/10 mt-auto">
                 <div className="max-w-7xl mx-auto px-6 text-center">
-                    <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mb-6">© {new Date().getFullYear()} ReclamTrack Pro. Knowledge is Power.</p>
+                    <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mb-6">   {new Date().getFullYear()} ReclamTrack Pro. Knowledge is Power.</p>
                     <div className="flex flex-wrap justify-center gap-8 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
                         <Link href="/legal/privacy" className="hover:text-primary">Privacy Base</Link>
                         <Link href="/legal/terms" className="hover:text-primary">Usage Terms</Link>

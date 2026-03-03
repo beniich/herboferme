@@ -53,7 +53,7 @@ export function useThreatData() {
     const eventsQuery = useQuery({
         queryKey: ['threat-events'],
         queryFn: fetchThreatEvents,
-        refetchInterval: 5000, // Plus fréquent pour les événements en temps réel
+        refetchInterval: 5000, // Plus fr  quent pour les   v  nements en temps r  el
     });
 
     return {

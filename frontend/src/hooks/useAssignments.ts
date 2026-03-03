@@ -3,7 +3,7 @@ import apiClient from '@/lib/api';
 
 export interface Assignment {
     _id: string;
-    status: 'affecté' | 'en cours' | 'terminé';
+    status: 'affect  ' | 'en cours' | 'termin  ';
     assignedAt: string;
     complaintId: {
         _id: string;

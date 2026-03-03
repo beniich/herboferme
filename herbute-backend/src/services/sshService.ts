@@ -1,4 +1,4 @@
-﻿/**
+/**
  * services/sshService.ts
  * Secure SSH operations for server password management.
  *
@@ -12,7 +12,7 @@ import { NodeSSH } from 'node-ssh';
 
 import fs from 'fs';
 import { SshAppError } from '../utils/AppError.js';
-import logger from '../utils/logger.js';
+import logger from '../utils/logger';
 
 interface SshConfig {
   host: string;
@@ -27,9 +27,9 @@ function getSshConfig(): SshConfig {
     throw new SshAppError('SSH is not configured on this server');
   }
 
-  // NEVER log SSH_PRIVATE_KEY_PATH â€” just validate it exists
+  // NEVER log SSH_PRIVATE_KEY_PATH          just validate it exists
   if (!fs.existsSync(SSH_PRIVATE_KEY_PATH)) {
-    logger.error('[sshService] SSH private key file not found â€” check SSH_PRIVATE_KEY_PATH config');
+    logger.error('[sshService] SSH private key file not found          check SSH_PRIVATE_KEY_PATH config');
     throw new SshAppError('SSH private key configuration error');
   }
 
@@ -73,7 +73,7 @@ async function withSshConnection<T>(
       error: err instanceof Error ? err.message : 'Unknown SSH error',
       // Deliberately NOT logging: host, user, key path
     });
-    throw new SshAppError('SSH operation failed â€” check server logs for details');
+    throw new SshAppError('SSH operation failed          check server logs for details');
   } finally {
     ssh.dispose();
   }
@@ -104,7 +104,7 @@ export const sshService = {
     }
 
     await withSshConnection(async (ssh) => {
-      // Use chpasswd via stdin â€” avoids password appearing in process list
+      // Use chpasswd via stdin          avoids password appearing in process list
       const result = await ssh.execCommand(
         `echo "${safeUser}:${newPassword}" | sudo chpasswd`,
         { execOptions: { pty: false } }
@@ -167,7 +167,7 @@ export const sshService = {
       }
 
       // Parse chage output into key-value pairs
-      const policy: Record<string, string> = {};
+      const policy: Record<string, string> = { /* Intentionally empty */ };
       for (const line of result.stdout.split('\n')) {
         const [key, value] = line.split(':').map(s => s.trim());
         if (key && value) {

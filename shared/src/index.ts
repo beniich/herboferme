@@ -1,33 +1,33 @@
 /**
- * ═══════════════════════════════════════════════════════
- * @reclamtrack/shared — Source unique de vérité
- * ═══════════════════════════════════════════════════════
+ *
+ * @reclamtrack/shared     Source unique de v  rit
+ *
  *
  * Ce fichier centralise :
- *  1. HERBUTE_ROUTES  — Toutes les URIs du backend Herbute
- *  2. Types TypeScript partagés (JWT, User, Rôles, Plans)
+ *  1. HERBUTE_ROUTES      Toutes les URIs du backend Herbute
+ *  2. Types TypeScript partag  s (JWT, User, R  les, Plans)
  *  3. Contrats d'API (Request/Response types)
  *
  * Usage :
  *  - Backend  : import { HERBUTE_ROUTES } from '@reclamtrack/shared'
  *  - Frontend : import { HERBUTE_ROUTES, type JwtPayload } from '@reclamtrack/shared'
  *
- * ⚠️  Toute modification d'URL backend DOIT passer par ce fichier.
- *      Une règle ESLint custom bloque les strings URI bruts dans le frontend.
+ *         Toute modification d'URL backend DOIT passer par ce fichier.
+ *      Une r  gle ESLint custom bloque les strings URI bruts dans le frontend.
  */
 
-// ═══════════════════════════════════════════════════════
-// SECTION 1 — ROUTES API (source unique de vérité des URIs)
-// ═══════════════════════════════════════════════════════
+//
+// SECTION 1     ROUTES API (source unique de v  rit   des URIs)
+//
 
 /**
  * Toutes les routes du backend Herbute (backend unique post-migration)
- * Utilisées par le frontend ET le backend lui-même pour éviter les typos.
+ * Utilis  es par le frontend ET le backend lui-m  me pour   viter les typos.
  */
 export const HERBUTE_ROUTES = {
-  // ─────────────────────────────────────────────
-  // Auth & IAM (migré depuis ReclamTrack)
-  // ─────────────────────────────────────────────
+  //
+  // Auth & IAM (migr   depuis ReclamTrack)
+  //
   auth: {
     register:      '/api/auth/register',
     login:         '/api/auth/login',
@@ -40,9 +40,9 @@ export const HERBUTE_ROUTES = {
     verifyEmail:   (token: string) => `/api/auth/verify-email/${token}`,
   },
 
-  // ─────────────────────────────────────────────
-  // Fleet & Équipements
-  // ─────────────────────────────────────────────
+  //
+  // Fleet &   quipements
+  //
   fleet: {
     vehicles:     '/api/fleet/vehicles',
     vehicleById:  (id: string) => `/api/fleet/vehicles/${id}`,
@@ -52,9 +52,9 @@ export const HERBUTE_ROUTES = {
     inspections:  '/api/fleet/inspections',
   },
 
-  // ─────────────────────────────────────────────
+  //
   // Ressources Humaines (Agricole)
-  // ─────────────────────────────────────────────
+  //
   hr: {
     staff:         '/api/hr/staff',
     staffById:     (id: string) => `/api/hr/staff/${id}`,
@@ -68,9 +68,9 @@ export const HERBUTE_ROUTES = {
     payroll:       '/api/hr/payroll',
   },
 
-  // ─────────────────────────────────────────────
-  // Planning & Opérations
-  // ─────────────────────────────────────────────
+  //
+  // Planning & Op  rations
+  //
   planning: {
     schedule:          '/api/planning/schedule',
     scheduleById:      (id: string) => `/api/planning/schedule/${id}`,
@@ -80,9 +80,9 @@ export const HERBUTE_ROUTES = {
     taskById:          (id: string) => `/api/planning/tasks/${id}`,
   },
 
-  // ─────────────────────────────────────────────
+  //
   // Communication & Connaissance
-  // ─────────────────────────────────────────────
+  //
   messaging: {
     conversations:    '/api/messaging/conversations',
     conversationById: (id: string) => `/api/messaging/conversations/${id}`,
@@ -92,9 +92,9 @@ export const HERBUTE_ROUTES = {
     knowledgeById:    (id: string) => `/api/messaging/knowledge/${id}`,
   },
 
-  // ─────────────────────────────────────────────
+  //
   // Dashboard & Analytics
-  // ─────────────────────────────────────────────
+  //
   dashboard: {
     kpis:            '/api/dashboard/kpis',
     farmSummary:     '/api/dashboard/farm-summary',
@@ -102,9 +102,9 @@ export const HERBUTE_ROUTES = {
     staffSummary:    '/api/dashboard/staff-summary',
   },
 
-  // ─────────────────────────────────────────────
+  //
   // Health Check
-  // ─────────────────────────────────────────────
+  //
   health: '/',
 } as const;
 
@@ -112,11 +112,11 @@ export const HERBUTE_ROUTES = {
 export type HerbuteRoute = string;
 
 
-// ═══════════════════════════════════════════════════════
-// SECTION 2 — TYPES TYPESCRIPT PARTAGÉS
-// ═══════════════════════════════════════════════════════
+//
+// SECTION 2     TYPES TYPESCRIPT PARTAG  S
+//
 
-// Rôles utilisateur (synchronisés avec le schéma Mongoose)
+// R  les utilisateur (synchronis  s avec le sch  ma Mongoose)
 export type UserRole =
   | 'super_admin'
   | 'admin'
@@ -132,7 +132,7 @@ export type SubscriptionPlan =
   | 'professionnel'
   | 'entreprise';
 
-// Payload JWT (ce qui est encodé dans le token)
+// Payload JWT (ce qui est encod   dans le token)
 export interface JwtPayload {
   sub:    string;  // User ID
   email:  string;
@@ -144,7 +144,7 @@ export interface JwtPayload {
   exp?:   number;  // Expiration (auto JWT)
 }
 
-// Données utilisateur pour générer un token
+// Donn  es utilisateur pour g  n  rer un token
 export interface UserTokenData {
   id:             string;
   email:          string;
@@ -154,7 +154,7 @@ export interface UserTokenData {
   organizationId?: string;
 }
 
-// Paire de tokens retournée par generateTokenPair
+// Paire de tokens retourn  e par generateTokenPair
 export interface TokenPair {
   accessToken:      string;
   refreshToken:     string;
@@ -163,9 +163,9 @@ export interface TokenPair {
 }
 
 
-// ═══════════════════════════════════════════════════════
-// SECTION 3 — CONTRATS D'API (Request / Response)
-// ═══════════════════════════════════════════════════════
+//
+// SECTION 3     CONTRATS D'API (Request / Response)
+//
 
 // Auth
 export interface LoginRequest {
@@ -196,7 +196,7 @@ export interface RegisterRequest {
   role?:       UserRole;
 }
 
-// Erreur API standardisée
+// Erreur API standardis  e
 export interface ApiError {
   error:    string;
   code?:    string;
@@ -247,7 +247,7 @@ export interface StaffMember {
   isActive:    boolean;
 }
 
-// Leave (Congés)
+// Leave (Cong  s)
 export interface Leave {
   id:          string;
   staffId:     string;

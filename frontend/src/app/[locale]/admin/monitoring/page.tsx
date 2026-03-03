@@ -11,7 +11,7 @@ export default function GrafanaMonitoringPage() {
     const GRAFANA_URL = process.env.NEXT_PUBLIC_GRAFANA_URL || 'http://localhost:3001';
 
     useEffect(() => {
-        // Vérifier si l'utilisateur est superadmin
+        // V  rifier si l'utilisateur est superadmin
         if (!user || user.role !== 'admin') {
             router.push('/admin/dashboard');
             return;
@@ -43,7 +43,7 @@ export default function GrafanaMonitoringPage() {
                                 Grafana Monitoring
                             </h1>
                             <p className="text-sm text-slate-500 dark:text-slate-400">
-                                Surveillance en temps réel des performances système
+                                Surveillance en temps r  el des performances syst  me
                             </p>
                         </div>
                     </div>
@@ -133,7 +133,7 @@ export default function GrafanaMonitoringPage() {
             <div className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 px-8 py-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
-                        <span>Identifiants par défaut: admin / reclamtrack2024</span>
+                        <span>Identifiants par d  faut: admin / reclamtrack2024</span>
                     </div>
                     <div className="flex items-center gap-4">
                         <a
@@ -142,7 +142,7 @@ export default function GrafanaMonitoringPage() {
                             rel="noopener noreferrer"
                             className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
                         >
-                            Configurer les sources de données
+                            Configurer les sources de donn  es
                         </a>
                         <a
                             href={`${GRAFANA_URL}/dashboards`}
@@ -150,7 +150,7 @@ export default function GrafanaMonitoringPage() {
                             rel="noopener noreferrer"
                             className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
                         >
-                            Gérer les dashboards
+                            G  rer les dashboards
                         </a>
                     </div>
                 </div>

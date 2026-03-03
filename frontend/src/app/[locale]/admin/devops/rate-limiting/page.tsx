@@ -110,7 +110,7 @@ export default function RateLimitingDashboard() {
                         <span className="text-sm font-mono font-bold text-primary">/api/v2/user/profile/*</span>
                         <span className="material-symbols-outlined text-orange-500 text-sm">bolt</span>
                       </div>
-                      <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase mt-1">Core API • Throttling Active</span>
+                      <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase mt-1">Core API     Throttling Active</span>
                     </div>
                   </td>
                   <td className="px-6 py-4">

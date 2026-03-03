@@ -1,4 +1,4 @@
-﻿/**
+/**
  * services/subscriptionService.ts
  * Manages subscription plan enforcement.
  * Reads from DB (with simple in-process cache to avoid DB hits on every request).
@@ -7,7 +7,7 @@ import { Subscription, ISubscription, PLAN_FEATURES, PLAN_MAX_USERS } from '../m
 import { UserLimitError, SubscriptionError } from '../utils/AppError.js';
 import logger from '../utils/logger.js';
 
-// Simple in-memory cache: orgId â†’ { subscription, cachedAt }
+// Simple in-memory cache: orgId          { subscription, cachedAt }
 const cache = new Map<string, { data: ISubscription; cachedAt: number }>();
 const CACHE_TTL_MS = 60 * 1000; // 1 minute
 
@@ -37,7 +37,7 @@ export const subscriptionService = {
   async hasFeature(orgId: string, feature: string): Promise<boolean> {
     const sub = await getCached(orgId);
     if (!sub) {
-      // No subscription â†’ starter features only
+      // No subscription          starter features only
       return PLAN_FEATURES.starter.includes(feature);
     }
     if (!['active', 'trialing'].includes(sub.status)) {
@@ -67,7 +67,7 @@ export const subscriptionService = {
 
     switch (stripeEvent.type) {
       case 'checkout.session.completed': {
-        // Initial purchase â€” provisioned in billing route
+        // Initial purchase          provisioned in billing route
         logger.info('[subscriptionService] checkout.session.completed', {
           sessionId: obj.id,
         });

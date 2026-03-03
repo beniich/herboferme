@@ -184,10 +184,10 @@ export function CompactMcLarenLoader() {
 
             {/* Status Text */}
             <div className="fixed bottom-6 right-6 z-[9997] text-xs font-medium text-slate-600 dark:text-slate-400">
-                {progress < 30 && 'Démarrage...'}
-                {progress >= 30 && progress < 60 && '🏎️ Accélération...'}
-                {progress >= 60 && progress < 90 && '⚡ Vitesse max!'}
-                {progress >= 90 && '✨ Arrivée!'}
+                {progress < 30 && 'D  marrage...'}
+                {progress >= 30 && progress < 60 && '        Acc  l  ration...'}
+                {progress >= 60 && progress < 90 && '    Vitesse max!'}
+                {progress >= 90 && '    Arriv  e!'}
             </div>
         </>
     );

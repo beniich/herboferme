@@ -83,10 +83,10 @@ export function Timeline({ events, className }: TimelineProps) {
                                     <div className="mt-4 p-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-700/50 relative overflow-hidden transition-all duration-500">
                                         <div className="absolute top-0 left-0 w-1 h-full bg-primary/80"></div>
                                         <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">
-                                            Dernière Mise à Jour
+                                            Derni  re Mise    Jour
                                         </p>
                                         <p className="text-xs md:text-sm text-slate-700 dark:text-slate-300 italic leading-relaxed">
-                                            &quot;{event.description}&quot; — <span className="font-semibold text-primary">{event.actor}</span>
+                                            &quot;{event.description}&quot;     <span className="font-semibold text-primary">{event.actor}</span>
                                         </p>
                                     </div>
                                 )}

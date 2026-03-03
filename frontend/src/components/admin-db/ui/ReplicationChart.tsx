@@ -6,7 +6,7 @@ interface ChartPoint {
 }
 
 export default function ReplicationChart({ data = [] }: { data: ChartPoint[] }) {
-    // data = array d'objets {x:0‑800, y:0‑200}
+    // data = array d'objets {x:0   800, y:0   200}
     const path = data
         .map((pt, i) => `${i === 0 ? "M" : "L"}${pt.x},${pt.y}`)
         .join(" ");
@@ -15,7 +15,7 @@ export default function ReplicationChart({ data = [] }: { data: ChartPoint[] }) 
         <div className="p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm transition-colors">
             <div className="flex items-center justify-between mb-3">
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                    Replication Lag (ms) – 24 h
+                    Replication Lag (ms)     24 h
                 </h3>
                 <select className="bg-slate-100 dark:bg-slate-900 text-xs text-slate-700 dark:text-slate-300 rounded px-2 py-1 border border-slate-200 dark:border-slate-700 outline-none">
                     <option>1h</option>

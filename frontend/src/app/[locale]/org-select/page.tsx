@@ -53,7 +53,7 @@ export default function OrgSelectPage() {
                         Bienvenue, {user?.name?.split(' ')[0]}
                     </h1>
                     <p className="text-xl text-slate-600">
-                        Sélectionnez une organisation pour commencer votre session.
+                        S  lectionnez une organisation pour commencer votre session.
                     </p>
                 </div>
 
@@ -83,18 +83,18 @@ export default function OrgSelectPage() {
                                         {org.name}
                                     </CardTitle>
                                     <CardDescription className="line-clamp-2">
-                                        Espace de travail actif pour votre équipe.
+                                        Espace de travail actif pour votre   quipe.
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="flex-grow">
                                     <div className="space-y-3">
                                         <div className="flex items-center text-sm text-slate-500">
                                             <Users className="h-4 w-4 mr-2" />
-                                            <span>Membres illimités</span>
+                                            <span>Membres illimit  s</span>
                                         </div>
                                         <div className="flex items-center text-sm text-slate-500">
                                             <ShieldCheck className="h-4 w-4 mr-2" />
-                                            <span>Isolation complète</span>
+                                            <span>Isolation compl  te</span>
                                         </div>
                                     </div>
                                 </CardContent>
@@ -119,10 +119,10 @@ export default function OrgSelectPage() {
                             </div>
                             <h3 className="text-lg font-semibold text-slate-900 mb-2">Nouvelle Organisation</h3>
                             <p className="text-sm text-slate-500 text-center mb-6">
-                                Créez un nouvel espace de travail pour une autre structure.
+                                Cr  ez un nouvel espace de travail pour une autre structure.
                             </p>
                             <Button variant="outline" className="w-full">
-                                Créer
+                                Cr  er
                             </Button>
                         </Card>
                     </motion.div>
@@ -130,10 +130,10 @@ export default function OrgSelectPage() {
 
                 {organizations.length === 0 && !isLoading && (
                     <div className="mt-12 p-8 bg-blue-50 border border-blue-100 rounded-2xl text-center">
-                        <h3 className="text-blue-900 font-bold text-lg mb-2">Aucune organisation trouvée</h3>
+                        <h3 className="text-blue-900 font-bold text-lg mb-2">Aucune organisation trouv  e</h3>
                         <p className="text-blue-700">
                             Il semble que vous ne fassiez partie d'aucune organisation.
-                            Vérifiez vos invitations ou créez votre propre espace de travail.
+                            V  rifiez vos invitations ou cr  ez votre propre espace de travail.
                         </p>
                     </div>
                 )}

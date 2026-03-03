@@ -83,19 +83,19 @@ export const CallProvider = ({ children }: { children: React.ReactNode }) => {
         setSocket(newSocket);
 
         newSocket.on('connect', () => {
-            console.log('📞 Call Socket Connected');
+            console.log('     Call Socket Connected');
             newSocket.emit('join-rooms', [`user:${user.id}`]);
         });
 
         newSocket.on('call-made', (data: { signal: RTCSessionDescriptionInit; from: string; fromName?: string }) => {
-            console.log('📞 Incoming Call from:', data.from);
+            console.log('     Incoming Call from:', data.from);
             setIncomingCallData(data);
             setCallerInfo({ id: data.from, name: data.fromName || 'Unknown Caller' });
             setCallState('incoming');
         });
 
         newSocket.on('call-answered', async (data: { signal: RTCSessionDescriptionInit; from: string }) => {
-            console.log('📞 Call Answered by:', data.from);
+            console.log('     Call Answered by:', data.from);
             if (peerConnection.current) {
                 await peerConnection.current.setRemoteDescription(new RTCSessionDescription(data.signal));
                 setCallState('connected');
@@ -135,7 +135,7 @@ export const CallProvider = ({ children }: { children: React.ReactNode }) => {
         };
 
         pc.ontrack = (event) => {
-            console.log('🎥 Received Remote Stream', event.streams[0]);
+            console.log('     Received Remote Stream', event.streams[0]);
             setRemoteStream(event.streams[0]);
         };
 
@@ -230,7 +230,7 @@ export const CallProvider = ({ children }: { children: React.ReactNode }) => {
                             <span className="font-bold text-sm">
                                 {callState === 'incoming' ? 'Appel Entrant...' :
                                     callState === 'calling' ? 'Appel en cours...' :
-                                        'Connecté'}
+                                        'Connect  '}
                             </span>
                             {callerInfo && <span className="text-xs opacity-90">{callerInfo.name}</span>}
                         </div>
@@ -250,7 +250,7 @@ export const CallProvider = ({ children }: { children: React.ReactNode }) => {
                             />
                         ) : (
                             <div className="flex flex-col items-center justify-center text-slate-400 gap-2">
-                                <span className="text-xs">En attente de vidéo...</span>
+                                <span className="text-xs">En attente de vid  o...</span>
                             </div>
                         )}
 

@@ -14,7 +14,7 @@ export default function RosterSchedulerPage() {
         if (!socket) return;
 
         socket.on('schedule-update', (data) => {
-            console.log('📅 Schedule Refresh:', data);
+            console.log('     Schedule Refresh:', data);
         });
 
         return () => {
@@ -28,13 +28,13 @@ export default function RosterSchedulerPage() {
             <div className="flex-none p-4 lg:p-6 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 z-10 transition-colors">
                 <div>
                     <h1 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">RosterFlow Scheduler</h1>
-                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mt-1">Gestion des rotations & shifts en temps réel</p>
+                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mt-1">Gestion des rotations & shifts en temps r  el</p>
                 </div>
 
                 <div className="flex items-center gap-3">
                     <div className="flex items-center gap-2 bg-amber-900/20 border border-amber-800/50 px-3 py-1.5 rounded-lg">
                         <span className="material-symbols-outlined text-amber-500 text-sm">warning</span>
-                        <span className="text-xs font-bold text-amber-400">2 Conflits détectés</span>
+                        <span className="text-xs font-bold text-amber-400">2 Conflits d  tect  s</span>
                     </div>
                     <button className="flex items-center gap-2 px-6 py-2 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 transition-all">
                         <Send className="w-3 h-3" />
@@ -99,7 +99,7 @@ export default function RosterSchedulerPage() {
                             ))}
                         </div>
                         <div className="text-[9px] font-black text-slate-500 uppercase tracking-widest">
-                            <span className="text-primary">4 Équipes</span> actives • <span className="text-emerald-500">Live Sync</span>
+                            <span className="text-primary">4   quipes</span> actives     <span className="text-emerald-500">Live Sync</span>
                         </div>
                     </div>
                 </div>

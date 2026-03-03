@@ -1,11 +1,11 @@
-﻿/**
+/**
  * middleware/validator.ts
  * Wraps express-validator's validationResult into a consistent response.
  * Usage: router.post('/route', [...validationChains], validate, handler)
  */
 import { Request, Response, NextFunction } from 'express';
 import { ValidationChain, validationResult } from 'express-validator';
-import { validationErrorResponse } from '../utils/apiResponse.js';
+import { validationErrorResponse } from '../utils/apiResponse';
 
 /** Run validation chains and return 400 if any fail */
 export function validate(req: Request, res: Response, next: NextFunction): void {

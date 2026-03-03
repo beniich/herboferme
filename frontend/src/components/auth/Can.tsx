@@ -24,17 +24,17 @@ export function Can({
 }: CanProps) {
     const { can, canAny, canAll, isRoleOrHigher } = usePermissions();
 
-    // Vérification du rôle
+    // V  rification du r  le
     if (role && !isRoleOrHigher(role)) {
         return <>{fallback}</>;
     }
 
-    // Vérification d'une permission unique
+    // V  rification d'une permission unique
     if (permission && !can(permission)) {
         return <>{fallback}</>;
     }
 
-    // Vérification de plusieurs permissions
+    // V  rification de plusieurs permissions
     if (permissions && permissions.length > 0) {
         const hasAccess = requireAll ? canAll(permissions) : canAny(permissions);
         if (!hasAccess) {

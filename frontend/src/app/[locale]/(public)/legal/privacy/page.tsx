@@ -6,20 +6,20 @@ export default function PrivacyPage() {
             id: 'data-collection',
             title: '1. Data Collection',
             content: `We collect the following mission-critical information:
-• Identification: Full name, professional email, secure phone verification.
-• Connection Metrics: IP address, browser fingerprint, session timestamps.
-• Usage Intelligence: Features accessed, reclaims processed, and platform-wide interaction patterns.
-• Financial Data: Payment tokens (processed via PCI-DSS compliant partners).`
+    Identification: Full name, professional email, secure phone verification.
+    Connection Metrics: IP address, browser fingerprint, session timestamps.
+    Usage Intelligence: Features accessed, reclaims processed, and platform-wide interaction patterns.
+    Financial Data: Payment tokens (processed via PCI-DSS compliant partners).`
         },
         {
             id: 'data-usage',
             title: '2. Strategic Usage',
             content: `Your data fuels the following operations:
-• Powering and refining our core reclamation infrastructure.
-• Real-time mission alerts and critical account notifications.
-• Advanced fraud detection and architectural security.
-• Regulatory compliance and legal adherence.
-• Generating anonymized strategic benchmarks.`
+    Powering and refining our core reclamation infrastructure.
+    Real-time mission alerts and critical account notifications.
+    Advanced fraud detection and architectural security.
+    Regulatory compliance and legal adherence.
+    Generating anonymized strategic benchmarks.`
         },
         {
             id: 'hosting-security',
@@ -30,20 +30,20 @@ export default function PrivacyPage() {
             id: 'data-sharing',
             title: '4. Zero-Sale Policy',
             content: `ReclamTrack Pro NEVER sells your data. We only broadcast it to:
-• Core technical sub-processors (hosting, encrypted storage) — under strict Data Processing Agreements.
-• Judicial authorities when mandated by international law.
-• Authorized team members within your verified organization.`
+    Core technical sub-processors (hosting, encrypted storage)     under strict Data Processing Agreements.
+    Judicial authorities when mandated by international law.
+    Authorized team members within your verified organization.`
         },
         {
             id: 'gdpr-rights',
             title: '5. Your Digital Rights (GDPR)',
             content: `Under EU mandate, you possess elite digital sovereignty:
-• Absolute right of access to your data footprint.
-• Precision rectification of any data anomalies.
-• Permanent erasure ("Right to be Forgotten").
-• Fluid data portability to other platforms.
-• Right to halt strategic processing.
-• Right to lodge a formal complaint with the CNIL.
+    Absolute right of access to your data footprint.
+    Precision rectification of any data anomalies.
+    Permanent erasure ("Right to be Forgotten").
+    Fluid data portability to other platforms.
+    Right to halt strategic processing.
+    Right to lodge a formal complaint with the CNIL.
 
 To exercise sovereignty, contact: dpo@reclamtrack.pro`
         },
@@ -147,7 +147,7 @@ To exercise sovereignty, contact: dpo@reclamtrack.pro`
 
             <footer className="bg-slate-100 dark:bg-black/40 py-16 border-t border-primary/10 mt-auto">
                 <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em]">© {new Date().getFullYear()} ReclamTrack Pro. Fortified Protocol.</p>
+                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em]">   {new Date().getFullYear()} ReclamTrack Pro. Fortified Protocol.</p>
                     <div className="flex gap-8 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
                         <Link href="/legal/terms" className="hover:text-primary transition-colors">Usage Terms</Link>
                         <Link href="/help" className="hover:text-primary transition-colors">Help Nexus</Link>

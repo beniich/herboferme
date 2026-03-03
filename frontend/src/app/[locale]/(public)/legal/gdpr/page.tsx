@@ -176,7 +176,7 @@ export default function GDPRPage() {
                         <h1 className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white uppercase italic">ReclamTrack Pro</h1>
                     </div>
                     <p className="text-xs text-slate-500 dark:text-slate-500 uppercase tracking-[0.3em] font-bold">
-                        © {new Date().getFullYear()} Precision Management Ecosystem. All Rights Reserved.
+                           {new Date().getFullYear()} Precision Management Ecosystem. All Rights Reserved.
                     </p>
                 </div>
             </footer>

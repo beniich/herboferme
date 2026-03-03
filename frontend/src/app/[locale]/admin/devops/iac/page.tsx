@@ -39,7 +39,7 @@ export default function IacDiffDashboard() {
                         <div className="flex items-center gap-2 text-xs text-slate-500 mb-2">
                             <GitCommit className="size-3" />
                             <span className="font-mono">7f3a2b</span>
-                            <span>•</span>
+                            <span>   </span>
                             <span>2 mins ago</span>
                         </div>
                         <div className="flex items-center gap-1 text-[10px] font-bold">
@@ -58,7 +58,7 @@ export default function IacDiffDashboard() {
                         <div className="flex items-center gap-2 text-xs text-slate-500 mb-2">
                             <GitCommit className="size-3" />
                             <span className="font-mono">a2b4c1</span>
-                            <span>•</span>
+                            <span>   </span>
                             <span>2 hours ago</span>
                         </div>
                         <div className="flex items-center gap-1 text-[10px] font-bold">
@@ -75,7 +75,7 @@ export default function IacDiffDashboard() {
                         <div className="flex items-center gap-2 text-xs text-slate-500 mb-2">
                             <GitCommit className="size-3" />
                             <span className="font-mono">e5d4c3</span>
-                            <span>•</span>
+                            <span>   </span>
                             <span>5 hours ago</span>
                         </div>
                     </div>

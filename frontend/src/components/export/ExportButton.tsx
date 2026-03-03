@@ -31,7 +31,7 @@ export function ExportButton<T extends Record<string, any>>({
     data,
     columns,
     filename = 'export',
-    title = 'Export de données',
+    title = 'Export de donn  es',
     variant = 'outline',
     size = 'default',
 }: ExportButtonProps<T>) {
@@ -39,7 +39,7 @@ export function ExportButton<T extends Record<string, any>>({
 
     const handleExport = async (format: ExportFormat) => {
         if (data.length === 0) {
-            toast.error('Aucune donnée à exporter');
+            toast.error('Aucune donn  e    exporter');
             return;
         }
 
@@ -47,7 +47,7 @@ export function ExportButton<T extends Record<string, any>>({
         toast.loading(`Export ${format.toUpperCase()} en cours...`);
 
         try {
-            // Simuler un délai pour les gros exports
+            // Simuler un d  lai pour les gros exports
             await new Promise((resolve) => setTimeout(resolve, 500));
 
             DataExporter.export(format, data, columns, {
@@ -57,8 +57,8 @@ export function ExportButton<T extends Record<string, any>>({
             });
 
             toast.dismiss();
-            toast.success(`Export ${format.toUpperCase()} réussi!`, {
-                description: `${data.length} ligne(s) exportée(s)`,
+            toast.success(`Export ${format.toUpperCase()} r  ussi!`, {
+                description: `${data.length} ligne(s) export  e(s)`,
             });
         } catch (error) {
             toast.dismiss();

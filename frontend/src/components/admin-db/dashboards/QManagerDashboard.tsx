@@ -278,7 +278,7 @@ export default function QManagerDashboard() {
                     {/* Debug Console Footer */}
                     <div className="bg-[#1e1e1e] text-slate-300 p-2 border-t border-[#333] font-mono text-xs flex justify-between items-center">
                         <div className="flex gap-4">
-                            <span className="text-green-500">● Redis Connected (127.0.0.1:6379)</span>
+                            <span className="text-green-500">    Redis Connected (127.0.0.1:6379)</span>
                             <span>Memory: {redisMemory}</span>
                             <span>Clients: 42</span>
                         </div>

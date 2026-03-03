@@ -23,7 +23,7 @@ export default function CheckoutPage() {
         try {
             setLoading(true);
             await authApi.mockUpgradePlan();
-            toast.success('Paiement validé. Vous êtes maintenant en formule Enterprise !');
+            toast.success('Paiement valid  . Vous   tes maintenant en formule Enterprise !');
             router.push('/checkout/success');
         } catch (error) {
             console.error('Erreur lors du paiement:', error);
@@ -230,12 +230,12 @@ export default function CheckoutPage() {
 
                 {/* Footer */}
                 <footer className="mt-20 pt-10 border-t border-slate-200 dark:border-slate-800 text-center text-slate-500 dark:text-slate-500 text-sm">
-                    <p>© 2024 Complaint Management System Inc. All rights reserved.</p>
+                    <p>   2024 Complaint Management System Inc. All rights reserved.</p>
                     <div className="flex justify-center gap-4 mt-4">
                         <a className="hover:text-primary transition-colors" href="#">Security Overview</a>
-                        <span>•</span>
+                        <span>   </span>
                         <a className="hover:text-primary transition-colors" href="#">Cookie Policy</a>
-                        <span>•</span>
+                        <span>   </span>
                         <a className="hover:text-primary transition-colors" href="#">Refund Policy</a>
                     </div>
                 </footer>

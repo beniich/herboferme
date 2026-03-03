@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Security Services Index
  *
  * Centralized export point for all security-related services.

@@ -1,4 +1,4 @@
-﻿import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import { Complaint } from '../models/Complaint.js';
 import { User } from '../models/user.model.js';
 import { Team } from '../models/Team.js';
@@ -21,9 +21,9 @@ const seedPlanning = async () => {
         console.log('Connected!');
 
         console.log('Cleaning old planning data...');
-        await Intervention.deleteMany({});
-        await Roster.deleteMany({});
-        await Staff.deleteMany({}); // Optional: clear staff to ensure clean slate
+        await Intervention.deleteMany({ /* Intentionally empty */ });
+        await Roster.deleteMany({ /* Intentionally empty */ });
+        await Staff.deleteMany({ /* Intentionally empty */ }); // Optional: clear staff to ensure clean slate
 
         // 1. Get or Create Users/Teams
         let technician = await User.findOne({ role: 'employe' });
@@ -132,7 +132,7 @@ const seedPlanning = async () => {
 
         console.log('Created Intervention for Today');
 
-        console.log('âœ… Seeding completed!');
+        console.log('        Seeding completed!');
         process.exit(0);
 
     } catch (error) {

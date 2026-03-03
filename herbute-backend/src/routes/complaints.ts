@@ -1,4 +1,4 @@
-﻿import { Router } from 'express';
+import { Router } from 'express';
 import { body, param } from 'express-validator';
 import { complaintController } from '../controllers/complaintController.js';
 import { authenticate, requireOrganization, requireRole } from '../middleware/security.js';
@@ -48,7 +48,7 @@ router.put(
   '/:id',
   [
     param('id').isMongoId(),
-    body('status').optional().isIn(['nouvelle', 'en cours', 'rÃ©solue', 'fermÃ©e', 'rejetÃ©e']),
+    body('status').optional().isIn(['nouvelle', 'en cours', 'r    solue', 'ferm    e', 'rejet    e']),
     body('assignedTeamId').optional().isMongoId(),
     body('technicianId').optional().isMongoId(),
   ],

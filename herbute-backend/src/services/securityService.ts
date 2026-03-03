@@ -1,4 +1,4 @@
-﻿import { exec } from 'child_process';
+import { exec } from 'child_process';
 import { promisify } from 'util';
 import AuditLog from '../models/AuditLog.js';
 import { User } from '../models/user.model.js';
@@ -223,7 +223,7 @@ export class SecurityService {
     }
 
     if (recommendations.length === 0) {
-      recommendations.push('All password security checks passed âœ“');
+      recommendations.push('All password security checks passed        ');
     }
 
     return recommendations;

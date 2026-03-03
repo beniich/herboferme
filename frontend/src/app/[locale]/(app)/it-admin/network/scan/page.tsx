@@ -34,7 +34,7 @@ export default function NetworkScanPage() {
       if (res.data.hostsFound > 0) {
         toast.success(`Found ${res.data.hostsFound} active hosts`);
       } else {
-        toast('No active hosts found', { icon: 'ℹ️' });
+        toast('No active hosts found', { icon: '      ' });
       }
     } catch (error: any) {
       console.error('Scan failed:', error);

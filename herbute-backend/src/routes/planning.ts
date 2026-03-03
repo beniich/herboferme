@@ -1,10 +1,10 @@
-﻿/**
- * routes/planning.routes.ts â€” Planning, Scheduler, Interventions
+/**
+ * routes/planning.routes.ts          Planning, Scheduler, Interventions
  */
 
 import { Router } from 'express';
-import { authenticate } from '../middleware/authenticate.js';
-import { authorize } from '../middleware/authorize.js';
+import { authenticate } from '../middleware/authenticate';
+import { authorize } from '../middleware/authorize';
 import { HERBUTE_ROUTES } from '@reclamtrack/shared';
 
 const router = Router();

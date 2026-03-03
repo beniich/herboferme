@@ -1,25 +1,25 @@
 /**
- * ═══════════════════════════════════════════════════════
- * middleware/authenticate.ts — Vérification JWT RS256
- * ═══════════════════════════════════════════════════════
  *
- * IMPORTANT : Ce middleware utilise UNIQUEMENT la clé publique
- * pour vérifier les tokens — il ne peut pas en émettre.
+ * middleware/authenticate.ts          V    rification JWT RS256
  *
- * Lecture du token : Cookie HttpOnly en priorité,
+ *
+ * IMPORTANT : Ce middleware utilise UNIQUEMENT la cl     publique
+ * pour v    rifier les tokens          il ne peut pas en     mettre.
+ *
+ * Lecture du token : Cookie HttpOnly en priorit    ,
  * fallback header Authorization (pour clients API non-browser)
  */
 
 import { Request, Response, NextFunction } from 'express';
-import { verifyAccessToken } from '../utils/tokens.js';
-import type { JwtPayload } from '@reclamtrack/shared';
+import { verifyAccessToken } from '../utils/tokens';
+// The Express.Request global augmentation (user?) is declared in middleware/security.ts
 
-// ─────────────────────────────────────────────
-// Extraction du token depuis la requête
-// Priorité : Cookie HttpOnly > Header Authorization
-// ─────────────────────────────────────────────
+//
+// Extraction du token depuis la requ    te
+// Priorit     : Cookie HttpOnly > Header Authorization
+//
 const extractToken = (req: Request): string | null => {
-  // 1. Cookie HttpOnly (recommandé — protège contre XSS)
+  // 1. Cookie HttpOnly (recommand              prot    ge contre XSS)
   if (req.cookies?.access_token) {
     return req.cookies.access_token;
   }
@@ -33,9 +33,9 @@ const extractToken = (req: Request): string | null => {
   return null;
 };
 
-// ─────────────────────────────────────────────
+//
 // Middleware : authentification obligatoire
-// ─────────────────────────────────────────────
+//
 export const authenticate = (
   req: Request,
   res: Response,
@@ -45,7 +45,7 @@ export const authenticate = (
 
   if (!token) {
     res.status(401).json({
-      error: 'Non authentifié',
+      error: 'Non authentifi    ',
       code:  'TOKEN_MISSING',
     });
     return;
@@ -58,7 +58,7 @@ export const authenticate = (
   } catch (err: any) {
     if (err.name === 'TokenExpiredError') {
       res.status(401).json({
-        error: 'Session expirée',
+        error: 'Session expir    e',
         code:  'TOKEN_EXPIRED',
       });
       return;
@@ -71,11 +71,11 @@ export const authenticate = (
   }
 };
 
-// ─────────────────────────────────────────────
+//
 // Middleware : authentification optionnelle
-// Attache req.user si un token valide est présent,
+// Attache req.user si un token valide est pr    sent,
 // mais laisse passer si absent (routes publiques enrichies)
-// ─────────────────────────────────────────────
+//
 export const authenticateOptional = (
   req: Request,
   res: Response,
@@ -87,7 +87,7 @@ export const authenticateOptional = (
     try {
       req.user = verifyAccessToken(token);
     } catch {
-      // Token présent mais invalide → on ignore silencieusement
+      // Token pr    sent mais invalide          on ignore silencieusement
     }
   }
 

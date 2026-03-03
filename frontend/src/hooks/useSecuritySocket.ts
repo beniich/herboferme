@@ -38,7 +38,7 @@ export const useSecuritySocket = () => {
         });
 
         socket.on('connect', () => {
-            console.log('🔒 Connected to Security WebSocket');
+            console.log('     Connected to Security WebSocket');
             setIsConnected(true);
             socket.emit('join-room', 'pfsense-logs');
         });
@@ -52,7 +52,7 @@ export const useSecuritySocket = () => {
         });
 
         socket.on('disconnect', () => {
-            console.log('🔒 Disconnected from Security WebSocket');
+            console.log('     Disconnected from Security WebSocket');
             setIsConnected(false);
         });
 

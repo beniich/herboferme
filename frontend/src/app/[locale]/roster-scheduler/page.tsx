@@ -14,8 +14,8 @@ export default function RosterPage() {
         if (!socket) return;
 
         socket.on('schedule-update', (data) => {
-            console.log('📅 Schedule Refresh:', data);
-            // Ici, on pourrait mettre à jour l'état global ou refetcher les données
+            console.log('     Schedule Refresh:', data);
+            // Ici, on pourrait mettre    jour l'  tat global ou refetcher les donn  es
         });
 
         return () => {
@@ -25,7 +25,7 @@ export default function RosterPage() {
 
     return (
         <div className="flex h-full flex-col">
-            {/* Header spécifique Roster */}
+            {/* Header sp  cifique Roster */}
             <header className="bg-slate-900 border-b border-slate-800 h-16 flex items-center justify-between px-6 shrink-0 z-30">
                 <div className="flex items-center gap-4">
                     <div className="bg-blue-600 p-1.5 rounded-lg flex items-center justify-center shadow-lg shadow-blue-600/20">
@@ -122,7 +122,7 @@ export default function RosterPage() {
                             ))}
                         </div>
                         <div className="text-[10px] font-medium text-slate-500">
-                            Showing <span className="text-slate-300">4 Teams</span> • <span className="text-blue-500 font-bold">Live Data</span>
+                            Showing <span className="text-slate-300">4 Teams</span>     <span className="text-blue-500 font-bold">Live Data</span>
                         </div>
                     </footer>
                 </section>

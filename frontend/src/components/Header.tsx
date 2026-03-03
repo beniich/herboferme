@@ -100,7 +100,7 @@ export default function Header() {
                                     <Link href="/fleet/map" className="block px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                                         <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold">
                                             <Map className="text-sm w-4 h-4" />
-                                            <span>Suivi Temps Réel</span>
+                                            <span>Suivi Temps R  el</span>
                                         </div>
                                     </Link>
                                     <Link href="/it-assets" className="block px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
@@ -118,7 +118,7 @@ export default function Header() {
                                     <Link href="/admin/export-settings" className="block px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors last:rounded-b-lg">
                                         <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold">
                                             <SettingsIcon className="text-sm w-4 h-4" />
-                                            <span>Paramètres Export</span>
+                                            <span>Param  tres Export</span>
                                         </div>
                                     </Link>
                                     <Link href="/roster-scheduler" className="block px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">

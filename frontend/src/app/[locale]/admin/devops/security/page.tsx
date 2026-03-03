@@ -294,7 +294,7 @@ export default function SecurityDashboard() {
                                             <p className="font-semibold text-sm truncate">{check.name}</p>
                                             <p className="text-xs text-slate-500 line-clamp-2">{check.description}</p>
                                             {check.recommendation && (
-                                                <p className="text-[10px] text-blue-600 font-medium mt-1 truncate">💡 {check.recommendation}</p>
+                                                <p className="text-[10px] text-blue-600 font-medium mt-1 truncate">     {check.recommendation}</p>
                                             )}
                                         </div>
                                     </div>

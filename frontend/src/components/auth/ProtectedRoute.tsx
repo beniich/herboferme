@@ -24,7 +24,7 @@ export function ProtectedRoute({
     const router = useRouter();
 
     const isAuthorized = () => {
-        // Si aucun rôle/permission requis, accès autorisé
+        // Si aucun r  le/permission requis, acc  s autoris
         if (!requiredRole && requiredPermissions.length === 0) return true;
 
         if (requiredRole && !isRoleOrHigher(requiredRole)) return false;

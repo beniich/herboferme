@@ -1,4 +1,4 @@
-﻿import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
 // Types de shifts disponibles
 export interface IShiftType extends Document {
@@ -43,7 +43,7 @@ const ShiftAssignmentSchema = new Schema({
     }
 }, { timestamps: true });
 
-// Index composÃ© pour Ã©viter doublons (un membre ne peut avoir qu'un shift par jour/type)
+// Index compos     pour     viter doublons (un membre ne peut avoir qu'un shift par jour/type)
 ShiftAssignmentSchema.index({ memberId: 1, date: 1, shiftId: 1 }, { unique: true });
 
 export const ShiftType = mongoose.model<IShiftType>('ShiftType', ShiftTypeSchema);

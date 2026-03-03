@@ -14,7 +14,7 @@ export default function ConflictResolutionPage() {
                     </div>
                     <div>
                         <h1 className="text-xl font-bold tracking-tight text-white leading-tight">Conflict Resolution Center</h1>
-                        <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">System Diagnostics • 02 Active Conflicts</p>
+                        <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">System Diagnostics     02 Active Conflicts</p>
                     </div>
                 </div>
 
@@ -99,7 +99,7 @@ export default function ConflictResolutionPage() {
                                                         <p className="font-bold text-slate-100">Alex Henderson</p>
                                                         <span className="bg-amber-900/30 text-amber-500 text-[10px] font-bold px-2 py-0.5 rounded border border-amber-500/20 uppercase">Critical Role</span>
                                                     </div>
-                                                    <p className="text-xs text-slate-400">Lead Technician • 08:30 - 12:00</p>
+                                                    <p className="text-xs text-slate-400">Lead Technician     08:30 - 12:00</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -139,7 +139,7 @@ export default function ConflictResolutionPage() {
                                                 />
                                                 <div className="flex-1">
                                                     <p className="font-bold text-slate-100">Alex Henderson</p>
-                                                    <p className="text-xs text-slate-400">Lead Technician • 10:30 - 14:00</p>
+                                                    <p className="text-xs text-slate-400">Lead Technician     10:30 - 14:00</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -257,7 +257,7 @@ export default function ConflictResolutionPage() {
                                         <span className="material-symbols-outlined text-slate-500 text-sm">hourglass_empty</span>
                                     </div>
                                     <p className="text-xs font-bold text-slate-300">Rest Compliance</p>
-                                    <p className="text-[10px] text-slate-500 mt-1">Marcus Vane • 11h break req.</p>
+                                    <p className="text-[10px] text-slate-500 mt-1">Marcus Vane     11h break req.</p>
                                 </div>
                             </div>
 

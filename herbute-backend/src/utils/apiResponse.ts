@@ -1,4 +1,4 @@
-﻿/**
+/**
  * utils/apiResponse.ts
  * Standardized response shapes for all API endpoints.
  * Every response follows: { success, data|error, code, timestamp, requestId }
@@ -31,7 +31,7 @@ export function sendSuccess<T>(
     success: true,
     data,
     timestamp: new Date().toISOString(),
-    ...(requestId ? { requestId } : {}),
+    ...(requestId ? { requestId } : { /* Intentionally empty */ }),
   };
   return res.status(statusCode).json(body);
 }
@@ -49,8 +49,8 @@ export function sendError(
     error: message,
     code,
     timestamp: new Date().toISOString(),
-    ...(requestId ? { requestId } : {}),
-    ...(fields ? { fields } : {}),
+    ...(requestId ? { requestId } : { /* Intentionally empty */ }),
+    ...(fields ? { fields } : { /* Intentionally empty */ }),
   };
   return res.status(statusCode).json(body);
 }
@@ -60,7 +60,7 @@ export function validationErrorResponse(
   errors: Array<{ path: string; msg: string }>,
   requestId?: string,
 ): Response {
-  const fields: Record<string, string> = {};
+  const fields: Record<string, string> = { /* Intentionally empty */ };
   for (const err of errors) {
     fields[err.path] = err.msg;
   }

@@ -55,7 +55,7 @@ export default function EducationLanding() {
                             <div className="grid grid-cols-2 gap-4 mb-6">
                                 <div className="bg-white/5 rounded-2xl p-6 border border-white/5 group-hover:border-brand-orange/30 transition-all">
                                     <div className="flex items-center justify-between mb-2">
-                                        <span className="text-[10px] uppercase font-black opacity-40">Assiduité</span>
+                                        <span className="text-[10px] uppercase font-black opacity-40">Assiduit  </span>
                                         <span className="text-green-400 text-[10px] font-black">+2.4%</span>
                                     </div>
                                     <div className="text-3xl font-black">98.2%</div>
@@ -71,7 +71,7 @@ export default function EducationLanding() {
 
                             <div className="space-y-4">
                                 <div className="flex items-center justify-between">
-                                    <h3 className="text-xs font-black uppercase tracking-widest">Activités Récentes</h3>
+                                    <h3 className="text-xs font-black uppercase tracking-widest">Activit  s R  centes</h3>
                                     <span className="text-[10px] text-brand-orange font-black uppercase tracking-widest hover:underline cursor-pointer">Voir Tout</span>
                                 </div>
                                 <div className="space-y-3">
@@ -80,7 +80,7 @@ export default function EducationLanding() {
                                             <span className="material-symbols-outlined text-sm">person</span>
                                         </div>
                                         <div className="flex-1">
-                                            <div className="text-xs font-black uppercase">Léo Martinez</div>
+                                            <div className="text-xs font-black uppercase">L  o Martinez</div>
                                             <div className="text-[10px] opacity-40">A soumis le devoir de Math #4</div>
                                         </div>
                                         <div className="text-[10px] opacity-20">2m</div>
@@ -98,17 +98,17 @@ export default function EducationLanding() {
             <section className="px-6 lg:px-20 py-16 border-y border-white/5 bg-white/[0.01]">
                 <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
                     <div className="glass-card rounded-3xl p-10 border-l-4 border-l-brand-orange">
-                        <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-2">Élèves Actifs</p>
+                        <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-2">  l  ves Actifs</p>
                         <div className="text-4xl font-black mb-3 italic">1.2M+</div>
                         <div className="flex items-center gap-2 text-green-500 text-[10px] font-black uppercase tracking-widest">
                             <span className="material-symbols-outlined text-sm">trending_up</span> +12% ce trimestre
                         </div>
                     </div>
                     <div className="glass-card rounded-3xl p-10 border-l-4 border-l-brand-orange">
-                        <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-2">Amélioration Notes</p>
+                        <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-2">Am  lioration Notes</p>
                         <div className="text-4xl font-black mb-3 italic">24.5%</div>
                         <div className="flex items-center gap-2 text-green-500 text-[10px] font-black uppercase tracking-widest">
-                            <span className="material-symbols-outlined text-sm">verified</span> performance vérifiée
+                            <span className="material-symbols-outlined text-sm">verified</span> performance v  rifi  e
                         </div>
                     </div>
                     <div className="glass-card rounded-3xl p-10 border-l-4 border-l-brand-orange">
@@ -125,7 +125,7 @@ export default function EducationLanding() {
             <section className="px-6 lg:px-20 py-32">
                 <div className="max-w-7xl mx-auto">
                     <div className="mb-24">
-                        <h2 className="text-4xl lg:text-6xl font-display font-black uppercase italic tracking-tighter mb-6">Tout ce dont votre <span className="text-brand-orange not-italic">école a besoin</span></h2>
+                        <h2 className="text-4xl lg:text-6xl font-display font-black uppercase italic tracking-tighter mb-6">Tout ce dont votre <span className="text-brand-orange not-italic">  cole a besoin</span></h2>
                         <div className="h-1.5 w-32 bg-brand-orange rounded-full"></div>
                     </div>
 
@@ -138,7 +138,7 @@ export default function EducationLanding() {
                             <h3 className="text-2xl font-black uppercase tracking-tight mb-6">{t('feature1Title')}</h3>
                             <p className="text-slate-400 font-light leading-relaxed mb-10">{t('feature1Desc')}</p>
                             <ul className="space-y-4">
-                                {['Présences Intelligentes', 'Cartes de chaleur comportementale', 'Dossiers de santé'].map((item, i) => (
+                                {['Pr  sences Intelligentes', 'Cartes de chaleur comportementale', 'Dossiers de sant  '].map((item, i) => (
                                     <li key={i} className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-500">
                                         <span className="material-symbols-outlined text-brand-orange text-sm">check_circle</span> {item}
                                     </li>
@@ -154,7 +154,7 @@ export default function EducationLanding() {
                             <h3 className="text-2xl font-black uppercase tracking-tight mb-6">{t('feature2Title')}</h3>
                             <p className="text-slate-400 font-light leading-relaxed mb-10">{t('feature2Desc')}</p>
                             <ul className="space-y-4">
-                                {['Échelles de notation dynamiques', 'Exportation de rapports en masse', 'Calcul automatique du GPA'].map((item, i) => (
+                                {['  chelles de notation dynamiques', 'Exportation de rapports en masse', 'Calcul automatique du GPA'].map((item, i) => (
                                     <li key={i} className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-200">
                                         <span className="material-symbols-outlined text-brand-orange text-sm">check_circle</span> {item}
                                     </li>
@@ -170,7 +170,7 @@ export default function EducationLanding() {
                             <h3 className="text-2xl font-black uppercase tracking-tight mb-6">{t('feature3Title')}</h3>
                             <p className="text-slate-400 font-light leading-relaxed mb-10">{t('feature3Desc')}</p>
                             <ul className="space-y-4">
-                                {['Accès application mobile', 'Portail de paiement des frais', 'Sync calendrier événements'].map((item, i) => (
+                                {['Acc  s application mobile', 'Portail de paiement des frais', 'Sync calendrier   v  nements'].map((item, i) => (
                                     <li key={i} className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-500">
                                         <span className="material-symbols-outlined text-brand-orange text-sm">check_circle</span> {item}
                                     </li>

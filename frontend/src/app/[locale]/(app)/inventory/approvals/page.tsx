@@ -170,7 +170,7 @@ export default function WarehouseApprovalsPage() {
                                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                                     <div>
                                         <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Request Detail: #{selectedRequest.id}</h2>
-                                        <p className="text-slate-500 dark:text-slate-400">Requested by {selectedRequest.requester} • Created Oct 24, 2023</p>
+                                        <p className="text-slate-500 dark:text-slate-400">Requested by {selectedRequest.requester}     Created Oct 24, 2023</p>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <button className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-400 transition-colors">

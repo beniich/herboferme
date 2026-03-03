@@ -69,7 +69,7 @@ export function StatsCard({
                                 'text-xs font-bold flex items-center gap-0.5',
                                 trend.isPositive ? trendColors.positive : trendColors.negative
                             )}>
-                                <span>{trend.isPositive ? '↑' : '↓'}</span>
+                                <span>{trend.isPositive ? '   ' : '   '}</span>
                                 <span>{trend.value}</span>
                             </span>
                             <span className="text-[10px] text-slate-400">vs mois dernier</span>

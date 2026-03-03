@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file events.ts
  * @description HTTP fallback for Saga events if Kafka is disabled.
  * @module backend/routes
@@ -12,7 +12,7 @@ const router = Router();
 
 router.post('/', async (req: Request, res: Response) => {
   const { eventType, data } = req.body;
-  logger.info(`ðŸ“¥ [Backend HTTP] Received ${eventType} for ${data?.complaintId}`, {
+  logger.info(`          [Backend HTTP] Received ${eventType} for ${data?.complaintId}`, {
     requestId: req.id,
   });
 
@@ -23,7 +23,7 @@ router.post('/', async (req: Request, res: Response) => {
         status: 'en cours',
         updatedAt: new Date(),
       });
-      logger.info(`âœ… [Saga HTTP] Complaint ${data.complaintId} updated with Team ${data.teamId}`, {
+      logger.info(`        [Saga HTTP] Complaint ${data.complaintId} updated with Team ${data.teamId}`, {
         requestId: req.id,
       });
     } else if (eventType === 'ASSIGNMENT_FAILED') {
@@ -31,7 +31,7 @@ router.post('/', async (req: Request, res: Response) => {
         priority: 'urgent',
         updatedAt: new Date(),
       });
-      logger.warn(`â†©ï¸ [Saga HTTP] Complaint ${data.complaintId} priority escalated.`, {
+      logger.warn(`              [Saga HTTP] Complaint ${data.complaintId} priority escalated.`, {
         requestId: req.id,
       });
     }

@@ -18,20 +18,20 @@ interface TeamRow {
 
 const teamsData: TeamRow[] = [
     {
-        name: 'Water Maintenance', team: 'Team 01 • 4 Staff', shifts: [
+        name: 'Water Maintenance', team: 'Team 01     4 Staff', shifts: [
             { title: 'Main Valve Repair #122', time: '08:30 - 10:00', left: 16, width: 48, color: 'blue' },
             { title: 'Routine Hydrant Flush', time: '13:00 - 15:00', left: 384, width: 64, color: 'emerald' }
         ]
     },
     {
-        name: 'Grid Operations', team: 'Team 02 • 3 Staff', shifts: [
+        name: 'Grid Operations', team: 'Team 02     3 Staff', shifts: [
             { title: 'Transformer Check', time: '10:00 - 11:30', left: 200, width: 40, color: 'amber' },
             { title: 'EMERGENCY: Power Line 4', time: '10:30 - 12:00', left: 240, width: 44, color: 'red', emergency: true }
         ]
     },
-    { name: 'Gas Safety', team: 'Team 03 • 2 Staff', shifts: [] },
+    { name: 'Gas Safety', team: 'Team 03     2 Staff', shifts: [] },
     {
-        name: 'Climate Systems', team: 'Team 04 • 5 Staff', shifts: [
+        name: 'Climate Systems', team: 'Team 04     5 Staff', shifts: [
             { title: 'Filter Replacement', time: '14:00 - 15:30', left: 512, width: 44, color: 'slate' }
         ]
     }

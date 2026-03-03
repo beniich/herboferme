@@ -1,7 +1,7 @@
-﻿import express, { Response } from 'express';
+import express, { Response } from 'express';
 import { auth } from '../middleware/security.js';
 import { requireOrganization } from '../middleware/organization.js';
-import NetworkDevice from '../models/NetworkDevice.js';
+import NetworkDevice from '../models/NetworkDevice';
 import { AuthenticatedRequest } from '../types/request.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 
@@ -127,7 +127,7 @@ router.get('/devices/:id/metrics', asyncHandler(async (req: any, res: Response) 
         name: device.name,
         ipAddress: device.ipAddress,
       },
-      current: device.currentMetrics || {},
+      current: device.currentMetrics || { /* Intentionally empty */ },
       interfaces: device.interfaces || [],
       timestamp: new Date(),
     };

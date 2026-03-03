@@ -13,7 +13,7 @@ interface MaterialSearchProps {
 export const MaterialSearch: React.FC<MaterialSearchProps> = ({
     onSelect,
     excludeIds = [],
-    placeholder = "Rechercher un matériau..."
+    placeholder = "Rechercher un mat  riau..."
 }) => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<Material[]>([]);
@@ -125,13 +125,13 @@ export const MaterialSearch: React.FC<MaterialSearchProps> = ({
                                             </span>
                                         </div>
                                         <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">
-                                            SKU: {material.sku} • {material.category}
+                                            SKU: {material.sku}     {material.category}
                                         </p>
                                         <div className="flex items-center justify-between gap-4 text-[10px] font-black uppercase tracking-[0.1em]">
                                             <span className="flex items-center gap-1.5">
                                                 <Warehouse className="h-3.5 w-3.5 text-slate-400" />
                                                 <span className={stockStatus.color}>
-                                                    {material.currentStock} {material.unit} • {stockStatus.label}
+                                                    {material.currentStock} {material.unit}     {stockStatus.label}
                                                 </span>
                                             </span>
                                             <span className="flex items-center gap-1 text-slate-600 dark:text-slate-400">
@@ -151,7 +151,7 @@ export const MaterialSearch: React.FC<MaterialSearchProps> = ({
                 <div className="absolute z-50 w-full mt-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl p-6 text-center animate-in fade-in slide-in-from-top-2">
                     <Package className="h-10 w-10 text-slate-200 mx-auto mb-3" />
                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                        Aucun matériau trouvé pour &quot;{query}&quot;
+                        Aucun mat  riau trouv   pour &quot;{query}&quot;
                     </p>
                 </div>
             )}

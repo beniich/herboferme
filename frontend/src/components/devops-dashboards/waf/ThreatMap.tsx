@@ -16,7 +16,7 @@ export const ThreatMap = () => (
             </div>
         </div>
 
-        {/* MAP – image placeholder + points */}
+        {/* MAP     image placeholder + points */}
         <div className="h-full relative bg-[#0a0f18] flex items-center justify-center">
             {/* grille de fond */}
             <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#fa6238_1px,transparent_1px)] [background-size:20px_20px]" />

@@ -7,7 +7,7 @@ const services = [
     { name: 'Geospatial Intel', status: 'degraded', uptime: '97.2%', ping: '450ms' },
     { name: 'Analytics Pipeline', status: 'operational', uptime: '99.8%', ping: '85ms' },
     { name: 'OAuth Core / SSO', status: 'operational', uptime: '100%', ping: '12ms' },
-    { name: 'Real-time WebSockets', status: 'maintenance', uptime: '–', ping: '–' },
+    { name: 'Real-time WebSockets', status: 'maintenance', uptime: '   ', ping: '   ' },
 ];
 
 const statusConfig: Record<string, { label: string; color: string; dot: string }> = {
@@ -164,7 +164,7 @@ export default function StatusPage() {
 
             <footer className="bg-slate-100 dark:bg-black/40 py-16 border-t border-primary/10 mt-auto">
                 <div className="max-w-7xl mx-auto px-6 text-center">
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em]">© {new Date().getFullYear()} ReclamTrack Pro. Stability is our standard.</p>
+                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em]">   {new Date().getFullYear()} ReclamTrack Pro. Stability is our standard.</p>
                 </div>
             </footer>
         </div>

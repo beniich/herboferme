@@ -13,7 +13,7 @@ export default function APMTracesPage() {
                         <div className="flex items-center gap-3 mb-2">
                             <StatusIndicator status="healthy" label="Success" />
                             <h1 className="text-white text-2xl font-mono font-bold">tr-8821-x9</h1>
-                            <button className="text-slate-500 hover:text-slate-300">📋</button>
+                            <button className="text-slate-500 hover:text-slate-300">    </button>
                         </div>
                         <p className="text-slate-400 text-sm">
                             Request to <code className="text-primary bg-primary/10 px-1 rounded">/api/v1/orders/checkout</code> initiated by user-882
@@ -60,7 +60,7 @@ export default function APMTracesPage() {
                     {/* Gateway Span */}
                     <div className="flex group cursor-pointer border-b border-slate-800/50 hover:bg-slate-800/30">
                         <div className="w-[300px] px-4 py-3 border-r border-slate-700 flex items-center gap-2">
-                            <span className="text-slate-600 text-sm">▼</span>
+                            <span className="text-slate-600 text-sm">   </span>
                             <div className="flex flex-col">
                                 <span className="text-xs font-bold text-indigo-400">Gateway</span>
                                 <span className="text-[10px] font-mono text-slate-400">HTTP POST /checkout</span>

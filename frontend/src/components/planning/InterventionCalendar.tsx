@@ -88,7 +88,7 @@ export function InterventionCalendar({
         });
     }, [interventions, teams]);
 
-    // Détection de conflits
+    // D  tection de conflits
     const detectConflicts = useCallback(
         (newStart: Date, newEnd: Date, teamId: string, excludeId?: string) => {
             const conflicts = interventions.filter((intervention) => {
@@ -123,17 +123,17 @@ export function InterventionCalendar({
             const newStart = info.event.start!;
             const newEnd = info.event.end || new Date(newStart.getTime() + 60 * 60 * 1000);
 
-            // Vérification des conflits
+            // V  rification des conflits
             const conflicts = detectConflicts(newStart, newEnd, intervention.teamId, intervention.id);
 
             if (conflicts.length > 0) {
                 setConflictWarning(
-                    `Attention: ${conflicts.length} intervention(s) déjà planifiée(s) pour cette équipe à ce créneau.`
+                    `Attention: ${conflicts.length} intervention(s) d  j   planifi  e(s) pour cette   quipe    ce cr  neau.`
                 );
 
                 // Demander confirmation
                 const confirmed = window.confirm(
-                    `${conflicts.length} conflit(s) détecté(s). Continuer quand même?`
+                    `${conflicts.length} conflit(s) d  tect  (s). Continuer quand m  me?`
                 );
 
                 if (!confirmed) {
@@ -151,11 +151,11 @@ export function InterventionCalendar({
                 };
 
                 await onInterventionUpdate?.(updatedIntervention);
-                toast.success('Intervention déplacée avec succès');
+                toast.success('Intervention d  plac  e avec succ  s');
                 setConflictWarning(null);
             } catch (error) {
                 info.revert();
-                toast.error('Erreur lors du déplacement');
+                toast.error('Erreur lors du d  placement');
                 console.error(error);
             }
         },
@@ -180,7 +180,7 @@ export function InterventionCalendar({
                 };
 
                 await onInterventionUpdate?.(updatedIntervention);
-                toast.success('Durée mise à jour');
+                toast.success('Dur  e mise    jour');
             } catch (error) {
                 info.revert();
                 toast.error('Erreur lors de la modification');
@@ -196,7 +196,7 @@ export function InterventionCalendar({
         setSelectedEvent(intervention);
     }, []);
 
-    // Gestion de la sélection de dates
+    // Gestion de la s  lection de dates
     const handleDateSelect = useCallback(
         (selectInfo: DateSelectArg) => {
             if (!editable) return;
@@ -212,7 +212,7 @@ export function InterventionCalendar({
 
         try {
             await onInterventionDelete?.(selectedEvent.id);
-            toast.success('Intervention supprimée');
+            toast.success('Intervention supprim  e');
             setSelectedEvent(null);
         } catch (error) {
             toast.error('Erreur lors de la suppression');
@@ -228,7 +228,7 @@ export function InterventionCalendar({
                     <AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                     <div>
                         <p className="font-semibold text-amber-900 dark:text-amber-100">
-                            Conflit détecté
+                            Conflit d  tect
                         </p>
                         <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
                             {conflictWarning}
@@ -327,7 +327,7 @@ export function InterventionCalendar({
                                         dateStyle: 'long',
                                         timeStyle: 'short',
                                     })}
-                                    {' → '}
+                                    {'     '}
                                     {new Date(selectedEvent.end).toLocaleString('fr-FR', {
                                         timeStyle: 'short',
                                     })}
@@ -358,7 +358,7 @@ export function InterventionCalendar({
                             {/* Technicians */}
                             {selectedEvent.assignedTechnicians.length > 0 && (
                                 <div>
-                                    <p className="text-sm font-semibold mb-2">Techniciens assignés:</p>
+                                    <p className="text-sm font-semibold mb-2">Techniciens assign  s:</p>
                                     <div className="flex flex-wrap gap-2">
                                         {selectedEvent.assignedTechnicians.map((tech) => (
                                             <div
@@ -394,7 +394,7 @@ export function InterventionCalendar({
                 </Dialog>
             )}
 
-            {/* CSS personnalisé pour le calendrier */}
+            {/* CSS personnalis   pour le calendrier */}
             <style jsx global>{`
         .fc {
           font-family: inherit;

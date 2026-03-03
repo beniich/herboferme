@@ -1,4 +1,4 @@
-﻿import axios from 'axios';
+import axios from 'axios';
 
 const API_URL = 'http://localhost:5001';
 const FRONTEND_URL = 'http://localhost:3000';
@@ -12,7 +12,7 @@ interface TestResult {
 const results: TestResult[] = [];
 
 async function testLogin(email: string, password: string) {
-  console.log(`\nðŸ” Testing login for: ${email}`);
+  console.log(`\n          Testing login for: ${email}`);
 
   try {
     const response = await axios.post(`${API_URL}/api/auth/login`, {
@@ -100,7 +100,7 @@ async function getOrgId(token: string) {
 }
 
 async function testFrontendAccess() {
-  console.log('\nðŸŒ Testing frontend accessibility...');
+  console.log('\n         Testing frontend accessibility...');
 
   try {
     const response = await axios.get(FRONTEND_URL, {
@@ -124,7 +124,7 @@ async function testFrontendAccess() {
 }
 
 async function testMonitoringRoute() {
-  console.log('\nðŸ“Š Testing monitoring route...');
+  console.log('\n          Testing monitoring route...');
 
   try {
     // Just check if the route exists (will return HTML)
@@ -148,7 +148,7 @@ async function testMonitoringRoute() {
 }
 
 async function testGrafanaAccess() {
-  console.log('\nðŸ“ˆ Testing Grafana accessibility...');
+  console.log('\n          Testing Grafana accessibility...');
 
   const GRAFANA_URL = 'http://localhost:3001';
 
@@ -174,14 +174,14 @@ async function testGrafanaAccess() {
 
 function printResults() {
   console.log('\n' + '='.repeat(70));
-  console.log('ðŸ“‹ TEST RESULTS - MONITORING DASHBOARD ACCESS');
+  console.log('           TEST RESULTS - MONITORING DASHBOARD ACCESS');
   console.log('='.repeat(70));
 
   const passed = results.filter((r) => r.status === 'PASS').length;
   const failed = results.filter((r) => r.status === 'FAIL').length;
 
   results.forEach((result) => {
-    const icon = result.status === 'PASS' ? 'âœ…' : 'âŒ';
+    const icon = result.status === 'PASS' ? '       ' : '      ';
     console.log(`\n${icon} ${result.test}`);
     console.log(`   ${result.details}`);
   });
@@ -192,7 +192,7 @@ function printResults() {
 }
 
 async function runTests() {
-  console.log('ðŸš€ Starting Monitoring Dashboard Access Tests...');
+  console.log('          Starting Monitoring Dashboard Access Tests...');
 
   // Test 1: Frontend accessibility
   await testFrontendAccess();
@@ -205,7 +205,7 @@ async function runTests() {
   let orgId: string | undefined = undefined;
   if (adminToken) {
     orgId = await getOrgId(adminToken);
-    console.log(`ðŸ¢ Found Organization ID: ${orgId}`);
+    console.log(`         Found Organization ID: ${orgId}`);
     await testProtectedEndpoint(adminToken, '/api/teams', orgId);
   }
 

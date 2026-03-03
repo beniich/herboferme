@@ -31,7 +31,7 @@ export const logs: LogEntry[] = [
         action: "STATUS CHANGE",
         targetId: "REC-002",
         targetType: "Complaint",
-        details: "Open → Resolved",
+        details: "Open     Resolved",
         timestamp: new Date(Date.now() - 14 * 60 * 1000).toISOString(),
         severity: "normal",
     },

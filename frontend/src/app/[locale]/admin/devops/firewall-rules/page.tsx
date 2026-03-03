@@ -26,10 +26,10 @@ export default function PlaceholderDashboard() {
                 <div className="size-16 rounded-full bg-primary/10 flex items-center justify-center">
                     <span className="material-symbols-outlined text-4xl text-primary">construction</span>
                 </div>
-                <h2 className="text-xl font-bold">En cours de développement</h2>
+                <h2 className="text-xl font-bold">En cours de d  veloppement</h2>
                 <p className="text-slate-500 dark:text-slate-400 max-w-md">
                     Le module <span className="font-mono">{title}</span> est actuellement en phase de configuration.
-                    Les données réelles seront bientôt disponibles.
+                    Les donn  es r  elles seront bient  t disponibles.
                 </p>
             </div>
         </DashboardTemplate>

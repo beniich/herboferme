@@ -1,11 +1,11 @@
-﻿import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IFarmTransaction extends Document {
   organizationId: mongoose.Types.ObjectId;
   date: Date;
   description: string;
-  category: string; // Ventes, Intrants, SantÃ©, Charges, etc.
-  sector: string; // Ã‰levage, LÃ©gumes, Herbes, PÃ©piniÃ¨re, GÃ©nÃ©ral
+  category: string; // Ventes, Intrants, Sant    , Charges, etc.
+  sector: string; //      levage, L    gumes, Herbes, P    pini    re, G    n    ral
   type: 'recette' | 'depense';
   amount: number;
   createdAt: Date;

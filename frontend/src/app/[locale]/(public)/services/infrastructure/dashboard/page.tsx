@@ -54,7 +54,7 @@ export default function InfrastructureDashboard() {
                         <Terminal className="text-white w-6 h-6" />
                     </div>
                     <div>
-                        <h1 className="font-display font-black text-xs uppercase tracking-widest text-white leading-none">Hébergement Pro</h1>
+                        <h1 className="font-display font-black text-xs uppercase tracking-widest text-white leading-none">H  bergement Pro</h1>
                         <p className="text-[10px] text-blue-500 font-bold uppercase tracking-widest mt-1">Cloud Control</p>
                     </div>
                 </div>
@@ -88,7 +88,7 @@ export default function InfrastructureDashboard() {
                         <Globe className="w-12 h-12" />
                     </div>
                     <div className="text-[10px] font-black uppercase tracking-widest text-white mb-2 italic">Global Network</div>
-                    <p className="text-[9px] text-slate-400 font-light leading-relaxed mb-4">Votre infrastructure s'étend sur 4 régions souveraines.</p>
+                    <p className="text-[9px] text-slate-400 font-light leading-relaxed mb-4">Votre infrastructure s'  tend sur 4 r  gions souveraines.</p>
                     <button className="w-full py-2 bg-blue-600/20 hover:bg-blue-600 text-white rounded-lg text-[9px] font-black uppercase tracking-widest transition-all">Voir Carte</button>
                 </div>
             </aside>
@@ -100,7 +100,7 @@ export default function InfrastructureDashboard() {
                     <div className="flex items-center gap-6">
                         <div className="flex items-center gap-2 text-slate-500 group cursor-pointer hover:text-white transition-all">
                             <span className="material-symbols-outlined text-sm">public</span>
-                            <span className="text-[10px] font-black uppercase tracking-widest">Région : MA-North-1 (Global)</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest">R  gion : MA-North-1 (Global)</span>
                         </div>
                     </div>
 
@@ -134,7 +134,7 @@ export default function InfrastructureDashboard() {
                             <h2 className="text-4xl font-display font-black uppercase italic tracking-tighter text-white">Centre de Commande</h2>
                             <p className="text-slate-500 text-[10px] font-black uppercase tracking-[.4em] mt-1 space-x-2">
                                 <span className="text-green-500">Flux Stable</span>
-                                <span>•</span>
+                                <span>   </span>
                                 <span>24 Instances</span>
                             </p>
                         </div>
@@ -143,7 +143,7 @@ export default function InfrastructureDashboard() {
                                 Snapshot Global
                             </button>
                             <button className="px-8 py-4 bg-blue-600 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-blue-500/20 hover:scale-105 transition-all">
-                                Déployer Instance
+                                D  ployer Instance
                             </button>
                         </div>
                     </div>
@@ -153,7 +153,7 @@ export default function InfrastructureDashboard() {
                         {[
                             { label: 'Utilisation CPU', val: '68%', icon: Cpu, trend: 'En hausse', color: 'text-blue-500' },
                             { label: 'Utilisation RAM', val: '124 GB', icon: Activity, trend: 'Optimal', color: 'text-indigo-500' },
-                            { label: 'Bande Passante', val: '12.4 GB/s', icon: Network, trend: 'Capacité 80%', color: 'text-brand-orange' },
+                            { label: 'Bande Passante', val: '12.4 GB/s', icon: Network, trend: 'Capacit   80%', color: 'text-brand-orange' },
                         ].map((stat, i) => (
                             <div key={i} className="glass-card rounded-[2.5rem] p-10 border border-white/5 hover:border-blue-500/20 transition-all group">
                                 <div className="flex items-center justify-between mb-6">
@@ -189,7 +189,7 @@ export default function InfrastructureDashboard() {
                                 </div>
                             </div>
                             <div className="flex items-center gap-2 bg-white/5 p-2 rounded-xl">
-                                <button className="px-5 py-2 bg-blue-600 rounded-lg text-[9px] font-black uppercase tracking-widest text-white shadow-lg shadow-blue-500/10 transition-all">Temps Réel</button>
+                                <button className="px-5 py-2 bg-blue-600 rounded-lg text-[9px] font-black uppercase tracking-widest text-white shadow-lg shadow-blue-500/10 transition-all">Temps R  el</button>
                                 <button className="px-5 py-2 hover:bg-white/5 rounded-lg text-[9px] font-black uppercase tracking-widest text-slate-500 transition-all">Historique</button>
                             </div>
                         </div>
@@ -226,14 +226,14 @@ export default function InfrastructureDashboard() {
                     <div className="glass-card rounded-[3rem] p-10">
                         <div className="flex items-center justify-between mb-8">
                             <h3 className="text-xl font-black uppercase italic tracking-tighter">Status des Clusters</h3>
-                            <button className="text-[10px] font-black uppercase tracking-widest text-blue-500 hover:underline">Rafraîchir Noeuds</button>
+                            <button className="text-[10px] font-black uppercase tracking-widest text-blue-500 hover:underline">Rafra  chir Noeuds</button>
                         </div>
                         <div className="overflow-x-auto">
                             <table className="w-full text-left">
                                 <thead>
                                     <tr className="border-b border-white/5">
                                         <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Nom du Noeud</th>
-                                        <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Région</th>
+                                        <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">R  gion</th>
                                         <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Statut</th>
                                         <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Charge</th>
                                         <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Uptime</th>
@@ -283,9 +283,9 @@ export default function InfrastructureDashboard() {
                         <div className="mt-10 p-6 bg-blue-600/5 border border-blue-600/10 rounded-[2rem] flex items-center justify-between">
                             <div className="flex items-center gap-4">
                                 <Lock className="w-5 h-5 text-blue-500" />
-                                <div className="text-[10px] font-black uppercase text-slate-400">Accès SSH via Quantum-Secure Tunnel actif sur tous les noeuds.</div>
+                                <div className="text-[10px] font-black uppercase text-slate-400">Acc  s SSH via Quantum-Secure Tunnel actif sur tous les noeuds.</div>
                             </div>
-                            <button className="px-6 py-2 bg-blue-600 rounded-xl text-[9px] font-black uppercase tracking-widest">Gérer Clefs</button>
+                            <button className="px-6 py-2 bg-blue-600 rounded-xl text-[9px] font-black uppercase tracking-widest">G  rer Clefs</button>
                         </div>
                     </div>
                 </div>

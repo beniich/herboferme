@@ -73,23 +73,23 @@ export function CreateComplaintWizard() {
             {/* Form Container */}
             <div className="mt-8 bg-white dark:bg-slate-900 rounded-xl shadow-lg p-8 border border-slate-200 dark:border-slate-800">
                 <form onSubmit={currentForm.handleSubmit(isLastStep ? handleFinalSubmit : goToNextStep)}>
-                    {/* Étape 1: Informations */}
+                    {/*   tape 1: Informations */}
                     {currentStep === 1 && (
                         <div className="space-y-6">
-                            <h2 className="text-2xl font-bold">Informations sur le problème</h2>
+                            <h2 className="text-2xl font-bold">Informations sur le probl  me</h2>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="category">Catégorie *</Label>
+                                <Label htmlFor="category">Cat  gorie *</Label>
                                 <select // Using native select for simplicity since Schema expects string enum and Select component needs manual integration with hook-form
                                     {...currentForm.register('category')}
                                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                 >
-                                    <option value="">Sélectionner...</option>
+                                    <option value="">S  lectionner...</option>
                                     <option value="water">Eau</option>
-                                    <option value="electricity">Électricité</option>
+                                    <option value="electricity">  lectricit  </option>
                                     <option value="roads">Routes</option>
-                                    <option value="waste">Déchets</option>
-                                    <option value="lighting">Éclairage</option>
+                                    <option value="waste">D  chets</option>
+                                    <option value="lighting">  clairage</option>
                                     <option value="sewage">Assainissement</option>
                                     <option value="parks">Parcs</option>
                                     <option value="noise">Bruit</option>
@@ -103,7 +103,7 @@ export function CreateComplaintWizard() {
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="subcategory">Sous-catégorie *</Label>
+                                <Label htmlFor="subcategory">Sous-cat  gorie *</Label>
                                 <Input {...currentForm.register('subcategory')} placeholder="Ex: Fuite d'eau, Panne de courant..." />
                                 {currentForm.formState.errors.subcategory && (
                                     <p className="text-red-500 text-sm mt-1">
@@ -114,7 +114,7 @@ export function CreateComplaintWizard() {
 
 
                             <div className="grid gap-2">
-                                <Label htmlFor="priority">Priorité *</Label>
+                                <Label htmlFor="priority">Priorit   *</Label>
                                 <select
                                     {...currentForm.register('priority')}
                                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
@@ -128,7 +128,7 @@ export function CreateComplaintWizard() {
 
                             <div className="grid gap-2">
                                 <Label htmlFor="title">Titre *</Label>
-                                <Input {...currentForm.register('title')} placeholder="Résumé du problème" />
+                                <Input {...currentForm.register('title')} placeholder="R  sum   du probl  me" />
                                 {currentForm.formState.errors.title && (
                                     <p className="text-red-500 text-sm mt-1">
                                         {currentForm.formState.errors.title.message as string}
@@ -141,7 +141,7 @@ export function CreateComplaintWizard() {
                                 <textarea
                                     {...currentForm.register('description')}
                                     className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                    placeholder="Décrivez le problème en détail..."
+                                    placeholder="D  crivez le probl  me en d  tail..."
                                     rows={5}
                                 />
                                 {currentForm.formState.errors.description && (
@@ -153,14 +153,14 @@ export function CreateComplaintWizard() {
                         </div>
                     )}
 
-                    {/* Étape 2: Localisation */}
+                    {/*   tape 2: Localisation */}
                     {currentStep === 2 && (
                         <div className="space-y-6">
                             <h2 className="text-2xl font-bold">Localisation</h2>
 
                             <div className="grid gap-2">
                                 <Label htmlFor="address">Adresse *</Label>
-                                <Input {...currentForm.register('address')} placeholder="Adresse complète" />
+                                <Input {...currentForm.register('address')} placeholder="Adresse compl  te" />
                                 {currentForm.formState.errors.address && (
                                     <p className="text-red-500 text-sm mt-1">
                                         {currentForm.formState.errors.address.message as string}
@@ -194,7 +194,7 @@ export function CreateComplaintWizard() {
                             <Input type="hidden" {...currentForm.register('longitude', { valueAsNumber: true })} value={-6.83} />
 
                             <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-lg text-center text-slate-500">
-                                <p>Carte de sélection de position (à intégrer)</p>
+                                <p>Carte de s  lection de position (   int  grer)</p>
                             </div>
                         </div>
                     )}
@@ -214,12 +214,12 @@ export function CreateComplaintWizard() {
                                     }}
                                     onUpload={handleFileUpload}
                                 />
-                                <p className="text-sm text-slate-500">Ajouter des photos du problème (Max 5)</p>
+                                <p className="text-sm text-slate-500">Ajouter des photos du probl  me (Max 5)</p>
                             </div>
                         </div>
                     )}
 
-                    {/* Étape 4: Contact */}
+                    {/*   tape 4: Contact */}
                     {currentStep === 4 && (
                         <div className="space-y-6">
                             <h2 className="text-2xl font-bold">Vos Informations</h2>
@@ -231,7 +231,7 @@ export function CreateComplaintWizard() {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="grid gap-2">
-                                    <Label htmlFor="firstName">Prénom</Label>
+                                    <Label htmlFor="firstName">Pr  nom</Label>
                                     <Input {...currentForm.register('firstName')} />
                                 </div>
                                 <div className="grid gap-2">
@@ -245,7 +245,7 @@ export function CreateComplaintWizard() {
                                 <Input {...currentForm.register('email')} type="email" />
                             </div>
                             <div className="grid gap-2">
-                                <Label htmlFor="phone">Téléphone</Label>
+                                <Label htmlFor="phone">T  l  phone</Label>
                                 <Input {...currentForm.register('phone')} type="tel" />
                             </div>
 

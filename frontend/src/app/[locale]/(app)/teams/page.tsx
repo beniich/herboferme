@@ -1,71 +1,94 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import api from '@/lib/api';
 import { Team } from '@/types';
+import TeamCard from '@/components/TeamCard';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
+import { Users } from 'lucide-react';
 
 export default function TeamsPage() {
     const [teams, setTeams] = useState<Team[]>([]);
     const [loading, setLoading] = useState(true);
+    const [selectedComplaint, setSelectedComplaint] = useState<string>('');
 
     useEffect(() => {
-        api.get<Team[]>('/api/teams')
-            .then((data) => {
-                if (Array.isArray(data)) setTeams(data);
+        api.get<Team[]>('/teams')
+            .then((teamsData) => {
+                if (Array.isArray(teamsData)) {
+                    setTeams(teamsData);
+                } else {
+                    console.error('API returned non-array for teams:', teamsData);
+                    setTeams([]);
+                }
             })
-            .catch(console.error)
+            .catch((err) => {
+                console.error('Error fetching teams:', err);
+                setTeams([]);
+            })
             .finally(() => setLoading(false));
     }, []);
 
-    return (
-        <div className="page active" id="page-teams">
-            <div className="page-header">
-                    <div className="page-label" style={{ color: 'var(--blue)' }}>Organisation</div>
-                    <h1 className="page-title">Équipes</h1>
-                    <div className="page-sub">Gestion des équipes opérationnelles et affectations</div>
-                </div>
+    const assignTeam = async (teamId: string) => {
+        if (!selectedComplaint) {
+            alert('Veuillez entrer un num  ro de r  clamation');
+            return;
+        }
+        try {
+            await api.post('/assignments', {
+                complaintId: selectedComplaint,
+                teamId
+            });
+            alert('  quipe affect  e avec succ  s !');
+            // Refresh teams
+            const refreshed = await api.get<Team[]>('/teams');
+            if (Array.isArray(refreshed)) {
+                setTeams(refreshed);
+            }
+            setSelectedComplaint('');
+        } catch (err) {
+            console.error(err);
+            alert('Erreur lors de l\'affectation');
+        }
+    };
 
-                <div className="panel">
-                    <div className="panel-header">
-                        <div className="panel-title"><div className="dot" style={{ background: 'var(--blue)' }}></div>Annuaire des Équipes</div>
-                    </div>
-                    <div className="panel-body" style={{ padding: 0 }}>
-                        {loading ? (
-                            <div style={{ padding: '48px', display: 'flex', justifyContent: 'center' }}>
-                                <LoadingSpinner />
-                            </div>
-                        ) : (
-                            <table className="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Nom de l'équipe</th>
-                                        <th>Effectif</th>
-                                        <th>Créé le</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {teams.length === 0 && (
-                                        <tr>
-                                            <td colSpan={4} style={{ textAlign: 'center', padding: '24px', color: 'var(--text3)' }}>Aucune équipe trouvée.</td>
-                                        </tr>
-                                    )}
-                                    {teams.map(team => (
-                                        <tr key={team._id}>
-                                            <td style={{ fontWeight: 700 }}>{team.name}</td>
-                                            <td>{team.members?.length || 0} membre(s)</td>
-                                            <td style={{ fontFamily: 'var(--font-mono)' }}>{new Date(team.createdAt).toLocaleDateString()}</td>
-                                            <td>
-                                                <button style={{ padding: '6px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: '6px', cursor: 'pointer', color: 'var(--text)' }}>Éditer</button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        )}
-                    </div>
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <LoadingSpinner />
             </div>
-        </div>
+        );
+    }
+
+    return (
+        <section className="max-w-5xl mx-auto py-6">
+            <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
+                <Users className="w-6 h-6" />
+                  quipes disponibles
+            </h2>
+
+            <div className="mb-6 bg-white p-4 rounded-lg border shadow-sm">
+                <label className="block text-sm font-medium mb-2">R  clamation    affecter :</label>
+                <input
+                    type="text"
+                    placeholder="ID de la r  clamation"
+                    className="border rounded p-2 w-full max-w-md"
+                    value={selectedComplaint}
+                    onChange={(e) => setSelectedComplaint(e.target.value)}
+                />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {Array.isArray(teams) && teams.map((team) => (
+                    <TeamCard key={team._id} team={team} onAssign={assignTeam} />
+                ))}
+            </div>
+
+            {(!Array.isArray(teams) || teams.length === 0) && (
+                <div className="bg-white rounded-lg border p-12 text-center text-gray-500">
+                    Aucune   quipe disponible
+                </div>
+            )}
+        </section>
     );
 }

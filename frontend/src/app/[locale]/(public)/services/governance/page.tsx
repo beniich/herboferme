@@ -9,18 +9,18 @@ export default function GovernanceLanding() {
                 </div>
                 <h1 className="text-6xl md:text-8xl font-display font-black uppercase italic tracking-tighter">
                     Gouvernance <br />
-                    <span className="text-blue-500 not-italic">Numérique</span>
+                    <span className="text-blue-500 not-italic">Num  rique</span>
                 </h1>
                 <p className="text-xl text-slate-400 font-light leading-relaxed">
                     Nous transformons l'administration publique avec des solutions de transparence,
-                    de gestion des réclamations et d'e-gouvernance de nouvelle génération.
+                    de gestion des r  clamations et d'e-gouvernance de nouvelle g  n  ration.
                 </p>
                 <div className="flex flex-wrap justify-center gap-6 pt-10">
                     <button className="px-10 py-5 bg-brand-orange text-white font-black rounded-2xl text-xs uppercase tracking-widest shadow-xl shadow-brand-orange/20 hover:scale-105 transition-all">
                         Demander une Consultation
                     </button>
                     <button className="px-10 py-5 glass-card rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-white/5 transition-all">
-                        Nos Références
+                        Nos R  f  rences
                     </button>
                 </div>
             </div>

@@ -61,7 +61,7 @@ export default function DatabasePage() {
                         </div>
                         <div>
                             <h2 className="text-2xl font-black uppercase tracking-tight">PostgreSQL Prod Cluster</h2>
-                            <p className="text-slate-500 font-medium">cluster-pg-v2-41-stable • <span className="text-emerald-500">Normal Operation</span></p>
+                            <p className="text-slate-500 font-medium">cluster-pg-v2-41-stable     <span className="text-emerald-500">Normal Operation</span></p>
                         </div>
                     </div>
                     <div className="flex gap-3">

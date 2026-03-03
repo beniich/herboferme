@@ -25,11 +25,11 @@ export function formatRelativeTime(date: string | Date): string {
     const dateObj = typeof date === 'string' ? parseISO(date) : date;
 
     if (isToday(dateObj)) {
-        return `Aujourd'hui à ${format(dateObj, 'HH:mm')}`;
+        return `Aujourd'hui    ${format(dateObj, 'HH:mm')}`;
     }
 
     if (isYesterday(dateObj)) {
-        return `Hier à ${format(dateObj, 'HH:mm')}`;
+        return `Hier    ${format(dateObj, 'HH:mm')}`;
     }
 
     return formatDistanceToNow(dateObj, { addSuffix: true, locale: fr });
@@ -231,7 +231,7 @@ export function groupBy<T>(array: T[], key: keyof T): Record<string, T[]> {
         }
         result[group].push(item);
         return result;
-    }, {} as Record<string, T[]>);
+    }, { /* Intentionally empty */ } as Record<string, T[]>);
 }
 
 /**

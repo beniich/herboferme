@@ -21,7 +21,7 @@ export default function NewComplaintPage() {
     return (
         <section className="py-8 bg-slate-50 dark:bg-slate-950 min-h-screen">
             <div className="container mx-auto">
-                <h1 className="text-3xl font-bold text-center mb-2">Nouvelle Réclamation</h1>
+                <h1 className="text-3xl font-bold text-center mb-2">Nouvelle R  clamation</h1>
                 <p className="text-center text-slate-500 mb-8">Remplissez le formulaire ci-dessous pour signaler un incident.</p>
                 <CreateComplaintWizard />
             </div>

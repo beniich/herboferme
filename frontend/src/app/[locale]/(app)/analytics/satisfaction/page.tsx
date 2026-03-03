@@ -46,26 +46,26 @@ export default function CitizenSatisfactionPage() {
         return () => clearTimeout(timer);
     }, [timeRange]);
 
-    // Données factices pour démonstration
+    // Donn  es factices pour d  monstration
     const satisfactionDistribution = [
-        { name: 'Très satisfait', value: 45, color: '#22c55e' },
+        { name: 'Tr  s satisfait', value: 45, color: '#22c55e' },
         { name: 'Satisfait', value: 30, color: '#84cc16' },
         { name: 'Neutre', value: 15, color: '#eab308' },
         { name: 'Insatisfait', value: 7, color: '#f97316' },
-        { name: 'Très insatisfait', value: 3, color: '#ef4444' },
+        { name: 'Tr  s insatisfait', value: 3, color: '#ef4444' },
     ];
 
     const categoryRatings = [
         { category: 'Eau', rating: 4.2, max: 5 },
         { category: 'Routes', rating: 3.8, max: 5 },
-        { category: 'Déchets', rating: 4.5, max: 5 },
-        { category: 'Électricité', rating: 4.1, max: 5 },
-        { category: 'Éclairage', rating: 3.9, max: 5 },
+        { category: 'D  chets', rating: 4.5, max: 5 },
+        { category: '  lectricit  ', rating: 4.1, max: 5 },
+        { category: '  clairage', rating: 3.9, max: 5 },
     ];
 
     const monthlyTrend = [
         { month: 'Jan', satisfied: 72, neutral: 18, unsatisfied: 10 },
-        { month: 'Fév', satisfied: 75, neutral: 16, unsatisfied: 9 },
+        { month: 'F  v', satisfied: 75, neutral: 16, unsatisfied: 9 },
         { month: 'Mar', satisfied: 78, neutral: 15, unsatisfied: 7 },
         { month: 'Avr', satisfied: 80, neutral: 14, unsatisfied: 6 },
         { month: 'Mai', satisfied: 82, neutral: 13, unsatisfied: 5 },
@@ -86,7 +86,7 @@ export default function CitizenSatisfactionPage() {
             <div className="p-6 flex items-center justify-center min-h-[50vh]">
                 <div className="text-center">
                     <div className="animate-spin w-12 h-12 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4" />
-                    <p className="text-slate-500">Chargement des données...</p>
+                    <p className="text-slate-500">Chargement des donn  es...</p>
                 </div>
             </div>
         );
@@ -169,7 +169,7 @@ export default function CitizenSatisfactionPage() {
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <CardTitle className="text-sm font-medium text-slate-500">
-                            Réponses
+                            R  ponses
                         </CardTitle>
                         <MessageSquare className="w-4 h-4 text-blue-500" />
                     </CardHeader>
@@ -185,7 +185,7 @@ export default function CitizenSatisfactionPage() {
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <CardTitle className="text-sm font-medium text-slate-500">
-                            Temps de Réponse Moyen
+                            Temps de R  ponse Moyen
                         </CardTitle>
                         <Clock className="w-4 h-4 text-purple-500" />
                     </CardHeader>
@@ -231,10 +231,10 @@ export default function CitizenSatisfactionPage() {
                     </CardContent>
                 </Card>
 
-                {/* Évolution Mensuelle */}
+                {/*   volution Mensuelle */}
                 <Card>
                     <CardHeader>
-                        <CardTitle>Évolution de la Satisfaction</CardTitle>
+                        <CardTitle>  volution de la Satisfaction</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <ResponsiveContainer width="100%" height={300}>
@@ -270,10 +270,10 @@ export default function CitizenSatisfactionPage() {
                     </CardContent>
                 </Card>
 
-                {/* Notes par Catégorie */}
+                {/* Notes par Cat  gorie */}
                 <Card>
                     <CardHeader>
-                        <CardTitle>Satisfaction par Catégorie</CardTitle>
+                        <CardTitle>Satisfaction par Cat  gorie</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <ResponsiveContainer width="100%" height={300}>
@@ -288,10 +288,10 @@ export default function CitizenSatisfactionPage() {
                     </CardContent>
                 </Card>
 
-                {/* Radar Chart - Performance Multi-critères */}
+                {/* Radar Chart - Performance Multi-crit  res */}
                 <Card>
                     <CardHeader>
-                        <CardTitle>Performance Multi-critères</CardTitle>
+                        <CardTitle>Performance Multi-crit  res</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <ResponsiveContainer width="100%" height={300}>
@@ -316,7 +316,7 @@ export default function CitizenSatisfactionPage() {
             {/* Feedback Keywords */}
             <Card>
                 <CardHeader>
-                    <CardTitle>Mots-clés dans les Retours</CardTitle>
+                    <CardTitle>Mots-cl  s dans les Retours</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="flex flex-wrap gap-3">
@@ -338,7 +338,7 @@ export default function CitizenSatisfactionPage() {
             {/* Recent Feedback */}
             <Card>
                 <CardHeader>
-                    <CardTitle>Retours Récents</CardTitle>
+                    <CardTitle>Retours R  cents</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="space-y-4">
@@ -346,22 +346,22 @@ export default function CitizenSatisfactionPage() {
                             {
                                 id: 1,
                                 rating: 5,
-                                comment: 'Excellent service, problème résolu rapidement!',
+                                comment: 'Excellent service, probl  me r  solu rapidement!',
                                 category: 'Eau',
                                 date: '2025-02-08',
                             },
                             {
                                 id: 2,
                                 rating: 4,
-                                comment: 'Bonne prise en charge, équipe professionnelle',
+                                comment: 'Bonne prise en charge,   quipe professionnelle',
                                 category: 'Routes',
                                 date: '2025-02-08',
                             },
                             {
                                 id: 3,
                                 rating: 2,
-                                comment: 'Délai trop long, mais bon résultat final',
-                                category: 'Électricité',
+                                comment: 'D  lai trop long, mais bon r  sultat final',
+                                category: '  lectricit  ',
                                 date: '2025-02-07',
                             },
                         ].map((feedback) => (

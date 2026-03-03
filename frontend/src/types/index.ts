@@ -29,7 +29,7 @@ export interface Complaint {
     phone?: string;
 
     // Workflow
-    status: 'nouvelle' | 'en cours' | 'résolue' | 'fermée' | 'rejetée';
+    status: 'nouvelle' | 'en cours' | 'r  solue' | 'ferm  e' | 'rejet  e';
     assignedTeamId?: { _id: string; name: string }; // Populated
     technicianId?: { _id: string; name: string; email: string }; // Populated
 
@@ -42,7 +42,7 @@ export interface Complaint {
 
 export interface Team {
     _id: string;
-    name: string;                // Eau, Électricité, …
+    name: string;                // Eau,   lectricit  ,
     status: 'disponible' | 'intervention' | 'repos';
     location?: { lat: number; lng: number };
 }
@@ -51,9 +51,9 @@ export interface PlanningSlot {
     _id: string;
     teamId: string;
     teamName: string;
-    start: string;              // ISO date‑time
+    start: string;              // ISO date   time
     end: string;
-    complaintNumber?: string;   // si un ticket est lié
+    complaintNumber?: string;   // si un ticket est li
 }
 
 export interface User {
@@ -69,7 +69,7 @@ export interface Assignment {
     complaintId: string;
     teamId: string;
     assignedAt: string;
-    status: 'affecté' | 'en cours' | 'terminé';
+    status: 'affect  ' | 'en cours' | 'termin  ';
 }
 
 // Types from Roadmap 2

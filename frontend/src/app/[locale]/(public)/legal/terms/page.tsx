@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function TermsPage() {
     const sections = [
-        { id: 'acceptance', title: '1. Acceptance of Protocol', content: `By accessing ReclamTrack Pro and utilizing our decentralized infrastructure, you agree to be bound by these mission-critical Terms of Service. If you do not accept these parameters, شما must immediately cease all transmissions. These terms apply to all verified entities on the platform.` },
+        { id: 'acceptance', title: '1. Acceptance of Protocol', content: `By accessing ReclamTrack Pro and utilizing our decentralized infrastructure, you agree to be bound by these mission-critical Terms of Service. If you do not accept these parameters,        must immediately cease all transmissions. These terms apply to all verified entities on the platform.` },
         { id: 'description', title: '2. Service Architecture', content: `ReclamTrack Pro provides an elite SaaS platform for reclamation management and civic intelligence. The service includes: advanced analytics dashboards, ticket orchestration, real-time notification hubs, RESTful APIs, and cross-platform integrations.` },
         { id: 'accountability', title: '3. Identity Accountability', content: `You are solely responsible for the fortification of your access credentials. Notify internal security immediately of any unauthorized breach. ReclamTrack Pro is not liable for data leakage resulting from insecure identity management on the client side.` },
         { id: 'usage', title: '4. Operational Parameters', content: `Users are prohibited from: (a) utilizing the platform for non-verified operations; (b) attempting unauthorized privilege escalation; (c) redistributing proprietary code; (d) injecting malicious payloads; (e) scraping or harvesting metadata from other organizations.` },
@@ -79,7 +79,7 @@ export default function TermsPage() {
                             {sections.map((section, i) => (
                                 <div key={i} id={section.id} className="scroll-mt-32">
                                     <h2 className="text-2xl font-black mb-6 text-slate-900 dark:text-white flex items-center gap-4">
-                                        <span className="text-primary italic font-serif">§</span>
+                                        <span className="text-primary italic font-serif">  </span>
                                         {section.title}
                                     </h2>
                                     <div className="text-slate-600 dark:text-slate-400 leading-relaxed font-light text-lg">
@@ -98,7 +98,7 @@ export default function TermsPage() {
 
             <footer className="bg-slate-100 dark:bg-black/40 py-16 border-t border-primary/10 mt-auto">
                 <div className="max-w-7xl mx-auto px-6 text-center">
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em] mb-4">© {new Date().getFullYear()} ReclamTrack Pro Global HQ. Licensed for Enterprise Use.</p>
+                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em] mb-4">   {new Date().getFullYear()} ReclamTrack Pro Global HQ. Licensed for Enterprise Use.</p>
                 </div>
             </footer>
         </div>

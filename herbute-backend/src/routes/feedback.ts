@@ -1,4 +1,4 @@
-﻿import { Router, Request, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import { authenticate as auth } from '../middleware/security.js';
 import { logger } from '../utils/logger.js';
 import { Feedback } from '../models/Feedback.js';
@@ -9,7 +9,7 @@ const router = Router();
 router.get('/', auth, async (req: Request, res: Response) => {
     try {
         const { status, rating } = req.query;
-        const query: any = {};
+        const query: any = { /* Intentionally empty */ };
 
         if (status) query.status = status;
         if (rating) query.rating = { $gte: Number(rating) };
@@ -18,7 +18,7 @@ router.get('/', auth, async (req: Request, res: Response) => {
 
         res.json({ success: true, data: feedbacks });
     } catch (error) {
-        logger.error('Erreur récupération feedback:', error);
+        logger.error('Erreur r  cup  ration feedback:', error);
         res.status(500).json({ success: false, message: 'Erreur serveur' });
     }
 });
@@ -42,7 +42,7 @@ router.post('/', async (req: Request, res: Response) => {
         });
 
         await newFeedback.save();
-        logger.info(`Nouveau feedback reçu: ${rating}/5`);
+        logger.info(`Nouveau feedback re  u: ${rating}/5`);
 
         res.status(201).json({ success: true, message: 'Merci pour votre retour !' });
     } catch (error) {

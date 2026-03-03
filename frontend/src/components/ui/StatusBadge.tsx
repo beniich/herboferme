@@ -1,4 +1,4 @@
-type Status = 'new' | 'in-progress' | 'resolved' | 'urgent' | 'pending' | 'nouvelle' | 'en cours' | 'résolue' | 'fermée';
+type Status = 'new' | 'in-progress' | 'resolved' | 'urgent' | 'pending' | 'nouvelle' | 'en cours' | 'r  solue' | 'ferm  e';
 
 interface StatusBadgeProps {
     status: Status | string;
@@ -10,17 +10,17 @@ const statusConfig: Record<string, { label: string; color: string; icon: string 
     new: {
         label: 'New',
         color: 'bg-primary/10 text-primary border-primary/20',
-        icon: '●',
+        icon: '   ',
     },
     'in-progress': {
         label: 'In Progress',
         color: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200 dark:border-amber-800',
-        icon: '◐',
+        icon: '   ',
     },
     resolved: {
         label: 'Resolved',
         color: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800',
-        icon: '✓',
+        icon: '   ',
     },
     urgent: {
         label: 'Urgent',
@@ -30,27 +30,27 @@ const statusConfig: Record<string, { label: string; color: string; icon: string 
     pending: {
         label: 'Pending',
         color: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700',
-        icon: '⏱️',
+        icon: '      ',
     },
     nouvelle: {
         label: 'Nouvelle',
         color: 'bg-primary/10 text-primary border-primary/20',
-        icon: '●',
+        icon: '   ',
     },
     'en cours': {
         label: 'En Cours',
         color: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200 dark:border-amber-800',
-        icon: '◐',
+        icon: '   ',
     },
-    résolue: {
-        label: 'Résolue',
+    r  solue: {
+        label: 'R  solue',
         color: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800',
-        icon: '✓',
+        icon: '   ',
     },
-    fermée: {
-        label: 'Fermée',
+    ferm  e: {
+        label: 'Ferm  e',
         color: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700',
-        icon: '✓',
+        icon: '   ',
     },
 };
 
@@ -58,17 +58,17 @@ const priorityConfig: Record<string, { label: string; color: string; icon: strin
     low: {
         label: 'Low',
         color: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700',
-        icon: '↓',
+        icon: '   ',
     },
     medium: {
         label: 'Medium',
         color: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400 border-blue-200 dark:border-blue-800',
-        icon: '→',
+        icon: '   ',
     },
     high: {
         label: 'High',
         color: 'bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400 border-orange-200 dark:border-orange-800',
-        icon: '↑',
+        icon: '   ',
     },
     urgent: {
         label: 'Urgent',
@@ -78,7 +78,7 @@ const priorityConfig: Record<string, { label: string; color: string; icon: strin
     critical: {
         label: 'Critical',
         color: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-500 border-red-200 dark:border-red-800',
-        icon: '⚠',
+        icon: '   ',
     },
 };
 

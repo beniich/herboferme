@@ -30,14 +30,14 @@ export default function FleetMapPage() {
               </span>
             </h1>
             <p className="text-xs text-slate-500 font-medium">
-              Localisation temps réel et itinéraires des équipes d'intervention
+              Localisation temps r  el et itin  raires des   quipes d'intervention
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
           <div className="hidden md:flex flex-col items-end mr-2">
-            <span className="text-[10px] text-slate-400 uppercase font-bold tracking-tighter">Dernière mise à jour</span>
+            <span className="text-[10px] text-slate-400 uppercase font-bold tracking-tighter">Derni  re mise    jour</span>
             <span className="text-xs font-mono font-bold text-slate-600 dark:text-slate-300">
               {lastUpdate.toLocaleTimeString()}
             </span>
@@ -66,7 +66,7 @@ export default function FleetMapPage() {
         {/* Floating Stats Overlay */}
         <div className="absolute top-6 left-6 flex flex-col gap-3 pointer-events-none">
           <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/20 dark:border-slate-800 w-52 pointer-events-auto">
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Équipes Actives</p>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">  quipes Actives</p>
             <div className="flex items-end gap-2">
               <span className="text-3xl font-black text-slate-900 dark:text-white">12</span>
               <span className="mb-1 text-xs font-bold text-green-500">+2 vs hier</span>

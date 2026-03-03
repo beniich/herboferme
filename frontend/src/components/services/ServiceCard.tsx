@@ -77,7 +77,7 @@ export function ServiceCard({
                                 </span>
                                 {detail.highlight && (
                                     <button className="opacity-0 group-hover/line:opacity-100 transition-opacity text-slate-400 hover:text-primary p-1">
-                                        📋
+
                                     </button>
                                 )}
                             </div>

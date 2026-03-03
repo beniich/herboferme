@@ -162,7 +162,7 @@ export default function BDRDashboard() {
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Secret Access Key</label>
-                                        <input className="w-full bg-white dark:bg-background-dark border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:ring-primary focus:border-primary px-4 py-2.5 outline-none transition-all" type="password" defaultValue="••••••••••••••••••••••••" />
+                                        <input className="w-full bg-white dark:bg-background-dark border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:ring-primary focus:border-primary px-4 py-2.5 outline-none transition-all" type="password" defaultValue="                                                                        " />
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-4 pt-2">

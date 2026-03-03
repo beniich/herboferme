@@ -291,7 +291,7 @@ export default function ThreatIntelPage() {
                 </div>
                 <div className="flex gap-3">
                     <button className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-white px-4 py-2 rounded-lg text-xs font-bold transition-all border border-slate-200 dark:border-slate-700">
-                        <span>🔽</span> Export Report
+                        <span>    </span> Export Report
                     </button>
                     <button className="flex items-center gap-2 bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded-lg text-xs font-bold transition-all shadow-lg shadow-primary/20">
                         <Shield className="w-4 h-4" /> Deploy Countermeasures

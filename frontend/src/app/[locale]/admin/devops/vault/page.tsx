@@ -101,7 +101,7 @@ export default function SecretsManagementPage() {
                             </td>
                             <td className="px-6 py-4 font-mono text-xs">192.168.1.104</td>
                             <td className="px-6 py-4 text-right">
-                                <span className="text-emerald-500">✓</span>
+                                <span className="text-emerald-500">   </span>
                             </td>
                         </tr>
                     </tbody>
@@ -118,11 +118,11 @@ export default function SecretsManagementPage() {
                     </div>
                     <div className="space-y-3">
                         <div className="flex items-center gap-3">
-                            <span className="text-emerald-500">✓</span>
+                            <span className="text-emerald-500">   </span>
                             <p className="text-sm">AES-256 Encryption</p>
                         </div>
                         <div className="flex items-center gap-3">
-                            <span className="text-emerald-500">✓</span>
+                            <span className="text-emerald-500">   </span>
                             <p className="text-sm">Auto-rotation Enabled</p>
                         </div>
                     </div>

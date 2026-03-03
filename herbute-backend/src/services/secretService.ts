@@ -1,4 +1,4 @@
-﻿import crypto from 'crypto';
+import crypto from 'crypto';
 import { Secret } from '../models/Secret.js';
 
 const ENCRYPTION_KEY = process.env.SECRET_ENCRYPTION_KEY || 'your-default-32-char-key-here-!!!'; // Must be 32 chars
@@ -63,7 +63,7 @@ export class SecretService {
       byCategory: secrets.reduce((acc: any, s) => {
         acc[s.category] = (acc[s.category] || 0) + 1;
         return acc;
-      }, {}),
+      }, { /* Intentionally empty */ }),
       expiringSoon: secrets.filter(
         (s) => s.expiresAt && new Date(s.expiresAt).getTime() - Date.now() < 7 * 24 * 60 * 60 * 1000
       ).length,

@@ -1,4 +1,4 @@
-﻿import { Router } from 'express';
+import { Router } from 'express';
 import { authenticate as protect, requireAdmin as adminOnly } from '../middleware/security.js';
 import { requireOrganization } from '../middleware/security.js';
 import { Team } from '../models/Team.js';
@@ -70,7 +70,7 @@ router.patch(
                 req.body,
                 { new: true }
             );
-            if (!team) return res.status(404).json({ message: 'Équipe introuvable' });
+            if (!team) return res.status(404).json({ message: '  quipe introuvable' });
 
             // Kafka Event
             await eventBus.publish('team-events', 'TEAM_UPDATED', {

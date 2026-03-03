@@ -4,9 +4,9 @@ import React, { useEffect, useState } from "react";
 import { useDebug } from "../hooks/useDebug";
 
 /**
- * Widget flottant disponible en dev uniquement (déterminé via VITE_DEBUG_WIDGET_ENABLED).
- * - Se déclenche avec le raccourci Ctrl+Alt+D.
- * - S'abonne à l'événement global `debug-error` qui porte `{errorId}`.
+ * Widget flottant disponible en dev uniquement (d  termin   via VITE_DEBUG_WIDGET_ENABLED).
+ * - Se d  clenche avec le raccourci Ctrl+Alt+D.
+ * - S'abonne    l'  v  nement global `debug-error` qui porte `{errorId}`.
  */
 const DEBUG_WIDGET_ENABLED = process.env.NEXT_PUBLIC_DEBUG_WIDGET_ENABLED === "true" && process.env.NODE_ENV !== "production";
 
@@ -25,7 +25,7 @@ export default function DebugWidget() {
         return () => window.removeEventListener("keydown", handler);
     }, []);
 
-    // Ecoute d'un event global (déclenché par le middleware backend)
+    // Ecoute d'un event global (d  clench   par le middleware backend)
     useEffect(() => {
         if (!DEBUG_WIDGET_ENABLED) return;
         const listener = (ev: Event) => {
@@ -76,16 +76,16 @@ export default function DebugWidget() {
                     }}
                     title="Fermer"
                 >
-                    ×
+
                 </button>
             </div>
 
             <div style={{ padding: "0.75rem 1rem" }}>
                 {/* Aucun error_id */}
-                {!errorId && <p style={{ opacity: 0.7, fontStyle: "italic" }}>Aucune erreur détectée.</p>}
+                {!errorId && <p style={{ opacity: 0.7, fontStyle: "italic" }}>Aucune erreur d  tect  e.</p>}
 
                 {/* Loading */}
-                {errorId && loading && <p style={{ opacity: 0.7 }}>Analyse en cours…</p>}
+                {errorId && loading && <p style={{ opacity: 0.7 }}>Analyse en cours   </p>}
 
                 {/* Error */}
                 {error && <p style={{ color: "#ff6b6b" }}>Erreur : {error}</p>}
@@ -109,7 +109,7 @@ export default function DebugWidget() {
 
                         {info.suggested_patch && (
                             <section style={{ marginBottom: "1rem" }}>
-                                <h4 style={{ margin: "0 0 0.25rem", color: "#c5e1a5" }}>Patch suggéré</h4>
+                                <h4 style={{ margin: "0 0 0.25rem", color: "#c5e1a5" }}>Patch sugg  r  </h4>
                                 <pre
                                     style={{
                                         whiteSpace: "pre-wrap",

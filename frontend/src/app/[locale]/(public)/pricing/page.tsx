@@ -258,7 +258,7 @@ export default function PricingPage() {
                         </div>
                     </div>
                     <div className="mt-12 pt-8 border-t border-slate-200 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">© {new Date().getFullYear()} ReclamTrack Pro Infrastructure</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">   {new Date().getFullYear()} ReclamTrack Pro Infrastructure</p>
                         <div className="flex gap-4">
                             <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary group hover:bg-primary hover:text-white transition-all cursor-pointer">
                                 <span className="material-symbols-outlined text-sm">share</span>

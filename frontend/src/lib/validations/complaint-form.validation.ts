@@ -1,7 +1,7 @@
 // lib/validations/complaint-form.validation.ts
 import { z } from 'zod';
 
-// Étape 1: Informations de base
+//   tape 1: Informations de base
 export const step1Schema = z.object({
     category: z.enum([
         'water',
@@ -14,23 +14,23 @@ export const step1Schema = z.object({
         'noise',
         'other'
     ], {
-        required_error: 'Veuillez sélectionner une catégorie',
+        required_error: 'Veuillez s  lectionner une cat  gorie',
     }),
-    subcategory: z.string().min(1, 'Sous-catégorie requise'),
+    subcategory: z.string().min(1, 'Sous-cat  gorie requise'),
     priority: z.enum(['low', 'medium', 'high', 'urgent'], {
-        required_error: 'Priorité requise',
+        required_error: 'Priorit   requise',
     }),
     title: z.string()
-        .min(10, 'Le titre doit contenir au moins 10 caractères')
-        .max(100, 'Le titre ne peut pas dépasser 100 caractères'),
+        .min(10, 'Le titre doit contenir au moins 10 caract  res')
+        .max(100, 'Le titre ne peut pas d  passer 100 caract  res'),
     description: z.string()
-        .min(20, 'La description doit contenir au moins 20 caractères')
-        .max(1000, 'La description ne peut pas dépasser 1000 caractères'),
+        .min(20, 'La description doit contenir au moins 20 caract  res')
+        .max(1000, 'La description ne peut pas d  passer 1000 caract  res'),
 });
 
-// Étape 2: Localisation
+//   tape 2: Localisation
 export const step2Schema = z.object({
-    address: z.string().min(5, 'Adresse complète requise'),
+    address: z.string().min(5, 'Adresse compl  te requise'),
     city: z.string().min(2, 'Ville requise'),
     district: z.string().min(2, 'Quartier requis'),
     postalCode: z.string()
@@ -44,14 +44,14 @@ export const step2Schema = z.object({
     landmark: z.string().optional(),
 });
 
-// Étape 3: Documents et preuves
+//   tape 3: Documents et preuves
 export const step3Schema = z.object({
     photos: z.array(z.object({
         file: z.instanceof(File)
-            .refine((file) => file.size <= 5 * 1024 * 1024, 'La photo ne doit pas dépasser 5MB')
+            .refine((file) => file.size <= 5 * 1024 * 1024, 'La photo ne doit pas d  passer 5MB')
             .refine(
                 (file) => ['image/jpeg', 'image/png', 'image/webp'].includes(file.type),
-                'Format accepté: JPG, PNG, WebP'
+                'Format accept  : JPG, PNG, WebP'
             ),
         preview: z.string().url(),
         caption: z.string().max(200).optional(),
@@ -60,10 +60,10 @@ export const step3Schema = z.object({
         .max(5, 'Maximum 5 photos'),
     documents: z.array(z.object({
         file: z.instanceof(File)
-            .refine((file) => file.size <= 10 * 1024 * 1024, 'Le document ne doit pas dépasser 10MB')
+            .refine((file) => file.size <= 10 * 1024 * 1024, 'Le document ne doit pas d  passer 10MB')
             .refine(
                 (file) => ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(file.type),
-                'Format accepté: PDF, DOC, DOCX'
+                'Format accept  : PDF, DOC, DOCX'
             ),
         name: z.string(),
     }))
@@ -71,44 +71,44 @@ export const step3Schema = z.object({
         .optional(),
     audioNote: z.object({
         file: z.instanceof(File)
-            .refine((file) => file.size <= 5 * 1024 * 1024, 'L\'enregistrement ne doit pas dépasser 5MB')
+            .refine((file) => file.size <= 5 * 1024 * 1024, 'L\'enregistrement ne doit pas d  passer 5MB')
             .refine(
                 (file) => ['audio/mpeg', 'audio/wav', 'audio/webm'].includes(file.type),
-                'Format accepté: MP3, WAV, WebM'
+                'Format accept  : MP3, WAV, WebM'
             ),
-        duration: z.number().max(300, 'Durée maximum: 5 minutes'),
+        duration: z.number().max(300, 'Dur  e maximum: 5 minutes'),
     }).optional(),
 });
 
-// Étape 4: Informations du réclamant
+//   tape 4: Informations du r  clamant
 export const step4Schema = z.object({
     isAnonymous: z.boolean(),
-    firstName: z.string().min(2, 'Prénom requis').optional(),
+    firstName: z.string().min(2, 'Pr  nom requis').optional(),
     lastName: z.string().min(2, 'Nom requis').optional(),
     email: z.string()
         .email('Email invalide')
         .optional(),
     phone: z.string()
-        .regex(/^(\+212|0)[5-7]\d{8}$/, 'Numéro de téléphone marocain invalide')
+        .regex(/^(\+212|0)[5-7]\d{8}$/, 'Num  ro de t  l  phone marocain invalide')
         .optional(),
     alternatePhone: z.string()
-        .regex(/^(\+212|0)[5-7]\d{8}$/, 'Numéro de téléphone marocain invalide')
+        .regex(/^(\+212|0)[5-7]\d{8}$/, 'Num  ro de t  l  phone marocain invalide')
         .optional(),
     notificationPreference: z.enum(['email', 'sms', 'both', 'none']),
     agreeToTerms: z.boolean().refine((val) => val === true, {
         message: 'Vous devez accepter les conditions d\'utilisation',
     }),
 }).superRefine((data, ctx) => {
-    // Si non anonyme, email ou téléphone requis
+    // Si non anonyme, email ou t  l  phone requis
     if (!data.isAnonymous && !data.email && !data.phone) {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: 'Email ou téléphone requis pour les réclamations non-anonymes',
+            message: 'Email ou t  l  phone requis pour les r  clamations non-anonymes',
             path: ['email'],
         });
     }
 
-    // Si préférence email, email requis
+    // Si pr  f  rence email, email requis
     if (data.notificationPreference !== 'none' &&
         data.notificationPreference !== 'sms' &&
         !data.email) {
@@ -120,7 +120,7 @@ export const step4Schema = z.object({
     }
 });
 
-// Schéma complet du formulaire
+// Sch  ma complet du formulaire
 export const complaintFormSchema = z.object({
     step1: step1Schema,
     step2: step2Schema,

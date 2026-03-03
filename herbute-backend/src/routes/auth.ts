@@ -1,23 +1,23 @@
-﻿/**
- * â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
- * routes/auth.routes.ts â€” IAM complet (migrÃ© depuis ReclamTrack)
- * â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/**
+ *
+ * routes/auth.routes.ts          IAM complet (migr     depuis ReclamTrack)
+ *
  *
  * Toutes les routes d'authentification sont maintenant
  * dans ce backend Herbute unique.
  *
  * Tokens :
- *  - access_token  â†’ Cookie HttpOnly, 15 min
- *  - refresh_token â†’ Cookie HttpOnly, 7 jours
- *    (token opaque, hash stockÃ© en MongoDB)
+ *  - access_token           Cookie HttpOnly, 15 min
+ *  - refresh_token          Cookie HttpOnly, 7 jours
+ *    (token opaque, hash stock     en MongoDB)
  */
 
 import { Router, Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import rateLimit from 'express-rate-limit';
-import { authenticate } from '../middleware/authenticate.js';
-import { generateTokenPair, hashRefreshToken } from '../utils/tokens.js';
+import { authenticate } from '../middleware/authenticate';
+import { generateTokenPair, hashRefreshToken } from '../utils/tokens';
 import { User } from '../models/user.model.js';
 import { RefreshToken } from '../models/refresh-token.model.js';
 import { Organization } from '../models/Organization.js';
@@ -26,20 +26,20 @@ import { HERBUTE_ROUTES } from '@reclamtrack/shared';
 
 const router = Router();
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//
 // Rate limiting strict sur les routes auth
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max:      10,
-  message:  { error: 'Trop de tentatives. RÃ©essayez dans 15 minutes.', code: 'RATE_LIMITED' },
+  message:  { error: 'Trop de tentatives. R    essayez dans 15 minutes.', code: 'RATE_LIMITED' },
   standardHeaders: true,
   legacyHeaders:   false,
 });
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// Helper : Ã©criture des cookies HttpOnly
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//
+// Helper :     criture des cookies HttpOnly
+//
 const setAuthCookies = (
   res: Response,
   accessToken: string,
@@ -47,36 +47,36 @@ const setAuthCookies = (
 ): void => {
   const isProduction = process.env.NODE_ENV === 'production';
 
-  // Access token â€” courte durÃ©e (15 min)
+  // Access token          courte dur    e (15 min)
   res.cookie('access_token', accessToken, {
-    httpOnly: true,              // Inaccessible en JS â†’ protÃ¨ge contre XSS
+    httpOnly: true,              // Inaccessible en JS          prot    ge contre XSS
     secure:   isProduction,      // HTTPS uniquement en prod
-    sameSite: isProduction ? 'strict' : 'lax',          // ProtÃ¨ge contre CSRF
+    sameSite: isProduction ? 'strict' : 'lax',          // Prot    ge contre CSRF
     maxAge:   15 * 60 * 1000,   // 15 minutes en ms
     path:     '/',
   });
 
-  // Refresh token â€” longue durÃ©e (7 jours)
+  // Refresh token          longue dur    e (7 jours)
   res.cookie('refresh_token', refreshToken, {
     httpOnly: true,
     secure:   isProduction,
     sameSite: isProduction ? 'strict' : 'lax',
     maxAge:   7 * 24 * 60 * 60 * 1000, // 7 jours en ms
-    path:     '/api/auth/refresh',       // Cookie envoyÃ© UNIQUEMENT sur ce path
+    path:     '/api/auth/refresh',       // Cookie envoy     UNIQUEMENT sur ce path
   });
 };
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//
 // Helper : effacement des cookies (logout)
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//
 const clearAuthCookies = (res: Response): void => {
   res.clearCookie('access_token',  { path: '/' });
   res.clearCookie('refresh_token', { path: '/api/auth/refresh' });
 };
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//
 // POST /api/auth/register
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//
 router.post('/register', authLimiter, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password, nom, prenom, telephone, farmName, role = 'employe' } = req.body;
@@ -89,11 +89,11 @@ router.post('/register', authLimiter, async (req: Request, res: Response, next: 
       });
     }
 
-    // VÃ©rification email unique (rÃ©ponse identique pour Ã©viter l'Ã©numÃ©ration)
+    // V    rification email unique (r    ponse identique pour     viter l'    num    ration)
     const existing = await User.findOne({ email: email.toLowerCase() });
     if (existing) {
       return res.status(409).json({
-        error: 'Un compte avec cet email existe dÃ©jÃ .',
+        error: 'Un compte avec cet email existe d    j   .',
         code:  'EMAIL_EXISTS',
       });
     }
@@ -102,7 +102,7 @@ router.post('/register', authLimiter, async (req: Request, res: Response, next: 
     const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{10,}$/;
     if (!pwdRegex.test(password)) {
       return res.status(400).json({
-        error: 'Mot de passe trop faible. Min 10 caractÃ¨res avec maj, min, chiffre et caractÃ¨re spÃ©cial.',
+        error: 'Mot de passe trop faible. Min 10 caract    res avec maj, min, chiffre et caract    re sp    cial.',
         code:  'WEAK_PASSWORD',
       });
     }
@@ -110,7 +110,7 @@ router.post('/register', authLimiter, async (req: Request, res: Response, next: 
     // Hash bcrypt (12 rounds)
     const passwordHash = await bcrypt.hash(password, 12);
 
-    // CrÃ©ation du token de vÃ©rification email
+    // Cr    ation du token de v    rification email
     const verifyToken = crypto.randomBytes(32).toString('hex');
     const verifyTokenHash = crypto.createHash('sha256').update(verifyToken).digest('hex');
 
@@ -129,7 +129,7 @@ router.post('/register', authLimiter, async (req: Request, res: Response, next: 
     });
 
     // -------------------------------------------------------------
-    // CrÃ©ation automatique d'une Organisation (Bypass manquant)
+    // Cr    ation automatique d'une Organisation (Bypass manquant)
     // -------------------------------------------------------------
     const org = await Organization.create({
       name: farmName?.trim() || `Organisation de ${nom}`,
@@ -152,7 +152,7 @@ router.post('/register', authLimiter, async (req: Request, res: Response, next: 
     await user.save();
 
     res.status(201).json({
-      message: 'Compte crÃ©Ã©.', // auto org
+      message: 'Compte cr        .', // auto org
       userId:  user._id,
     });
   } catch (err) {
@@ -160,46 +160,41 @@ router.post('/register', authLimiter, async (req: Request, res: Response, next: 
   }
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//
 // POST /api/auth/login
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//
 router.post('/login', authLimiter, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    if (!req.body) {
-      return res.status(400).json({ error: 'Corps de requête manquant.' });
-    }
-
-    const email = typeof req.body.email === 'string' ? req.body.email.trim() : req.body.email;
-    const password = typeof req.body.password === 'string' ? req.body.password.trim() : req.body.password;
+    const { email, password } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({ error: 'Email et mot de passe requis.' });
     }
 
-    // DÃ©lai constant anti-timing attack
+    // D    lai constant anti-timing attack
     const startTime = Date.now();
     const MIN_RESPONSE_TIME = 300; // ms
 
     const user = await User.findOne({ email: email.toLowerCase() }).select('+passwordHash');
 
-    // VÃ©rification compte verrouillÃ©
+    // V    rification compte verrouill
     if (user?.lockedUntil && user.lockedUntil > new Date()) {
       const remainingMs = user.lockedUntil.getTime() - Date.now();
       const remainingMin = Math.ceil(remainingMs / 60000);
       return res.status(423).json({
-        error: `Compte verrouillÃ©. RÃ©essayez dans ${remainingMin} minute(s).`,
+        error: `Compte verrouill    . R    essayez dans ${remainingMin} minute(s).`,
         code:  'ACCOUNT_LOCKED',
       });
     }
 
-    // VÃ©rification du mot de passe (toujours hasher pour Ã©viter timing attack)
+    // V    rification du mot de passe (toujours hasher pour     viter timing attack)
     const dummyHash = '$2b$12$invalid.hash.to.prevent.timing.attack.on.nonexistent.user';
     const isValid = user
       ? await bcrypt.compare(password, user.passwordHash)
       : await bcrypt.compare(password, dummyHash).then(() => false);
 
     if (!user || !isValid) {
-      // IncrÃ©menter les tentatives
+      // Incr    menter les tentatives
       if (user) {
         user.failedLoginAttempts = (user.failedLoginAttempts || 0) + 1;
         if (user.failedLoginAttempts >= 5) {
@@ -208,7 +203,7 @@ router.post('/login', authLimiter, async (req: Request, res: Response, next: Nex
         await user.save();
       }
 
-      // RÃ©ponse aprÃ¨s dÃ©lai minimal (anti-timing)
+      // R    ponse apr    s d    lai minimal (anti-timing)
       const elapsed = Date.now() - startTime;
       if (elapsed < MIN_RESPONSE_TIME) {
         await new Promise(r => setTimeout(r, MIN_RESPONSE_TIME - elapsed));
@@ -217,26 +212,26 @@ router.post('/login', authLimiter, async (req: Request, res: Response, next: Nex
       return res.status(401).json({ error: 'Identifiants invalides.', code: 'INVALID_CREDENTIALS' });
     }
 
-    // Email vÃ©rifiÃ© ?
+    // Email v    rifi     ?
     if (!user.emailVerified) {
       return res.status(403).json({
-        error: 'Email non vÃ©rifiÃ©. Consultez votre boÃ®te mail.',
+        error: 'Email non v    rifi    . Consultez votre bo    te mail.',
         code:  'EMAIL_NOT_VERIFIED',
       });
     }
 
     // Compte actif ?
     if (!user.isActive) {
-      return res.status(403).json({ error: 'Compte dÃ©sactivÃ©.', code: 'ACCOUNT_DISABLED' });
+      return res.status(403).json({ error: 'Compte d    sactiv    .', code: 'ACCOUNT_DISABLED' });
     }
 
-    // SuccÃ¨s â†’ reset compteur
+    // Succ    s          reset compteur
     user.failedLoginAttempts = 0;
     user.lockedUntil         = undefined;
     user.lastLogin           = new Date();
     await user.save();
 
-    // GÃ©nÃ©ration des tokens
+    // G    n    ration des tokens
     const { accessToken, refreshToken, refreshTokenHash } = generateTokenPair({
       id:             user._id.toString(),
       email:          user.email,
@@ -246,7 +241,7 @@ router.post('/login', authLimiter, async (req: Request, res: Response, next: Nex
       organizationId: user.organizationId?.toString(),
     });
 
-    // Stockage du refresh token hashÃ© en DB
+    // Stockage du refresh token hash     en DB
     await RefreshToken.create({
       userId:    user._id,
       tokenHash: refreshTokenHash,
@@ -259,7 +254,7 @@ router.post('/login', authLimiter, async (req: Request, res: Response, next: Nex
     setAuthCookies(res, accessToken, refreshToken);
 
     res.json({
-      message: 'ConnectÃ© avec succÃ¨s.',
+      message: 'Connect     avec succ    s.',
       user: {
         id:     user._id,
         email:  user.email,
@@ -275,10 +270,10 @@ router.post('/login', authLimiter, async (req: Request, res: Response, next: Nex
   }
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//
 // POST /api/auth/refresh
 // Renouvelle l'access token via le refresh token (cookie)
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//
 router.post('/refresh', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const rawRefreshToken = req.cookies?.refresh_token;
@@ -289,7 +284,7 @@ router.post('/refresh', async (req: Request, res: Response, next: NextFunction) 
 
     const tokenHash = hashRefreshToken(rawRefreshToken);
 
-    // Chercher le token en DB (non rÃ©voquÃ©, non expirÃ©)
+    // Chercher le token en DB (non r    voqu    , non expir    )
     const stored = await RefreshToken.findOne({
       tokenHash,
       isRevoked:  false,
@@ -298,7 +293,7 @@ router.post('/refresh', async (req: Request, res: Response, next: NextFunction) 
 
     if (!stored || !stored.userId) {
       clearAuthCookies(res);
-      return res.status(401).json({ error: 'Session invalide ou expirÃ©e.', code: 'INVALID_REFRESH' });
+      return res.status(401).json({ error: 'Session invalide ou expir    e.', code: 'INVALID_REFRESH' });
     }
 
     const user = stored.userId as any;
@@ -307,7 +302,7 @@ router.post('/refresh', async (req: Request, res: Response, next: NextFunction) 
     stored.isRevoked = true;
     await stored.save();
 
-    // GÃ©nÃ©rer une nouvelle paire
+    // G    n    rer une nouvelle paire
     const { accessToken, refreshToken: newRefreshToken, refreshTokenHash } = generateTokenPair({
       id:             user._id.toString(),
       email:          user.email,
@@ -324,36 +319,36 @@ router.post('/refresh', async (req: Request, res: Response, next: NextFunction) 
     });
 
     setAuthCookies(res, accessToken, newRefreshToken);
-    res.json({ message: 'Token renouvelÃ©.' });
+    res.json({ message: 'Token renouvel    .' });
   } catch (err) {
     next(err);
   }
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//
 // POST /api/auth/logout
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//
 router.post('/logout', authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const rawRefreshToken = req.cookies?.refresh_token;
 
     if (rawRefreshToken) {
       const tokenHash = hashRefreshToken(rawRefreshToken);
-      // RÃ©voquer le refresh token en DB
+      // R    voquer le refresh token en DB
       await RefreshToken.updateOne({ tokenHash }, { isRevoked: true });
     }
 
     clearAuthCookies(res);
-    res.json({ message: 'DÃ©connectÃ© avec succÃ¨s.' });
+    res.json({ message: 'D    connect     avec succ    s.' });
   } catch (err) {
     next(err);
   }
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//
 // POST /api/auth/logout-all
-// RÃ©voque TOUS les sessions actives de l'utilisateur
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// R    voque TOUS les sessions actives de l'utilisateur
+//
 router.post('/logout-all', authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
     await RefreshToken.updateMany(
@@ -361,15 +356,15 @@ router.post('/logout-all', authenticate, async (req: Request, res: Response, nex
       { isRevoked: true }
     );
     clearAuthCookies(res);
-    res.json({ message: 'Toutes les sessions rÃ©voquÃ©es.' });
+    res.json({ message: 'Toutes les sessions r    voqu    es.' });
   } catch (err) {
     next(err);
   }
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//
 // GET /api/auth/me
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//
 router.get('/me', authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = await User.findById(req.user!.sub).select('-passwordHash -emailVerifyToken -passwordResetToken');
@@ -380,16 +375,16 @@ router.get('/me', authenticate, async (req: Request, res: Response, next: NextFu
   }
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//
 // POST /api/auth/forgot-password
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//
 router.post('/forgot-password', authLimiter, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email } = req.body;
 
-    // RÃ©ponse identique qu'il y ait un compte ou non (anti-Ã©numÃ©ration)
+    // R    ponse identique qu'il y ait un compte ou non (anti-    num    ration)
     const GENERIC_RESPONSE = {
-      message: 'Si un compte existe avec cet email, un lien de rÃ©initialisation a Ã©tÃ© envoyÃ©.',
+      message: 'Si un compte existe avec cet email, un lien de r    initialisation a     t     envoy    .',
     };
 
     const user = await User.findOne({ email: email?.toLowerCase() });
@@ -408,9 +403,9 @@ router.post('/forgot-password', authLimiter, async (req: Request, res: Response,
   }
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//
 // POST /api/auth/reset-password
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//
 router.post('/reset-password', authLimiter, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { token, password } = req.body;
@@ -422,7 +417,7 @@ router.post('/reset-password', authLimiter, async (req: Request, res: Response, 
     });
 
     if (!user) {
-      return res.status(400).json({ error: 'Lien invalide ou expirÃ©.', code: 'INVALID_RESET_TOKEN' });
+      return res.status(400).json({ error: 'Lien invalide ou expir    .', code: 'INVALID_RESET_TOKEN' });
     }
 
     const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{10,}$/;
@@ -435,19 +430,19 @@ router.post('/reset-password', authLimiter, async (req: Request, res: Response, 
     user.passwordResetExpires = undefined;
     await user.save();
 
-    // RÃ©voquer toutes les sessions actives (bonne pratique post-reset)
+    // R    voquer toutes les sessions actives (bonne pratique post-reset)
     await RefreshToken.updateMany({ userId: user._id }, { isRevoked: true });
 
     clearAuthCookies(res);
-    res.json({ message: 'Mot de passe rÃ©initialisÃ©. Reconnectez-vous.' });
+    res.json({ message: 'Mot de passe r    initialis    . Reconnectez-vous.' });
   } catch (err) {
     next(err);
   }
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//
 // GET /api/auth/verify-email/:token
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//
 router.get('/verify-email/:token', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const tokenHash = crypto.createHash('sha256').update(req.params.token as string).digest('hex');
@@ -457,7 +452,7 @@ router.get('/verify-email/:token', async (req: Request, res: Response, next: Nex
     });
 
     if (!user) {
-      return res.status(400).json({ error: 'Lien invalide ou expirÃ©.', code: 'INVALID_VERIFY_TOKEN' });
+      return res.status(400).json({ error: 'Lien invalide ou expir    .', code: 'INVALID_VERIFY_TOKEN' });
     }
 
     user.emailVerified    = true;
@@ -465,7 +460,7 @@ router.get('/verify-email/:token', async (req: Request, res: Response, next: Nex
     user.emailVerifyExpires = undefined;
     await user.save();
 
-    res.json({ message: 'Email vÃ©rifiÃ©. Vous pouvez vous connecter.' });
+    res.json({ message: 'Email v    rifi    . Vous pouvez vous connecter.' });
   } catch (err) {
     next(err);
   }

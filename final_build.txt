@@ -1,0 +1,37 @@
+
+> reclamtrack-frontend@1.0.0 build
+> next build
+
+   ▲ Next.js 15.1.12
+
+   Creating an optimized production build ...
+   Disabled SWC as replacement for Babel because of custom Babel configuration ".babelrc" https://nextjs.org/docs/messages/swc-disabled
+   Using external babel configuration from /app/frontend/.babelrc
+ ⚠ It looks like there is a custom Babel configuration that can be removed.
+[BABEL] Note: The code generator has deoptimised the styling of /app/frontend/node_modules/xlsx/xlsx.mjs as it exceeds the max of 500KB.
+Failed to compile.
+
+./src/components/ui/StatusBadge.tsx:45:7
+Syntax error: Unexpected token, expected ","
+
+  43 |         icon: '   ',
+  44 |     },
+> 45 |     r  solue: {
+     |        ^
+  46 |         label: 'R  solue',
+  47 |         color: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800',
+  48 |         icon: '   ',
+
+./src/app/[locale]/layout.tsx:12:1
+Syntax error: "next/font" requires SWC although Babel is being used due to a custom babel config being present.
+Read more: https://nextjs.org/docs/messages/babel-font-loader-conflict
+
+
+> Build failed because of webpack errors
+npm error Lifecycle script `build` failed with error:
+npm error code 1
+npm error path /app/frontend
+npm error workspace reclamtrack-frontend@1.0.0
+npm error location /app/frontend
+npm error command failed
+npm error command sh -c next build

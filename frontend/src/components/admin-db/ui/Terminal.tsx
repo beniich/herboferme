@@ -19,7 +19,7 @@ export default function Terminal() {
         if (!socket) return;
 
         const handleLog = (log: Log) => {
-            setLogs((prev) => [...prev, log].slice(-200)); // garder les 200 dernières lignes
+            setLogs((prev) => [...prev, log].slice(-200)); // garder les 200 derni  res lignes
         };
 
         socket.on("log", handleLog);
@@ -29,7 +29,7 @@ export default function Terminal() {
         };
     }, [socket]);
 
-    // Auto‑scroll quand un nouveau log arrive
+    // Auto   scroll quand un nouveau log arrive
     useEffect(() => {
         if (containerRef.current) {
             containerRef.current.scrollTop = containerRef.current.scrollHeight;

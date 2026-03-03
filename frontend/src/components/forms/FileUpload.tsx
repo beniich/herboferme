@@ -41,14 +41,14 @@ export function FileUpload({
     onUpload,
     disabled = false,
     label = 'Ajouter des fichiers',
-    description = 'Glissez-déposez ou cliquez pour sélectionner',
+    description = 'Glissez-d  posez ou cliquez pour s  lectionner',
     variant = 'default',
 }: FileUploadProps) {
     const [uploading, setUploading] = useState(false);
 
     const onDrop = useCallback(
         async (acceptedFiles: File[], rejectedFiles: any[]) => {
-            // Gérer les fichiers rejetés
+            // G  rer les fichiers rejet  s
             if (rejectedFiles.length > 0) {
                 const errors = rejectedFiles.map((rejection) => {
                     const error = rejection.errors[0];
@@ -56,7 +56,7 @@ export function FileUpload({
                         return `${rejection.file.name}: Fichier trop volumineux (max ${maxSize / 1024 / 1024}MB)`;
                     }
                     if (error.code === 'file-invalid-type') {
-                        return `${rejection.file.name}: Type de fichier non supporté`;
+                        return `${rejection.file.name}: Type de fichier non support  `;
                     }
                     return `${rejection.file.name}: ${error.message}`;
                 });
@@ -79,7 +79,7 @@ export function FileUpload({
                 progress: 0,
             }));
 
-            // Ajouter immédiatement les fichiers
+            // Ajouter imm  diatement les fichiers
             const updatedFiles = [...value, ...newFiles];
             onChange?.(updatedFiles);
 
@@ -92,7 +92,7 @@ export function FileUpload({
                         try {
                             const url = await onUpload(uploadFile.file);
 
-                            // Mettre à jour avec l'URL
+                            // Mettre    jour avec l'URL
                             updatedFiles[value.length + index] = {
                                 ...uploadFile,
                                 uploadedUrl: url,
@@ -103,7 +103,7 @@ export function FileUpload({
                             // Marquer l'erreur
                             updatedFiles[value.length + index] = {
                                 ...uploadFile,
-                                error: 'Échec de l\'upload',
+                                error: '  chec de l\'upload',
                             };
                             onChange?.([...updatedFiles]);
                         }
@@ -130,7 +130,7 @@ export function FileUpload({
     const removeFile = (index: number) => {
         const newFiles = value.filter((_, i) => i !== index);
 
-        // Révoquer l'URL de preview
+        // R  voquer l'URL de preview
         if (value[index].preview) {
             URL.revokeObjectURL(value[index].preview!);
         }
@@ -205,7 +205,7 @@ export function FileUpload({
 
                         <div className="flex items-center gap-4 text-xs text-slate-500">
                             <span>Max {maxSize / 1024 / 1024}MB par fichier</span>
-                            <span>•</span>
+                            <span>   </span>
                             <span>
                                 {value.length} / {maxFiles} fichiers
                             </span>
@@ -314,8 +314,8 @@ function FilePreviewCard({ file, onRemove, variant = 'compact' }: FilePreviewCar
                 </p>
                 <p className="text-xs text-slate-500">
                     {fileSize} KB
-                    {file.uploadedUrl && ' • Uploadé'}
-                    {file.error && ' • Erreur'}
+                    {file.uploadedUrl && '     Upload  '}
+                    {file.error && '     Erreur'}
                 </p>
 
                 {/* Progress Bar */}

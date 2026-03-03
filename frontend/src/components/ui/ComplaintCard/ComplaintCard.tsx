@@ -64,11 +64,11 @@ export function ComplaintCard({ complaint, className }: ComplaintCardProps) {
                         </span>
                     </div>
                     <p className="text-xs text-slate-500 dark:text-slate-400">
-                        {(complaint.technicianId as any)?.name || 'Non assigné'}
+                        {(complaint.technicianId as any)?.name || 'Non assign  '}
                     </p>
                 </div>
                 <div className="flex items-center text-primary font-bold text-xs group-hover:translate-x-1 transition-transform">
-                    Détails <ChevronRight className="w-3 h-3 ml-1" />
+                    D  tails <ChevronRight className="w-3 h-3 ml-1" />
                 </div>
             </div>
         </Link>

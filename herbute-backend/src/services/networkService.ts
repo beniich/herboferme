@@ -1,4 +1,4 @@
-﻿import snmp from 'snmp-native';
+import snmp from 'snmp-native';
 import ping from 'ping';
 import NetworkDevice from '../models/NetworkDevice.js';
 import ITAsset from '../models/ITAsset.js';
@@ -88,11 +88,11 @@ export class NetworkService {
           session.close();
           // Don't reject, just return empty/partial data as SNMP might fail or timeout
           console.warn(`SNMP failed for ${host}:`, error);
-          resolve({});
+          resolve({ /* Intentionally empty */ });
           return;
         }
 
-        const metrics: SnmpMetrics = {};
+        const metrics: SnmpMetrics = { /* Intentionally empty */ };
 
         varbinds.forEach(vb => {
           const oidStr = vb.oid.join('.'); // Convert OID array to string for checking

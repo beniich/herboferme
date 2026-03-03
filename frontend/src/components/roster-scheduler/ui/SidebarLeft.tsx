@@ -20,7 +20,7 @@ interface Order {
 const personnelList: Personnel[] = [
     { name: 'Alex Henderson', role: 'Technician II (Elec)', status: 'online', img: 'https://i.pravatar.cc/150?u=alex' },
     { name: 'Sarah Jenkins', role: 'Lead Engineer (Water)', status: 'online', img: 'https://i.pravatar.cc/150?u=sarah' },
-    { name: 'Marcus Vane', role: 'Break • Ends 14:00', status: 'break', img: 'https://i.pravatar.cc/150?u=marcus' }
+    { name: 'Marcus Vane', role: 'Break     Ends 14:00', status: 'break', img: 'https://i.pravatar.cc/150?u=marcus' }
 ];
 
 const pendingOrders: Order[] = [

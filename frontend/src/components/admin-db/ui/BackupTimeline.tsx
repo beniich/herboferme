@@ -40,8 +40,8 @@ export default function BackupTimeline({ backups }: { backups: Backup[] }) {
                             </span>
                         </div>
                         <span className="text-xs text-slate-500 dark:text-slate-400">
-                            {b.sizeGB} GB – {Math.round(b.durationSec / 60)} min
-                            {b.status === "failed" && b.error ? ` – ${b.error}` : ""}
+                            {b.sizeGB} GB     {Math.round(b.durationSec / 60)} min
+                            {b.status === "failed" && b.error ? `     ${b.error}` : ""}
                         </span>
                     </li>
                 ))}

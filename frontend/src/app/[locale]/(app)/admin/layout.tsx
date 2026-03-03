@@ -56,9 +56,9 @@ export default function AdminLayout({
                     <div className="mx-auto w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
                         <span className="material-symbols-outlined text-red-600 text-3xl">gpp_bad</span>
                     </div>
-                    <h1 className="text-2xl font-bold text-slate-800 dark:text-white">Accès Refusé</h1>
+                    <h1 className="text-2xl font-bold text-slate-800 dark:text-white">Acc  s Refus  </h1>
                     <p className="text-slate-600 dark:text-slate-400 max-w-md mx-auto">
-                        Vous n'avez pas les permissions nécessaires pour accéder à l'administration.
+                        Vous n'avez pas les permissions n  cessaires pour acc  der    l'administration.
                         Veuillez contacter votre administrateur si vous pensez qu'il s'agit d'une erreur.
                     </p>
                     <button

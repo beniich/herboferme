@@ -212,7 +212,7 @@ export default function MaterialWorkflowPage() {
                                 <h4 className="font-semibold text-sm mb-1 line-through text-slate-400">
                                     Lighting Fixtures Lot
                                 </h4>
-                                <p className="text-[10px] text-slate-400">Delivered to Site B • 2h ago</p>
+                                <p className="text-[10px] text-slate-400">Delivered to Site B     2h ago</p>
                             </div>
                             <div className="bg-white/50 dark:bg-[#1a2233]/40 rounded-xl p-4 border border-slate-200 dark:border-slate-800 opacity-60">
                                 <div className="flex justify-between items-start mb-2">
@@ -222,7 +222,7 @@ export default function MaterialWorkflowPage() {
                                     <span className="material-symbols-outlined text-green-500 text-sm">check_circle</span>
                                 </div>
                                 <h4 className="font-semibold text-sm mb-1 line-through text-slate-400">PVC Piping Bundle</h4>
-                                <p className="text-[10px] text-slate-400">Delivered to Site A • 4h ago</p>
+                                <p className="text-[10px] text-slate-400">Delivered to Site A     4h ago</p>
                             </div>
                         </div>
                     </div>

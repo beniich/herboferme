@@ -1,7 +1,7 @@
-﻿/**
- * models/user.model.model.ts â€” SchÃ©ma Mongoose User
- * CentralisÃ© ici (source unique de vÃ©ritÃ©)
- * ImportÃ© par @reclamtrack/shared si nÃ©cessaire
+/**
+ * models/user.model.model.ts          Sch    ma Mongoose User
+ * Centralis     ici (source unique de v    rit    )
+ * Import     par @reclamtrack/shared si n    cessaire
  */
 
 import mongoose, { Schema, Document } from 'mongoose';
@@ -30,8 +30,6 @@ export interface IUser extends Document {
   googleId?:           string;
   authProvider:        'local' | 'google';
   preferences:         Record<string, unknown>;
-  stripeCustomerId?:   string;
-  directLoginToken?:   string;
   createdAt:           Date;
   updatedAt:           Date;
 }
@@ -67,14 +65,12 @@ const UserSchema = new Schema<IUser>({
   avatarUrl:           { type: String },
   googleId:            { type: String, sparse: true },
   authProvider:        { type: String, enum: ['local', 'google'], default: 'local' },
-  preferences:         { type: Schema.Types.Mixed, default: {} },
-  stripeCustomerId:    { type: String },
-  directLoginToken:    { type: String, select: false },
+  preferences:         { type: Schema.Types.Mixed, default: { /* Intentionally empty */ } },
 }, {
   timestamps: true,
 });
 
-// Index pour les lookups frÃ©quents
+// Index pour les lookups fr    quents
 UserSchema.index({ email: 1 });
 UserSchema.index({ farmId: 1 });
 UserSchema.index({ role: 1 });

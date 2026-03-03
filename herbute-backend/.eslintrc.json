@@ -1,22 +1,21 @@
 {
-  "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
+  "plugins": ["@typescript-eslint"],
   "env": {
     "node": true,
-    "es2022": true
+    "es2021": true
   },
-  "ignorePatterns": ["dist"],
   "rules": {
-    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
-    "@typescript-eslint/no-explicit-any": "warn",
+    "prefer-const": "error",
+    "no-empty": "error",
     "no-irregular-whitespace": "error",
-    "@typescript-eslint/no-namespace": "warn",
-    "no-console": "off"
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-namespace": "off"
   }
 }

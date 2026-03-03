@@ -14,7 +14,7 @@ export default function InfrastructureLanding() {
                     <div className="flex-1 space-y-8 text-center lg:text-left">
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-black uppercase tracking-widest">
                             <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                            Infrastructure Tier-IV Certifiée
+                            Infrastructure Tier-IV Certifi  e
                         </div>
 
                         <h1 className="text-5xl lg:text-8xl font-display font-black leading-tight tracking-tighter uppercase italic">
@@ -44,7 +44,7 @@ export default function InfrastructureLanding() {
                             <div className="flex items-center justify-between mb-10">
                                 <div className="space-y-1">
                                     <div className="text-[10px] font-black uppercase tracking-widest text-blue-400">Node : RT-PRIME-01</div>
-                                    <div className="text-[9px] text-slate-500 font-bold uppercase tracking-tight">Status : Opérationnel</div>
+                                    <div className="text-[9px] text-slate-500 font-bold uppercase tracking-tight">Status : Op  rationnel</div>
                                 </div>
                                 <div className="flex gap-1">
                                     {[...Array(5)].map((_, i) => (

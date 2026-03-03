@@ -1,4 +1,4 @@
-﻿import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import { config } from 'dotenv';
 import { User } from '../models/user.model.js';
 import { Team } from '../models/Team.js';
@@ -22,21 +22,21 @@ const seedDatabase = async () => {
         if (!mongoUri) throw new Error('MONGODB_URI not defined');
 
         await mongoose.connect(mongoUri);
-        logger.info('✅ Connected to MongoDB');
+        logger.info('    Connected to MongoDB');
 
         // Clear existing
         await Promise.all([
-            User.deleteMany({}),
-            Team.deleteMany({}),
-            Complaint.deleteMany({}),
-            Staff.deleteMany({}),
-            Organization.deleteMany({}),
-            Membership.deleteMany({}),
-            Animal.deleteMany({}),
-            Crop.deleteMany({}),
-            FarmKPI.deleteMany({}),
-            ITAsset.deleteMany({}),
-            ITTicket.deleteMany({})
+            User.deleteMany({ /* Intentionally empty */ }),
+            Team.deleteMany({ /* Intentionally empty */ }),
+            Complaint.deleteMany({ /* Intentionally empty */ }),
+            Staff.deleteMany({ /* Intentionally empty */ }),
+            Organization.deleteMany({ /* Intentionally empty */ }),
+            Membership.deleteMany({ /* Intentionally empty */ }),
+            Animal.deleteMany({ /* Intentionally empty */ }),
+            Crop.deleteMany({ /* Intentionally empty */ }),
+            FarmKPI.deleteMany({ /* Intentionally empty */ }),
+            ITAsset.deleteMany({ /* Intentionally empty */ }),
+            ITTicket.deleteMany({ /* Intentionally empty */ })
         ]);
 
         // Hash password
@@ -81,7 +81,7 @@ const seedDatabase = async () => {
         });
 
         await Animal.create([
-            { organizationId: org._id, type: 'Vaches Laitières', breed: 'Holstein', count: 42, averageAge: 36, status: 'PRODUCTION', estimatedValue: 840000 },
+            { organizationId: org._id, type: 'Vaches Laiti  res', breed: 'Holstein', count: 42, averageAge: 36, status: 'PRODUCTION', estimatedValue: 840000 },
             { organizationId: org._id, type: 'Moutons', breed: 'Sardi', count: 120, averageAge: 12, status: 'ACTIVE', estimatedValue: 240000 },
             { organizationId: org._id, type: 'Poulets de chair', breed: 'Cobb 500', count: 12400, averageAge: 1, status: 'GROWING', estimatedValue: 310000 }
         ]);
@@ -92,7 +92,7 @@ const seedDatabase = async () => {
             { organizationId: org._id, name: 'Oliviers', category: 'NURSERY', plotId: 'P3-PEP', status: 'PLANTED', estimatedYield: 2000 }
         ]);
 
-        logger.info('🌾 Seeding Agriculture: OK');
+        logger.info('     Seeding Agriculture: OK');
 
         // --- SEED IT (GLPI) ---
         const asset = await ITAsset.create({
@@ -108,8 +108,8 @@ const seedDatabase = async () => {
         await ITTicket.create([
             {
                 organizationId: org._id,
-                title: 'Panne Système Irrigation Wi-Fi',
-                description: 'Le contrôleur P2 ne répond plus au ping.',
+                title: 'Panne Syst  me Irrigation Wi-Fi',
+                description: 'Le contr  leur P2 ne r  pond plus au ping.',
                 status: 'new',
                 priority: 'urgent',
                 category: 'network',
@@ -119,8 +119,8 @@ const seedDatabase = async () => {
             },
             {
                 organizationId: org._id,
-                title: 'Mise à jour BIOS Tablette Terrain',
-                description: 'Besoin de mise à jour pour le nouveau module GPS.',
+                title: 'Mise    jour BIOS Tablette Terrain',
+                description: 'Besoin de mise    jour pour le nouveau module GPS.',
                 status: 'pending',
                 priority: 'medium',
                 category: 'hardware',
@@ -129,7 +129,7 @@ const seedDatabase = async () => {
             }
         ]);
 
-        logger.info('💻 Seeding IT/GLPI: OK');
+        logger.info('     Seeding IT/GLPI: OK');
 
         process.exit(0);
     } catch (error) {

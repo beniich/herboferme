@@ -1,4 +1,4 @@
-﻿import { Router, Request, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import { body } from 'express-validator';
 import { validator } from '../middleware/validator.js';
 import { authenticate as protect } from '../middleware/security.js';
@@ -29,7 +29,7 @@ router.post(
             // Check if slug already exists
             const existing = await Organization.findOne({ slug });
             if (existing) {
-                return res.status(409).json({ message: 'Ce slug est déjà utilisé' });
+                return res.status(409).json({ message: 'Ce slug est d  j   utilis  ' });
             }
 
             // Create organization
@@ -122,7 +122,7 @@ router.get('/:id', protect, async (req: any, res: Response) => {
         });
 
         if (!membership) {
-            return res.status(403).json({ message: 'Accès refusé à cette organisation' });
+            return res.status(403).json({ message: 'Acc  s refus      cette organisation' });
         }
 
         const organization = await Organization.findById(id);

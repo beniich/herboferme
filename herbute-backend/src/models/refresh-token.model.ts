@@ -1,7 +1,7 @@
 /**
  * models/refresh-token.model.ts
  * Stockage des refresh tokens (hash SHA-256)
- * Révocables individuellement — pas de blacklist Redis nécessaire
+ * R    vocables individuellement          pas de blacklist Redis n    cessaire
  */
 
 import mongoose, { Schema, Document } from 'mongoose';
@@ -27,8 +27,8 @@ const RefreshTokenSchema = new Schema<IRefreshToken>({
   timestamps: { createdAt: true, updatedAt: false },
 });
 
-// TTL index — MongoDB supprime automatiquement les tokens expirés
-// (équivalent du cron DELETE FROM refresh_tokens WHERE expires_at < NOW())
+// TTL index          MongoDB supprime automatiquement les tokens expir    s
+// (    quivalent du cron DELETE FROM refresh_tokens WHERE expires_at < NOW())
 RefreshTokenSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 RefreshTokenSchema.index({ isRevoked: 1 });
 

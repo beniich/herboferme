@@ -1,4 +1,4 @@
-﻿import { Router } from 'express';
+import { Router } from 'express';
 import { authenticate as protect } from '../middleware/security.js';
 import { body, param } from 'express-validator';
 import { validator } from '../middleware/validator.js';
@@ -8,16 +8,16 @@ import { eventBus } from '../services/eventBus.js';
 
 const router = Router();
 
-// Données mockées pour les articles d'inventaire
+// Donn  es mock  es pour les articles d'inventaire
 const inventoryItems = [
-    { id: '1', code: 'ELEC-001', name: 'Câble Électrique 10mm', category: 'Électricité', unit: 'm', currentStock: 150, minStock: 50, price: 25.50 },
+    { id: '1', code: 'ELEC-001', name: 'C  ble   lectrique 10mm', category: '  lectricit  ', unit: 'm', currentStock: 150, minStock: 50, price: 25.50 },
     { id: '2', code: 'EAU-002', name: 'Tuyau PVC 50mm', category: 'Plomberie', unit: 'm', currentStock: 80, minStock: 20, price: 18.00 },
-    { id: '3', code: 'ROAD-003', name: 'Bitume à froid', category: 'Voirie', unit: 'kg', currentStock: 500, minStock: 100, price: 12.75 },
-    { id: '4', code: 'LIGHT-004', name: 'Lampe LED 100W', category: 'Éclairage', unit: 'pcs', currentStock: 30, minStock: 10, price: 45.00 },
-    { id: '5', code: 'ELEC-005', name: 'Disjoncteur 32A', category: 'Électricité', unit: 'pcs', currentStock: 25, minStock: 15, price: 35.00 },
-    { id: '6', code: 'EAU-006', name: 'Robinet d\'arrêt', category: 'Plomberie', unit: 'pcs', currentStock: 40, minStock: 10, price: 22.50 },
-    { id: '7', code: 'ROAD-007', name: 'Peinture routière blanche', category: 'Voirie', unit: 'L', currentStock: 120, minStock: 30, price: 28.00 },
-    { id: '8', code: 'LIGHT-008', name: 'Ballast électronique', category: 'Éclairage', unit: 'pcs', currentStock: 18, minStock: 8, price: 52.00 },
+    { id: '3', code: 'ROAD-003', name: 'Bitume    froid', category: 'Voirie', unit: 'kg', currentStock: 500, minStock: 100, price: 12.75 },
+    { id: '4', code: 'LIGHT-004', name: 'Lampe LED 100W', category: '  clairage', unit: 'pcs', currentStock: 30, minStock: 10, price: 45.00 },
+    { id: '5', code: 'ELEC-005', name: 'Disjoncteur 32A', category: '  lectricit  ', unit: 'pcs', currentStock: 25, minStock: 15, price: 35.00 },
+    { id: '6', code: 'EAU-006', name: 'Robinet d\'arr  t', category: 'Plomberie', unit: 'pcs', currentStock: 40, minStock: 10, price: 22.50 },
+    { id: '7', code: 'ROAD-007', name: 'Peinture routi  re blanche', category: 'Voirie', unit: 'L', currentStock: 120, minStock: 30, price: 28.00 },
+    { id: '8', code: 'LIGHT-008', name: 'Ballast   lectronique', category: '  clairage', unit: 'pcs', currentStock: 18, minStock: 8, price: 52.00 },
     { id: '9', code: 'TOOL-009', name: 'Pelle', category: 'Outillage', unit: 'pcs', currentStock: 12, minStock: 5, price: 65.00 },
     { id: '10', code: 'TOOL-010', name: 'Pioche', category: 'Outillage', unit: 'pcs', currentStock: 10, minStock: 5, price: 58.00 },
     { id: '11', code: 'EAU-011', name: 'Colle PVC', category: 'Plomberie', unit: 'kg', currentStock: 15, minStock: 5, price: 32.00 },
@@ -41,7 +41,7 @@ router.get('/items/search', protect, async (req: any, res, next) => {
             );
         }
 
-        // Filtrer par catégorie
+        // Filtrer par cat  gorie
         if (category) {
             results = results.filter(item => item.category === category);
         }
@@ -74,7 +74,7 @@ router.get('/items', protect, async (req: any, res, next) => {
     }
 });
 
-// GET /api/inventory/items/:id - Détails d'un article
+// GET /api/inventory/items/:id - D  tails d'un article
 router.get('/items/:id', protect, async (req: any, res, next) => {
     try {
         const item = inventoryItems.find(i => i.id === req.params.id);
@@ -98,7 +98,7 @@ router.get('/items/:id', protect, async (req: any, res, next) => {
 // GET /api/inventory/requisitions
 router.get('/requisitions', protect, async (req: any, res, next) => {
     try {
-        const query: any = {};
+        const query: any = { /* Intentionally empty */ };
 
         // Filter by user role ?
         // If basic user, only see own requisitions
@@ -246,7 +246,7 @@ router.post('/requests', protect,
 // GET /api/inventory/requests -> GET /api/inventory/requisitions
 router.get('/requests', protect, async (req: any, res, next) => {
     try {
-        const query: any = {};
+        const query: any = { /* Intentionally empty */ };
 
         // Filter by user role ?
         // If basic user, only see own requisitions

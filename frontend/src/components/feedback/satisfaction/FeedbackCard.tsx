@@ -16,7 +16,7 @@ export default function FeedbackCard({ feedback }: { feedback: Feedback }) {
                     <div>
                         <h5 className="text-sm font-bold text-slate-900 dark:text-white">{feedback.name}</h5>
                         <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-                            {feedback.time} •{" "}
+                            {feedback.time}    {" "}
                             <span className="font-bold text-primary">
                                 {feedback.district}
                             </span>

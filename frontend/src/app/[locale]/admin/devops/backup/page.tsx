@@ -82,7 +82,7 @@ export default function BackupHubPage() {
                                     <tr key={bk.id} className="hover:bg-slate-50/50 dark:hover:bg-white/5 group transition-colors">
                                         <td className="px-6 py-4">
                                             <div className="font-bold text-slate-900 dark:text-white">{bk.name}</div>
-                                            <div className="text-[10px] text-slate-500 font-mono tracking-wider">{bk.id} • {bk.date}</div>
+                                            <div className="text-[10px] text-slate-500 font-mono tracking-wider">{bk.id}     {bk.date}</div>
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="text-sm font-bold text-slate-700 dark:text-slate-300">{bk.size}</div>

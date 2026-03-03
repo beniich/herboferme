@@ -1,4 +1,4 @@
-﻿import { Router } from 'express';
+import { Router } from 'express';
 import { authenticate as protect } from '../middleware/security.js';
 import { body } from 'express-validator';
 import { validator } from '../middleware/validator.js';
@@ -20,7 +20,7 @@ router.get(
             const teamIds = teams.map(t => t._id);
 
             // 2. Find assignments for these teams
-            // We verify that status is not 'terminé' to get active/pending ones (or use query param to filter)
+            // We verify that status is not 'termin  ' to get active/pending ones (or use query param to filter)
             const { status } = req.query;
             const filter: any = { teamId: { $in: teamIds } };
 
@@ -56,13 +56,13 @@ router.post(
             const complaint = await Complaint.findById(complaintId);
             const team = await Team.findById(teamId);
             if (!complaint || !team) {
-                return res.status(404).json({ message: 'Réclamation ou équipe introuvable' });
+                return res.status(404).json({ message: 'R  clamation ou   quipe introuvable' });
             }
 
             const assignment = await Assignment.create({
                 complaintId,
                 teamId,
-                status: 'affecté'
+                status: 'affect  '
             });
 
             complaint.status = 'en cours';
@@ -87,7 +87,7 @@ router.patch(
     '/:id',
     protect,
     [
-        body('status').isIn(['affecté', 'en cours', 'terminé'])
+        body('status').isIn(['affect  ', 'en cours', 'termin  '])
     ],
     validator,
     async (req, res, next) => {

@@ -27,15 +27,15 @@ interface UseComplaintFormOptions {
     enableAutosave?: boolean;
 }
 
-export function useComplaintForm(options: UseComplaintFormOptions = {}) {
+export function useComplaintForm(options: UseComplaintFormOptions = { /* Intentionally empty */ }) {
     const { onSuccess, enableAutosave = true } = options;
     const router = useRouter();
 
     const [currentStep, setCurrentStep] = useState<FormStep>(1);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [uploadProgress, setUploadProgress] = useState<Record<string, number>>({});
+    const [uploadProgress, setUploadProgress] = useState<Record<string, number>>({ /* Intentionally empty */ });
 
-    // Forms pour chaque étape
+    // Forms pour chaque   tape
     const step1Form = useForm<Step1Data>({
         resolver: zodResolver(step1Schema),
         mode: 'onBlur',
@@ -104,7 +104,7 @@ export function useComplaintForm(options: UseComplaintFormOptions = {}) {
             };
 
             localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
-            toast.success('Brouillon sauvegardé', { duration: 2000 });
+            toast.success('Brouillon sauvegard  ', { duration: 2000 });
         } catch (error) {
             console.error('Error saving draft:', error);
         }
@@ -116,7 +116,7 @@ export function useComplaintForm(options: UseComplaintFormOptions = {}) {
         localStorage.removeItem(STORAGE_KEY);
     }, []);
 
-    // Navigation entre les étapes
+    // Navigation entre les   tapes
     const goToNextStep = useCallback(async () => {
         const isValid = await currentForm.trigger();
 
@@ -204,7 +204,7 @@ export function useComplaintForm(options: UseComplaintFormOptions = {}) {
         setIsSubmitting(true);
 
         try {
-            // Validation finale de toutes les étapes
+            // Validation finale de toutes les   tapes
             const [valid1, valid2, valid3, valid4] = await Promise.all([
                 step1Form.trigger(),
                 step2Form.trigger(),
@@ -215,7 +215,7 @@ export function useComplaintForm(options: UseComplaintFormOptions = {}) {
             if (!valid1 || !valid2 || !valid3 || !valid4) {
                 toast.error('Certaines informations sont manquantes ou invalides');
 
-                // Retour à la première étape avec erreurs
+                // Retour    la premi  re   tape avec erreurs
                 if (!valid1) setCurrentStep(1);
                 else if (!valid2) setCurrentStep(2);
                 else if (!valid3) setCurrentStep(3);
@@ -224,7 +224,7 @@ export function useComplaintForm(options: UseComplaintFormOptions = {}) {
                 return;
             }
 
-            // Collecte des données
+            // Collecte des donn  es
             const complaintData = {
                 ...step1Form.getValues(),
                 ...step2Form.getValues(),
@@ -246,10 +246,10 @@ export function useComplaintForm(options: UseComplaintFormOptions = {}) {
 
             const result = await response.json();
 
-            // Succès
+            // Succ  s
             clearDraft();
-            toast.success('Réclamation soumise avec succès!', {
-                description: `Numéro de référence: ${result.id}`,
+            toast.success('R  clamation soumise avec succ  s!', {
+                description: `Num  ro de r  f  rence: ${result.id}`,
             });
 
             if (onSuccess) {
@@ -260,7 +260,7 @@ export function useComplaintForm(options: UseComplaintFormOptions = {}) {
         } catch (error) {
             console.error('Submission error:', error);
             toast.error('Erreur lors de la soumission', {
-                description: 'Veuillez réessayer ou contacter le support',
+                description: 'Veuillez r  essayer ou contacter le support',
             });
         } finally {
             setIsSubmitting(false);
@@ -284,7 +284,7 @@ export function useComplaintForm(options: UseComplaintFormOptions = {}) {
         uploadFile,
         submitComplaint,
 
-        // État
+        //   tat
         isSubmitting,
         uploadProgress,
         isFirstStep: currentStep === 1,

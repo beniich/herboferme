@@ -37,7 +37,7 @@ const FLOW_DATA = [
 const DEPT_STATUS = [
     { name: 'Urgences', load: 92, color: '#ee9b00' },
     { name: 'Cardiologie', load: 75, color: '#06b6d4' },
-    { name: 'Pédiatrie', load: 88, color: '#06b6d4' },
+    { name: 'P  diatrie', load: 88, color: '#06b6d4' },
     { name: 'Radiologie', load: 45, color: '#06b6d4' },
     { name: 'Chirurgie', load: 68, color: '#06b6d4' },
 ];
@@ -54,7 +54,7 @@ export default function HealthcareDashboard() {
                         <Activity className="text-white w-6 h-6" />
                     </div>
                     <div>
-                        <h1 className="font-display font-black text-xs uppercase tracking-widest text-white leading-none">Santé Connect</h1>
+                        <h1 className="font-display font-black text-xs uppercase tracking-widest text-white leading-none">Sant   Connect</h1>
                         <p className="text-[10px] text-cyan-500/50 font-bold uppercase tracking-widest mt-1">Medical OS</p>
                     </div>
                 </div>
@@ -87,9 +87,9 @@ export default function HealthcareDashboard() {
                     <div className="text-[10px] font-black uppercase tracking-widest text-cyan-400 mb-2">Statut Serveur HDS</div>
                     <div className="flex items-center gap-2 mb-4">
                         <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Opérationnel</span>
+                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Op  rationnel</span>
                     </div>
-                    <button className="w-full py-2 bg-white/5 hover:bg-white/10 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all">Audit Sécurité</button>
+                    <button className="w-full py-2 bg-white/5 hover:bg-white/10 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all">Audit S  curit  </button>
                 </div>
             </aside>
 
@@ -98,7 +98,7 @@ export default function HealthcareDashboard() {
                 {/* Header */}
                 <header className="h-20 border-b border-white/5 px-10 flex items-center justify-between bg-[#08111d]/50 backdrop-blur-md">
                     <div className="flex items-center gap-4 text-slate-400">
-                        <span className="text-[10px] font-black uppercase tracking-widest">Hôpital :</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest">H  pital :</span>
                         <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/5 cursor-pointer hover:bg-white/10 transition-all text-white">
                             <span className="text-[10px] font-black uppercase">CHU Mohammed VI</span>
                             <ChevronDown className="w-3 h-3" />
@@ -126,14 +126,14 @@ export default function HealthcareDashboard() {
                     <div className="flex items-start justify-between">
                         <div className="space-y-2">
                             <h2 className="text-4xl font-display font-black uppercase italic tracking-tighter text-white">Moniteur des Urgences</h2>
-                            <p className="text-slate-500 text-[10px] font-black uppercase tracking-[.3em]">Mise à jour : Temps Réel (0.8s lag)</p>
+                            <p className="text-slate-500 text-[10px] font-black uppercase tracking-[.3em]">Mise    jour : Temps R  el (0.8s lag)</p>
                         </div>
                         <div className="flex gap-4">
                             <button className="px-6 py-4 bg-cyan-500 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-cyan-500/20 hover:scale-105 transition-all outline-none">
                                 Nouvelle Admission
                             </button>
                             <button className="px-6 py-4 glass-card rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all">
-                                Rapports Légaux
+                                Rapports L  gaux
                             </button>
                         </div>
                     </div>
@@ -143,8 +143,8 @@ export default function HealthcareDashboard() {
                         {[
                             { label: 'Occupation Lits', value: '92%', detail: '414/450', color: 'text-brand-orange' },
                             { label: 'Attente Moyenne', value: '24m', detail: 'Urgences A', color: 'text-cyan-400' },
-                            { label: 'Staff en Service', value: '118', detail: '85% Capacité', color: 'text-green-500' },
-                            { label: 'Cas Critiques', value: '08', detail: 'Réanimation', color: 'text-red-500' },
+                            { label: 'Staff en Service', value: '118', detail: '85% Capacit  ', color: 'text-green-500' },
+                            { label: 'Cas Critiques', value: '08', detail: 'R  animation', color: 'text-red-500' },
                         ].map((stat, i) => (
                             <div key={i} className="glass-card rounded-3xl p-8 border border-white/5 hover:border-cyan-500/20 transition-all group relative overflow-hidden">
                                 <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-20 transition-all">
@@ -164,7 +164,7 @@ export default function HealthcareDashboard() {
                             <div className="flex items-center justify-between">
                                 <div className="space-y-1">
                                     <h3 className="text-xl font-black uppercase italic tracking-tighter">Flux d'Admission Journalier</h3>
-                                    <p className="text-[9px] font-black uppercase text-slate-500 tracking-widest">Comparaison vs Capacité Maximale</p>
+                                    <p className="text-[9px] font-black uppercase text-slate-500 tracking-widest">Comparaison vs Capacit   Maximale</p>
                                 </div>
                                 <div className="flex gap-4">
                                     <div className="flex items-center gap-2">
@@ -232,7 +232,7 @@ export default function HealthcareDashboard() {
                                 ))}
                             </div>
                             <button className="w-full py-5 border border-cyan-500/10 rounded-2xl text-[10px] font-black uppercase tracking-widest text-cyan-400 hover:bg-cyan-500 hover:text-white transition-all">
-                                Gestion des Réaffectations
+                                Gestion des R  affectations
                             </button>
                         </div>
                     </div>
@@ -245,7 +245,7 @@ export default function HealthcareDashboard() {
                                 <h3 className="text-xl font-black uppercase italic tracking-tighter">Coordination des Urgences</h3>
                             </div>
                             <div className="text-[9px] font-black uppercase tracking-[.2em] px-4 py-1.5 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange animate-pulse">
-                                Alerte de Flux : Élevé
+                                Alerte de Flux :   lev
                             </div>
                         </div>
                         <div className="overflow-x-auto">
@@ -254,7 +254,7 @@ export default function HealthcareDashboard() {
                                     <tr className="border-b border-white/5">
                                         <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Source / ID</th>
                                         <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Statut</th>
-                                        <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Équipe Assignée</th>
+                                        <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">  quipe Assign  e</th>
                                         <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Attente</th>
                                         <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Niveau de Risque</th>
                                         <th className="pb-6"></th>
@@ -262,8 +262,8 @@ export default function HealthcareDashboard() {
                                 </thead>
                                 <tbody>
                                     {[
-                                        { id: 'AMB-802', type: 'Traumatologie', staff: 'Équipe A2', wait: '3m', risk: 'Extrême', color: 'bg-red-500' },
-                                        { id: 'SMUR-12', type: 'Cardiaque', staff: 'Dr. Karimi', wait: '1m', risk: 'Extrême', color: 'bg-red-500' },
+                                        { id: 'AMB-802', type: 'Traumatologie', staff: '  quipe A2', wait: '3m', risk: 'Extr  me', color: 'bg-red-500' },
+                                        { id: 'SMUR-12', type: 'Cardiaque', staff: 'Dr. Karimi', wait: '1m', risk: 'Extr  me', color: 'bg-red-500' },
                                         { id: 'ADM-414', type: 'Standard', staff: 'Inf. Leila', wait: '12m', risk: 'Moyen', color: 'bg-yellow-500' },
                                         { id: 'ADM-415', type: 'Standard', staff: 'Inf. Hakim', wait: '15m', risk: 'Moyen', color: 'bg-yellow-500' },
                                     ].map((alert, i) => (
@@ -287,7 +287,7 @@ export default function HealthcareDashboard() {
                                             </td>
                                             <td className="py-8">
                                                 <div className={`px-4 py-1.5 rounded-lg border text-[9px] font-black uppercase tracking-wider inline-block ${
-                                                    alert.risk === 'Extrême' ? 'bg-red-500/10 border-red-500/20 text-red-500' : 'bg-yellow-500/10 border-yellow-500/20 text-yellow-500'
+                                                    alert.risk === 'Extr  me' ? 'bg-red-500/10 border-red-500/20 text-red-500' : 'bg-yellow-500/10 border-yellow-500/20 text-yellow-500'
                                                 }`}>
                                                     {alert.risk}
                                                 </div>

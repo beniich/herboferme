@@ -72,7 +72,7 @@ export default function CommunicationPage() {
 
                         {callState !== 'idle' && (
                             <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-lg text-sm flex items-center gap-2">
-                                <span className="animate-spin">⟳</span> Status: {callState}
+                                <span className="animate-spin">   </span> Status: {callState}
                             </div>
                         )}
                     </div>

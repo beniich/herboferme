@@ -13,7 +13,7 @@ export default function HospitalityLanding() {
                     <div className="flex-1 space-y-8 text-center lg:text-left">
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-widest">
                             <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-                            Partenaire Élite de l'Industrie Hôtelière
+                            Partenaire   lite de l'Industrie H  teli  re
                         </div>
 
                         <h1 className="text-5xl lg:text-8xl font-display font-black leading-tight tracking-tighter uppercase italic">
@@ -43,7 +43,7 @@ export default function HospitalityLanding() {
                             <div className="flex items-center justify-between mb-10 pb-6 border-b border-white/5">
                                 <div>
                                     <div className="text-[10px] font-black uppercase text-emerald-400 mb-1">Hospitality Hub PMS</div>
-                                    <div className="text-[9px] text-slate-500 font-bold uppercase tracking-tight">Hôtel Royal Garden • 5 Étoiles</div>
+                                    <div className="text-[9px] text-slate-500 font-bold uppercase tracking-tight">H  tel Royal Garden     5   toiles</div>
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <div className="text-right">
@@ -58,12 +58,12 @@ export default function HospitalityLanding() {
 
                             <div className="space-y-6">
                                 <div className="flex justify-between items-center">
-                                    <h4 className="text-[10px] font-black uppercase tracking-widest">Arrivées Aujourd'hui</h4>
+                                    <h4 className="text-[10px] font-black uppercase tracking-widest">Arriv  es Aujourd'hui</h4>
                                     <span className="text-[8px] font-black uppercase px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded">24 Check-ins</span>
                                 </div>
                                 <div className="space-y-3">
                                     {[
-                                        { name: 'M. Jean-Luc R.', room: '104', status: 'Confirmé', time: '14:30' },
+                                        { name: 'M. Jean-Luc R.', room: '104', status: 'Confirm  ', time: '14:30' },
                                         { name: 'Mme Sofia A.', room: '312', status: 'VIP', time: '16:00' },
                                         { name: 'M. David W.', room: 'Penth.', status: 'Priority', time: '15:15' },
                                     ].map((guest, i) => (
@@ -119,7 +119,7 @@ export default function HospitalityLanding() {
                                 <h3 className="text-2xl font-black uppercase tracking-tight mb-6">{f.title}</h3>
                                 <p className="text-slate-400 font-light leading-relaxed mb-10">{f.desc}</p>
                                 <ul className="space-y-4">
-                                    {['Intégration API Hub', 'Support 24/7 Premium', 'Rapports Financiers'].map((item, j) => (
+                                    {['Int  gration API Hub', 'Support 24/7 Premium', 'Rapports Financiers'].map((item, j) => (
                                         <li key={j} className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-500">
                                             <span className={`material-symbols-outlined ${f.color} text-sm`}>stars</span> {item}
                                         </li>

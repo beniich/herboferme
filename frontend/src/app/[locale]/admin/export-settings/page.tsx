@@ -29,7 +29,7 @@ export default function ExportSettingsPage() {
                     })
                 }
             } catch (err) {
-                toast.error("Impossible de charger les paramètres")
+                toast.error("Impossible de charger les param  tres")
             } finally {
                 setLoading(false)
             }
@@ -42,7 +42,7 @@ export default function ExportSettingsPage() {
         setSaving(true)
         try {
             await api.patch(`/organizations/${orgId}`, { settings })
-            toast.success("Paramètres sauvegardés avec succès !")
+            toast.success("Param  tres sauvegard  s avec succ  s !")
         } catch (err: any) {
             toast.error(err?.message || "Erreur lors de la sauvegarde")
         } finally {
@@ -61,8 +61,8 @@ export default function ExportSettingsPage() {
     return (
         <div className="p-6 max-w-3xl mx-auto space-y-8 bg-slate-950 min-h-screen">
             <div>
-                <h1 className="text-2xl font-black text-white uppercase tracking-tight">Paramètres d'Export</h1>
-                <p className="text-slate-500 text-sm mt-1">Choisissez où les fichiers Excel seront sauvegardés lors d'un export.</p>
+                <h1 className="text-2xl font-black text-white uppercase tracking-tight">Param  tres d'Export</h1>
+                <p className="text-slate-500 text-sm mt-1">Choisissez o   les fichiers Excel seront sauvegard  s lors d'un export.</p>
             </div>
 
             {/* Storage Mode Selection */}
@@ -88,7 +88,7 @@ export default function ExportSettingsPage() {
                         </div>
                     </div>
                     <p className="text-xs text-slate-400">
-                        Les fichiers seront sauvegardés sur le serveur backend et accessibles via un lien de téléchargement direct.
+                        Les fichiers seront sauvegard  s sur le serveur backend et accessibles via un lien de t  l  chargement direct.
                     </p>
                 </button>
 
@@ -113,7 +113,7 @@ export default function ExportSettingsPage() {
                         </div>
                     </div>
                     <p className="text-xs text-slate-400">
-                        Les fichiers seront envoyés automatiquement dans le dossier Google Drive configuré.
+                        Les fichiers seront envoy  s automatiquement dans le dossier Google Drive configur  .
                     </p>
                 </button>
             </div>
@@ -168,7 +168,7 @@ export default function ExportSettingsPage() {
                     className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white px-8 py-3 rounded-xl font-black text-sm transition-all shadow-lg shadow-blue-900/30"
                 >
                     {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                    Sauvegarder les paramètres
+                    Sauvegarder les param  tres
                 </button>
             </div>
         </div>

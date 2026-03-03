@@ -22,9 +22,8 @@ export default function MapPage() {
     const { data: complaints, isLoading, error } = useQuery({
         queryKey: ['complaints'],
         queryFn: async () => {
-            const res = await api.get('/api/complaints');
-            // Backend returns { success: true, data: [...] }
-            return res.data || [];
+            const res = await api.get('/complaints');
+            return res;
         }
     });
 
@@ -44,13 +43,13 @@ export default function MapPage() {
                     onClick={() => window.location.reload()}
                     className="px-6 py-2 bg-primary text-white text-[10px] font-black uppercase tracking-widest rounded-xl shadow-xl shadow-primary/20"
                 >
-                    Réessayer
+                    R  essayer
                 </button>
             </div>
         );
     }
 
-    // Transformer les données pour la heatmap
+    // Transformer les donn  es pour la heatmap
     const heatmapData = (complaints || [])
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .filter((c: any) => c.latitude && c.longitude)
@@ -81,7 +80,7 @@ export default function MapPage() {
                         onClick={() => setActiveTab('operations')}
                         className={`px-6 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'operations' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
                     >
-                        Flux Opérations
+                        Flux Op  rations
                     </button>
                     <button
                         onClick={() => setActiveTab('heatmap')}
@@ -96,7 +95,7 @@ export default function MapPage() {
                 <HeatmapView
                     data={heatmapData}
                     zoom={12}
-                    showClusters={activeTab === 'operations'} // On affiche les clusters en mode opérations
+                    showClusters={activeTab === 'operations'} // On affiche les clusters en mode op  rations
                     center={[34.0209, -6.8416]} // Centre sur Rabat
                 />
             </div>

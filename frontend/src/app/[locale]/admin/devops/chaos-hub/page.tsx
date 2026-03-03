@@ -168,7 +168,7 @@ export default function ChaosHubPage() {
                                     <tr key={exp.id} className="hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors">
                                         <td className="px-6 py-4">
                                             <div className="font-bold text-slate-900 dark:text-white uppercase tracking-tight">{exp.name}</div>
-                                            <div className="text-[10px] text-slate-500 font-mono italic">{exp.type} • {exp.id}</div>
+                                            <div className="text-[10px] text-slate-500 font-mono italic">{exp.type}     {exp.id}</div>
                                         </td>
                                         <td className="px-6 py-4">
                                             <span className={`status-badge ${exp.status === 'Passed' ? 'status-success' : 'status-error'}`}>

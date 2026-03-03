@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file complaint.dto.ts
  * @description DTOs and validators for complaint routes.
  * @module backend/dto
@@ -6,7 +6,7 @@
 
 import { body, param, query } from 'express-validator';
 
-// â”€â”€ Interfaces â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//                  Interfaces
 
 export interface CreateComplaintDto {
   title: string;
@@ -19,7 +19,7 @@ export interface CreateComplaintDto {
 export interface UpdateComplaintDto {
   title?: string;
   description?: string;
-  status?: 'ouvert' | 'en cours' | 'rÃ©solu' | 'fermÃ©';
+  status?: 'ouvert' | 'en cours' | 'r    solu' | 'ferm    ';
   priority?: 'low' | 'medium' | 'high' | 'urgent';
   assignedTeamId?: string;
   resolution?: string;
@@ -35,23 +35,23 @@ export interface QueryComplaintDto {
   to?: string;
 }
 
-// â”€â”€ Valid enums â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//                  Valid enums
 
 const VALID_PRIORITIES = ['low', 'medium', 'high', 'urgent'];
-const VALID_STATUSES = ['ouvert', 'en cours', 'rÃ©solu', 'fermÃ©'];
+const VALID_STATUSES = ['ouvert', 'en cours', 'r    solu', 'ferm    '];
 
-// â”€â”€ Validators â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//                  Validators
 
 export const createComplaintValidators = [
-  body('title').trim().isLength({ min: 3, max: 200 }).withMessage('Titre: 3 Ã  200 caractÃ¨res'),
+  body('title').trim().isLength({ min: 3, max: 200 }).withMessage('Titre: 3     200 caract    res'),
   body('description')
     .trim()
     .isLength({ min: 10, max: 5000 })
-    .withMessage('Description: 10 Ã  5000 caractÃ¨res'),
+    .withMessage('Description: 10     5000 caract    res'),
   body('priority')
     .optional()
     .isIn(VALID_PRIORITIES)
-    .withMessage(`PrioritÃ© invalide. Valeurs: ${VALID_PRIORITIES.join(', ')}`),
+    .withMessage(`Priorit     invalide. Valeurs: ${VALID_PRIORITIES.join(', ')}`),
   body('category').optional().trim().isLength({ max: 100 }),
   body('location').optional().trim().isLength({ max: 200 }),
 ];
@@ -79,5 +79,5 @@ export const queryComplaintValidators = [
 ];
 
 export const complaintIdParamValidator = [
-  param('id').isMongoId().withMessage('ID de rÃ©clamation invalide'),
+  param('id').isMongoId().withMessage('ID de r    clamation invalide'),
 ];

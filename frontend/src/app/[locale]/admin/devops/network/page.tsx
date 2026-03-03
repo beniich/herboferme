@@ -17,7 +17,7 @@ export default function NetworkPage() {
                 <div className="max-w-5xl mx-auto space-y-8">
                     <div className="bg-neutral-dark border border-border-dark rounded-xl p-6">
                         <h3 className="font-bold mb-2 text-white">API Gateway</h3>
-                        <p className="text-slate-400 text-sm">104.22.4.15 • SSL: Valid</p>
+                        <p className="text-slate-400 text-sm">104.22.4.15     SSL: Valid</p>
                     </div>
                     <div className="bg-neutral-dark border border-border-dark rounded-xl p-6">
                         <h3 className="font-bold mb-2 text-white">Main Load Balancer</h3>

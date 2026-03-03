@@ -1,4 +1,4 @@
-﻿import ExcelJS from 'exceljs';
+import ExcelJS from 'exceljs';
 import { Request, Response, Router } from 'express';
 import fs from 'fs';
 import mongoose from 'mongoose';
@@ -16,7 +16,7 @@ const router = Router();
 // Apply organization context
 router.use(auth, requireOrganization);
 
-// GET /api/analytics/satisfaction - Métriques de satisfaction
+// GET /api/analytics/satisfaction - M  triques de satisfaction
 router.get('/satisfaction', async (req: Request, res: Response) => {
   try {
     const { range = '30d' } = req.query;
@@ -60,11 +60,11 @@ router.get('/satisfaction', async (req: Request, res: Response) => {
 
     // Map distribution to UI format
     const distributionMap: Record<number, any> = {
-      5: { name: 'Très satisfait', color: '#22c55e' },
+      5: { name: 'Tr  s satisfait', color: '#22c55e' },
       4: { name: 'Satisfait', color: '#84cc16' },
       3: { name: 'Neutre', color: '#eab308' },
       2: { name: 'Insatisfait', color: '#f97316' },
-      1: { name: 'Très insatisfait', color: '#ef4444' },
+      1: { name: 'Tr  s insatisfait', color: '#ef4444' },
     };
 
     const formattedDistribution = [5, 4, 3, 2, 1].map((rating) => ({
@@ -116,15 +116,15 @@ router.get('/satisfaction', async (req: Request, res: Response) => {
       range,
     });
   } catch (error) {
-    logger.error('Erreur récupération satisfaction:', error);
+    logger.error('Erreur r  cup  ration satisfaction:', error);
     res.status(500).json({
       success: false,
-      message: 'Erreur lors de la récupération des données',
+      message: 'Erreur lors de la r  cup  ration des donn  es',
     });
   }
 });
 
-// GET /api/analytics/performance - Métriques de performance
+// GET /api/analytics/performance - M  triques de performance
 router.get('/performance', async (req: Request, res: Response) => {
   try {
     // 1. Completion Rate
@@ -132,7 +132,7 @@ router.get('/performance', async (req: Request, res: Response) => {
     const totalComplaints = await Complaint.countDocuments({ organizationId });
     const resolvedComplaints = await Complaint.countDocuments({
       organizationId,
-      status: { $in: ['résolue', 'fermée'] },
+      status: { $in: ['r  solue', 'ferm  e'] },
     });
     const completionRate =
       totalComplaints > 0 ? Math.round((resolvedComplaints / totalComplaints) * 100) : 0;
@@ -145,13 +145,13 @@ router.get('/performance', async (req: Request, res: Response) => {
           _id: '$category',
           total: { $sum: 1 },
           resolved: {
-            $sum: { $cond: [{ $in: ['$status', ['résolue', 'fermée']] }, 1, 0] },
+            $sum: { $cond: [{ $in: ['$status', ['r  solue', 'ferm  e']] }, 1, 0] },
           },
           // Calculate avg resolution time (diff between updatedAt and createdAt for resolved)
           totalDuration: {
             $sum: {
               $cond: [
-                { $in: ['$status', ['résolue', 'fermée']] },
+                { $in: ['$status', ['r  solue', 'ferm  e']] },
                 { $subtract: ['$updatedAt', '$createdAt'] },
                 0,
               ],
@@ -203,15 +203,15 @@ router.get('/performance', async (req: Request, res: Response) => {
       data: performanceData,
     });
   } catch (error) {
-    logger.error('Erreur récupération performance:', error);
+    logger.error('Erreur r  cup  ration performance:', error);
     res.status(500).json({
       success: false,
-      message: 'Erreur lors de la récupération des données',
+      message: 'Erreur lors de la r  cup  ration des donn  es',
     });
   }
 });
 
-// GET /api/analytics/heatmap - Données pour carte de chaleur
+// GET /api/analytics/heatmap - Donn  es pour carte de chaleur
 router.get('/heatmap', async (req: Request, res: Response) => {
   try {
     const { category, priority, startDate, endDate } = req.query;
@@ -247,10 +247,10 @@ router.get('/heatmap', async (req: Request, res: Response) => {
       filters: { category, priority, startDate, endDate },
     });
   } catch (error) {
-    logger.error('Erreur récupération heatmap:', error);
+    logger.error('Erreur r  cup  ration heatmap:', error);
     res.status(500).json({
       success: false,
-      message: 'Erreur lors de la récupération des données',
+      message: 'Erreur lors de la r  cup  ration des donn  es',
     });
   }
 });
@@ -263,11 +263,11 @@ router.get('/dashboard', async (req: Request, res: Response) => {
     const totalComplaints = await Complaint.countDocuments({ organizationId });
     const activeComplaints = await Complaint.countDocuments({
       organizationId,
-      status: { $in: ['nouveau', 'en cours', 'attribuée'] },
+      status: { $in: ['nouveau', 'en cours', 'attribu  e'] },
     });
     const resolvedComplaints = await Complaint.countDocuments({
       organizationId,
-      status: { $in: ['résolue', 'fermée'] },
+      status: { $in: ['r  solue', 'ferm  e'] },
     });
 
     // Mock feedback avg for now if Feedback model is empty
@@ -282,10 +282,10 @@ router.get('/dashboard', async (req: Request, res: Response) => {
         avgSatisfaction,
         complaintsByStatus: {
           new: await Complaint.countDocuments({ organizationId, status: 'nouveau' }),
-          assigned: await Complaint.countDocuments({ organizationId, status: 'attribuée' }),
+          assigned: await Complaint.countDocuments({ organizationId, status: 'attribu  e' }),
           inProgress: await Complaint.countDocuments({ organizationId, status: 'en cours' }),
-          resolved: await Complaint.countDocuments({ organizationId, status: 'résolue' }),
-          closed: await Complaint.countDocuments({ organizationId, status: 'fermée' }),
+          resolved: await Complaint.countDocuments({ organizationId, status: 'r  solue' }),
+          closed: await Complaint.countDocuments({ organizationId, status: 'ferm  e' }),
         },
       },
     });
@@ -330,7 +330,7 @@ router.get('/export/:type', async (req: Request, res: Response) => {
     workbook.creator = 'ReclamTrack';
     workbook.created = new Date();
 
-    const sheet = workbook.addWorksheet('Réclamations', {
+    const sheet = workbook.addWorksheet('R  clamations', {
       views: [{ state: 'frozen', ySplit: 1 }],
     });
 
@@ -348,11 +348,11 @@ router.get('/export/:type', async (req: Request, res: Response) => {
     };
 
     sheet.columns = [
-      { header: 'N° Réclamation', key: 'number', width: 20 },
-      { header: 'Date Création', key: 'createdAt', width: 18 },
-      { header: 'Catégorie', key: 'category', width: 18 },
-      { header: 'Sous-catégorie', key: 'subcategory', width: 18 },
-      { header: 'Priorité', key: 'priority', width: 12 },
+      { header: 'N   R  clamation', key: 'number', width: 20 },
+      { header: 'Date Cr  ation', key: 'createdAt', width: 18 },
+      { header: 'Cat  gorie', key: 'category', width: 18 },
+      { header: 'Sous-cat  gorie', key: 'subcategory', width: 18 },
+      { header: 'Priorit  ', key: 'priority', width: 12 },
       { header: 'Statut', key: 'status', width: 14 },
       { header: 'Titre', key: 'title', width: 30 },
       { header: 'Adresse', key: 'address', width: 30 },
@@ -360,13 +360,13 @@ router.get('/export/:type', async (req: Request, res: Response) => {
       { header: 'Quartier', key: 'district', width: 16 },
       { header: 'Latitude', key: 'latitude', width: 12 },
       { header: 'Longitude', key: 'longitude', width: 12 },
-      { header: 'Équipe', key: 'team', width: 20 },
+      { header: '  quipe', key: 'team', width: 20 },
       { header: 'Technicien', key: 'technician', width: 20 },
       { header: 'Date Saisie', key: 'assignedAt', width: 18 },
-      { header: 'Prénom', key: 'firstName', width: 14 },
+      { header: 'Pr  nom', key: 'firstName', width: 14 },
       { header: 'Nom', key: 'lastName', width: 14 },
       { header: 'Email', key: 'email', width: 24 },
-      { header: 'Téléphone', key: 'phone', width: 16 },
+      { header: 'T  l  phone', key: 'phone', width: 16 },
     ];
 
     // Style header row
@@ -392,11 +392,11 @@ router.get('/export/:type', async (req: Request, res: Response) => {
       low: 'FF22C55E',
     };
     const statusColors: Record<string, string> = {
-      résolue: 'FF22C55E',
-      fermée: 'FF64748B',
+      r  solue: 'FF22C55E',
+      ferm  e: 'FF64748B',
       'en cours': 'FF3B82F6',
       nouvelle: 'FFF59E0B',
-      rejetée: 'FFEF4444',
+      rejet  e: 'FFEF4444',
     };
 
     complaints.forEach((c: any, idx: number) => {
@@ -413,7 +413,7 @@ router.get('/export/:type', async (req: Request, res: Response) => {
         district: c.district,
         latitude: c.latitude || '',
         longitude: c.longitude || '',
-        team: c.assignedTeamId?.name || 'Non assignée',
+        team: c.assignedTeamId?.name || 'Non assign  e',
         technician: c.technicianId ? `${c.technicianId.firstName} ${c.technicianId.lastName}` : '',
         assignedAt: c.assignedAt ? new Date(c.assignedAt).toLocaleString('fr-FR') : '',
         firstName: c.isAnonymous ? 'Anonyme' : c.firstName || '',
@@ -460,7 +460,7 @@ router.get('/export/:type', async (req: Request, res: Response) => {
 
     // Get organization settings
     const org = await Organization.findById(organizationId).select('settings');
-    const settings = org?.settings || {};
+    const settings = org?.settings || { /* Intentionally empty */ };
     const serverBaseUrl = `${req.protocol}://${req.get('host')}`;
 
     const saveResult = await saveExport(buffer, filename, mimeType, settings, serverBaseUrl);
@@ -469,15 +469,15 @@ router.get('/export/:type', async (req: Request, res: Response) => {
       success: true,
       message:
         saveResult.mode === 'local'
-          ? 'Export sauvegardé sur le serveur local'
-          : 'Export envoyé sur Google Drive',
+          ? 'Export sauvegard   sur le serveur local'
+          : 'Export envoy   sur Google Drive',
       data: saveResult,
     });
   } catch (error: any) {
     logger.error('Export Excel error:', error);
     res.status(500).json({
       success: false,
-      message: "Erreur lors de la génération de l'export",
+      message: "Erreur lors de la g  n  ration de l'export",
       error: error.message,
     });
   }
@@ -493,7 +493,7 @@ router.get('/exports/download/:filename', async (req: Request, res: Response) =>
     }
     const filePath = path.join(process.cwd(), 'exports', filename);
     if (!fs.existsSync(filePath)) {
-      return res.status(404).json({ success: false, message: 'Fichier non trouvé' });
+      return res.status(404).json({ success: false, message: 'Fichier non trouv  ' });
     }
     res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
     res.setHeader(
@@ -503,7 +503,7 @@ router.get('/exports/download/:filename', async (req: Request, res: Response) =>
     res.sendFile(filePath);
   } catch (error) {
     logger.error('Download error:', error);
-    res.status(500).json({ success: false, message: 'Erreur de téléchargement' });
+    res.status(500).json({ success: false, message: 'Erreur de t  l  chargement' });
   }
 });
 

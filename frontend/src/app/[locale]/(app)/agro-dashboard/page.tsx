@@ -14,7 +14,7 @@ export default function AgroDashboardPage() {
                 zIndex: 9999,
                 background: '#0b0f0a',
             }}
-            title="AgroMaître — Tableau de Bord Agricole"
+            title="AgroMa  tre     Tableau de Bord Agricole"
         />
     );
 }

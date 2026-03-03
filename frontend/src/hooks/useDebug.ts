@@ -8,7 +8,7 @@ export interface DebugInfo {
 
 /**
  * Hook qui interroge l'endpoint `/debug/info/<error_id>` du backend.
- * En mode dev il se base sur le polling (intervalle 3 s) – on pourra le remplacer par WebSocket plus tard.
+ * En mode dev il se base sur le polling (intervalle 3 s)     on pourra le remplacer par WebSocket plus tard.
  */
 export function useDebug(errorId: string | null) {
     const [info, setInfo] = useState<DebugInfo | null>(null);
@@ -23,7 +23,7 @@ export function useDebug(errorId: string | null) {
             try {
                 const resp = await fetch(`/debug/info/${errorId}`);
                 if (resp.status === 202) {
-                    // Pas encore disponible – on revient + tard.
+                    // Pas encore disponible     on revient + tard.
                     setLoading(false);
                     return;
                 }

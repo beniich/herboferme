@@ -15,7 +15,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import api from '@/lib/api';
-import PageHeader from '@/components/layout/PageHeader';
 import { Edit, Laptop, Monitor, MoreVertical, Network, Plus, Printer, Search, Server, Smartphone, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -158,23 +157,23 @@ export default function ITAssetsPage() {
   }
 
   return (
-    <div className="page active space-y-6">
-      <PageHeader 
-        label="IT Administration"
-        title="IT Assets Inventory"
-        subtitle="Manage hardware, track assignments, and monitor status."
-        actions={
-          <>
+    <div className="p-6 space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">IT Assets Inventory</h1>
+          <p className="text-gray-500 mt-1">Manage hardware, track assignments, and monitor status.</p>
+        </div>
+        <div className="flex gap-2">
             <Button variant="outline" onClick={() => loadAssets()}>
-                <span className="mr-2">↻</span> Refresh
+                <span className="mr-2">   </span> Refresh
             </Button>
             <Button className="bg-primary hover:bg-primary/90" onClick={handleCreate}>
-              <Plus className="mr-2 h-4 w-4" />
-              Add Asset
+            <Plus className="mr-2 h-4 w-4" />
+            Add Asset
             </Button>
-          </>
-        }
-      />
+        </div>
+      </div>
 
       {/* Filters */}
       <Card>

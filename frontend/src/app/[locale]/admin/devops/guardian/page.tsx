@@ -199,10 +199,10 @@ export default function PIIDiscoveryPage() {
                     </div>
                     <div className="flex gap-2">
                         <button className="flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-200 dark:border-border-dark hover:bg-slate-50 dark:hover:bg-slate-800">
-                            <span>🔽</span> Filter
+                            <span>    </span> Filter
                         </button>
                         <button className="flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-200 dark:border-border-dark hover:bg-slate-50 dark:hover:bg-slate-800 text-primary">
-                            <span>📥</span> Export CSV
+                            <span>    </span> Export CSV
                         </button>
                     </div>
                 </div>
@@ -292,7 +292,7 @@ export default function PIIDiscoveryPage() {
                     <h4 className="text-xs font-bold">Incremental Scan</h4>
                     <p className="text-[10px] text-slate-500">Checking S3 Bucket logs...</p>
                 </div>
-                <button className="text-slate-400 hover:text-slate-200">✕</button>
+                <button className="text-slate-400 hover:text-slate-200">   </button>
             </div>
         </div>
     );

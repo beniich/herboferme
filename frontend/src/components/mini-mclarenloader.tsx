@@ -239,7 +239,7 @@ export function FlatMcLarenLoader() {
                 </div>
                 <div className="text-center mt-2">
                     <div className="text-xs font-bold text-orange-600">
-                        {progress < 40 ? '🚗' : progress < 70 ? '🏎️' : '✨'}
+                        {progress < 40 ? '    ' : progress < 70 ? '       ' : '   '}
                     </div>
                     <div className="text-[10px] text-slate-600 dark:text-slate-400 mt-1">
                         {Math.round(progress)}%

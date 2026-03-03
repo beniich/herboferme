@@ -81,13 +81,13 @@ export function HeatmapView({
 
             userMarkerRef.current = L.marker(e.latlng, { icon: userIcon })
                 .addTo(mapRef.current!)
-                .bindPopup("Vous êtes ici (Précision: " + radius.toFixed(0) + "m)")
+                .bindPopup("Vous   tes ici (Pr  cision: " + radius.toFixed(0) + "m)")
                 .openPopup();
         };
 
         const onLocationError = (e: L.ErrorEvent) => {
             setIsLocating(false);
-            alert("Erreur de géolocalisation: " + e.message);
+            alert("Erreur de g  olocalisation: " + e.message);
         };
 
         mapRef.current.on('locationfound', onLocationFound);
@@ -113,7 +113,7 @@ export function HeatmapView({
 
             // Add tile layer
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors',
+                attribution: '   OpenStreetMap contributors',
                 maxZoom: 19,
             }).addTo(map);
 
@@ -325,7 +325,7 @@ export function HeatmapView({
                 {/* Intensity Control */}
                 {(mapMode === 'heatmap' || mapMode === 'both') && (
                     <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-3">
-                        <p className="text-xs font-bold text-slate-500 uppercase mb-2">Intensité</p>
+                        <p className="text-xs font-bold text-slate-500 uppercase mb-2">Intensit  </p>
                         <input
                             type="range"
                             min="0.5"
@@ -365,14 +365,14 @@ export function HeatmapView({
 
             {/* Legend */}
             <div className="absolute bottom-4 left-4 bg-white dark:bg-slate-800 rounded-lg shadow-lg p-3 z-[1000]">
-                <p className="text-xs font-bold text-slate-500 uppercase mb-2">Densité</p>
+                <p className="text-xs font-bold text-slate-500 uppercase mb-2">Densit  </p>
                 <div className="flex items-center gap-2">
                     <div className="w-32 h-3 rounded-full" style={{
                         background: 'linear-gradient(to right, #3b82f6, #22c55e, #eab308, #f97316, #ef4444)'
                     }} />
                     <div className="flex justify-between text-xs text-slate-500 w-full">
                         <span>Faible</span>
-                        <span>Élevée</span>
+                        <span>  lev  e</span>
                     </div>
                 </div>
             </div>
@@ -381,7 +381,7 @@ export function HeatmapView({
             <div className="absolute top-4 left-4 bg-white dark:bg-slate-800 rounded-lg shadow-lg px-4 py-2 z-[1000]">
                 <p className="text-sm">
                     <span className="font-bold text-primary">{data.length}</span>
-                    <span className="text-slate-500 ml-1">points de données</span>
+                    <span className="text-slate-500 ml-1">points de donn  es</span>
                 </p>
             </div>
 

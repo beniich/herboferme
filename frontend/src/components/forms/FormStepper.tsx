@@ -94,7 +94,7 @@ export function FormStepper({
                                 {isComplete && (
                                     <div className="flex items-center gap-1 text-xs font-medium text-emerald-600 dark:text-emerald-400">
                                         <Check className="w-4 h-4" />
-                                        <span>Complété</span>
+                                        <span>Compl  t  </span>
                                     </div>
                                 )}
                                 {isCurrent && (
@@ -185,7 +185,7 @@ export function FormStepper({
             <div className="md:hidden bg-slate-50 dark:bg-slate-800 rounded-lg p-4 mb-6">
                 <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-medium text-slate-500">
-                        Étape {currentStep} sur {steps.length}
+                          tape {currentStep} sur {steps.length}
                     </span>
                     <span className="text-sm font-bold text-primary">
                         {Math.round(((currentStep - 1) / (steps.length - 1)) * 100)}%
@@ -208,24 +208,24 @@ export const complaintFormSteps: Step[] = [
         id: 1,
         title: 'Informations',
         description: 'Type et description',
-        icon: '📋',
+        icon: '    ',
     },
     {
         id: 2,
         title: 'Localisation',
         description: 'Adresse et carte',
-        icon: '📍',
+        icon: '    ',
     },
     {
         id: 3,
         title: 'Preuves',
         description: 'Photos et documents',
-        icon: '📷',
+        icon: '    ',
     },
     {
         id: 4,
         title: 'Contact',
         description: 'Vos informations',
-        icon: '👤',
+        icon: '    ',
     },
 ];

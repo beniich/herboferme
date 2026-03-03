@@ -27,22 +27,22 @@ export function NotificationCenter() {
     }, [isOpen]);
 
     const getIcon = (type: Notification['type'], priority: Notification['priority']) => {
-        if (priority === 'urgent') return '🚨';
+        if (priority === 'urgent') return '    ';
 
         switch (type) {
-            case 'complaint_assigned': return '📋';
-            case 'status_update': return '🔄';
-            case 'alert': return '⚠️';
-            case 'success': return '✅';
-            case 'error': return '❌';
-            case 'warning': return '⚠️';
-            default: return 'ℹ️';
+            case 'complaint_assigned': return '    ';
+            case 'status_update': return '    ';
+            case 'alert': return '      ';
+            case 'success': return '   ';
+            case 'error': return '   ';
+            case 'warning': return '      ';
+            default: return '      ';
         }
     };
 
     return (
         <div className="relative" ref={panelRef}>
-            {/* Badge déclencheur */}
+            {/* Badge d  clencheur */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="relative p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"

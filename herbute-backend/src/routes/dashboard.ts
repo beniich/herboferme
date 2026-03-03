@@ -1,4 +1,4 @@
-﻿import { authenticate as protect, requireOrganization } from '../middleware/security.js';
+import { authenticate as protect, requireOrganization } from '../middleware/security.js';
 import { Complaint } from '../models/Complaint.js';
 import { Team } from '../models/Team.js';
 import Animal from '../models/Animal.js';
@@ -6,8 +6,9 @@ import Crop from '../models/Crop.js';
 import FarmKPI from '../models/FarmKPI.js';
 import ITTicket from '../models/ITTicket.js';
 import mongoose from 'mongoose';
-import express from 'express';
-const router = express.Router();
+import { Router } from 'express';
+
+const router = Router();
 
 /* GET /api/dashboard */
 router.get('/', [protect, requireOrganization], async (req: any, res, next) => {
@@ -83,7 +84,7 @@ router.get('/', [protect, requireOrganization], async (req: any, res, next) => {
                             $filter: {
                                 input: '$assignments',
                                 as: 'a',
-                                cond: { $ne: ['$$a.status', 'terminé'] }
+                                cond: { $ne: ['$$a.status', 'termin  '] }
                             }
                         }
                     }
@@ -97,7 +98,7 @@ router.get('/', [protect, requireOrganization], async (req: any, res, next) => {
             it: itStats,
             maintenance: {
                 total: totalComplaints,
-                byStatus: statusStats.reduce((acc: any, curr) => ({ ...acc, [curr._id]: curr.count }), {}),
+                byStatus: statusStats.reduce((acc: any, curr) => ({ ...acc, [curr._id]: curr.count }), { /* Intentionally empty */ }),
                 teamStats
             }
         });

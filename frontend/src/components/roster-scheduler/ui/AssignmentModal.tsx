@@ -121,9 +121,9 @@ export default function AssignmentModal({ onClose }: AssignmentModalProps) {
                                         <label className="block text-[11px] font-bold text-slate-500 uppercase mb-2 ml-1">Toolbox Checklist</label>
                                         <div className="grid grid-cols-1 gap-2">
                                             {[
-                                                { name: 'Hydraulic Pipe Cutter', asset: 'TC-441 • Bin A-4', checked: true },
-                                                { name: 'Digital Flow Meter', asset: 'DM-902 • Bin C-2', checked: true },
-                                                { name: 'Safety Barrier Kit', asset: 'SK-012 • Loading Bay 1', checked: false }
+                                                { name: 'Hydraulic Pipe Cutter', asset: 'TC-441     Bin A-4', checked: true },
+                                                { name: 'Digital Flow Meter', asset: 'DM-902     Bin C-2', checked: true },
+                                                { name: 'Safety Barrier Kit', asset: 'SK-012     Loading Bay 1', checked: false }
                                             ].map((tool, idx) => (
                                                 <label key={idx} className="flex items-center gap-3 p-2 bg-slate-800/40 rounded-lg cursor-pointer hover:bg-slate-800 transition-colors">
                                                     <input

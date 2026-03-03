@@ -27,7 +27,7 @@ export default function KubernetesPage() {
                                 </span>
                             </div>
                             <p className="text-xs text-slate-400">
-                                Namespace: <span className="text-slate-200">production-east-1</span> • IP: 10.42.1.84
+                                Namespace: <span className="text-slate-200">production-east-1</span>     IP: 10.42.1.84
                             </p>
                         </div>
                     </div>
@@ -188,7 +188,7 @@ export default function KubernetesPage() {
                                 <div>
                                     <p className="text-xs font-bold text-white uppercase">Started</p>
                                     <p className="text-xs text-slate-400">Started container main</p>
-                                    <p className="text-[10px] text-slate-500 mt-1">14h ago • kubelet, aks-pool-1</p>
+                                    <p className="text-[10px] text-slate-500 mt-1">14h ago     kubelet, aks-pool-1</p>
                                 </div>
                             </div>
                             <div className="flex gap-3">
@@ -200,7 +200,7 @@ export default function KubernetesPage() {
                                     <p className="text-xs text-slate-400">
                                         Successfully pulled image &quot;backend:v2.1.4&quot;
                                     </p>
-                                    <p className="text-[10px] text-slate-500 mt-1">14h ago • kubelet, aks-pool-1</p>
+                                    <p className="text-[10px] text-slate-500 mt-1">14h ago     kubelet, aks-pool-1</p>
                                 </div>
                             </div>
                             <div className="flex gap-3">
@@ -210,7 +210,7 @@ export default function KubernetesPage() {
                                 <div>
                                     <p className="text-xs font-bold text-white uppercase">BackOff</p>
                                     <p className="text-xs text-slate-400">Backing off restarting failed container</p>
-                                    <p className="text-[10px] text-slate-500 mt-1">15h ago • kubelet, aks-pool-1</p>
+                                    <p className="text-[10px] text-slate-500 mt-1">15h ago     kubelet, aks-pool-1</p>
                                 </div>
                             </div>
                         </div>
@@ -301,7 +301,7 @@ export default function KubernetesPage() {
                     </div>
                     {/* Terminal Input */}
                     <div className="px-4 py-2 border-t border-border-dark flex items-center bg-background-dark">
-                        <span className="text-green-500 font-mono text-sm mr-2">❯</span>
+                        <span className="text-green-500 font-mono text-sm mr-2">   </span>
                         <input
                             type="text"
                             className="flex-1 bg-transparent border-none outline-none focus:ring-0 font-mono text-sm text-white placeholder-slate-700"

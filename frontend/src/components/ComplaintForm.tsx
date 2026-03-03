@@ -48,7 +48,7 @@ export default function ComplaintForm() {
 
     return (
         <section className="max-w-3xl mx-auto bg-white rounded shadow p-6">
-            <h2 className="text-2xl font-semibold mb-4">Nouvelle réclamation</h2>
+            <h2 className="text-2xl font-semibold mb-4">Nouvelle r  clamation</h2>
 
             {error && <p className="text-red-600 mb-2">{error}</p>}
 
@@ -57,7 +57,7 @@ export default function ComplaintForm() {
                     <input
                         type="text"
                         name="firstName"
-                        placeholder="Prénom"
+                        placeholder="Pr  nom"
                         required
                         value={values.firstName}
                         onChange={handleChange}
@@ -87,7 +87,7 @@ export default function ComplaintForm() {
                 <input
                     type="tel"
                     name="phone"
-                    placeholder="Téléphone"
+                    placeholder="T  l  phone"
                     required
                     value={values.phone}
                     onChange={handleChange}
@@ -103,15 +103,15 @@ export default function ComplaintForm() {
                 >
                     <option value="">-- Nature de la fuite --</option>
                     <option value="eau">Eau</option>
-                    <option value="electricite">Électricité</option>
+                    <option value="electricite">  lectricit  </option>
                     <option value="menuiserie">Menuiserie</option>
                     <option value="soudure">Soudure</option>
-                    <option value="maconnerie">Maçonnerie</option>
+                    <option value="maconnerie">Ma  onnerie</option>
                 </select>
 
                 <textarea
                     name="description"
-                    placeholder="Description détaillée (optionnelle)"
+                    placeholder="Description d  taill  e (optionnelle)"
                     rows={3}
                     value={values.description}
                     onChange={handleChange}
@@ -124,7 +124,7 @@ export default function ComplaintForm() {
                     className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 flex items-center disabled:opacity-50"
                 >
                     {loading && <LoadingSpinner />}
-                    <span className="ml-2">{loading ? 'Enregistrement…' : 'Enregistrer'}</span>
+                    <span className="ml-2">{loading ? 'Enregistrement   ' : 'Enregistrer'}</span>
                 </button>
             </form>
         </section>

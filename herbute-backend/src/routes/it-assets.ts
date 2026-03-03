@@ -1,4 +1,4 @@
-﻿import express, { Response } from 'express';
+import express, { Response } from 'express';
 import { authenticate, requireOrganization } from '../middleware/security.js';
 import ITAsset from '../models/ITAsset.js';
 import { sendSuccess, sendError } from '../utils/apiResponse.js';

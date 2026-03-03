@@ -25,11 +25,11 @@ export default function LoginPage() {
 
         try {
             await login({ email, password });
-            toast.success('Connexion réussie !');
-            // La redirection est gérée par le login() de l'AuthProvider
+            toast.success('Connexion r  ussie !');
+            // La redirection est g  r  e par le login() de l'AuthProvider
         } catch (error: any) {
             console.error('Login error:', error);
-            const message = error.response?.data?.error || error.response?.data?.message || 'Erreur de connexion. Veuillez vérifier vos identifiants.';
+            const message = error.response?.data?.error || error.response?.data?.message || 'Erreur de connexion. Veuillez v  rifier vos identifiants.';
             toast.error(message);
         } finally {
             setLoading(false);
@@ -39,21 +39,21 @@ export default function LoginPage() {
     const handleGoogleSuccess = async (credentialResponse: { credential?: string }) => {
         try {
             if (credentialResponse.credential) {
-                // Pour Google, on peut appeler directement l'api ou étendre l'AuthProvider
-                // Ici on utilise l'API pour déclencher la création du cookie
+                // Pour Google, on peut appeler directement l'api ou   tendre l'AuthProvider
+                // Ici on utilise l'API pour d  clencher la cr  ation du cookie
                 await authApi.googleLogin(credentialResponse.credential);
                 window.location.href = `/${locale}/dashboard`;
-                toast.success('Connexion Google réussie !');
+                toast.success('Connexion Google r  ussie !');
             }
         } catch (error: any) {
             console.error('Google login error:', error);
-            const message = error.response?.data?.error || error.response?.data?.message || 'Échec de la connexion Google';
+            const message = error.response?.data?.error || error.response?.data?.message || '  chec de la connexion Google';
             toast.error(message);
         }
     };
 
     const handleGoogleError = () => {
-        toast.error('Échec de la connexion Google');
+        toast.error('  chec de la connexion Google');
     };
 
     return (
@@ -125,7 +125,7 @@ export default function LoginPage() {
                         <div>
                             <div className="flex justify-between items-center mb-1.5">
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="password">Mot de passe</label>
-                                <a className="text-xs font-semibold text-primary hover:underline" href="#">Mot de passe oublié ?</a>
+                                <a className="text-xs font-semibold text-primary hover:underline" href="#">Mot de passe oubli   ?</a>
                             </div>
                             <div className="relative">
                                 <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl notranslate" translate="no">lock</span>
@@ -158,7 +158,7 @@ export default function LoginPage() {
                                 checked={rememberMe}
                                 onChange={(e) => setRememberMe(e.target.checked)}
                             />
-                            <label className="ml-2 block text-sm text-slate-600 dark:text-slate-400" htmlFor="remember">Rester connecté</label>
+                            <label className="ml-2 block text-sm text-slate-600 dark:text-slate-400" htmlFor="remember">Rester connect  </label>
                         </div>
 
                         {/* Sign In Button */}
@@ -184,27 +184,27 @@ export default function LoginPage() {
                     {/* Security Footer inside card */}
                     <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-center gap-2 text-slate-400 dark:text-slate-500">
                         <span className="material-symbols-outlined text-sm notranslate" translate="no">encrypted</span>
-                        <span className="text-xs">Connexion chiffrée de bout en bout</span>
+                        <span className="text-xs">Connexion chiffr  e de bout en bout</span>
                     </div>
                 </div>
             </div>
 
             {/* Footer Links */}
             <div className="mt-8 flex flex-wrap justify-center gap-6 text-sm text-slate-500 dark:text-slate-400">
-                <a className="hover:text-primary transition-colors" href="#">Politique de sécurité</a>
+                <a className="hover:text-primary transition-colors" href="#">Politique de s  curit  </a>
                 <a className="hover:text-primary transition-colors" href="#">Support</a>
-                <a className="hover:text-primary transition-colors" href="#">Confidentialité</a>
+                <a className="hover:text-primary transition-colors" href="#">Confidentialit  </a>
             </div>
 
             <div className="mt-8 text-center text-sm">
                 <span className="text-slate-600 dark:text-slate-400">Pas encore de compte ? </span>
                 <Link href="/register" className="text-primary hover:underline font-semibold">
-                    Créer un compte
+                    Cr  er un compte
                 </Link>
             </div>
 
             <p className="mt-8 text-xs text-slate-400 dark:text-slate-600">
-                © 2024 ReclamTrack Solutions. Tous droits réservés.
+                   2024 ReclamTrack Solutions. Tous droits r  serv  s.
             </p>
         </div>
     );

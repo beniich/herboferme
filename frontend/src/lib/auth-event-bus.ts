@@ -1,21 +1,21 @@
 /**
  * lib/auth-event-bus.ts
  *
- * Bus d'événements simple pour gérer la déconnexion synchronisée.
- * Permet au client Axios de signaler une session expirée (401)
+ * Bus d'  v  nements simple pour g  rer la d  connexion synchronis  e.
+ * Permet au client Axios de signaler une session expir  e (401)
  * au AuthProvider sans couplage direct.
  */
 
 type AuthEvent = 'logout' | 'session-expired';
 
 class AuthEventBus extends EventTarget {
-  /** Signale une déconnexion (manuelle ou forcée) */
+  /** Signale une d  connexion (manuelle ou forc  e) */
   emit(event: AuthEvent) {
     this.dispatchEvent(new Event(event));
     console.warn(`[AuthEventBus] Event emitted: ${event}`);
   }
 
-  /** S'abonne à un événement */
+  /** S'abonne    un   v  nement */
   on(event: AuthEvent, callback: () => void) {
     this.addEventListener(event, callback);
     return () => this.removeEventListener(event, callback);

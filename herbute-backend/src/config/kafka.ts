@@ -1,4 +1,4 @@
-﻿import kafkajs from 'kafkajs';
+import kafkajs from 'kafkajs';
 const { Kafka, logLevel } = kafkajs;
 
 const kafka = new Kafka({
@@ -13,12 +13,12 @@ export const consumer = kafka.consumer({ groupId: 'reclamtrack-backend-group' })
 export const connectKafka = async () => {
     try {
         await producer.connect();
-        console.log('âœ… Kafka Producer connected');
+        console.log('        Kafka Producer connected');
 
         await consumer.connect();
-        console.log('âœ… Kafka Consumer connected');
+        console.log('        Kafka Consumer connected');
     } catch (error) {
-        console.error('âŒ Kafka connection error:', error);
+        console.error('       Kafka connection error:', error);
     }
 };
 

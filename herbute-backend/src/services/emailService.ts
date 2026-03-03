@@ -1,4 +1,4 @@
-﻿import nodemailer from 'nodemailer';
+import nodemailer from 'nodemailer';
 import { logger } from '../utils/logger.js';
 
 const transporter = nodemailer.createTransport({
@@ -25,6 +25,6 @@ export const sendMail = async ({
         subject,
         html
     });
-    logger.info(`âœ‰ï¸ Email envoyÃ© : ${info.messageId}`);
+    logger.info(`              Email envoy     : ${info.messageId}`);
     return info;
 };

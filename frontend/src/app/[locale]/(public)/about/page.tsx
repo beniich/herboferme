@@ -221,7 +221,7 @@ export default function AboutPage() {
                         </div>
                     </div>
                     <div className="border-t border-slate-200 dark:border-white/5 pt-8 flex flex-col md:flex-row justify-between gap-4 text-xs text-slate-400 uppercase font-bold tracking-widest">
-                        <p>© {new Date().getFullYear()} ReclamTrack Pro. All Rights Reserved.</p>
+                        <p>   {new Date().getFullYear()} ReclamTrack Pro. All Rights Reserved.</p>
                         <div className="flex gap-6">
                             <Link href="/legal/privacy" className="hover:text-primary">Privacy Policy</Link>
                             <Link href="/legal/terms" className="hover:text-primary">Terms of Service</Link>

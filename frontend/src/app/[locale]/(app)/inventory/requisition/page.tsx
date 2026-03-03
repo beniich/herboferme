@@ -14,8 +14,8 @@ const requisitionItemSchema = z.object({
     itemId: z.string().min(1, 'Article requis'),
     itemName: z.string().min(1, 'Nom requis'),
     quantityRequested: z.number()
-        .min(1, 'Quantité minimum: 1')
-        .max(1000, 'Quantité maximum: 1000'),
+        .min(1, 'Quantit   minimum: 1')
+        .max(1000, 'Quantit   maximum: 1000'),
     unit: z.string(),
     urgency: z.enum(['normal', 'urgent', 'emergency']),
     justification: z.string().optional(),
@@ -23,8 +23,8 @@ const requisitionItemSchema = z.object({
 
 const requisitionFormSchema = z.object({
     title: z.string()
-        .min(5, 'Le titre doit contenir au moins 5 caractères')
-        .max(100, 'Le titre ne peut pas dépasser 100 caractères'),
+        .min(5, 'Le titre doit contenir au moins 5 caract  res')
+        .max(100, 'Le titre ne peut pas d  passer 100 caract  res'),
     description: z.string()
         .min(10, 'Description trop courte')
         .max(500, 'Description trop longue'),
@@ -36,7 +36,7 @@ const requisitionFormSchema = z.object({
     urgency: z.enum(['normal', 'urgent', 'emergency']).default('normal'),
     items: z.array(requisitionItemSchema)
         .min(1, 'Au moins un article requis')
-        .max(20, 'Maximum 20 articles par réquisition'),
+        .max(20, 'Maximum 20 articles par r  quisition'),
 });
 
 type RequisitionFormData = z.infer<typeof requisitionFormSchema>;
@@ -91,10 +91,10 @@ export default function MaterialRequisitionPage() {
             // Simulated mock data
             await new Promise(resolve => setTimeout(resolve, 500));
             const items: InventoryItem[] = [
-                { id: '1', code: 'ELEC-001', name: 'Câble Électrique 10mm', category: 'Électricité', unit: 'm', currentStock: 150, minStock: 50 },
+                { id: '1', code: 'ELEC-001', name: 'C  ble   lectrique 10mm', category: '  lectricit  ', unit: 'm', currentStock: 150, minStock: 50 },
                 { id: '2', code: 'EAU-002', name: 'Tuyau PVC 50mm', category: 'Plomberie', unit: 'm', currentStock: 80, minStock: 20 },
-                { id: '3', code: 'ROAD-003', name: 'Bitume à froid', category: 'Voirie', unit: 'kg', currentStock: 500, minStock: 100 },
-                { id: '4', code: 'LIGHT-004', name: 'Lampe LED 100W', category: 'Éclairage', unit: 'pcs', currentStock: 30, minStock: 10 },
+                { id: '3', code: 'ROAD-003', name: 'Bitume    froid', category: 'Voirie', unit: 'kg', currentStock: 500, minStock: 100 },
+                { id: '4', code: 'LIGHT-004', name: 'Lampe LED 100W', category: '  clairage', unit: 'pcs', currentStock: 30, minStock: 10 },
             ].filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()) || item.code.toLowerCase().includes(searchTerm.toLowerCase()));
 
             setAvailableItems(items);
@@ -106,12 +106,12 @@ export default function MaterialRequisitionPage() {
         }
     };
 
-    // Ajouter un article à la réquisition
+    // Ajouter un article    la r  quisition
     const addItem = (item: InventoryItem) => {
-        // Vérifier si déjà ajouté
+        // V  rifier si d  j   ajout
         const existing = fields.find((f) => f.itemId === item.id);
         if (existing) {
-            toast.warning('Article déjà dans la liste');
+            toast.warning('Article d  j   dans la liste');
             return;
         }
 
@@ -124,7 +124,7 @@ export default function MaterialRequisitionPage() {
             justification: '',
         });
 
-        toast.success(`${item.name} ajouté`);
+        toast.success(`${item.name} ajout  `);
     };
 
     // Sauvegarde brouillon
@@ -145,7 +145,7 @@ export default function MaterialRequisitionPage() {
             await new Promise(resolve => setTimeout(resolve, 1000));
             // const result = { id: 'REQ-' + Date.now() };
 
-            toast.success('Brouillon sauvegardé');
+            toast.success('Brouillon sauvegard  ');
             // router.push(`/inventory/requisition/${result.id}`);
         } catch (error) {
             console.error(error);
@@ -171,8 +171,8 @@ export default function MaterialRequisitionPage() {
             await new Promise(resolve => setTimeout(resolve, 1000));
             const result = { id: 'REQ-' + Date.now(), referenceNumber: 'REQ-2025-001' };
 
-            toast.success('Réquisition soumise avec succès!', {
-                description: `Référence: ${result.referenceNumber}`,
+            toast.success('R  quisition soumise avec succ  s!', {
+                description: `R  f  rence: ${result.referenceNumber}`,
             });
             router.push(`/inventory/requisition/${result.id}`);
         } catch (error) {
@@ -186,10 +186,10 @@ export default function MaterialRequisitionPage() {
             {/* Header */}
             <div className="mb-8">
                 <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
-                    Nouvelle Réquisition de Matériel
+                    Nouvelle R  quisition de Mat  riel
                 </h1>
                 <p className="text-slate-500 mt-1">
-                    Demandez le matériel nécessaire pour vos interventions
+                    Demandez le mat  riel n  cessaire pour vos interventions
                 </p>
             </div>
 
@@ -197,18 +197,18 @@ export default function MaterialRequisitionPage() {
                 {/* Formulaire Principal */}
                 <div className="lg:col-span-2 space-y-6">
                     <form className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 space-y-6">
-                        {/* Informations générales */}
+                        {/* Informations g  n  rales */}
                         <div>
-                            <h3 className="text-lg font-semibold mb-4">Informations générales</h3>
+                            <h3 className="text-lg font-semibold mb-4">Informations g  n  rales</h3>
 
                             <div className="space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium mb-2">
-                                        Titre de la réquisition *
+                                        Titre de la r  quisition *
                                     </label>
                                     <input
                                         {...register('title')}
-                                        placeholder="Ex: Matériel pour réparation Avenue Hassan II"
+                                        placeholder="Ex: Mat  riel pour r  paration Avenue Hassan II"
                                         className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
                                     />
                                     {errors.title && (
@@ -223,7 +223,7 @@ export default function MaterialRequisitionPage() {
                                     <textarea
                                         {...register('description')}
                                         rows={3}
-                                        placeholder="Décrivez le contexte et l'utilisation prévue..."
+                                        placeholder="D  crivez le contexte et l'utilisation pr  vue..."
                                         className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
                                     />
                                     {errors.description && (
@@ -262,11 +262,11 @@ export default function MaterialRequisitionPage() {
 
                         {/* Liste des articles */}
                         <div>
-                            <h3 className="text-lg font-semibold mb-4">Articles demandés</h3>
+                            <h3 className="text-lg font-semibold mb-4">Articles demand  s</h3>
 
                             {fields.length === 0 ? (
                                 <div className="text-center py-12 bg-slate-50 dark:bg-slate-800 rounded-lg border-2 border-dashed border-slate-300 dark:border-slate-600">
-                                    <p className="text-slate-500 mb-2">Aucun article ajouté</p>
+                                    <p className="text-slate-500 mb-2">Aucun article ajout  </p>
                                     <p className="text-sm text-slate-400">
                                         Utilisez la recherche pour ajouter des articles
                                     </p>
@@ -295,7 +295,7 @@ export default function MaterialRequisitionPage() {
                                             <div className="grid grid-cols-3 gap-3">
                                                 <div>
                                                     <label className="block text-xs font-medium mb-1">
-                                                        Quantité *
+                                                        Quantit   *
                                                     </label>
                                                     <input
                                                         type="number"
@@ -313,7 +313,7 @@ export default function MaterialRequisitionPage() {
                                                 </div>
 
                                                 <div>
-                                                    <label className="block text-xs font-medium mb-1">Unité</label>
+                                                    <label className="block text-xs font-medium mb-1">Unit  </label>
                                                     <input
                                                         {...register(`items.${index}.unit`)}
                                                         disabled
@@ -342,7 +342,7 @@ export default function MaterialRequisitionPage() {
                                                 </label>
                                                 <input
                                                     {...register(`items.${index}.justification`)}
-                                                    placeholder="Pourquoi cet article est nécessaire..."
+                                                    placeholder="Pourquoi cet article est n  cessaire..."
                                                     className="w-full px-3 py-1.5 border rounded text-sm"
                                                 />
                                             </div>
@@ -375,7 +375,7 @@ export default function MaterialRequisitionPage() {
                                 className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
                             >
                                 <Send className="w-4 h-4" />
-                                {isSubmitting ? 'Envoi...' : 'Soumettre la réquisition'}
+                                {isSubmitting ? 'Envoi...' : 'Soumettre la r  quisition'}
                             </button>
                         </div>
                     </form>
@@ -446,7 +446,7 @@ export default function MaterialRequisitionPage() {
 
                             {!isSearching && searchTerm && availableItems.length === 0 && (
                                 <div className="text-center py-8">
-                                    <p className="text-slate-500">Aucun article trouvé</p>
+                                    <p className="text-slate-500">Aucun article trouv  </p>
                                 </div>
                             )}
                         </div>

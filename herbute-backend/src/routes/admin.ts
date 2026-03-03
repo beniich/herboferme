@@ -1,18 +1,18 @@
-﻿import { Request, Response, Router } from 'express';
+import { Request, Response, Router } from 'express';
 import { authenticate as auth } from '../middleware/security.js';
 import { runSecurityAudit } from '../services/securityAuditService.js';
 import { securityService } from '../services/securityService.js';
 
 const router = Router();
 
-// Middleware admin simulé si 'authorize' n'existe pas
+// Middleware admin simul   si 'authorize' n'existe pas
 const adminOnly = (req: Request, res: Response, next: any) => {
   const user = (req as any).user;
   if (user && user.role === 'admin') {
     next();
   } else {
     // Pour dev, on laisse passer ou on mock
-    // res.status(403).json({ message: 'Accès administrateur requis' });
+    // res.status(403).json({ message: 'Acc  s administrateur requis' });
     next();
   }
 };
@@ -27,7 +27,7 @@ interface User {
   lastLogin: string;
 }
 
-// Données mockées
+// Donn  es mock  es
 const users: User[] = [
   {
     id: 'u1',
@@ -39,7 +39,7 @@ const users: User[] = [
   },
   {
     id: 'u2',
-    name: 'Chef Équipe Nord',
+    name: 'Chef   quipe Nord',
     email: 'chef.nord@reclamtrack.com',
     role: 'manager',
     status: 'active',
@@ -64,18 +64,18 @@ const users: User[] = [
 ];
 
 // GET /api/admin/users - Liste utilisateurs
-router.get('/', auth, adminOnly, (req: Request, res: Response) => {
+router.get('/users', auth, adminOnly, (req: Request, res: Response) => {
   res.json({ success: true, data: users });
 });
 
-// GET /api/admin/system-stats - Stats système
+// GET /api/admin/system-stats - Stats syst  me
 router.get('/system-stats', auth, adminOnly, (req: Request, res: Response) => {
   res.json({
     success: true,
     data: {
       serverUptime: process.uptime(),
       memoryUsage: process.memoryUsage(),
-      activeConnections: 12, // Simulé
+      activeConnections: 12, // Simul
       dbStatus: 'connected',
       version: '1.0.0',
     },
@@ -112,7 +112,7 @@ router.get('/audit', auth, adminOnly, (req: Request, res: Response) => {
   });
 });
 
-// GET /api/admin/security/metrics - Metrics de sécurité réelles
+// GET /api/admin/security/metrics - Metrics de s  curit   r  elles
 router.get('/security/metrics', auth, adminOnly, async (req: Request, res: Response) => {
   try {
     const metrics = await securityService.generateComplianceReport('default');
@@ -122,7 +122,7 @@ router.get('/security/metrics', auth, adminOnly, async (req: Request, res: Respo
   }
 });
 
-// GET /api/admin/security/audit - Audit de sécurité complet
+// GET /api/admin/security/audit - Audit de s  curit   complet
 router.get('/security/audit', auth, adminOnly, async (req: Request, res: Response) => {
   try {
     const audit = await runSecurityAudit();

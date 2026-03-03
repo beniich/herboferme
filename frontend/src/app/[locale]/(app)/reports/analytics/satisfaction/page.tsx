@@ -166,7 +166,7 @@ export default function SatisfactionDashboard() {
                                             <div className="flex justify-between items-start mb-1">
                                                 <div>
                                                     <h5 className="text-sm font-bold text-slate-900 dark:text-white">{review.user}</h5>
-                                                    <p className="text-[10px] text-slate-500">{review.time} • <span className="font-semibold text-primary">{review.district}</span></p>
+                                                    <p className="text-[10px] text-slate-500">{review.time}     <span className="font-semibold text-primary">{review.district}</span></p>
                                                 </div>
                                                 <div className="flex text-amber-400">
                                                     {[1, 2, 3, 4, 5].map(star => (

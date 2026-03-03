@@ -1,11 +1,11 @@
 import Link from 'next/link';
 
 const jobs = [
-    { title: 'Senior Full-Stack Engineer', dept: 'Engineering', location: 'Remote / Global', type: 'Full-time', badge: '🔥 Hot' },
+    { title: 'Senior Full-Stack Engineer', dept: 'Engineering', location: 'Remote / Global', type: 'Full-time', badge: '     Hot' },
     { title: 'SaaS Product Manager', dept: 'Product', location: 'London / NYC', type: 'Full-time', badge: null },
-    { title: 'Growth Business Lead', dept: 'Sales', location: 'Singapore / Remote', type: 'Full-time', badge: '🆕 New' },
+    { title: 'Growth Business Lead', dept: 'Sales', location: 'Singapore / Remote', type: 'Full-time', badge: '     New' },
     { title: 'React Native Expert', dept: 'Engineering', location: 'Remote', type: 'Contract', badge: null },
-    { title: 'Success Manager Pro', dept: 'Customer Success', location: 'Paris', type: 'Full-time', badge: '🆕 New' },
+    { title: 'Success Manager Pro', dept: 'Customer Success', location: 'Paris', type: 'Full-time', badge: '     New' },
     { title: 'Cloud Infrastructure Intern', dept: 'Engineering', location: 'Berlin', type: 'Internship', badge: null },
 ];
 
@@ -59,9 +59,9 @@ export default function CareersPage() {
                             Join ReclamTrack Pro and help us architect the most transparent claims ecosystem on the planet. We're looking for outliers.
                         </p>
                         <div className="flex flex-wrap justify-center gap-8 text-slate-400 text-sm font-bold uppercase tracking-widest">
-                            <span className="flex items-center gap-2"><span className="text-primary">•</span> 100% Distributed</span>
-                            <span className="flex items-center gap-2"><span className="text-primary">•</span> Series B Funded</span>
-                            <span className="flex items-center gap-2"><span className="text-primary">•</span> Impact Driven</span>
+                            <span className="flex items-center gap-2"><span className="text-primary">   </span> 100% Distributed</span>
+                            <span className="flex items-center gap-2"><span className="text-primary">   </span> Series B Funded</span>
+                            <span className="flex items-center gap-2"><span className="text-primary">   </span> Impact Driven</span>
                         </div>
                     </div>
                 </section>
@@ -147,7 +147,7 @@ export default function CareersPage() {
 
             <footer className="bg-slate-100 dark:bg-black/40 py-16 border-t border-primary/10 mt-auto">
                 <div className="max-w-7xl mx-auto px-6 text-center">
-                    <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mb-6">© {new Date().getFullYear()} ReclamTrack Pro. Join the Revolution.</p>
+                    <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mb-6">   {new Date().getFullYear()} ReclamTrack Pro. Join the Revolution.</p>
                     <div className="flex justify-center gap-8 mb-8">
                         <a className="size-10 rounded-full border border-primary/10 flex items-center justify-center hover:bg-primary/10 text-primary transition-colors cursor-pointer"><span className="material-symbols-outlined text-lg italic">public</span></a>
                         <a className="size-10 rounded-full border border-primary/10 flex items-center justify-center hover:bg-primary/10 text-primary transition-colors cursor-pointer"><span className="material-symbols-outlined text-lg">code</span></a>

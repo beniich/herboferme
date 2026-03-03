@@ -8,12 +8,12 @@ export default function CitizenPortal() {
 
     const activeRequests = [
         { id: 'TKT-2026-092', title: 'Fuite d\'eau publique', location: 'Avenue Hassan II', status: 'En cours', date: 'Aujourd\'hui', progress: 65, color: 'blue' },
-        { id: 'TKT-2026-081', title: 'Lampadaire cassé', location: 'Rue de la Paix', status: 'Planifié', date: 'Hier', progress: 30, color: 'orange' }
+        { id: 'TKT-2026-081', title: 'Lampadaire cass  ', location: 'Rue de la Paix', status: 'Planifi  ', date: 'Hier', progress: 30, color: 'orange' }
     ];
 
     const historicalRequests = [
-        { id: 'TKT-2025-999', title: 'Collecte des déchets bloquée', status: 'Résolu', date: '12 Jan 2026', color: 'emerald' },
-        { id: 'TKT-2025-874', title: 'Nid de poule', status: 'Résolu', date: '24 Déc 2025', color: 'emerald' },
+        { id: 'TKT-2025-999', title: 'Collecte des d  chets bloqu  e', status: 'R  solu', date: '12 Jan 2026', color: 'emerald' },
+        { id: 'TKT-2025-874', title: 'Nid de poule', status: 'R  solu', date: '24 D  c 2025', color: 'emerald' },
     ];
 
     return (
@@ -32,10 +32,10 @@ export default function CitizenPortal() {
                             Bienvenue sur votre portail
                         </div>
                         <h1 className="text-5xl md:text-6xl font-black text-slate-900 dark:text-white leading-[1.1] tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-700">
-                            Simplifiez vos démarches <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">citoyennes</span>
+                            Simplifiez vos d  marches <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">citoyennes</span>
                         </h1>
                         <p className="text-lg text-slate-600 dark:text-slate-400 max-w-xl animate-in fade-in slide-in-from-bottom-10 duration-1000">
-                            Signalez un problème, suivez l'avancement de vos requêtes en temps réel et consultez l'historique de vos interventions publiques en un seul endroit.
+                            Signalez un probl  me, suivez l'avancement de vos requ  tes en temps r  el et consultez l'historique de vos interventions publiques en un seul endroit.
                         </p>
                         
                         {/* Search Bar - Glassmorphism */}
@@ -44,7 +44,7 @@ export default function CitizenPortal() {
                                 <Search className="w-5 h-5 ml-3 text-slate-400 group-focus-within:text-primary transition-colors" />
                                 <input 
                                     type="text" 
-                                    placeholder="N° de suivi (ex: TKT-2026...)" 
+                                    placeholder="N   de suivi (ex: TKT-2026...)"
                                     className="flex-1 bg-transparent border-none outline-none text-slate-900 dark:text-white placeholder:text-slate-400 text-lg px-2"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -64,7 +64,7 @@ export default function CitizenPortal() {
                                 <AlertCircle className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                             </div>
                             <h3 className="text-xl font-black text-slate-900 dark:text-white mb-1">Signaler</h3>
-                            <p className="text-sm text-slate-500 dark:text-slate-400">Nouvelle réclamation</p>
+                            <p className="text-sm text-slate-500 dark:text-slate-400">Nouvelle r  clamation</p>
                         </button>
                         
                         <button className="group relative overflow-hidden bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border border-white dark:border-slate-700 p-6 rounded-3xl shadow-xl shadow-slate-200/40 dark:shadow-none hover:-translate-y-1 transition-transform text-left mt-8">
@@ -155,14 +155,14 @@ export default function CitizenPortal() {
                                 </div>
                                 <div className="bg-emerald-500/20 p-4 rounded-2xl backdrop-blur-sm">
                                     <span className="text-3xl font-black text-emerald-400">2</span>
-                                    <p className="text-xs text-emerald-400/70 font-bold uppercase tracking-wide mt-1">Résolus</p>
+                                    <p className="text-xs text-emerald-400/70 font-bold uppercase tracking-wide mt-1">R  solus</p>
                                 </div>
                             </div>
                         </div>
 
                         {/* History */}
                         <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-6 rounded-3xl shadow-sm">
-                            <h3 className="font-black text-slate-900 dark:text-white mb-4">Requêtes clôturées</h3>
+                            <h3 className="font-black text-slate-900 dark:text-white mb-4">Requ  tes cl  tur  es</h3>
                             <div className="space-y-4">
                                 {historicalRequests.map((req) => (
                                     <div key={req.id} className="flex items-center justify-between group cursor-pointer">
@@ -172,7 +172,7 @@ export default function CitizenPortal() {
                                             </div>
                                             <div>
                                                 <p className="font-bold text-sm text-slate-900 dark:text-white">{req.title}</p>
-                                                <p className="text-xs text-slate-500">{req.date} • {req.id}</p>
+                                                <p className="text-xs text-slate-500">{req.date}     {req.id}</p>
                                             </div>
                                         </div>
                                     </div>

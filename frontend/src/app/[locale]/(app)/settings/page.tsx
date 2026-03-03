@@ -1,62 +1,87 @@
 'use client';
 
-import React from 'react';
-
 export default function SettingsPage() {
     return (
-        <div className="page active" id="page-settings">
-            <div className="page-header">
-                    <div className="page-label" style={{ color: 'var(--red)' }}>Administration</div>
-                    <h1 className="page-title">Paramètres Généraux</h1>
-                    <div className="page-sub">Configuration globale du domaine et préférences applicatives</div>
-                </div>
-
-                <div className="content-grid cg-2" style={{ gridTemplateColumns: 'minmax(250px, 1fr) 3fr' }}>
-                    <div className="panel" style={{ background: 'transparent', border: 'none' }}>
-                        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                            <li style={{ padding: '14px 16px', background: 'rgba(255,255,255,0.05)', color: 'var(--green2)', borderLeft: '4px solid var(--green)', borderRadius: '0 8px 8px 0', fontWeight: 'bold', cursor: 'pointer' }}>Organisation & Profil</li>
-                            <li style={{ padding: '14px 16px', color: 'var(--text2)', cursor: 'pointer', hover: { color: 'var(--text)' } }}>Utilisateurs & Rôles</li>
-                            <li style={{ padding: '14px 16px', color: 'var(--text2)', cursor: 'pointer' }}>Notifications (Email / SMS)</li>
-                            <li style={{ padding: '14px 16px', color: 'var(--text2)', cursor: 'pointer' }}>Intégrations IoT & API</li>
-                            <li style={{ padding: '14px 16px', color: 'var(--text2)', cursor: 'pointer' }}>Sécurité & Authentification</li>
-                            <li style={{ padding: '14px 16px', color: 'var(--text2)', cursor: 'pointer' }}>Facturation & Abonnements</li>
-                        </ul>
+        <div className="bg-background-light font-display min-h-[calc(100vh-64px)] overflow-y-auto">
+            <div className="flex min-h-full">
+                {/* Main Content Area */}
+                <main className="flex-1 w-full p-8 lg:p-12 max-w-4xl mx-auto">
+                    <div className="mb-10">
+                        <h1 className="text-3xl font-black text-slate-900 tracking-tight">Param  tres du Compte</h1>
+                        <p className="text-slate-500 mt-2">Mettez    jour votre profil, les notifications et l'apparence du syst  me.</p>
                     </div>
 
-                    <div className="panel">
-                        <div className="panel-header"><div className="panel-title">Profil du Domaine</div></div>
-                        <div className="panel-body" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                            <div className="form-group">
-                                <label>Nom du domaine agricole</label>
-                                <input type="text" defaultValue="Domaine AgroMaître Principal" style={{ width: '100%', maxWidth: '400px', padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: '8px', color: 'var(--text)' }} />
+                    {/* Personal Information */}
+                    <section className="bg-white rounded-xl border border-slate-200 overflow-hidden mb-8 shadow-sm">
+                        <div className="p-6 border-b border-slate-200 flex items-center justify-between">
+                            <h2 className="text-lg font-bold">Informations Personnelles</h2>
+                            <span className="text-xs font-medium px-2 py-1 bg-primary/10 text-primary rounded-full">ID: #SYS-74291</span>
+                        </div>
+                        <div className="p-6">
+                            <div className="flex items-center gap-6 mb-8">
+                                <div className="relative group">
+                                    <div className="w-24 h-24 rounded-full border-4 border-slate-50 overflow-hidden shadow-md bg-slate-200">
+                                        {/* Placeholder Avatar */}
+                                    </div>
+                                    <button className="absolute bottom-0 right-0 p-2 bg-primary text-white rounded-full shadow-lg hover:scale-105 transition-transform">
+                                        <span className="material-symbols-outlined text-sm">photo_camera</span>
+                                    </button>
+                                </div>
+                                <div>
+                                    <h3 className="font-bold text-slate-900">Photo de Profil</h3>
+                                    <div className="flex gap-2 mt-3">
+                                        <button className="text-sm font-semibold px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors">Changer Photo</button>
+                                        <button className="text-sm font-semibold px-4 py-2 text-slate-400 hover:text-red-500 transition-colors">Supprimer</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="form-group">
-                                <label>SIRET / ID Légal</label>
-                                <input type="text" defaultValue="123 456 789 00010" style={{ width: '100%', maxWidth: '400px', padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: '8px', color: 'var(--text)' }} />
-                            </div>
-                            <div className="form-group">
-                                <label>Devise Principale</label>
-                                <select style={{ width: '100%', maxWidth: '400px', padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: '8px', color: 'var(--text)' }}>
-                                    <option>MAD - Dirham Marocain</option>
-                                    <option>EUR - Euro</option>
-                                    <option>USD - Dollar US</option>
-                                </select>
-                            </div>
-                            <div className="form-group">
-                                <label>Langue par défaut</label>
-                                <select style={{ width: '100%', maxWidth: '400px', padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: '8px', color: 'var(--text)' }}>
-                                    <option>Français (FR)</option>
-                                    <option>Arabe (AR)</option>
-                                    <option>Anglais (EN)</option>
-                                </select>
-                            </div>
-                            <div style={{ padding: '24px 0 0', borderTop: '1px solid var(--border)', display: 'flex', gap: '12px' }}>
-                                <button style={{ background: 'var(--green)', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>Sauvegarder les modifications</button>
-                                <button style={{ background: 'transparent', color: 'var(--text2)', border: '1px solid var(--border)', padding: '12px 24px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>Annuler</button>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-sm font-semibold text-slate-700">Nom Complet</label>
+                                    <input className="rounded-lg border-slate-200 bg-slate-50 focus:border-primary focus:ring-primary w-full p-3 text-sm outline-none" type="text" defaultValue="Alex Johnson" />
+                                </div>
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-sm font-semibold text-slate-700">Email Professionnel</label>
+                                    <input className="rounded-lg border-slate-200 bg-slate-50 focus:border-primary focus:ring-primary w-full p-3 text-sm outline-none" type="email" defaultValue="alex.j@reclamtrack.com" />
+                                </div>
                             </div>
                         </div>
+                    </section>
+
+                    {/* Notification Preferences */}
+                    <section className="bg-white rounded-xl border border-slate-200 overflow-hidden mb-8 shadow-sm">
+                        <div className="p-6 border-b border-slate-200">
+                            <h2 className="text-lg font-bold">Notifications</h2>
+                            <p className="text-sm text-slate-500 mt-1">G  rez vos alertes pour les   v  nements syst  me.</p>
+                        </div>
+                        <div className="divide-y divide-slate-100">
+                            <div className="p-6 flex items-center justify-between">
+                                <div>
+                                    <p className="font-semibold">Nouvelle R  clamation Assign  e</p>
+                                    <p className="text-sm text-slate-500">Soyez notifi   lorsqu'un cas est rout   vers votre d  partement.</p>
+                                </div>
+                                <div className="flex gap-4">
+                                    <label className="flex items-center gap-2 cursor-pointer">
+                                        <input defaultChecked className="rounded text-primary focus:ring-primary h-5 w-5 bg-slate-100 border-slate-300" type="checkbox" />
+                                        <span className="text-xs font-bold uppercase text-slate-400">Email</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Action Footer */}
+                    <div className="flex items-center justify-end gap-4 mt-12 pb-20">
+                        <button className="px-6 py-3 rounded-lg border border-slate-200 font-bold hover:bg-slate-50 transition-colors">
+                            Annuler
+                        </button>
+                        <button className="px-8 py-3 rounded-lg bg-primary text-white font-bold hover:shadow-lg hover:shadow-primary/30 transition-all">
+                            Enregistrer
+                        </button>
                     </div>
-                </div>
+                </main>
+            </div>
         </div>
     );
 }

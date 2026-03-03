@@ -1,6 +1,6 @@
-﻿/**
+/**
  * errorHandler.ts
- * Central error handling middleware â€” MUST be the last app.use() in index.ts.
+ * Central error handling middleware          MUST be the last app.use() in index.ts.
  *
  * Handles:
  *   - AppError subclasses (operational)
@@ -8,7 +8,7 @@
  *   - Mongoose ValidationError
  *   - Mongoose CastError (invalid ObjectId)
  *   - JWT JsonWebTokenError / TokenExpiredError
- *   - Unexpected errors (programming bugs â†’ 500, no leak)
+ *   - Unexpected errors (programming bugs          500, no leak)
  */
 import { Request, Response, NextFunction } from 'express';
 import { Error as MongooseError } from 'mongoose';
@@ -34,7 +34,7 @@ export function errorHandler(
 ): Response {
   const requestId = (req as any).id as string | undefined;
 
-  /* â”€â”€ 1. AppError (our own operational errors) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /*                  1. AppError (our own operational errors)                                                                                                          */
   if (err instanceof AppError) {
     if (!isProduction) {
       logger.warn(`[AppError] ${err.code}: ${err.message}`, {
@@ -53,7 +53,7 @@ export function errorHandler(
     );
   }
 
-  /* â”€â”€ 2. JWT errors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /*                  2. JWT errors                                                                                                                                                                                                                                                                                                                                  */
   if (err instanceof TokenExpiredError) {
     return sendError(res, 'Access token has expired', 'AUTH_TOKEN_EXPIRED', 401, requestId);
   }
@@ -61,7 +61,7 @@ export function errorHandler(
     return sendError(res, 'Invalid or malformed token', 'AUTH_TOKEN_INVALID', 401, requestId);
   }
 
-  /* â”€â”€ 3. Mongoose CastError (bad ObjectId) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /*                  3. Mongoose CastError (bad ObjectId)                                                                                                                                          */
   if (err instanceof MongooseError.CastError) {
     return sendError(
       res,
@@ -72,18 +72,18 @@ export function errorHandler(
     );
   }
 
-  /* â”€â”€ 4. Mongoose ValidationError â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /*                  4. Mongoose ValidationError                                                                                                                                                                                                          */
   if (err instanceof MongooseError.ValidationError) {
-    const fields: Record<string, string> = {};
+    const fields: Record<string, string> = { /* Intentionally empty */ };
     for (const [key, val] of Object.entries(err.errors)) {
       fields[key] = val.message;
     }
     return sendError(res, 'Database validation failed', 'VALIDATION_ERROR', 400, requestId, fields);
   }
 
-  /* â”€â”€ 5. Mongoose Duplicate Key (code 11000) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /*                  5. Mongoose Duplicate Key (code 11000)                                                                                                                          */
   if ((err as any)?.code === 11000) {
-    const field = Object.keys((err as any).keyPattern || {})[0] || 'field';
+    const field = Object.keys((err as any).keyPattern || { /* Intentionally empty */ })[0] || 'field';
     return sendError(
       res,
       `A record with this ${field} already exists`,
@@ -93,7 +93,7 @@ export function errorHandler(
     );
   }
 
-  /* â”€â”€ 6. Unexpected / programming errors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /*                  6. Unexpected / programming errors                                                                                                                                                          */
   logger.error('[UnhandledError]', {
     requestId,
     path: req.path,
@@ -111,7 +111,7 @@ export function errorHandler(
   );
 }
 
-/** Async route wrapper â€” eliminates try/catch boilerplate in every route */
+/** Async route wrapper          eliminates try/catch boilerplate in every route */
 export function asyncHandler(
   fn: (req: Request, res: Response, next: NextFunction) => Promise<unknown>,
 ) {

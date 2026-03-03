@@ -81,7 +81,7 @@ export default function CloudMonitorPage() {
                             <span className="material-symbols-outlined text-emerald-500">check_circle</span>
                             <div>
                                 <p className="text-[10px] font-black uppercase text-white">US-EAST-1</p>
-                                <p className="text-[8px] font-bold text-slate-500">12ms • Operational</p>
+                                <p className="text-[8px] font-bold text-slate-500">12ms     Operational</p>
                             </div>
                         </div>
                     </div>
@@ -91,7 +91,7 @@ export default function CloudMonitorPage() {
                             <span className="material-symbols-outlined text-amber-500">warning</span>
                             <div>
                                 <p className="text-[10px] font-black uppercase text-white">EU-WEST-3</p>
-                                <p className="text-[8px] font-bold text-slate-500">45ms • High Load</p>
+                                <p className="text-[8px] font-bold text-slate-500">45ms     High Load</p>
                             </div>
                         </div>
                     </div>

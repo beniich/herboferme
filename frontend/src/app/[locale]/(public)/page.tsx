@@ -14,7 +14,7 @@ export default function LandingPage() {
                 zIndex: 9999,
                 background: '#1a1209',
             }}
-            title="AgroSync — Farm Intelligence Platform"
+            title="AgroSync     Farm Intelligence Platform"
         />
     );
 }

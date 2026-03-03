@@ -33,7 +33,7 @@ interface StatusTransition {
     requiresComment?: boolean;
 }
 
-// Définition des transitions autorisées
+// D  finition des transitions autoris  es
 export const REQUISITION_TRANSITIONS: StatusTransition[] = [
     // Soumission
     {
@@ -84,7 +84,7 @@ export const REQUISITION_TRANSITIONS: StatusTransition[] = [
         requiresComment: true,
     },
 
-    // Préparation
+    // Pr  paration
     {
         from: RequisitionStatus.APPROVED,
         to: RequisitionStatus.IN_PREPARATION,
@@ -92,7 +92,7 @@ export const REQUISITION_TRANSITIONS: StatusTransition[] = [
         requiredRole: ['warehouse_manager', 'admin'],
     },
 
-    // Prêt
+    // Pr  t
     {
         from: RequisitionStatus.IN_PREPARATION,
         to: RequisitionStatus.READY,
@@ -108,7 +108,7 @@ export const REQUISITION_TRANSITIONS: StatusTransition[] = [
         requiredRole: ['warehouse_manager', 'technician', 'manager', 'admin'],
     },
 
-    // Annulation (possible à plusieurs étapes)
+    // Annulation (possible    plusieurs   tapes)
     {
         from: RequisitionStatus.DRAFT,
         to: RequisitionStatus.CANCELLED,
@@ -129,7 +129,7 @@ export const REQUISITION_TRANSITIONS: StatusTransition[] = [
     },
 ];
 
-// Vérification si une transition est autorisée
+// V  rification si une transition est autoris  e
 export function canTransition(
     currentStatus: RequisitionStatus,
     action: RequisitionAction,
@@ -143,7 +143,7 @@ export function canTransition(
     return transition.requiredRole.includes(userRole);
 }
 
-// Obtenir le prochain statut après une action
+// Obtenir le prochain statut apr  s une action
 export function getNextStatus(
     currentStatus: RequisitionStatus,
     action: RequisitionAction
@@ -155,7 +155,7 @@ export function getNextStatus(
     return transition?.to || null;
 }
 
-// Obtenir toutes les actions possibles pour un statut donné
+// Obtenir toutes les actions possibles pour un statut donn
 export function getAvailableActions(
     currentStatus: RequisitionStatus,
     userRole: string
@@ -165,7 +165,7 @@ export function getAvailableActions(
         .map((t) => t.action);
 }
 
-// Vérifier si un commentaire est requis
+// V  rifier si un commentaire est requis
 export function requiresComment(
     currentStatus: RequisitionStatus,
     action: RequisitionAction

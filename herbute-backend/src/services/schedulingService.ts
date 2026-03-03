@@ -1,4 +1,4 @@
-﻿import { Types } from 'mongoose';
+import { Types } from 'mongoose';
 import { Team, ITeam } from '../models/Team.js';
 import { Complaint, IComplaint } from '../models/Complaint.js';
 
@@ -118,12 +118,12 @@ export const autoAssignComplaint = async (complaintId: string): Promise<Types.Ob
             if (matchingSkills.length > 0) {
                 const skillScore = (matchingSkills.length / requiredSkills.length) * scoring.skillMatch;
                 score += skillScore;
-                reasons.push(`CompÃ©tences correspondantes: ${matchingSkills.join(', ')} (+${skillScore.toFixed(0)} pts)`);
+                reasons.push(`Comp    tences correspondantes: ${matchingSkills.join(', ')} (+${skillScore.toFixed(0)} pts)`);
             } else {
                 // Penalty for no matching skills (half the max skill score)
                 const penalty = scoring.skillMatch / 2;
                 score -= penalty;
-                reasons.push(`Pas de compÃ©tences spÃ©cialisÃ©es (-${penalty} pts)`);
+                reasons.push(`Pas de comp    tences sp    cialis    es (-${penalty} pts)`);
             }
 
             // 2. AVAILABILITY
@@ -132,7 +132,7 @@ export const autoAssignComplaint = async (complaintId: string): Promise<Types.Ob
 
             if (isWorkingHours) {
                 score += scoring.availability;
-                reasons.push(`Ã‰quipe disponible (heures de travail) (+${scoring.availability} pts)`);
+                reasons.push(`     quipe disponible (heures de travail) (+${scoring.availability} pts)`);
             } else {
                 const offHoursScore = Math.round(scoring.availability / 3);
                 score += offHoursScore;
@@ -152,10 +152,10 @@ export const autoAssignComplaint = async (complaintId: string): Promise<Types.Ob
                 let distanceScore = 0;
                 if (distance < 5) {
                     distanceScore = scoring.distance.veryClose;
-                    reasons.push(`TrÃ¨s proche (${distance.toFixed(1)}km) (+${distanceScore} pts)`);
+                    reasons.push(`Tr    s proche (${distance.toFixed(1)}km) (+${distanceScore} pts)`);
                 } else if (distance < 15) {
                     distanceScore = scoring.distance.close;
-                    reasons.push(`ProximitÃ© moyenne (${distance.toFixed(1)}km) (+${distanceScore} pts)`);
+                    reasons.push(`Proximit     moyenne (${distance.toFixed(1)}km) (+${distanceScore} pts)`);
                 } else if (distance < 30) {
                     distanceScore = scoring.distance.acceptable;
                     reasons.push(`Distance acceptable (${distance.toFixed(1)}km) (+${distanceScore} pts)`);
@@ -168,7 +168,7 @@ export const autoAssignComplaint = async (complaintId: string): Promise<Types.Ob
                 // No location data - give partial points
                 const noLocScore = Math.round(scoring.distance.acceptable);
                 score += noLocScore;
-                reasons.push(`Pas de donnÃ©es de localisation (+${noLocScore} pts)`);
+                reasons.push(`Pas de donn    es de localisation (+${noLocScore} pts)`);
             }
 
             // 4. WORKLOAD
@@ -180,16 +180,16 @@ export const autoAssignComplaint = async (complaintId: string): Promise<Types.Ob
             let workloadScore = 0;
             if (activeComplaints === 0) {
                 workloadScore = scoring.workload.free;
-                reasons.push(`Aucune tÃ¢che active (+${workloadScore} pts)`);
+                reasons.push(`Aucune t    che active (+${workloadScore} pts)`);
             } else if (activeComplaints <= 3) {
                 workloadScore = scoring.workload.light;
-                reasons.push(`Charge lÃ©gÃ¨re (${activeComplaints} tÃ¢ches) (+${workloadScore} pts)`);
+                reasons.push(`Charge l    g    re (${activeComplaints} t    ches) (+${workloadScore} pts)`);
             } else if (activeComplaints <= 7) {
                 workloadScore = scoring.workload.medium;
-                reasons.push(`Charge moyenne (${activeComplaints} tÃ¢ches) (+${workloadScore} pts)`);
+                reasons.push(`Charge moyenne (${activeComplaints} t    ches) (+${workloadScore} pts)`);
             } else {
                 workloadScore = scoring.workload.heavy;
-                reasons.push(`Charge Ã©levÃ©e (${activeComplaints} tÃ¢ches) (+${workloadScore} pts)`);
+                reasons.push(`Charge     lev    e (${activeComplaints} t    ches) (+${workloadScore} pts)`);
             }
             score += workloadScore;
 
@@ -197,7 +197,7 @@ export const autoAssignComplaint = async (complaintId: string): Promise<Types.Ob
             if (complaint.priority === 'urgent') {
                 if (activeComplaints <= 3) {
                     score += scoring.urgencyBonus;
-                    reasons.push(`Bonus urgence - Ã©quipe disponible (+${scoring.urgencyBonus} pts)`);
+                    reasons.push(`Bonus urgence -     quipe disponible (+${scoring.urgencyBonus} pts)`);
                 }
             }
 
@@ -230,13 +230,13 @@ export const autoAssignComplaint = async (complaintId: string): Promise<Types.Ob
                 assignedAt: new Date()
             }, { new: true });
 
-            console.log(`\nâœ… Assigned to: ${bestTeam.team.name} (Score: ${bestTeam.score})`);
+            console.log(`\n        Assigned to: ${bestTeam.team.name} (Score: ${bestTeam.score})`);
             console.log('================================\n');
 
             return bestTeam.teamId;
         }
 
-        console.log('âŒ No suitable team found (all scores â‰¤ 0)');
+        console.log('       No suitable team found (all scores         0)');
         return null;
 
     } catch (error) {

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * models/ApiKey.ts
  * Stores API keys (hashed). Raw key is shown ONCE at generation, never stored.
  */
@@ -13,7 +13,7 @@ export type ApiKeyScope =
 
 export interface IApiKey extends Document {
   orgId: Types.ObjectId;
-  keyHash: string;          // SHA-256 of raw key â€” never store raw
+  keyHash: string;          // SHA-256 of raw key          never store raw
   name: string;             // Human-readable label
   scopes: ApiKeyScope[];
   plan: string;

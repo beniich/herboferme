@@ -4,10 +4,10 @@ import Link from 'next/link';
 
 const VERTICALS = [
     { id: 'gov', color: 'blue', title: 'Gouvernance Digitale', desc: 'Solutions d\'e-gouvernance et transparence administrative.', symbol: 'account_balance', href: '/services/governance' },
-    { id: 'health', color: 'cyan', title: 'Santé Connect', desc: 'Gestion hospitalière et coordination des soins en temps réel.', symbol: 'medical_services', href: '/services/healthcare' },
-    { id: 'infra', color: 'blue', title: 'Hébergement Pro', desc: 'Infrastructure souveraine IA et serveurs haute performance.', symbol: 'lan', href: '/services/infrastructure' },
-    { id: 'hotel', color: 'emerald', title: 'Hospitality Hub', desc: 'Optimisation de l\'expérience client et gestion PMS.', symbol: 'hotel', href: '/services/hospitality' },
-    { id: 'edu', color: 'amber', title: 'EduCRM Pro', desc: 'Suivi de la performance scolaire et gestion des établissements.', symbol: 'school', href: '/services/education' }
+    { id: 'health', color: 'cyan', title: 'Sant   Connect', desc: 'Gestion hospitali  re et coordination des soins en temps r  el.', symbol: 'medical_services', href: '/services/healthcare' },
+    { id: 'infra', color: 'blue', title: 'H  bergement Pro', desc: 'Infrastructure souveraine IA et serveurs haute performance.', symbol: 'lan', href: '/services/infrastructure' },
+    { id: 'hotel', color: 'emerald', title: 'Hospitality Hub', desc: 'Optimisation de l\'exp  rience client et gestion PMS.', symbol: 'hotel', href: '/services/hospitality' },
+    { id: 'edu', color: 'amber', title: 'EduCRM Pro', desc: 'Suivi de la performance scolaire et gestion des   tablissements.', symbol: 'school', href: '/services/education' }
 ];
 
 export default function ServicesPage() {
@@ -20,7 +20,7 @@ export default function ServicesPage() {
                 <div className="max-w-7xl mx-auto text-center space-y-8">
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange text-[10px] font-black uppercase tracking-widest mx-auto">
                         <span className="w-2 h-2 bg-brand-orange rounded-full animate-pulse"></span>
-                        Écosystème ReclamTrack Pro
+                          cosyst  me ReclamTrack Pro
                     </div>
 
                     <h1 className="text-6xl md:text-9xl font-display font-black leading-none tracking-tighter uppercase italic">
@@ -29,7 +29,7 @@ export default function ServicesPage() {
                     </h1>
 
                     <p className="text-lg text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                        Des solutions technologiques verticales conçues pour répondre aux défis spécifiques de votre secteur d'activité.
+                        Des solutions technologiques verticales con  ues pour r  pondre aux d  fis sp  cifiques de votre secteur d'activit  .
                     </p>
                 </div>
             </section>
@@ -72,7 +72,7 @@ export default function ServicesPage() {
                             <div className="space-y-4">
                                 <h3 className="text-2xl font-black uppercase italic tracking-tight">Besoin de plus ?</h3>
                                 <p className="text-sm text-slate-400 font-light leading-relaxed max-w-[250px]">
-                                    Nos ingénieurs conçoivent des solutions sur-mesure pour vos besoins spécifiques.
+                                    Nos ing  nieurs con  oivent des solutions sur-mesure pour vos besoins sp  cifiques.
                                 </p>
                             </div>
                             <Link href="/contact" className="px-10 py-5 bg-white text-brand-midnight font-black rounded-2xl text-[10px] uppercase tracking-widest hover:bg-brand-orange hover:text-white transition-all transform hover:scale-105 shadow-xl">
@@ -89,13 +89,13 @@ export default function ServicesPage() {
                     <div className="absolute top-0 right-0 w-64 h-64 bg-brand-orange/20 blur-[100px] -z-10 group-hover:bg-brand-orange/40 transition-all duration-1000"></div>
 
                     <h2 className="text-4xl md:text-7xl font-display font-black uppercase italic tracking-tighter">
-                        Prêt à <span className="text-brand-orange not-italic">Transformer</span> <br />
+                        Pr  t    <span className="text-brand-orange not-italic">Transformer</span> <br />
                         votre organisation ?
                     </h2>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
                         <Link href="/auth/register" className="w-full sm:w-auto px-12 py-6 bg-brand-orange text-white font-black rounded-2xl text-[12px] uppercase tracking-[0.2em] shadow-2xl shadow-brand-orange/30 hover:scale-110 transition-all orange-glow">
-                            Démarrer maintenant
+                            D  marrer maintenant
                         </Link>
                         <Link href="/contact" className="w-full sm:w-auto px-12 py-6 glass-card rounded-2xl text-[12px] font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all border border-brand-orange/30">
                             Prendre RDV

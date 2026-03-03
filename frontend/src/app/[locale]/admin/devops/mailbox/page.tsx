@@ -172,7 +172,7 @@ export default function MailboxPage() {
                                         <input
                                             type="password"
                                             className="w-full bg-slate-50 dark:bg-background-dark border border-slate-200 dark:border-primary/20 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                                            defaultValue="••••••••••••"
+                                            defaultValue="                                    "
                                         />
                                         <button className="absolute right-3 top-2.5 text-slate-400 hover:text-primary">
                                             <span className="material-symbols-outlined text-xl">visibility_off</span>

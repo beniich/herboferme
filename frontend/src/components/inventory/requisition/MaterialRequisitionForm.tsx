@@ -130,7 +130,7 @@ export const MaterialRequisitionForm: React.FC = () => {
                         } else {
                             newAlerts.push({
                                 type: 'low_stock',
-                                message: `Stock insuffisant pour ${material.name}. Disponible: ${stockCheck.currentStock}, Demandé: ${item.quantity}`,
+                                message: `Stock insuffisant pour ${material.name}. Disponible: ${stockCheck.currentStock}, Demand  : ${item.quantity}`,
                                 severity: 'warning',
                                 materialId: material.id
                             });
@@ -143,7 +143,7 @@ export const MaterialRequisitionForm: React.FC = () => {
                         if (daysUntilNeeded < material.reorderTime) {
                             newAlerts.push({
                                 type: 'long_lead_time',
-                                message: `Délai d'approvisionnement de ${material.name} (${material.reorderTime} jours) supérieur à votre échéance`,
+                                message: `D  lai d'approvisionnement de ${material.name} (${material.reorderTime} jours) sup  rieur    votre   ch  ance`,
                                 severity: 'warning',
                                 materialId: material.id
                             });
@@ -160,7 +160,7 @@ export const MaterialRequisitionForm: React.FC = () => {
         if (estimatedBudget && total > estimatedBudget) {
             newAlerts.push({
                 type: 'overbudget',
-                message: `Le montant total (${formatCurrency(total)}) dépasse le budget estimé (${formatCurrency(estimatedBudget)})`,
+                message: `Le montant total (${formatCurrency(total)}) d  passe le budget estim   (${formatCurrency(estimatedBudget)})`,
                 severity: 'error'
             });
         }
@@ -225,7 +225,7 @@ export const MaterialRequisitionForm: React.FC = () => {
             await new Promise(resolve => setTimeout(resolve, 1500));
 
             console.log('Requisition submitted:', requisition);
-            alert(`Réquisition ${isDraft ? 'sauvegardée en brouillon' : 'soumise'} avec succès! ID: ${requisition.id}`);
+            alert(`R  quisition ${isDraft ? 'sauvegard  e en brouillon' : 'soumise'} avec succ  s! ID: ${requisition.id}`);
 
         } catch (error) {
             console.error('Error submitting requisition:', error);
@@ -245,10 +245,10 @@ export const MaterialRequisitionForm: React.FC = () => {
                             <Alert
                                 key={index}
                                 variant={alert.severity === 'error' ? 'error' : 'warning'}
-                                title={alert.type === 'overbudget' ? 'Budget dépassé' :
+                                title={alert.type === 'overbudget' ? 'Budget d  pass  ' :
                                     alert.type === 'out_of_stock' ? 'Rupture de stock' :
                                         alert.type === 'low_stock' ? 'Stock faible' :
-                                            'Délai d\'approvisionnement'}
+                                            'D  lai d\'approvisionnement'}
                             >
                                 {alert.message}
                             </Alert>
@@ -262,10 +262,10 @@ export const MaterialRequisitionForm: React.FC = () => {
                     <div className="relative z-10">
                         <div className="flex items-center gap-2 text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-1">
                             <span className="size-2 bg-primary rounded-full animate-pulse"></span>
-                            Nouvelle Réquisition
+                            Nouvelle R  quisition
                         </div>
                         <h2 className="text-2xl font-black italic uppercase tracking-tight leading-none mb-1">RT-Material-<span className="text-primary italic">Sync</span></h2>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic">Système de gestion des flux critiques</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic">Syst  me de gestion des flux critiques</p>
                     </div>
                     <div className="flex items-center gap-6 relative z-10">
                         <div className="text-right">
@@ -297,7 +297,7 @@ export const MaterialRequisitionForm: React.FC = () => {
                                 />
 
                                 <Select
-                                    label="Département Opérationnel"
+                                    label="D  partement Op  rationnel"
                                     icon={<Building2 className="h-4 w-4" />}
                                     {...register('department', { required: 'Ce champ est requis' })}
                                     error={errors.department?.message}
@@ -312,12 +312,12 @@ export const MaterialRequisitionForm: React.FC = () => {
                                     {...register('site', { required: 'Ce champ est requis' })}
                                     error={errors.site?.message}
                                     options={mockSites.map(s => ({ value: s.id, label: s.name }))}
-                                    placeholder="Choisir un dépôt..."
+                                    placeholder="Choisir un d  p  t..."
                                     required
                                 />
 
                                 <Input
-                                    label="Échéance Souhaitée"
+                                    label="  ch  ance Souhait  e"
                                     type="date"
                                     icon={<Calendar className="h-4 w-4" />}
                                     {...register('neededBy', { required: 'Ce champ est requis' })}
@@ -333,7 +333,7 @@ export const MaterialRequisitionForm: React.FC = () => {
                                     icon={<DollarSign className="h-4 w-4" />}
                                     {...register('estimatedBudget', {
                                         required: 'Ce champ est requis',
-                                        min: { value: 0, message: 'Le budget doit être positif' }
+                                        min: { value: 0, message: 'Le budget doit   tre positif' }
                                     })}
                                     error={errors.estimatedBudget?.message}
                                     placeholder="0.00"
@@ -349,7 +349,7 @@ export const MaterialRequisitionForm: React.FC = () => {
                                         value: u.id,
                                         label: u.name
                                     }))}
-                                    placeholder="Choisir l'autorité..."
+                                    placeholder="Choisir l'autorit  ..."
                                     required
                                 />
                             </div>
@@ -357,9 +357,9 @@ export const MaterialRequisitionForm: React.FC = () => {
 
                         {/* Complaint Information Card */}
                         <Card
-                            title="Référence Incident"
+                            title="R  f  rence Incident"
                             icon={<AlertCircle className="h-5 w-5" />}
-                            description="Lier cette demande à une intervention spécifique"
+                            description="Lier cette demande    une intervention sp  cifique"
                         >
                             <div className="space-y-6">
                                 <Select
@@ -369,7 +369,7 @@ export const MaterialRequisitionForm: React.FC = () => {
                                         value: c.id,
                                         label: `${c.id} - ${c.title}`
                                     }))}
-                                    placeholder="Sélectionner une réclamation (optionnel)"
+                                    placeholder="S  lectionner une r  clamation (optionnel)"
                                 />
 
                                 {selectedComplaint && (
@@ -378,7 +378,7 @@ export const MaterialRequisitionForm: React.FC = () => {
                                             <div>
                                                 <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Interface</p>
                                                 <Badge variant="info" size="sm">
-                                                    {selectedComplaint.type === 'repair' ? 'Réparation' :
+                                                    {selectedComplaint.type === 'repair' ? 'R  paration' :
                                                         selectedComplaint.type === 'installation' ? 'Installation' :
                                                             'Maintenance'}
                                                 </Badge>
@@ -398,12 +398,12 @@ export const MaterialRequisitionForm: React.FC = () => {
                                 )}
 
                                 <Select
-                                    label="Niveau de Priorité Logistique"
+                                    label="Niveau de Priorit   Logistique"
                                     {...register('priority', { required: 'Ce champ est requis' })}
                                     error={errors.priority?.message}
                                     options={[
                                         { value: 'low', label: 'Standard (Basse)' },
-                                        { value: 'medium', label: 'Opérationnelle (Moyenne)' },
+                                        { value: 'medium', label: 'Op  rationnelle (Moyenne)' },
                                         { value: 'high', label: 'Prioritaire (Haute)' },
                                         { value: 'urgent', label: 'Critique (Urgente)' },
                                     ]}
@@ -490,7 +490,7 @@ export const MaterialRequisitionForm: React.FC = () => {
                                                     <div className="md:col-span-1">
                                                         <Input
                                                             type="number"
-                                                            label="Quantité Demandée"
+                                                            label="Quantit   Demand  e"
                                                             min="1"
                                                             {...register(`items.${index}.quantity`, {
                                                                 required: 'Requis',
@@ -502,12 +502,12 @@ export const MaterialRequisitionForm: React.FC = () => {
                                                     </div>
                                                     <div className="md:col-span-3">
                                                         <Input
-                                                            label="Justification Opérationnelle"
+                                                            label="Justification Op  rationnelle"
                                                             {...register(`items.${index}.justification`, {
                                                                 required: 'Requis'
                                                             })}
                                                             error={errors.items?.[index]?.justification?.message}
-                                                            placeholder="Indiquez pourquoi ce matériel est nécessaire..."
+                                                            placeholder="Indiquez pourquoi ce mat  riel est n  cessaire..."
                                                         />
                                                     </div>
                                                 </div>
@@ -526,7 +526,7 @@ export const MaterialRequisitionForm: React.FC = () => {
                                         <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full -mr-32 -mt-32 blur-3xl"></div>
                                         <div className="relative z-10 space-y-6">
                                             <div className="flex justify-between items-center text-xs">
-                                                <span className="font-black text-slate-400 uppercase tracking-[0.3em]">Total Réquisition HT</span>
+                                                <span className="font-black text-slate-400 uppercase tracking-[0.3em]">Total R  quisition HT</span>
                                                 <span className="text-3xl font-black italic text-primary">{formatCurrency(totalAmount)}</span>
                                             </div>
                                             <div className="h-[1px] bg-slate-800"></div>
@@ -539,7 +539,7 @@ export const MaterialRequisitionForm: React.FC = () => {
                                                     <p className="text-sm font-black italic">
                                                         {approvalLevel === 'auto' ? 'Validation Automatique (Seuil bas)' :
                                                             approvalLevel === 'manager' ? 'Validation Niveau Manager' :
-                                                                approvalLevel === 'director' ? 'Validation Directoire' : 'Validation Conseil Stratégique'}
+                                                                approvalLevel === 'director' ? 'Validation Directoire' : 'Validation Conseil Strat  gique'}
                                                     </p>
                                                 </div>
                                             </div>
@@ -560,7 +560,7 @@ export const MaterialRequisitionForm: React.FC = () => {
                                         <TrendingUp className="size-4" />
                                         Monitoring Analytics
                                     </div>
-                                    <h3 className="text-xl font-black italic uppercase italic tracking-tight mb-6">Résumé Global</h3>
+                                    <h3 className="text-xl font-black italic uppercase italic tracking-tight mb-6">R  sum   Global</h3>
 
                                     <div className="grid grid-cols-2 gap-6">
                                         <div className="p-4 bg-slate-800/50 rounded-2xl border border-slate-700/50">
@@ -574,12 +574,12 @@ export const MaterialRequisitionForm: React.FC = () => {
                                             </p>
                                         </div>
                                         <div className="p-4 bg-primary/10 rounded-2xl border border-primary/20 col-span-2">
-                                            <p className="text-[9px] font-black text-primary uppercase tracking-[0.2em] mb-1">Montant Estimé</p>
+                                            <p className="text-[9px] font-black text-primary uppercase tracking-[0.2em] mb-1">Montant Estim  </p>
                                             <p className="text-2xl font-black italic uppercase leading-none">{formatCurrency(totalAmount)}</p>
                                         </div>
                                         <div className="p-4 bg-slate-800/50 rounded-2xl border border-slate-700/50 col-span-2">
                                             <div className="flex items-center justify-between mb-2">
-                                                <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em]">Délai Livraison</p>
+                                                <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em]">D  lai Livraison</p>
                                                 <Clock className="size-3 text-primary animate-pulse" />
                                             </div>
                                             <p className="text-2xl font-black italic uppercase leading-none">
@@ -618,7 +618,7 @@ export const MaterialRequisitionForm: React.FC = () => {
                         <Card
                             title="Logistique Sync"
                             icon={<Truck className="h-5 w-5" />}
-                            description="Paramètres de acheminement"
+                            description="Param  tres de acheminement"
                         >
                             <div className="space-y-6">
                                 <Select
@@ -635,13 +635,13 @@ export const MaterialRequisitionForm: React.FC = () => {
                                 {watchedDeliveryMode === 'site_delivery' && (
                                     <div className="space-y-6 animate-in fade-in slide-in-from-top-2">
                                         <Input
-                                            label="Destination Précise"
+                                            label="Destination Pr  cise"
                                             icon={<MapPin className="h-4 w-4" />}
                                             {...register('deliveryAddress', {
                                                 required: watchedDeliveryMode === 'site_delivery' ? 'Requis pour livraison' : false
                                             })}
                                             error={errors.deliveryAddress?.message}
-                                            placeholder="Indiquez l'adresse ou coordonnées..."
+                                            placeholder="Indiquez l'adresse ou coordonn  es..."
                                         />
                                         <div className="space-y-2">
                                             <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
@@ -651,7 +651,7 @@ export const MaterialRequisitionForm: React.FC = () => {
                                                 {...register('deliveryInstructions')}
                                                 rows={3}
                                                 className="w-full p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-xs font-bold italic text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
-                                                placeholder="Ex: Accès restreint, badge requis..."
+                                                placeholder="Ex: Acc  s restreint, badge requis..."
                                             />
                                         </div>
                                     </div>
@@ -668,7 +668,7 @@ export const MaterialRequisitionForm: React.FC = () => {
                                 {...register('notes')}
                                 rows={4}
                                 className="w-full p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-xs font-bold italic text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
-                                placeholder="Précisions utiles pour le traitement de votre demande..."
+                                placeholder="Pr  cisions utiles pour le traitement de votre demande..."
                             />
                         </Card>
 
@@ -677,10 +677,10 @@ export const MaterialRequisitionForm: React.FC = () => {
                             <div className="relative z-10">
                                 <div className="flex items-center gap-2 text-amber-600 font-black text-[10px] uppercase tracking-widest italic mb-3">
                                     <span className="material-symbols-outlined text-sm">warning</span>
-                                    Avis de Conformité
+                                    Avis de Conformit
                                 </div>
                                 <p className="text-[11px] text-amber-700/70 font-bold leading-relaxed italic">
-                                    Toute demande de matériel doit être justifiée par une urgence réelle. L&apos;inventaire est audité hebdomadairement. En cas de prêt d&apos;outillage, retour sous 48h.
+                                    Toute demande de mat  riel doit   tre justifi  e par une urgence r  elle. L&apos;inventaire est audit   hebdomadairement. En cas de pr  t d&apos;outillage, retour sous 48h.
                                 </p>
                             </div>
                         </div>

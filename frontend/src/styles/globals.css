@@ -7,31 +7,29 @@
 @layer base {
   :root {
 
-    /* ===== Harmonized Palette (Next / Tailwind) ===== */
-    /* Derived from: #F5FBE6 (bg), #215E61 (primary), #233D4D (text/border), #FE7F2D (accent) */
-    
-    --background: 74 60% 94%;    /* #F5FBE6 - Soft Mint */
-    --foreground: 203 37% 22%;   /* #233D4D - Midnight Blue */
+    /* ===== Background Colors ===== */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
 
-    --background-light: #fdfdf9;
-    --background-dark: #215E61;
+    --background-light: #f6f7f8;
+    --background-dark: #101922;
 
-    --card: 74 60% 98%;
-    --card-foreground: 203 37% 22%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
 
-    --popover: 74 60% 98%;
-    --popover-foreground: 203 37% 22%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
 
-    --muted: 74 40% 90%;
-    --muted-foreground: 203 20% 40%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 23 99% 59%;        /* #FE7F2D - Pumpkin Orange */
-    --accent-foreground: 0 0% 100%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
     /* ===== Border & Input ===== */
-    --border: 203 37% 22% / 0.15;
-    --input: 203 37% 22% / 0.1;
-    --ring: 182 49% 26%;         /* #215E61 - Dark Teal */
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
 
     /* ===== Typography ===== */
     --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;

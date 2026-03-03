@@ -26,8 +26,8 @@ export function StatusBadge({ status, className }: StatusBadgeProps) {
     const labels = {
         new: 'Nouveau',
         in_progress: 'En Cours',
-        resolved: 'Résolu',
-        closed: 'Fermé',
+        resolved: 'R  solu',
+        closed: 'Ferm  ',
     }
 
     return (
@@ -52,9 +52,9 @@ export function PriorityBadge({ priority, className }: PriorityBadgeProps) {
     }
 
     const labels = {
-        low: 'Priorité Basse',
-        medium: 'Priorité Moyenne',
-        high: 'Priorité Haute',
+        low: 'Priorit   Basse',
+        medium: 'Priorit   Moyenne',
+        high: 'Priorit   Haute',
         critical: 'Critique',
     }
 

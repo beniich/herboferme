@@ -19,7 +19,7 @@ export function Header({ variant = 'default' }: HeaderProps) {
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                        <span className="text-white font-bold text-lg">▪</span>
+                        <span className="text-white font-bold text-lg">   </span>
                     </div>
                     <div>
                         <h1 className="text-lg font-bold tracking-tight">Support Hub</h1>

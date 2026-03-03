@@ -20,7 +20,7 @@ export default function PIIDiscoveryPage() {
                         <h2 className="text-xl font-black tracking-tight dark:text-white">PII Discovery</h2>
                         <div className="flex items-center gap-2">
                             <span className="flex size-2 rounded-full bg-green-500"></span>
-                            <p className="text-xs text-slate-500 font-medium">Compliance scan active: HIPAA • GDPR</p>
+                            <p className="text-xs text-slate-500 font-medium">Compliance scan active: HIPAA     GDPR</p>
                         </div>
                     </div>
                 </div>
@@ -139,7 +139,7 @@ export default function PIIDiscoveryPage() {
                                                     <div
                                                         key={i}
                                                         className={`heatmap-cell ${colors[intensity]} cursor-pointer hover:ring-2 hover:ring-primary transition-all`}
-                                                        title={`Entity ID: ${i} • Sensitive Data: ${intensity * 25}%`}
+                                                        title={`Entity ID: ${i}     Sensitive Data: ${intensity * 25}%`}
                                                     ></div>
                                                 )
                                             })}

@@ -5,7 +5,7 @@ import { Icon } from "@/components/devops-dashboards/ui/Icon";
 import { KPICard } from "@/components/devops-dashboards/ui/KPICard";
 
 /* ------------------------------------------------------------------ */
-/* 2️⃣  Table des routing policies                                    */
+/* 2        Table des routing policies                                    */
 /* ------------------------------------------------------------------ */
 type PolicyRow = {
   name: string;
@@ -31,7 +31,7 @@ const policies: PolicyRow[] = [
     name: "US-East Main Failover",
     domain: "web.edgeroute.global",
     type: "FAILOVER",
-    regions: "US-East → US-West",
+    regions: "US-East     US-West",
     priority: "02",
     health: "Healthy",
     healthColor: "bg-green-500",
@@ -98,7 +98,7 @@ export default function GslbPage() {
           </div>
         </div>
 
-        {/* MAP – image placeholder + points */}
+        {/* MAP     image placeholder + points */}
         <div className="h-[400px] relative bg-[#0a0f18] flex items-center justify-center overflow-hidden">
           {/* grille de fond */}
           <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#135bec_1px,transparent_1px)] [background-size:20px_20px]" />
@@ -126,7 +126,7 @@ export default function GslbPage() {
             />
           </svg>
 
-          {/* légende */}
+          {/* l  gende */}
           <div className="z-10 text-center pointer-events-none">
             <div className="text-slate-500 text-xs font-mono uppercase mb-2">
               Live Edge Nodes

@@ -1,4 +1,4 @@
-﻿import express, { Response } from 'express';
+import express, { Response } from 'express';
 import { authenticate as auth } from '../middleware/security.js';
 import { requireAdmin, requireOrganization } from '../middleware/security.js';
 import NetworkDevice from '../models/NetworkDevice.js';
@@ -54,7 +54,7 @@ router.get('/device/:id/check', asyncHandler(async (req: any, res: Response) => 
     const pingRes = await defaultNetworkService.pingHost(device.ipAddress);
 
     // Check SNMP if reachable
-    let snmpData = {};
+    let snmpData = { /* Intentionally empty */ };
     if (pingRes.alive) {
       const service = new NetworkService(
         (device as any).snmpCommunity || process.env.SNMP_COMMUNITY || 'public'

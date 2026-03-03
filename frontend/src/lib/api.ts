@@ -3,7 +3,7 @@ import { HERBUTE_ROUTES } from '@reclamtrack/shared';
 import { authEventBus } from './auth-event-bus';
 
 /**
- * lib/api.ts — Client Axios Unique (Version Finale Stabilisée)
+ * lib/api.ts     Client Axios Unique (Version Finale Stabilis  e)
  */
 
 const getApiUrl = () => {
@@ -11,7 +11,7 @@ const getApiUrl = () => {
     const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     const envUrl = process.env.NEXT_PUBLIC_API_URL;
     
-    // Si on navigue depuis un autre PC (réseau local ou internet) mais que le .env est fixé sur localhost
+    // Si on navigue depuis un autre PC (r  seau local ou internet) mais que le .env est fix   sur localhost
     if (!isLocalhost && (!envUrl || envUrl.includes('localhost') || envUrl.includes('127.0.0.1'))) {
       const port = envUrl ? new URL(envUrl).port : '2065';
       return `${window.location.protocol}//${window.location.hostname}:${port || '2065'}`;
@@ -38,7 +38,7 @@ class ApiClient {
   }
 
   private setupInterceptors() {
-    // Intercepteur de requête : injection de l'Organisation ID
+    // Intercepteur de requ  te : injection de l'Organisation ID
     this.client.interceptors.request.use((config) => {
       if (typeof window !== 'undefined') {
         const orgId = localStorage.getItem('active_organization_id');
@@ -46,15 +46,12 @@ class ApiClient {
           config.headers['x-organization-id'] = orgId;
         }
       }
-      console.log('[Axios Request]', config.method?.toUpperCase(), config.url, config.data);
       return config;
     });
 
     this.client.interceptors.response.use(
       (response) => response,
       (error: AxiosError) => {
-        // Prevent aggressive Red Error Overlay in Next.js Dev by using console.warn instead of console.error
-        console.warn('[Axios API Error]', error.config?.url, error.response?.status, error.response?.data || error.message);
         if (error.response?.status === 401) {
           authEventBus.emit('session-expired');
         }
@@ -63,11 +60,11 @@ class ApiClient {
     );
   }
 
-  get<T = any>(url: string, config?: any) { return this.client.get<T>(url, config).then(r => r.data); }
-  post<T = any>(url: string, data?: any, config?: any) { return this.client.post<T>(url, data, config).then(r => r.data); }
-  put<T = any>(url: string, data?: any, config?: any) { return this.client.put<T>(url, data, config).then(r => r.data); }
-  patch<T = any>(url: string, data?: any, config?: any) { return this.client.patch<T>(url, data, config).then(r => r.data); }
-  delete<T = any>(url: string, config?: any) { return this.client.delete<T>(url, config).then(r => r.data); }
+  get<T = any>(url: string) { return this.client.get<T>(url).then(r => r.data); }
+  post<T = any>(url: string, data?: any) { return this.client.post<T>(url, data).then(r => r.data); }
+  put<T = any>(url: string, data?: any) { return this.client.put<T>(url, data).then(r => r.data); }
+  patch<T = any>(url: string, data?: any) { return this.client.patch<T>(url, data).then(r => r.data); }
+  delete<T = any>(url: string) { return this.client.delete<T>(url).then(r => r.data); }
 }
 
 export const apiClient = new ApiClient(API_BASE_URL);
@@ -126,49 +123,6 @@ export const complaintsApi = {
   getById: (id: string) => apiClient.get(`/api/complaints/${id}`),
 };
 
-export const animalsApi = {
-  getAll: (params?: Record<string, string>) => apiClient.get('/api/animals' + (params ? '?' + new URLSearchParams(params).toString() : '')),
-  getById: (id: string) => apiClient.get(`/api/animals/${id}`),
-  getStats: (params?: Record<string, string>) => apiClient.get('/api/animals/stats' + (params ? '?' + new URLSearchParams(params).toString() : '')),
-  create: (data: any) => apiClient.post('/api/animals', data),
-  update: (id: string, data: any) => apiClient.put(`/api/animals/${id}`, data),
-  delete: (id: string) => apiClient.delete(`/api/animals/${id}`),
-};
-
-export const cropsApi = {
-  getAll: (params?: Record<string, string>) => apiClient.get('/api/crops' + (params ? '?' + new URLSearchParams(params).toString() : '')),
-  getById: (id: string) => apiClient.get(`/api/crops/${id}`),
-  getStats: (params?: Record<string, string>) => apiClient.get('/api/crops/stats' + (params ? '?' + new URLSearchParams(params).toString() : '')),
-  create: (data: any) => apiClient.post('/api/crops', data),
-  update: (id: string, data: any) => apiClient.put(`/api/crops/${id}`, data),
-  harvest: (id: string, actualYield: number) => apiClient.post(`/api/crops/${id}/harvest`, { actualYield }),
-  delete: (id: string) => apiClient.delete(`/api/crops/${id}`),
-};
-
-export const financeApi = {
-  getTransactions: (params?: Record<string, string>) => apiClient.get('/api/finance/transactions' + (params ? '?' + new URLSearchParams(params).toString() : '')),
-  createTransaction: (data: any) => apiClient.post('/api/finance/transactions', data),
-  updateTransaction: (id: string, data: any) => apiClient.put(`/api/finance/transactions/${id}`, data),
-  deleteTransaction: (id: string) => apiClient.delete(`/api/finance/transactions/${id}`),
-  getStats: () => apiClient.get('/api/finance/stats'),
-  getKPIs: (params?: Record<string, string>) => apiClient.get('/api/finance/kpis' + (params ? '?' + new URLSearchParams(params).toString() : '')),
-};
-
-export const irrigationApi = {
-  getAll: (params?: Record<string, string>) => apiClient.get('/api/irrigation' + (params ? '?' + new URLSearchParams(params).toString() : '')),
-  getStats: () => apiClient.get('/api/irrigation/stats'),
-  create: (data: any) => apiClient.post('/api/irrigation', data),
-  update: (id: string, data: any) => apiClient.put(`/api/irrigation/${id}`, data),
-  delete: (id: string) => apiClient.delete(`/api/irrigation/${id}`),
-};
-
-export const infrastructureApi = {
-  getAll: (params?: Record<string, string>) => apiClient.get('/api/infrastructure' + (params ? '?' + new URLSearchParams(params).toString() : '')),
-  create: (data: any) => apiClient.post('/api/infrastructure', data),
-  update: (id: string, data: any) => apiClient.put(`/api/infrastructure/${id}`, data),
-  delete: (id: string) => apiClient.delete(`/api/infrastructure/${id}`),
-};
-
 // Aliases and Stubs for legacy components and TS build
 export const organizationApi = organizationsApi;
 export const adminApi = {
@@ -205,75 +159,3 @@ export const teamsApi = {
 };
 
 export default apiClient;
-
-// ─────────────────────────────────────────────
-// Alias "api" — utilisé dans hooks et pages legacy
-// ─────────────────────────────────────────────
-export const api = apiClient;
-
-// ─────────────────────────────────────────────
-// DataSource helpers
-// ─────────────────────────────────────────────
-export const datasourceHelpers = {
-  list: () => apiClient.get('/api/datasources'),
-  create: (data: Record<string, unknown>) => apiClient.post('/api/datasources', data),
-  update: (id: string, data: Record<string, unknown>) => apiClient.put(`/api/datasources/${id}`, data),
-  delete: (id: string) => apiClient.delete(`/api/datasources/${id}`),
-  test: (id: string) => apiClient.post(`/api/datasources/${id}/test`),
-  sync: (id: string) => apiClient.post(`/api/datasources/${id}/sync`),
-  syncAll: () => apiClient.post('/api/datasources/sync-all'),
-  preview: (id: string) => apiClient.get(`/api/datasources/${id}/preview`),
-  getData: (module: string, params?: Record<string, unknown>) =>
-    apiClient.get(`/api/datasources/data/${module}`, { params }),
-};
-
-// ─────────────────────────────────────────────
-// apiHelpers — objet centralisé pour auth-provider et composants
-// ─────────────────────────────────────────────
-export const apiHelpers = {
-  auth: {
-    login: (data: any) => apiClient.post('/api/auth/login', data),
-    logout: () => apiClient.post('/api/auth/logout'),
-    logoutAll: () => apiClient.post('/api/auth/logout-all'),
-    me: () => apiClient.get('/api/auth/me'),
-    register: (data: any) => apiClient.post('/api/auth/register', data),
-    refresh: () => apiClient.post('/api/auth/refresh'),
-    googleLogin: (credential: string) => apiClient.post('/api/auth/google', { credential }),
-  },
-  fleet: {
-    getVehicles: () => apiClient.get('/api/fleet/vehicles'),
-    getVehicle: (id: string) => apiClient.get(`/api/fleet/vehicles/${id}`),
-  },
-  hr: {
-    getStaff: () => apiClient.get('/api/hr/staff'),
-    getLeaves: () => apiClient.get('/api/hr/leaves'),
-  },
-  planning: {
-    getSchedule: () => apiClient.get('/api/planning/schedule'),
-    getInterventions: () => apiClient.get('/api/planning/interventions'),
-  },
-  organizations: {
-    list: () => apiClient.get('/api/organizations'),
-    get: (id: string) => apiClient.get(`/api/organizations/${id}`),
-    create: (data: any) => apiClient.post('/api/organizations', data),
-    update: (id: string, data: any) => apiClient.patch(`/api/organizations/${id}`, data),
-    getMembers: (orgId: string) => apiClient.get(`/api/organizations/${orgId}/members`),
-    inviteMember: (orgId: string, email: string, role: string) =>
-      apiClient.post(`/api/organizations/${orgId}/members`, { email, role }),
-    removeMember: (orgId: string, membershipId: string) =>
-      apiClient.delete(`/api/organizations/${orgId}/members/${membershipId}`),
-  },
-  datasources: datasourceHelpers,
-  billing: {
-    mockCheckout: () => apiClient.post('/api/billing/mock-checkout'),
-    getSubscription: () => apiClient.get('/api/billing/subscription'),
-    createCheckout: (data: any) => apiClient.post('/api/billing/create-checkout', data),
-    createSubscription: (data: any) => apiClient.post('/api/billing/create-subscription', data),
-    startTrial: (data: any) => apiClient.post('/api/billing/start-trial', data),
-  },
-  glpi: {
-    getTickets: (params?: any) => apiClient.get('/api/glpi/tickets' + (params ? '?' + new URLSearchParams(params).toString() : '')),
-    updateTicket: (id: number, data: any) => apiClient.patch(`/api/glpi/tickets/${id}`, data),
-    sync: () => apiClient.post('/api/glpi/sync'),
-  },
-};

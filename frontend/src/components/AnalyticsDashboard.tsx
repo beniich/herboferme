@@ -21,7 +21,7 @@ interface Overview {
 }
 
 interface Trend {
-    date: string; // ISO "2024‑02‑01"
+    date: string; // ISO "2024   02   01"
     count: number;
 }
 
@@ -55,10 +55,10 @@ export const AnalyticsDashboard: React.FC = () => {
 
     return (
         <div style={{ padding: "2rem", fontFamily: "system-ui", background: "#f5f5f5", borderRadius: "8px", marginTop: "2rem" }}>
-            <h2 style={{ color: "#333" }}>📊 Tableau de bord d'analytics IA</h2>
+            <h2 style={{ color: "#333" }}>     Tableau de bord d'analytics IA</h2>
 
             {/* ---------- Overview ---------- */}
-            {loadingOverview && <p>Chargement des indicateurs…</p>}
+            {loadingOverview && <p>Chargement des indicateurs   </p>}
             {errOverview && <p style={{ color: "red" }}>Erreur: {String(errOverview)}</p>}
             {overview && (
                 <section style={{ marginBottom: "2rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem" }}>
@@ -68,12 +68,12 @@ export const AnalyticsDashboard: React.FC = () => {
                     </div>
 
                     <div style={{ background: "white", padding: "1rem", borderRadius: "8px", boxShadow: "0 2px 4px rgba(0,0,0,0.05)" }}>
-                        <h3 style={{ margin: "0 0 0.5rem", fontSize: "0.9rem", color: "#666" }}>Dernières 24h</h3>
+                        <h3 style={{ margin: "0 0 0.5rem", fontSize: "0.9rem", color: "#666" }}>Derni  res 24h</h3>
                         <p style={{ fontSize: "1.5rem", fontWeight: "bold", margin: 0, color: "#e67e22" }}>{overview.errors_last_24h}</p>
                     </div>
 
                     <div style={{ background: "white", padding: "1rem", borderRadius: "8px", boxShadow: "0 2px 4px rgba(0,0,0,0.05)" }}>
-                        <h3 style={{ margin: "0 0 0.5rem", fontSize: "0.9rem", color: "#666" }}>Coût IA (tokens)</h3>
+                        <h3 style={{ margin: "0 0 0.5rem", fontSize: "0.9rem", color: "#666" }}>Co  t IA (tokens)</h3>
                         <p style={{ margin: 0 }}>
                             In: <strong>{overview.avg_input_tokens}</strong><br />
                             Out: <strong>{overview.avg_output_tokens}</strong>
@@ -107,11 +107,11 @@ export const AnalyticsDashboard: React.FC = () => {
             )}
 
             {/* ---------- Trends (chart) ---------- */}
-            {loadingTrends && <p>Chargement de la courbe…</p>}
+            {loadingTrends && <p>Chargement de la courbe   </p>}
             {errTrends && <p style={{ color: "red" }}>{String(errTrends)}</p>}
             {trends && trends.length > 0 && (
                 <section style={{ background: "white", padding: "1rem", borderRadius: "8px" }}>
-                    <h3>Évolution des erreurs (30 jours)</h3>
+                    <h3>  volution des erreurs (30 jours)</h3>
                     <div style={{ height: "300px", width: "100%" }}>
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={trends}>

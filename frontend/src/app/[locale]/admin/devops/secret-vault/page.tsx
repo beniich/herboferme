@@ -307,7 +307,7 @@ export default function SecretVaultPage() {
                         </div>
                       ) : (
                         <div className="bg-slate-50 dark:bg-slate-950 p-4 rounded-2xl border border-slate-100 dark:border-white/5 font-mono text-sm text-slate-300 dark:text-slate-700 select-none">
-                          ••••••••••••••••••••••••••••••••
+
                         </div>
                       )}
 

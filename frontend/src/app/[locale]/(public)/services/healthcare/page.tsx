@@ -47,8 +47,8 @@ export default function HealthcareLanding() {
                                             <span className="material-symbols-outlined">health_metrics</span>
                                         </div>
                                         <div>
-                                            <div className="text-xs font-black uppercase tracking-widest">Santé Connect v2</div>
-                                            <div className="text-[10px] text-slate-500 font-bold uppercase tracking-tight">Hôpital Universitaire de Rabat</div>
+                                            <div className="text-xs font-black uppercase tracking-widest">Sant   Connect v2</div>
+                                            <div className="text-[10px] text-slate-500 font-bold uppercase tracking-tight">H  pital Universitaire de Rabat</div>
                                         </div>
                                     </div>
                                     <div className="flex gap-2">
@@ -73,7 +73,7 @@ export default function HealthcareLanding() {
 
                                 <div className="space-y-4">
                                     <div className="flex items-center justify-between">
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 text-cyan-400">Alertes Temps Réel</span>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 text-cyan-400">Alertes Temps R  el</span>
                                         <span className="material-symbols-outlined text-xs text-slate-500">more_horiz</span>
                                     </div>
                                     <div className="bg-brand-orange/5 border-l-4 border-brand-orange p-4 rounded-xl flex items-center justify-between">
@@ -100,7 +100,7 @@ export default function HealthcareLanding() {
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-24 space-y-4">
                         <h2 className="text-4xl lg:text-6xl font-display font-black uppercase italic tracking-tighter">Coordination <span className="text-cyan-400 not-italic">Intelligente</span></h2>
-                        <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.3em] font-display">Sécurisé • Souverain • Interopérable</p>
+                        <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.3em] font-display">S  curis       Souverain     Interop  rable</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -109,19 +109,19 @@ export default function HealthcareLanding() {
                                 icon: 'hub',
                                 title: t('feature1Title'),
                                 desc: t('feature1Desc'),
-                                items: ['Tri automatisé IA', 'Transferts inter-services', 'Bornes d\'admission']
+                                items: ['Tri automatis   IA', 'Transferts inter-services', 'Bornes d\'admission']
                             },
                             {
                                 icon: 'bed',
                                 title: t('feature2Title'),
                                 desc: t('feature2Desc'),
-                                items: ['Capteurs IoT temps réel', 'Planning bloc opératoire', 'Stock pharmacie critique']
+                                items: ['Capteurs IoT temps r  el', 'Planning bloc op  ratoire', 'Stock pharmacie critique']
                             },
                             {
                                 icon: 'query_stats',
                                 title: t('feature3Title'),
                                 desc: t('feature3Desc'),
-                                items: ['Modèles de pics épidémiques', 'Analyse temps d\'attente', 'Rapports conformité HAS']
+                                items: ['Mod  les de pics   pid  miques', 'Analyse temps d\'attente', 'Rapports conformit   HAS']
                             },
                         ].map((f, i) => (
                             <div key={i} className="group glass-card rounded-[3rem] p-12 hover:-translate-y-4 transition-all duration-700 hover:border-cyan-500/20">

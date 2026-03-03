@@ -157,7 +157,7 @@ export function Footer() {
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                         {/* Copyright */}
                         <p className="text-sm text-slate-600 dark:text-slate-400">
-                            © {currentYear} Cloudindustrie Ltd. All rights reserved.
+                               {currentYear} Cloudindustrie Ltd. All rights reserved.
                         </p>
 
                         {/* Social Links */}
@@ -180,8 +180,8 @@ export function Footer() {
                         <div className="flex items-center gap-2 text-sm">
                             <select title="Language selector" aria-label="Select language" className="px-3 py-1 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary">
                                 <option value="en">English</option>
-                                <option value="fr">Français</option>
-                                <option value="ar">العربية</option>
+                                <option value="fr">Fran  ais</option>
+                                <option value="ar">              </option>
                             </select>
                         </div>
                     </div>

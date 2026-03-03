@@ -127,7 +127,7 @@ export default function CompliancePage() {
                             <div className="space-y-4">
                                 <div className="p-4 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 rounded-xl">
                                     <h4 className="font-bold text-slate-900 dark:text-white text-sm mb-1">public.users</h4>
-                                    <p className="text-[10px] text-slate-500 mb-4">PostgreSQL Table • Primary Identity Store</p>
+                                    <p className="text-[10px] text-slate-500 mb-4">PostgreSQL Table     Primary Identity Store</p>
                                     <div className="space-y-2">
                                         <div className="flex items-center justify-between p-2 bg-white dark:bg-background-dark/30 rounded border border-slate-100 dark:border-white/5">
                                             <span className="text-xs text-slate-400">email_address</span>
@@ -142,7 +142,7 @@ export default function CompliancePage() {
 
                                 <div className="p-4 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 rounded-xl">
                                     <h4 className="font-bold text-slate-900 dark:text-white text-sm mb-1">public.billing</h4>
-                                    <p className="text-[10px] text-slate-500 mb-4">PostgreSQL Table • Financial Data</p>
+                                    <p className="text-[10px] text-slate-500 mb-4">PostgreSQL Table     Financial Data</p>
                                     <div className="flex items-center justify-between p-2 bg-white dark:bg-background-dark/30 rounded border border-slate-100 dark:border-white/5">
                                         <span className="text-xs text-slate-400">card_token</span>
                                         <span className="text-[9px] px-1.5 py-0.5 bg-red-500/10 text-red-500 rounded font-bold">PCI SENSITIVE</span>

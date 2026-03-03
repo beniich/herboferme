@@ -1,4 +1,4 @@
-﻿import { Complaint, IComplaint } from '../models/Complaint.js';
+import { Complaint, IComplaint } from '../models/Complaint.js';
 import { Types } from 'mongoose';
 import { autoAssignComplaint } from './schedulingService.js';
 import notificationService from './socketService.js';
@@ -7,7 +7,7 @@ export class ComplaintService {
     /**
      * Get all complaints with optional filters
      */
-    async getAllComplaints(filters: any = {}, organizationId: string) {
+    async getAllComplaints(filters: any = { /* Intentionally empty */ }, organizationId: string) {
         const query: any = { organizationId };
 
         if (filters.status) {
@@ -158,11 +158,11 @@ export class ComplaintService {
             byStatus: byStatus.reduce((acc, item) => {
                 acc[item._id] = item.count;
                 return acc;
-            }, {} as Record<string, number>),
+            }, { /* Intentionally empty */ } as Record<string, number>),
             byPriority: byPriority.reduce((acc, item) => {
                 acc[item._id] = item.count;
                 return acc;
-            }, {} as Record<string, number>)
+            }, { /* Intentionally empty */ } as Record<string, number>)
         };
     }
 
@@ -229,7 +229,7 @@ export class ComplaintService {
             throw new Error('Only new complaints can be rejected');
         }
 
-        complaint.status = 'rejetÃ©e';
+        complaint.status = 'rejet    e';
         complaint.rejectionReason = rejectionReason;
         await complaint.save();
 

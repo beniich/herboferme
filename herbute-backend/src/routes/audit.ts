@@ -1,4 +1,4 @@
-﻿import { Router, Request, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import { authenticate as auth } from '../middleware/security.js';
 import AuditLog from '../models/AuditLog.js';
 import { logger } from '../utils/logger.js';
@@ -21,7 +21,7 @@ router.get('/', auth, async (req: Request, res: Response) => {
             });
         }
 
-        const query: any = {};
+        const query: any = { /* Intentionally empty */ };
         if (action) query.action = action;
         if (userId) query.userId = userId;
 

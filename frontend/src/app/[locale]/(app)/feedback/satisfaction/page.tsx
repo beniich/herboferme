@@ -28,7 +28,7 @@ export default function SatisfactionDashboardPage() {
             <div className="flex items-center justify-center min-h-[60vh]">
                 <div className="text-center p-8 bg-rose-50 dark:bg-rose-900/10 rounded-2xl border border-rose-100 dark:border-rose-900/20 max-w-md">
                     <p className="text-rose-600 dark:text-rose-400 font-bold mb-2">Erreur de chargement</p>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">Impossible de récupérer les données de satisfaction. Veuillez réessayer plus tard.</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">Impossible de r  cup  rer les donn  es de satisfaction. Veuillez r  essayer plus tard.</p>
                 </div>
             </div>
         );
@@ -59,7 +59,7 @@ export default function SatisfactionDashboardPage() {
                         </span>
                     </div>
                     <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">
-                        Analyse en temps réel du sentiment des citoyens et de l'efficacité des interventions.
+                        Analyse en temps r  el du sentiment des citoyens et de l'efficacit   des interventions.
                     </p>
                 </div>
 

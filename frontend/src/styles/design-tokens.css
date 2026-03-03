@@ -1,40 +1,48 @@
 :root {
-  /* Core Palette (User Defined) */
-  --color-main-base: #F5FBE6;    /* Soft Mint - Main background/base */
-  --color-sidebar-base: #215E61; /* Dark Teal - Sidebar */
-  --color-border-base: #233D4D;  /* Midnight Blue - Borders */
-  --color-title-base: #FE7F2D;   /* Pumpkin Orange - Dashboard Titles */
+  /* Colors - Brand Palette */
+  --ink-black: #001219;
+  --dark-teal: #005f73;
+  --dark-cyan: #0a9396;
+  --pearl-aqua: #94d2bd;
+  --vanilla-custard: #e9d8a6;
+  --golden-orange: #ee9b00;
+  --burnt-caramel: #ca6702;
+  --rusty-spice: #bb3e03;
+  --oxidized-iron: #ae2012;
+  --brown-red: #9b2226;
 
-  /* Colors - Functional Mapping */
-  --color-primary: var(--color-sidebar-base);
-  --color-primary-light: #2c7a7e;
-  --color-primary-dark: #164143;
+  /* Colors - Primary Palette */
+  --color-primary: var(--dark-cyan);
+  --color-primary-light: var(--pearl-aqua);
+  --color-primary-dark: var(--dark-teal);
 
-  --color-secondary: var(--color-border-base);
-  
-  --color-accent: var(--color-title-base);
-  --color-accent-light: #ff9e5e;
-  --color-accent-dark: #cc5d10;
+  /* Colors - Secondary Palette */
+  --color-secondary: var(--vanilla-custard);
+  --color-secondary-light: #fdf6e3;
+  --color-secondary-dark: #cbb47c;
 
-  /* Status Colors */
+  /* Colors - Accent */
+  --color-accent: var(--golden-orange);
+  --color-accent-light: #ffb703;
+  --color-accent-dark: var(--burnt-caramel);
+
+  /* Colors - Status */
   --color-success: #10b981;
-  --color-warning: var(--color-title-base);
-  --color-error: #e11d48;
-  --color-info: var(--color-primary);
+  --color-warning: var(--golden-orange);
+  --color-error: var(--oxidized-iron);
+  --color-info: var(--dark-cyan);
 
-  /* Neutrals & UI Backgrounds */
-  --color-bg-page: var(--color-main-base);
-  --color-bg-card: #ffffff;
-  --color-gray-50: #fcfdf9;
-  --color-gray-100: #f5fbe6;
-  --color-gray-200: #e5e9d9;
-  --color-gray-300: #d1d5c5;
+  /* Colors - Neutrals */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
   --color-gray-400: #9ca3af;
   --color-gray-500: #6b7280;
   --color-gray-600: #4b5563;
-  --color-gray-700: var(--color-sidebar-base);
-  --color-gray-800: var(--color-border-base);
-  --color-gray-900: #0a111a;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
 
   /* Typography */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -74,7 +82,7 @@
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  --shadow-card: 0 1px 3px 0 rgba(23, 40, 68, 0.1), 0 1px 2px 0 rgba(23, 40, 68, 0.06);
+  --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 
   /* Transitions */

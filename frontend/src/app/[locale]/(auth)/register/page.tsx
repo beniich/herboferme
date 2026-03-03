@@ -28,12 +28,12 @@ export default function RegisterPage() {
             const { authApi } = await import('@/lib/api');
             await authApi.register({ email, password, nom, prenom });
             
-            // 2. Connexion automatique après inscription réussie
+            // 2. Connexion automatique apr  s inscription r  ussie
             await login({ email, password }); 
-            toast.success('Inscription réussie !');
+            toast.success('Inscription r  ussie !');
         } catch (err: any) {
             setError(err.response?.data?.error || "Erreur d'inscription");
-            toast.error("Échec de l'inscription");
+            toast.error("  chec de l'inscription");
         } finally {
             setLoading(false);
         }
@@ -46,7 +46,7 @@ export default function RegisterPage() {
                     <ShieldCheck className="w-8 h-8" />
                 </div>
                 <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Inscription</h1>
-                <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Créer un nouveau compte</p>
+                <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Cr  er un nouveau compte</p>
             </div>
 
             <div className="w-full max-w-[440px] bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-800 p-8">
@@ -70,7 +70,7 @@ export default function RegisterPage() {
                         </div>
                         <div>
                             <label htmlFor="prenom" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                                Prénom
+                                Pr  nom
                             </label>
                             <input
                                 id="prenom"
@@ -78,7 +78,7 @@ export default function RegisterPage() {
                                 required
                                 value={prenom}
                                 onChange={(e) => setPrenom(e.target.value)}
-                                placeholder="Votre prénom"
+                                placeholder="Votre pr  nom"
                                 className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-slate-900 dark:text-white outline-none"
                             />
                         </div>
@@ -114,7 +114,7 @@ export default function RegisterPage() {
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="••••••••"
+                                placeholder="                        "
                                 className="w-full pl-11 pr-12 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-slate-900 dark:text-white outline-none"
                             />
                             <button
@@ -138,7 +138,7 @@ export default function RegisterPage() {
                 </form>
 
                 <div className="mt-6 text-center text-sm">
-                    <span className="text-slate-600 dark:text-slate-400">Déjà un compte ? </span>
+                    <span className="text-slate-600 dark:text-slate-400">D  j   un compte ? </span>
                     <Link href="/login" className="text-primary hover:underline font-semibold">
                         Se connecter
                     </Link>

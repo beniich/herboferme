@@ -50,7 +50,7 @@ const SHIFT_TYPES: ShiftType[] = [
     },
     {
         id: 'afternoon',
-        name: 'Après-midi',
+        name: 'Apr  s-midi',
         startTime: '14:00',
         endTime: '22:00',
         color: '#f59e0b',
@@ -83,18 +83,18 @@ export default function TeamShiftSchedulerPage() {
         shiftId: string;
     } | null>(null);
 
-    // Générer les dates de la semaine
+    // G  n  rer les dates de la semaine
     const weekStart = startOfWeek(currentWeek, { weekStartsOn: 1 }); // Lundi
     const weekEnd = endOfWeek(currentWeek, { weekStartsOn: 1 });
     const weekDays = eachDayOfInterval({ start: weekStart, end: weekEnd });
 
-    // Membres d'équipe factices
+    // Membres d'  quipe factices
     const teamMembers: TeamMember[] = [
         {
             id: 'm1',
             name: 'Mohammed Ali',
-            role: 'Chef d\'équipe',
-            skills: ['plomberie', 'électricité'],
+            role: 'Chef d\'  quipe',
+            skills: ['plomberie', '  lectricit  '],
         },
         {
             id: 'm2',
@@ -106,7 +106,7 @@ export default function TeamShiftSchedulerPage() {
             id: 'm3',
             name: 'Youssef Bennis',
             role: 'Technicien',
-            skills: ['électricité', 'éclairage'],
+            skills: ['  lectricit  ', '  clairage'],
         },
         {
             id: 'm4',
@@ -125,15 +125,15 @@ export default function TeamShiftSchedulerPage() {
         );
     };
 
-    // Assigner un membre à un shift
+    // Assigner un membre    un shift
     const assignMember = (memberId: string, date: Date, shiftId: string) => {
-        // Vérifier si le membre n'est pas déjà assigné ce jour
+        // V  rifier si le membre n'est pas d  j   assign   ce jour
         const existingAssignments = assignments.filter(
             (a) => a.memberId === memberId && format(a.date, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
         );
 
         if (existingAssignments.length > 0) {
-            toast.error('Ce membre est déjà assigné à un autre shift ce jour-là');
+            toast.error('Ce membre est d  j   assign      un autre shift ce jour-l  ');
             return;
         }
 
@@ -146,14 +146,14 @@ export default function TeamShiftSchedulerPage() {
         };
 
         setAssignments([...assignments, newAssignment]);
-        toast.success('Membre assigné avec succès');
+        toast.success('Membre assign   avec succ  s');
         setSelectedCell(null);
     };
 
     // Retirer une assignation
     const removeAssignment = (assignmentId: string) => {
         setAssignments(assignments.filter((a) => a.id !== assignmentId));
-        toast.success('Assignation supprimée');
+        toast.success('Assignation supprim  e');
     };
 
     // Copier le planning de la semaine
@@ -168,10 +168,10 @@ export default function TeamShiftSchedulerPage() {
 
         setAssignments([...assignments, ...newAssignments]);
         setCurrentWeek(nextWeekStart);
-        toast.success('Planning dupliqué pour la semaine suivante');
+        toast.success('Planning dupliqu   pour la semaine suivante');
     };
 
-    // Vérifier les conflits et alertes
+    // V  rifier les conflits et alertes
     const checkConflicts = () => {
         const conflicts: string[] = [];
 
@@ -202,7 +202,7 @@ export default function TeamShiftSchedulerPage() {
                         Planning des Roulements
                     </h1>
                     <p className="text-slate-500 mt-1">
-                        Gestion des shifts et horaires des équipes techniques
+                        Gestion des shifts et horaires des   quipes techniques
                     </p>
                 </div>
 
@@ -228,14 +228,14 @@ export default function TeamShiftSchedulerPage() {
                     <CardHeader className="pb-3">
                         <CardTitle className="text-amber-900 dark:text-amber-100 flex items-center gap-2">
                             <AlertCircle className="w-5 h-5" />
-                            {conflicts.length} Conflit(s) Détecté(s)
+                            {conflicts.length} Conflit(s) D  tect  (s)
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
                         <ul className="space-y-1">
                             {conflicts.map((conflict, i) => (
                                 <li key={i} className="text-sm text-amber-700 dark:text-amber-300">
-                                    • {conflict}
+                                        {conflict}
                                 </li>
                             ))}
                         </ul>
@@ -249,7 +249,7 @@ export default function TeamShiftSchedulerPage() {
                     onClick={() => setCurrentWeek(addDays(currentWeek, -7))}
                     className="px-4 py-2 border rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800"
                 >
-                    ← Semaine précédente
+                        Semaine pr  c  dente
                 </button>
 
                 <h2 className="text-lg font-semibold">
@@ -261,7 +261,7 @@ export default function TeamShiftSchedulerPage() {
                     onClick={() => setCurrentWeek(addDays(currentWeek, 7))}
                     className="px-4 py-2 border rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800"
                 >
-                    Semaine suivante →
+                    Semaine suivante
                 </button>
             </div>
 
@@ -410,7 +410,7 @@ export default function TeamShiftSchedulerPage() {
                                         <div className="font-semibold">{member.name}</div>
                                         <div className="text-sm text-slate-500">{member.role}</div>
                                         {alreadyAssigned && (
-                                            <div className="text-xs text-amber-600 mt-1">Déjà assigné ce jour</div>
+                                            <div className="text-xs text-amber-600 mt-1">D  j   assign   ce jour</div>
                                         )}
                                     </button>
                                 );
@@ -432,7 +432,7 @@ export default function TeamShiftSchedulerPage() {
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <Users className="w-5 h-5" />
-                        Membres de l&apos;Équipe
+                        Membres de l&apos;  quipe
                     </CardTitle>
                 </CardHeader>
                 <CardContent>

@@ -183,7 +183,7 @@ export default function ITTicketsPage() {
         </div>
         <div className="flex gap-2">
             <Button variant="outline" onClick={() => loadTickets()}>
-                <span className="mr-2">↻</span> Refresh
+                <span className="mr-2">   </span> Refresh
             </Button>
             <Button className="bg-orange-600 hover:bg-orange-700" onClick={handleCreate}>
             <Plus className="mr-2 h-4 w-4" />
@@ -236,7 +236,7 @@ export default function ITTicketsPage() {
                     <span className="text-sm font-mono font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded">{ticket.ticketNumber}</span>
                     {getPriorityBadge(ticket.priority)}
                     {getStatusBadge(ticket.status)}
-                    <span className="text-xs text-gray-400">• {new Date(ticket.createdAt).toLocaleDateString()}</span>
+                    <span className="text-xs text-gray-400">    {new Date(ticket.createdAt).toLocaleDateString()}</span>
                   </div>
                   <CardTitle className="text-lg font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">
                     {ticket.title}

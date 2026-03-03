@@ -3,14 +3,14 @@
  * Server-Sent Events / Saga event handler.
  * Moved from index.ts to avoid inline require() and keep app clean.
  *
- * GET /api/events/:channel â†’ SSE stream for real-time updates
- * POST /api/events/notify  â†’ Internal: trigger notification event (dev only)
+ * GET /api/events/:channel          SSE stream for real-time updates
+ * POST /api/events/notify           Internal: trigger notification event (dev only)
  */
 import { Router, Request, Response } from 'express';
-import { authenticate } from '../middleware/security.js';
+import { authenticate } from '../middleware/security';
 import { asyncHandler } from '../middleware/errorHandler.js';
-import { sendSuccess } from '../utils/apiResponse.js';
-import logger from '../utils/logger.js';
+import { sendSuccess } from '../utils/apiResponse';
+import logger from '../utils/logger';
 
 const router = Router();
 
@@ -18,7 +18,7 @@ const router = Router();
 type SseClient = { userId: string; orgId?: string; res: Response };
 const clients = new Map<string, SseClient>();
 
-/* â”€â”€ GET /api/events/stream â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*                  GET /api/events/stream                                                                                                                                                                                          */
 router.get(
   '/stream',
   authenticate,
@@ -54,7 +54,7 @@ router.get(
   },
 );
 
-/* â”€â”€ POST /api/events/notify (internal / dev only) â”€â”€ */
+/*                  POST /api/events/notify (internal / dev only)                  */
 router.post(
   '/notify',
   asyncHandler(async (req: Request, res: Response) => {
@@ -76,7 +76,7 @@ router.post(
   }),
 );
 
-/** Broadcast to all clients in an org â€” called from other services */
+/** Broadcast to all clients in an org          called from other services */
 export function broadcastToOrg(orgId: string, event: string, data: unknown): void {
   for (const [, client] of clients) {
     if (client.orgId === orgId) {

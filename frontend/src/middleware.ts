@@ -4,10 +4,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const intlMiddleware = createMiddleware(routing);
 
-// Routes publiques (accessibles sans être connecté)
+// Routes publiques (accessibles sans   tre connect  )
 const publicRoutes = ['/login', '/register', '/forgot-password', '/'];
 
-// Décode le payload JWT sans vérification de signature (edge runtime safe)
+// D  code le payload JWT sans v  rification de signature (edge runtime safe)
 function parseJwtPayload(token: string): Record<string, any> | null {
     try {
         const base64Url = token.split('.')[1];
@@ -38,24 +38,24 @@ export default function middleware(request: NextRequest) {
         pathWithoutLocale === route || pathWithoutLocale.startsWith(route + '/')
     );
 
-    // ✅ On lit le cookie HttpOnly `access_token` posé par le backend Herbute
+    //     On lit le cookie HttpOnly `access_token` pos   par le backend Herbute
     const accessToken = request.cookies.get('access_token')?.value;
     const isAuthenticated = !!accessToken;
 
-    // Route protégée sans token → login
+    // Route prot  g  e sans token     login
     if (!isPublicRoute && !isAuthenticated) {
         const loginUrl = new URL(`/${locale}/login`, request.url);
         loginUrl.searchParams.set('from', pathname); // Garder la destination
         return NextResponse.redirect(loginUrl);
     }
 
-    // Déjà connecté et tente d'accéder à /login → dashboard
+    // D  j   connect   et tente d'acc  der    /login     dashboard
     if (isPublicRoute && isAuthenticated && pathWithoutLocale === '/login') {
         const dashboardUrl = new URL(`/${locale}/dashboard`, request.url);
         return NextResponse.redirect(dashboardUrl);
     }
 
-    // RBAC : Vérification des routes admin
+    // RBAC : V  rification des routes admin
     if (isAuthenticated && pathWithoutLocale.startsWith('/admin')) {
         const payload = parseJwtPayload(accessToken!);
         const isAdmin = payload?.role === 'admin' || payload?.role === 'super_admin';

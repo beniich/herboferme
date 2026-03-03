@@ -1,7 +1,7 @@
-﻿/**
+/**
  * envValidator.ts
  * Validates all required environment variables at startup.
- * Fails fast if any required var is missing â€” prevents silent misconfiguration.
+ * Fails fast if any required var is missing          prevents silent misconfiguration.
  */
 
 interface EnvConfig {

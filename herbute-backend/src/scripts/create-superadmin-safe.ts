@@ -15,7 +15,7 @@ const createSuperAdmin = async () => {
         if (!mongoUri) throw new Error('MONGODB_URI not defined');
 
         await mongoose.connect(mongoUri);
-        logger.info('✅ Connected to MongoDB');
+        logger.info('    Connected to MongoDB');
 
         const email = 'superadmin@herbute.ma';
         const passwordPlain = 'SuperAdmin2026!';
@@ -34,7 +34,7 @@ const createSuperAdmin = async () => {
                 plan: 'entreprise', // important for access
                 emailVerified: true
             });
-            logger.info('✅ Super Admin user created: ' + email);
+            logger.info('    Super Admin user created: ' + email);
         } else {
             // Update password just in case
             const passwordHash = await bcrypt.hash(passwordPlain, 10);
@@ -42,7 +42,7 @@ const createSuperAdmin = async () => {
             admin.role = 'super_admin';
             admin.plan = 'entreprise';
             await admin.save();
-            logger.info('✅ Super Admin user updated: ' + email);
+            logger.info('    Super Admin user updated: ' + email);
         }
 
         // Check if org exists
@@ -57,7 +57,7 @@ const createSuperAdmin = async () => {
                     status: 'ACTIVE'
                 }
             });
-            logger.info('✅ Organization created');
+            logger.info('    Organization created');
         }
 
         // Check membership
@@ -69,7 +69,7 @@ const createSuperAdmin = async () => {
                 roles: ['OWNER', 'ADMIN'],
                 status: 'ACTIVE'
             });
-            logger.info('✅ Membership created');
+            logger.info('    Membership created');
         }
 
         process.exit(0);

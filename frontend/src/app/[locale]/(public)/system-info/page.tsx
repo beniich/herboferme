@@ -48,8 +48,8 @@ export default function SystemInfoPage() {
                                     Flux Technologique
                                 </h1>
                                 <p className="text-slate-600 dark:text-slate-400 text-lg max-w-xl leading-relaxed">
-                                    Notre mission est de propulser votre croissance à travers une infrastructure robuste,
-                                    IA-native et sécurisée par des protocoles de nouvelle génération.
+                                    Notre mission est de propulser votre croissance    travers une infrastructure robuste,
+                                    IA-native et s  curis  e par des protocoles de nouvelle g  n  ration.
                                 </p>
                                 <div className="flex flex-wrap gap-4 mt-8">
                                     <button className="bg-primary text-white px-6 py-3 rounded-xl font-bold text-sm flex items-center gap-2 hover:opacity-90 transition-all">
@@ -76,7 +76,7 @@ export default function SystemInfoPage() {
                     <section className="mb-20">
                         <div className="text-center mb-12">
                             <h2 className="text-slate-900 dark:text-white text-3xl font-bold tracking-tight mb-2">Cycle de Vie des Services</h2>
-                            <p className="text-slate-500">De l'expression du besoin à l'optimisation continue de vos performances.</p>
+                            <p className="text-slate-500">De l'expression du besoin    l'optimisation continue de vos performances.</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-5 gap-8 relative">
                             {/* Connecting Line (Desktop) */}
@@ -87,7 +87,7 @@ export default function SystemInfoPage() {
                                 <div className="size-20 rounded-full bg-white dark:bg-slate-900 border-4 border-primary flex items-center justify-center text-primary shadow-lg mb-6 group-hover:scale-110 transition-transform">
                                     <span className="material-symbols-outlined text-3xl">hub</span>
                                 </div>
-                                <span className="text-xs font-bold text-primary uppercase tracking-widest mb-1">Étape 01</span>
+                                <span className="text-xs font-bold text-primary uppercase tracking-widest mb-1">  tape 01</span>
                                 <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">Capture</h3>
                                 <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Identification de vos besoins en ressources (GPU, CPU, Stockage).</p>
                             </div>
@@ -97,7 +97,7 @@ export default function SystemInfoPage() {
                                 <div className="size-20 rounded-full bg-white dark:bg-slate-900 border-4 border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-400 group-hover:border-primary group-hover:text-primary shadow-sm mb-6 group-hover:scale-110 transition-all">
                                     <span className="material-symbols-outlined text-3xl">psychology</span>
                                 </div>
-                                <span className="text-xs font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest mb-1 group-hover:text-primary">Étape 02</span>
+                                <span className="text-xs font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest mb-1 group-hover:text-primary">  tape 02</span>
                                 <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">Audit IA</h3>
                                 <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Analyse algorithmique pour optimiser la configuration de votre instance.</p>
                             </div>
@@ -107,9 +107,9 @@ export default function SystemInfoPage() {
                                 <div className="size-20 rounded-full bg-white dark:bg-slate-900 border-4 border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-400 group-hover:border-primary group-hover:text-primary shadow-sm mb-6 group-hover:scale-110 transition-all">
                                     <span className="material-symbols-outlined text-3xl">rocket_launch</span>
                                 </div>
-                                <span className="text-xs font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest mb-1 group-hover:text-primary">Étape 03</span>
-                                <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">Déploiement</h3>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Provisioning instantané de votre environnement Cloud sécurisé.</p>
+                                <span className="text-xs font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest mb-1 group-hover:text-primary">  tape 03</span>
+                                <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">D  ploiement</h3>
+                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Provisioning instantan   de votre environnement Cloud s  curis  .</p>
                             </div>
 
                             {/* Step 4 */}
@@ -117,9 +117,9 @@ export default function SystemInfoPage() {
                                 <div className="size-20 rounded-full bg-white dark:bg-slate-900 border-4 border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-400 group-hover:border-primary group-hover:text-primary shadow-sm mb-6 group-hover:scale-110 transition-all">
                                     <span className="material-symbols-outlined text-3xl">radar</span>
                                 </div>
-                                <span className="text-xs font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest mb-1 group-hover:text-primary">Étape 04</span>
+                                <span className="text-xs font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest mb-1 group-hover:text-primary">  tape 04</span>
                                 <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">Monitoring</h3>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Surveillance 24/7 de la performance et détection proactive des menaces.</p>
+                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Surveillance 24/7 de la performance et d  tection proactive des menaces.</p>
                             </div>
 
                             {/* Step 5 */}
@@ -127,7 +127,7 @@ export default function SystemInfoPage() {
                                 <div className="size-20 rounded-full bg-white dark:bg-slate-900 border-4 border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-400 group-hover:border-primary group-hover:text-primary shadow-sm mb-6 group-hover:scale-110 transition-all">
                                     <span className="material-symbols-outlined text-3xl">trending_up</span>
                                 </div>
-                                <span className="text-xs font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest mb-1 group-hover:text-primary">Étape 05</span>
+                                <span className="text-xs font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest mb-1 group-hover:text-primary">  tape 05</span>
                                 <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">Optimisation</h3>
                                 <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Ajustement continu pour garantir un ROI maximal de votre infrastructure.</p>
                             </div>
@@ -139,7 +139,7 @@ export default function SystemInfoPage() {
                         <div className="flex items-center justify-between mb-10">
                             <div>
                                 <h2 className="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">Expertise Technique</h2>
-                                <p className="text-slate-500">Domaines d'intervention spécialisés de CloudIndustrie.</p>
+                                <p className="text-slate-500">Domaines d'intervention sp  cialis  s de CloudIndustrie.</p>
                             </div>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -149,7 +149,7 @@ export default function SystemInfoPage() {
                                     <span className="material-symbols-outlined">memory</span>
                                 </div>
                                 <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">IA & Computing</h3>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Optimisation de clusters GPU NVIDIA A100 et déploiement de modèles LLM.</p>
+                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Optimisation de clusters GPU NVIDIA A100 et d  ploiement de mod  les LLM.</p>
                             </div>
                             {/* Cybersecurity */}
                             <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:shadow-lg transition-all cursor-default group">
@@ -157,7 +157,7 @@ export default function SystemInfoPage() {
                                     <span className="material-symbols-outlined">security</span>
                                 </div>
                                 <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">Cyber-blindage</h3>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Protection ESET Enterprise, isolation CloudLinux et audits de vulnérabilité.</p>
+                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Protection ESET Enterprise, isolation CloudLinux et audits de vuln  rabilit  .</p>
                             </div>
                             {/* Cloud Architecture */}
                             <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:shadow-lg transition-all cursor-default group">
@@ -165,15 +165,15 @@ export default function SystemInfoPage() {
                                     <span className="material-symbols-outlined">cloud_sync</span>
                                 </div>
                                 <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">Cloud Architecture</h3>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Design de réseaux hybrides, CDN LiteSpeed et orchestration de conteneurs.</p>
+                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Design de r  seaux hybrides, CDN LiteSpeed et orchestration de conteneurs.</p>
                             </div>
                             {/* Managed Services */}
                             <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:shadow-lg transition-all cursor-default group">
                                 <div className="size-12 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-600 flex items-center justify-center mb-5 group-hover:bg-primary group-hover:text-white transition-colors">
                                     <span className="material-symbols-outlined">support_agent</span>
                                 </div>
-                                <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">Support Managé</h3>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Infogérance 24/7 proactive par nos ingénieurs experts en infrastructure.</p>
+                                <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">Support Manag  </h3>
+                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Infog  rance 24/7 proactive par nos ing  nieurs experts en infrastructure.</p>
                             </div>
                         </div>
                     </section>
@@ -181,8 +181,8 @@ export default function SystemInfoPage() {
                     {/* Dashboard Statistics Brief */}
                     <section className="mb-10 p-8 rounded-xl bg-primary text-white flex flex-col md:flex-row items-center justify-between gap-8">
                         <div className="flex-1">
-                            <h2 className="text-2xl font-bold mb-2">Performance en Temps Réel</h2>
-                            <p className="text-white/80 leading-relaxed">Nos systèmes gèrent actuellement des milliers d'instances avec un taux de disponibilité de 99.99%.</p>
+                            <h2 className="text-2xl font-bold mb-2">Performance en Temps R  el</h2>
+                            <p className="text-white/80 leading-relaxed">Nos syst  mes g  rent actuellement des milliers d'instances avec un taux de disponibilit   de 99.99%.</p>
                         </div>
                         <div className="flex gap-4">
                             <div className="text-center px-6 border-r border-white/20">
@@ -209,7 +209,7 @@ export default function SystemInfoPage() {
                                 <h2 className="text-slate-900 dark:text-white text-xl font-bold tracking-tight">CloudIndustrie Portal</h2>
                             </div>
                             <p className="text-slate-500 dark:text-slate-400 max-w-sm mb-6">
-                                Bâtir un monde plus rapide et plus sécurisé grâce aux technologies d'infrastructure de pointe.
+                                B  tir un monde plus rapide et plus s  curis   gr  ce aux technologies d'infrastructure de pointe.
                             </p>
                             <div className="flex gap-4">
                                 <a className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-primary transition-colors" href="#">
@@ -240,7 +240,7 @@ export default function SystemInfoPage() {
                         </div>
                     </div>
                     <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p className="text-slate-400 text-xs">© {new Date().getFullYear()} Cloudindustrie Ltd. Toutes les données opérationnelles sont sécurisées.</p>
+                        <p className="text-slate-400 text-xs">   {new Date().getFullYear()} Cloudindustrie Ltd. Toutes les donn  es op  rationnelles sont s  curis  es.</p>
                         <div className="flex gap-6">
                             <Link className="text-slate-400 text-xs hover:text-primary transition-colors" href="#">Privacy Policy</Link>
                             <Link className="text-slate-400 text-xs hover:text-primary transition-colors" href="#">Terms of Service</Link>

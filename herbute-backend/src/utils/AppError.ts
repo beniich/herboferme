@@ -1,4 +1,4 @@
-﻿/**
+/**
  * AppError.ts
  * Custom error class hierarchy for structured, predictable error handling.
  * All operational errors extend AppError so the error handler can distinguish
@@ -8,7 +8,7 @@
 export class AppError extends Error {
   public readonly statusCode: number;
   public readonly code: string;
-  /** isOperational = true â†’ safe to expose to client. false â†’ 500 internal */
+  /** isOperational = true          safe to expose to client. false          500 internal */
   public readonly isOperational: boolean;
 
   constructor(message: string, statusCode: number, code: string, isOperational = true) {
@@ -21,7 +21,7 @@ export class AppError extends Error {
   }
 }
 
-/* â”€â”€ Auth Errors (401) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*                  Auth Errors (401)                                                                                                                                                                                                                                                          */
 export class AuthAppError extends AppError {
   constructor(message = 'Authentication required', code = 'AUTH_REQUIRED') {
     super(message, 401, code);
@@ -49,13 +49,13 @@ export class RefreshTokenError extends AuthAppError {
 export class RefreshTokenReuseError extends AuthAppError {
   constructor() {
     super(
-      'Refresh token reuse detected â€” all sessions have been invalidated for security.',
+      'Refresh token reuse detected          all sessions have been invalidated for security.',
       'AUTH_REFRESH_REUSE'
     );
   }
 }
 
-/* â”€â”€ Authorization Errors (403) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*                  Authorization Errors (403)                                                                                                                                                                                  */
 export class ForbiddenAppError extends AppError {
   constructor(message = 'You do not have permission to perform this action', code = 'FORBIDDEN') {
     super(message, 403, code);
@@ -76,7 +76,7 @@ export class UserLimitError extends ForbiddenAppError {
   }
 }
 
-/* â”€â”€ Validation Errors (400) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*                  Validation Errors (400)                                                                                                                                                                                                          */
 export class ValidationAppError extends AppError {
   public readonly fields?: Record<string, string>;
 
@@ -86,21 +86,21 @@ export class ValidationAppError extends AppError {
   }
 }
 
-/* â”€â”€ Not Found Errors (404) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*                  Not Found Errors (404)                                                                                                                                                                                                                  */
 export class NotFoundAppError extends AppError {
   constructor(resource = 'Resource') {
     super(`${resource} not found`, 404, 'NOT_FOUND');
   }
 }
 
-/* â”€â”€ API Key Errors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*                  API Key Errors                                                                                                                                                                                                                                                                                          */
 export class ApiKeyError extends AppError {
   constructor(message = 'Invalid or missing API key') {
     super(message, 401, 'API_KEY_INVALID');
   }
 }
 
-/* â”€â”€ SSH Errors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*                  SSH Errors                                                                                                                                                                                                                                                                                                                          */
 export class SshAppError extends AppError {
   constructor(message = 'SSH operation failed') {
     // isOperational=true but never expose SSH details in message
@@ -108,9 +108,9 @@ export class SshAppError extends AppError {
   }
 }
 
-/* â”€â”€ Rate Limit (429) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*                  Rate Limit (429)                                                                                                                                                                                                                                                                          */
 export class RateLimitError extends AppError {
-  constructor(message = 'Too many requests â€” please try again later') {
+  constructor(message = 'Too many requests          please try again later') {
     super(message, 429, 'RATE_LIMIT_EXCEEDED');
   }
 }

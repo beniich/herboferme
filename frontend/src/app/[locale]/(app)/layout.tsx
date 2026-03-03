@@ -3,9 +3,9 @@
 import { useAuth } from '@/providers/AuthProvider';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import AgroLayout from '@/components/layout/AgroLayout';
+import Header from '@/components/Header';
+import { Footer } from '@/components/layout/Footer';
 import useNotifications from '@/hooks/useNotifications';
-import { useOrgStore } from '@/store/orgStore';
 
 export default function AppLayout({
     children,
@@ -13,19 +13,12 @@ export default function AppLayout({
     children: React.ReactNode;
 }) {
     const { user, isLoading } = useAuth();
-    const { fetchOrganizations } = useOrgStore();
     const router = useRouter();
     useNotifications();
 
     useEffect(() => {
-        if (!isLoading && user) {
-            fetchOrganizations();
-        }
-    }, [user, isLoading, fetchOrganizations]);
-
-    useEffect(() => {
         if (!isLoading && !user) {
-            console.log('[AppLayout] Redirecting to login — Session missing');
+            console.log('[AppLayout] Redirecting to login     Session missing');
             router.push('/login');
         }
     }, [user, isLoading, router]);
@@ -44,8 +37,12 @@ export default function AppLayout({
     if (!user) return null;
 
     return (
-        <AgroLayout>
-            {children}
-        </AgroLayout>
+        <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-950">
+            <Header />
+            <main className="flex-1 container mx-auto px-4 py-8">
+                {children}
+            </main>
+            <Footer />
+        </div>
     );
 }

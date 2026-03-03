@@ -3,7 +3,7 @@
 import Link from 'next/link';
 
 export default function TeamDetailsPage() {
-    // Dans une vraie application, on utiliserait params.id pour fetcher les données
+    // Dans une vraie application, on utiliserait params.id pour fetcher les donn  es
 
     return (
         <div className="flex flex-col max-w-[1200px] mx-auto gap-8 p-6 lg:px-40 py-8">
@@ -19,7 +19,7 @@ export default function TeamDetailsPage() {
                         <h1 className="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Team Alpha-01</h1>
                         <span className="px-3 py-1 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 text-xs font-bold rounded-full uppercase tracking-wider">Active</span>
                     </div>
-                    <p className="text-slate-500 dark:text-slate-400 text-lg">Lead: Sarah Jenkins • ID: TECH-7729 • Field Operations</p>
+                    <p className="text-slate-500 dark:text-slate-400 text-lg">Lead: Sarah Jenkins     ID: TECH-7729     Field Operations</p>
                 </div>
                 <div className="flex gap-3">
                     <button className="flex items-center gap-2 px-4 h-11 bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg font-bold text-sm hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
@@ -90,7 +90,7 @@ export default function TeamDetailsPage() {
                                 </div>
                                 <div className="flex-1">
                                     <p className="text-slate-900 dark:text-white font-bold text-sm">Sarah Jenkins</p>
-                                    <p className="text-slate-500 dark:text-slate-400 text-xs">Team Lead • Specialized</p>
+                                    <p className="text-slate-500 dark:text-slate-400 text-xs">Team Lead     Specialized</p>
                                 </div>
                                 <button className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-primary transition-all">
                                     <span className="material-symbols-outlined text-xl">chat</span>

@@ -50,15 +50,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (data: { email: string; password: string }) => {
     const response = await authApi.login(data);
-    // Après le login, le cookie est posé par le backend
-    // On récupère les données user depuis la réponse ou on appelle /me
+    // Apr  s le login, le cookie est pos   par le backend
+    // On r  cup  re les donn  es user depuis la r  ponse ou on appelle /me
     const userObj = response?.user ?? null;
     if (userObj) {
       setUser(userObj);
       setLoading(false);
       router.push('/dashboard');
     } else {
-      // Fallback : on vérifie la session
+      // Fallback : on v  rifie la session
       await checkSession();
       router.push('/dashboard');
     }

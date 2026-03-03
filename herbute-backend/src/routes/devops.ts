@@ -1,4 +1,4 @@
-﻿import express, { Response } from 'express';
+import express, { Response } from 'express';
 import { authenticate as auth } from '../middleware/security.js';
 import { requireOrganization, requireRole } from '../middleware/security.js';
 import { healthService } from '../services/healthService.js';

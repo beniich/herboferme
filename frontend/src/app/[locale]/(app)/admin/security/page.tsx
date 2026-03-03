@@ -207,7 +207,7 @@ export default function SecurityCenterPage() {
                   All passwords are securely hashed with bcrypt (salt rounds: 10)
                 </p>
                 <p className="text-sm text-green-700 mt-2">
-                  ✓ OWASP compliance | ✓ GDPR compliant | ✓ SOC 2 compliant
+                      OWASP compliance |     GDPR compliant |     SOC 2 compliant
                 </p>
               </div>
             </CardContent>
@@ -273,7 +273,7 @@ export default function SecurityCenterPage() {
                     <div>
                       <p className="font-medium">{gpo.name}</p>
                       <p className="text-sm text-gray-500">
-                        {gpo.users} users • Last updated: {gpo.lastUpdate}
+                        {gpo.users} users     Last updated: {gpo.lastUpdate}
                       </p>
                     </div>
                     <span className={`px-3 py-1 rounded-full text-xs ${

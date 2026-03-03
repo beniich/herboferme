@@ -54,7 +54,7 @@ export function Sidebar() {
             )}>
                 {/* Logo */}
                 <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center text-white flex-shrink-0">
-                    <span className="text-xl font-bold">▪</span>
+                    <span className="text-xl font-bold">   </span>
                 </div>
 
                 {/* Navigation */}

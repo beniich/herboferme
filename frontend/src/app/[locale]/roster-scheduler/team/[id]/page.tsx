@@ -8,7 +8,7 @@ export default function TeamCapacityPage() {
     const params = useParams();
     const teamId = params.id;
 
-    // Données mockées (seraient idéalement fetchées via API ou contexte)
+    // Donn  es mock  es (seraient id  alement fetch  es via API ou contexte)
     const teamMembers = [
         {
             name: 'Alex Henderson',
@@ -16,8 +16,8 @@ export default function TeamCapacityPage() {
             fatigue: 22,
             img: 'https://i.pravatar.cc/150?u=alex',
             shifts: [
-                { title: 'Main Valve Repair #122', detail: '08:30 - 11:30 • Sector A', left: 10, width: 240, color: 'blue' },
-                { title: 'Safety Inspection Cycle', detail: '13:00 - 17:00 • District 4', left: 400, width: 320, color: 'emerald' }
+                { title: 'Main Valve Repair #122', detail: '08:30 - 11:30     Sector A', left: 10, width: 240, color: 'blue' },
+                { title: 'Safety Inspection Cycle', detail: '13:00 - 17:00     District 4', left: 400, width: 320, color: 'emerald' }
             ]
         },
         {
@@ -26,8 +26,8 @@ export default function TeamCapacityPage() {
             fatigue: 68,
             img: 'https://i.pravatar.cc/150?u=sarah',
             shifts: [
-                { title: 'Main Valve Repair #122', detail: '08:30 - 11:30 • Sector A', left: 10, width: 240, color: 'blue' },
-                { title: 'Documentation', detail: '13:00 - 15:00 • Base', left: 400, width: 160, color: 'slate' }
+                { title: 'Main Valve Repair #122', detail: '08:30 - 11:30     Sector A', left: 10, width: 240, color: 'blue' },
+                { title: 'Documentation', detail: '13:00 - 15:00     Base', left: 400, width: 160, color: 'slate' }
             ]
         },
         {
@@ -36,7 +36,7 @@ export default function TeamCapacityPage() {
             fatigue: 14,
             img: 'https://i.pravatar.cc/150?u=marcus',
             shifts: [
-                { title: 'Hydrant Flush Program', detail: '12:00 - 17:00 • Sector 4B', left: 320, width: 400, color: 'emerald' }
+                { title: 'Hydrant Flush Program', detail: '12:00 - 17:00     Sector 4B', left: 320, width: 400, color: 'emerald' }
             ]
         },
         {
@@ -45,7 +45,7 @@ export default function TeamCapacityPage() {
             fatigue: 89,
             img: null,
             shifts: [
-                { title: 'Emergency: Burst Pipe', detail: '08:30 - 11:30 • Overtime', left: 10, width: 240, color: 'red' }
+                { title: 'Emergency: Burst Pipe', detail: '08:30 - 11:30     Overtime', left: 10, width: 240, color: 'red' }
             ]
         }
     ];
@@ -69,7 +69,7 @@ export default function TeamCapacityPage() {
                         <h1 className="text-lg font-bold text-white flex items-center gap-2">
                             Water Maintenance <span className="text-slate-500 font-normal">/ Team {teamId}</span>
                         </h1>
-                        <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Shift 08:00 - 18:00 • Sector 4B</p>
+                        <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Shift 08:00 - 18:00     Sector 4B</p>
                     </div>
                 </div>
 
@@ -271,7 +271,7 @@ export default function TeamCapacityPage() {
                         </span>
                     ))}
                 </div>
-                <div>VERSION 4.2.1-BETA • SYSTEM UPTIME 99.9%</div>
+                <div>VERSION 4.2.1-BETA     SYSTEM UPTIME 99.9%</div>
             </footer>
         </div>
     );

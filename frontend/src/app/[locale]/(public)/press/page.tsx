@@ -13,7 +13,7 @@ export default function PressPage() {
         { name: 'UI Visualization Kit', desc: 'Dashboard and mobile mockups', icon: 'screenshot_monitor', size: '12.2 MB' },
         { name: 'Enterprise Media Pack', desc: 'Complete ZIP archive', icon: 'folder_zip', size: '45 MB' },
         { name: 'Executive Biographies', desc: 'Leadership profiles & photos', icon: 'badge', size: '3.1 MB' },
-        { name: 'Platform Reel (60s)', desc: '4K ProRes — Global subtitles', icon: 'videocam', size: '280 MB' },
+        { name: 'Platform Reel (60s)', desc: '4K ProRes     Global subtitles', icon: 'videocam', size: '280 MB' },
     ];
 
     return (
@@ -147,7 +147,7 @@ export default function PressPage() {
 
             <footer className="bg-slate-100 dark:bg-black/40 py-16 border-t border-primary/10 mt-auto">
                 <div className="max-w-7xl mx-auto px-6 text-center">
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em]">© {new Date().getFullYear()} ReclamTrack Pro. Information Secured.</p>
+                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em]">   {new Date().getFullYear()} ReclamTrack Pro. Information Secured.</p>
                 </div>
             </footer>
         </div>

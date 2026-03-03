@@ -1,4 +1,4 @@
-﻿import { Router, Request, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import { authenticate as auth } from '../middleware/security.js';
 import { logger } from '../utils/logger.js';
 import { Message } from '../models/Message.js';
@@ -16,7 +16,7 @@ router.get('/', auth, async (req: any, res: Response) => {
                 { recipientId: userId },
                 { senderId: userId },
                 { groupId: 'general' }
-                // TODO: Ajouter logique pour les groupes d'équipe (ex: team-1) si stocké dans User
+                // TODO: Ajouter logique pour les groupes d'  quipe (ex: team-1) si stock   dans User
             ]
         };
 
@@ -38,7 +38,7 @@ router.get('/', auth, async (req: any, res: Response) => {
             unreadCount
         });
     } catch (error) {
-        logger.error('Erreur récupération messages:', error);
+        logger.error('Erreur r  cup  ration messages:', error);
         res.status(500).json({ success: false, message: 'Erreur serveur' });
     }
 });

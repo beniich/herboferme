@@ -1,7 +1,7 @@
-﻿/**
+/**
  * services/apiKeyService.ts
  * API key lifecycle management.
- * Raw keys are NEVER stored â€” only SHA-256 HMAC hashes.
+ * Raw keys are NEVER stored          only SHA-256 HMAC hashes.
  * The raw key is returned ONCE at generation and never again.
  */
 import crypto from 'crypto';
@@ -20,7 +20,7 @@ interface GenerateApiKeyOptions {
 }
 
 interface GenerateApiKeyResult {
-  rawKey: string;   // Shown ONCE â€” caller must display to user
+  rawKey: string;   // Shown ONCE          caller must display to user
   apiKey: IApiKey;
 }
 
@@ -32,14 +32,14 @@ function hashApiKey(raw: string): string {
 }
 
 function generateRawKey(): string {
-  // Format: rt_<48-byte-hex> â€” recognizable prefix for secret scanning
+  // Format: rt_<48-byte-hex>          recognizable prefix for secret scanning
   return `rt_${crypto.randomBytes(32).toString('hex')}`;
 }
 
 export const apiKeyService = {
   /**
    * Generate a new API key.
-   * Returns the raw key ONCE â€” store securely on client side.
+   * Returns the raw key ONCE          store securely on client side.
    */
   async generateApiKey(opts: GenerateApiKeyOptions): Promise<GenerateApiKeyResult> {
     const rawKey = generateRawKey();
@@ -93,7 +93,7 @@ export const apiKeyService = {
   },
 
   /**
-   * Rotate an API key â€” revoke old, issue new.
+   * Rotate an API key          revoke old, issue new.
    * Returns the new raw key (shown ONCE).
    */
   async rotateApiKey(keyId: string, requestingUserId: string): Promise<GenerateApiKeyResult> {

@@ -57,7 +57,7 @@ export default function PiiGovernanceDashboard() {
                             <h2 className="text-4xl font-black text-slate-900 dark:text-white">1,248</h2>
                             <div className="flex items-center gap-2 mt-4 text-xs font-medium text-slate-500">
                                 <span className="flex items-center gap-1 text-emerald-500"><CheckCircle2 className="size-3" /> 98% Masked</span>
-                                <span>•</span>
+                                <span>   </span>
                                 <span>Last scan: 2h ago</span>
                             </div>
                         </div>
@@ -70,7 +70,7 @@ export default function PiiGovernanceDashboard() {
                             <h2 className="text-4xl font-black text-rose-600 dark:text-rose-500">24</h2>
                             <div className="flex items-center gap-2 mt-4 text-xs font-medium text-slate-500">
                                 <span className="flex items-center gap-1 text-rose-500"><AlertTriangle className="size-3" /> Action Required</span>
-                                <span>•</span>
+                                <span>   </span>
                                 <span>logs_archive_v1</span>
                             </div>
                         </div>

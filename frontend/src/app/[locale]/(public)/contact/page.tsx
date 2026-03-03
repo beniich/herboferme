@@ -176,7 +176,7 @@ export default function ContactPage() {
 
             <footer className="bg-slate-100 dark:bg-black/40 py-16 border-t border-primary/10 mt-auto">
                 <div className="max-w-7xl mx-auto px-6 text-center">
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em] mb-4">© {new Date().getFullYear()} ReclamTrack Pro. Communication secured with end-to-end encryption.</p>
+                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em] mb-4">   {new Date().getFullYear()} ReclamTrack Pro. Communication secured with end-to-end encryption.</p>
                 </div>
             </footer>
         </div>

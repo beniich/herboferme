@@ -135,7 +135,7 @@ export default function InventoryPage() {
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
                     <div>
                         <h2 className="text-3xl font-black tracking-tight">Gestion des Stocks</h2>
-                        <p className="text-slate-500 mt-1">Surveillez et gérez les pièces détachées et consommables.</p>
+                        <p className="text-slate-500 mt-1">Surveillez et g  rez les pi  ces d  tach  es et consommables.</p>
                     </div>
                 </div>
 
@@ -162,7 +162,7 @@ export default function InventoryPage() {
                                 onChange={(e) => setSelectedCategory(e.target.value)}
                                 className="bg-transparent border-none text-sm focus:ring-0 cursor-pointer text-slate-700 dark:text-slate-300 font-medium"
                             >
-                                <option value="All">Toutes Catégories</option>
+                                <option value="All">Toutes Cat  gories</option>
                                 {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
                             </select>
                             <select
@@ -183,7 +183,7 @@ export default function InventoryPage() {
                             <thead>
                                 <tr className="bg-slate-50 dark:bg-slate-900/50 text-slate-500 text-xs font-bold uppercase tracking-wider">
                                     <th className="px-6 py-4">Article / SKU</th>
-                                    <th className="px-6 py-4">Catégorie</th>
+                                    <th className="px-6 py-4">Cat  gorie</th>
                                     <th className="px-6 py-4">Stock Actuel</th>
                                     <th className="px-6 py-4">Point Commande</th>
                                     <th className="px-6 py-4">Statut</th>
@@ -201,15 +201,15 @@ export default function InventoryPage() {
                                         <td className="px-6 py-4">
                                             <span className="px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded text-xs font-medium">{item.category}</span>
                                         </td>
-                                        <td className="px-6 py-4 font-bold">{item.currentStock} unités</td>
-                                        <td className="px-6 py-4 text-slate-500">{item.reorderPoint} unités</td>
+                                        <td className="px-6 py-4 font-bold">{item.currentStock} unit  s</td>
+                                        <td className="px-6 py-4 text-slate-500">{item.reorderPoint} unit  s</td>
                                         <td className="px-6 py-4">{getStatusBadge(item.status)}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                         {filteredInventory.length === 0 && (
-                            <div className="p-10 text-center text-slate-500 italic">Aucun article trouvé</div>
+                            <div className="p-10 text-center text-slate-500 italic">Aucun article trouv  </div>
                         )}
                     </div>
                 </div>

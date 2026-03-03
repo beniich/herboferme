@@ -29,7 +29,7 @@ export class DataExporter {
     static exportToExcel<T extends Record<string, any>>(
         data: T[],
         columns: TableColumn[],
-        options: ExportOptions = {}
+        options: ExportOptions = { /* Intentionally empty */ }
     ): void {
         const {
             filename = 'export',
@@ -37,9 +37,9 @@ export class DataExporter {
             includeTimestamp = true,
         } = options;
 
-        // Préparer les données
+        // Pr  parer les donn  es
         const formattedData = data.map((row) => {
-            const formattedRow: Record<string, any> = {};
+            const formattedRow: Record<string, any> = { /* Intentionally empty */ };
             columns.forEach((col) => {
                 const value = row[col.key];
                 formattedRow[col.header] = col.format ? col.format(value) : value;
@@ -47,7 +47,7 @@ export class DataExporter {
             return formattedRow;
         });
 
-        // Créer le workbook
+        // Cr  er le workbook
         const worksheet = XLSX.utils.json_to_sheet(formattedData);
         const workbook = XLSX.utils.book_new();
 
@@ -60,7 +60,7 @@ export class DataExporter {
         // Ajouter la feuille
         XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
 
-        // Générer et télécharger le fichier
+        // G  n  rer et t  l  charger le fichier
         const timestamp = includeTimestamp
             ? `_${format(new Date(), 'yyyyMMdd_HHmmss')}`
             : '';
@@ -73,7 +73,7 @@ export class DataExporter {
     static exportToCSV<T extends Record<string, any>>(
         data: T[],
         columns: TableColumn[],
-        options: ExportOptions = {}
+        options: ExportOptions = { /* Intentionally empty */ }
     ): void {
         const { filename = 'export', includeTimestamp = true } = options;
 
@@ -119,16 +119,16 @@ export class DataExporter {
     static exportToPDF<T extends Record<string, any>>(
         data: T[],
         columns: TableColumn[],
-        options: ExportOptions = {}
+        options: ExportOptions = { /* Intentionally empty */ }
     ): void {
         const {
             filename = 'export',
-            title = 'Export de données',
+            title = 'Export de donn  es',
             orientation = 'landscape',
             includeTimestamp = true,
         } = options;
 
-        // Créer le document PDF
+        // Cr  er le document PDF
         // eslint-disable-next-line new-cap
         const doc = new jsPDF({
             orientation,
@@ -145,12 +145,12 @@ export class DataExporter {
         doc.setFontSize(10);
         doc.setFont('helvetica', 'normal');
         doc.text(
-            `Généré le ${format(new Date(), 'dd MMMM yyyy à HH:mm', { locale: fr })}`,
+            `G  n  r   le ${format(new Date(), 'dd MMMM yyyy    HH:mm', { locale: fr })}`,
             14,
             28
         );
 
-        // Préparer les données pour le tableau
+        // Pr  parer les donn  es pour le tableau
         const tableData = data.map((row) =>
             columns.map((col) => {
                 const value = row[col.key];
@@ -158,7 +158,7 @@ export class DataExporter {
             })
         );
 
-        // Générer le tableau
+        // G  n  rer le tableau
         autoTable(doc, {
             head: [columns.map((col) => col.header)],
             body: tableData,
@@ -191,7 +191,7 @@ export class DataExporter {
             );
         }
 
-        // Télécharger
+        // T  l  charger
         const timestamp = includeTimestamp
             ? `_${format(new Date(), 'yyyyMMdd_HHmmss')}`
             : '';
@@ -199,13 +199,13 @@ export class DataExporter {
     }
 
     /**
-     * Export générique - détecte le format automatiquement
+     * Export g  n  rique - d  tecte le format automatiquement
      */
     static export<T extends Record<string, any>>(
         format: ExportFormat,
         data: T[],
         columns: TableColumn[],
-        options: ExportOptions = {}
+        options: ExportOptions = { /* Intentionally empty */ }
     ): void {
         switch (format) {
             case 'excel':
@@ -215,7 +215,7 @@ export class DataExporter {
             case 'pdf':
                 return this.exportToPDF(data, columns, options);
             default:
-                throw new Error(`Format non supporté: ${format}`);
+                throw new Error(`Format non support  : ${format}`);
         }
     }
 }

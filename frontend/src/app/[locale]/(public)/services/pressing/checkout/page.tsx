@@ -8,15 +8,15 @@ type Plan = 'starter' | 'pro' | 'enterprise';
 
 const planDetails: Record<Plan, { label: string; price: number | null; period: string }> = {
     starter: { label: 'Starter', price: 299, period: '/mois' },
-    pro: { label: 'Pro ⭐', price: 599, period: '/mois' },
+    pro: { label: 'Pro    ', price: 599, period: '/mois' },
     enterprise: { label: 'Enterprise', price: null, period: '' },
 };
 
 const addons = [
     { id: 'sms', label: 'Notifications SMS', desc: 'Alertes SMS pour agents et citoyens', price: 49 },
-    { id: 'map', label: 'Carte interactive Premium', desc: 'Cartographie avancée + clusters', price: 79 },
-    { id: 'api', label: 'Accès API complet', desc: 'Endpoints REST + webhooks', price: 99 },
-    { id: 'onboarding', label: 'Onboarding accompagné', desc: 'Formation en visio de 2h', price: 149 },
+    { id: 'map', label: 'Carte interactive Premium', desc: 'Cartographie avanc  e + clusters', price: 79 },
+    { id: 'api', label: 'Acc  s API complet', desc: 'Endpoints REST + webhooks', price: 99 },
+    { id: 'onboarding', label: 'Onboarding accompagn  ', desc: 'Formation en visio de 2h', price: 149 },
 ];
 
 const steps = [
@@ -54,12 +54,12 @@ export default function PressingCheckoutPage() {
 
     const OrderSummary = () => (
         <div className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 sticky top-24">
-            <h3 className="font-black text-slate-900 dark:text-white mb-5">Récapitulatif</h3>
+            <h3 className="font-black text-slate-900 dark:text-white mb-5">R  capitulatif</h3>
             <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-sm">
                     <span className="text-slate-600 dark:text-slate-400">Plan {planDetails[selectedPlan].label}</span>
                     <span className="font-bold text-slate-900 dark:text-white">
-                        {planDetails[selectedPlan].price !== null ? `${planDetails[selectedPlan].price}€/mois` : 'Sur devis'}
+                        {planDetails[selectedPlan].price !== null ? `${planDetails[selectedPlan].price}   /mois` : 'Sur devis'}
                     </span>
                 </div>
                 {selectedAddons.map(id => {
@@ -67,20 +67,20 @@ export default function PressingCheckoutPage() {
                     return a ? (
                         <div key={id} className="flex justify-between text-sm">
                             <span className="text-slate-600 dark:text-slate-400">{a.label}</span>
-                            <span className="font-bold text-slate-900 dark:text-white">+{a.price}€/mois</span>
+                            <span className="font-bold text-slate-900 dark:text-white">+{a.price}   /mois</span>
                         </div>
                     ) : null;
                 })}
             </div>
             <div className="border-t border-slate-200 dark:border-slate-700 pt-4 flex justify-between">
                 <span className="font-black text-slate-900 dark:text-white">Total</span>
-                <span className="font-black text-primary text-xl">{totalPrice}€<span className="text-sm font-bold text-slate-400">/mois</span></span>
+                <span className="font-black text-primary text-xl">{totalPrice}   <span className="text-sm font-bold text-slate-400">/mois</span></span>
             </div>
             <div className="mt-4 space-y-2 text-xs text-slate-500 dark:text-slate-400">
-                <div className="flex gap-2"><span className="text-emerald-500">✓</span>14 jours d&apos;essai gratuit</div>
-                <div className="flex gap-2"><span className="text-emerald-500">✓</span>Annulation à tout moment</div>
-                <div className="flex gap-2"><span className="text-emerald-500">✓</span>Déploiement en 48h</div>
-                <div className="flex gap-2"><span className="text-emerald-500">✓</span>Support inclus</div>
+                <div className="flex gap-2"><span className="text-emerald-500">   </span>14 jours d&apos;essai gratuit</div>
+                <div className="flex gap-2"><span className="text-emerald-500">   </span>Annulation    tout moment</div>
+                <div className="flex gap-2"><span className="text-emerald-500">   </span>D  ploiement en 48h</div>
+                <div className="flex gap-2"><span className="text-emerald-500">   </span>Support inclus</div>
             </div>
         </div>
     );
@@ -98,7 +98,7 @@ export default function PressingCheckoutPage() {
                     </Link>
                     <div className="flex items-center gap-2 text-xs text-slate-400">
                         <span className="material-symbols-outlined text-emerald-500 text-sm notranslate">lock</span>
-                        Paiement 100% sécurisé
+                        Paiement 100% s  curis
                     </div>
                 </div>
             </header>
@@ -146,18 +146,18 @@ export default function PressingCheckoutPage() {
                                                 </div>
                                                 <div>
                                                     <p className="font-black text-slate-900 dark:text-white">{planDetails[plan].label}</p>
-                                                    <p className="text-sm text-slate-500 dark:text-slate-400">{['Pour petites communes', 'Le plus populaire', 'Grandes collectivités'][Object.keys(planDetails).indexOf(plan)]}</p>
+                                                    <p className="text-sm text-slate-500 dark:text-slate-400">{['Pour petites communes', 'Le plus populaire', 'Grandes collectivit  s'][Object.keys(planDetails).indexOf(plan)]}</p>
                                                 </div>
                                             </div>
                                             <span className="font-black text-primary text-lg">
-                                                {planDetails[plan].price !== null ? `${planDetails[plan].price}€/mois` : 'Sur devis'}
+                                                {planDetails[plan].price !== null ? `${planDetails[plan].price}   /mois` : 'Sur devis'}
                                             </span>
                                         </button>
                                     ))}
                                 </div>
 
                                 {/* Add-ons */}
-                                <h3 className="text-lg font-black text-slate-900 dark:text-white mb-5">Options complémentaires</h3>
+                                <h3 className="text-lg font-black text-slate-900 dark:text-white mb-5">Options compl  mentaires</h3>
                                 <div className="grid md:grid-cols-2 gap-3 mb-8">
                                     {addons.map(addon => (
                                         <button
@@ -171,14 +171,14 @@ export default function PressingCheckoutPage() {
                                             <div className="flex-1">
                                                 <p className="font-bold text-slate-900 dark:text-white text-sm">{addon.label}</p>
                                                 <p className="text-xs text-slate-500 dark:text-slate-400">{addon.desc}</p>
-                                                <p className="text-primary font-black text-sm mt-1">+{addon.price}€/mois</p>
+                                                <p className="text-primary font-black text-sm mt-1">+{addon.price}   /mois</p>
                                             </div>
                                         </button>
                                     ))}
                                 </div>
 
                                 <button onClick={() => setStep(2)} className="w-full bg-primary text-white py-4 rounded-2xl font-black text-lg hover:bg-blue-700 transition-all shadow-xl shadow-primary/20">
-                                    Continuer — Infos organisation →
+                                    Continuer     Infos organisation
                                 </button>
                             </div>
                         )}
@@ -190,8 +190,8 @@ export default function PressingCheckoutPage() {
                                 <div className="space-y-5">
                                     <div className="grid md:grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Prénom *</label>
-                                            <input required value={org.firstname} onChange={e => setOrg({ ...org, firstname: e.target.value })} className="w-full h-12 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 focus:ring-2 focus:ring-primary outline-none transition-all" placeholder="Prénom" />
+                                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Pr  nom *</label>
+                                            <input required value={org.firstname} onChange={e => setOrg({ ...org, firstname: e.target.value })} className="w-full h-12 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 focus:ring-2 focus:ring-primary outline-none transition-all" placeholder="Pr  nom" />
                                         </div>
                                         <div>
                                             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Nom *</label>
@@ -199,30 +199,30 @@ export default function PressingCheckoutPage() {
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Nom de la collectivité *</label>
+                                        <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Nom de la collectivit   *</label>
                                         <input required value={org.name} onChange={e => setOrg({ ...org, name: e.target.value })} className="w-full h-12 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 focus:ring-2 focus:ring-primary outline-none transition-all" placeholder="ex: Mairie de Paris" />
                                     </div>
                                     <div className="grid md:grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Type d&apos;organisation *</label>
                                             <select required title="Type d'organisation" value={org.type} onChange={e => setOrg({ ...org, type: e.target.value })} className="w-full h-12 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 focus:ring-2 focus:ring-primary outline-none transition-all">
-                                                <option value="">Sélectionner...</option>
+                                                <option value="">S  lectionner...</option>
                                                 <option>Mairie / Commune</option>
-                                                <option>Communauté de communes</option>
-                                                <option>Département</option>
-                                                <option>Région</option>
-                                                <option>Établissement public</option>
+                                                <option>Communaut   de communes</option>
+                                                <option>D  partement</option>
+                                                <option>R  gion</option>
+                                                <option>  tablissement public</option>
                                                 <option>Autre</option>
                                             </select>
                                         </div>
                                         <div>
                                             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Taille (habitants) *</label>
                                             <select required title="Taille de la commune" value={org.size} onChange={e => setOrg({ ...org, size: e.target.value })} className="w-full h-12 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 focus:ring-2 focus:ring-primary outline-none transition-all">
-                                                <option value="">Sélectionner...</option>
+                                                <option value="">S  lectionner...</option>
                                                 <option>Moins de 2 000</option>
-                                                <option>2 000 – 10 000</option>
-                                                <option>10 000 – 50 000</option>
-                                                <option>50 000 – 200 000</option>
+                                                <option>2 000     10 000</option>
+                                                <option>10 000     50 000</option>
+                                                <option>50 000     200 000</option>
                                                 <option>Plus de 200 000</option>
                                             </select>
                                         </div>
@@ -233,13 +233,13 @@ export default function PressingCheckoutPage() {
                                             <input required type="email" value={org.email} onChange={e => setOrg({ ...org, email: e.target.value })} className="w-full h-12 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 focus:ring-2 focus:ring-primary outline-none transition-all" placeholder="vous@mairie.fr" />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Téléphone</label>
+                                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">T  l  phone</label>
                                             <input value={org.phone} onChange={e => setOrg({ ...org, phone: e.target.value })} className="w-full h-12 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 focus:ring-2 focus:ring-primary outline-none transition-all" placeholder="+33 1 XX XX XX XX" />
                                         </div>
                                     </div>
                                     <div>
                                         <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Adresse *</label>
-                                        <input required value={org.address} onChange={e => setOrg({ ...org, address: e.target.value })} className="w-full h-12 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 focus:ring-2 focus:ring-primary outline-none transition-all" placeholder="Numéro et nom de rue" />
+                                        <input required value={org.address} onChange={e => setOrg({ ...org, address: e.target.value })} className="w-full h-12 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 focus:ring-2 focus:ring-primary outline-none transition-all" placeholder="Num  ro et nom de rue" />
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
@@ -254,10 +254,10 @@ export default function PressingCheckoutPage() {
                                 </div>
                                 <div className="flex gap-3 mt-8">
                                     <button type="button" onClick={() => setStep(1)} className="px-6 py-4 rounded-2xl border border-slate-200 dark:border-slate-700 font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
-                                        ← Retour
+                                            Retour
                                     </button>
                                     <button type="submit" className="flex-1 bg-primary text-white py-4 rounded-2xl font-black text-lg hover:bg-blue-700 transition-all shadow-xl shadow-primary/20">
-                                        Continuer — Paiement →
+                                        Continuer     Paiement
                                     </button>
                                 </div>
                             </form>
@@ -271,17 +271,17 @@ export default function PressingCheckoutPage() {
                                 <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-2xl p-4 mb-8 flex items-start gap-3">
                                     <span className="material-symbols-outlined text-amber-500 notranslate">info</span>
                                     <p className="text-sm text-amber-800 dark:text-amber-400">
-                                        <strong>Mode démonstration.</strong> Aucune vraie transaction ne sera effectuée. Utilisez un numéro factice pour tester.
+                                        <strong>Mode d  monstration.</strong> Aucune vraie transaction ne sera effectu  e. Utilisez un num  ro factice pour tester.
                                     </p>
                                 </div>
 
                                 <div className="space-y-5">
                                     <div>
                                         <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Nom sur la carte *</label>
-                                        <input required value={payment.cardName} onChange={e => setPayment({ ...payment, cardName: e.target.value })} className="w-full h-12 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 focus:ring-2 focus:ring-primary outline-none transition-all" placeholder="Prénom NOM" />
+                                        <input required value={payment.cardName} onChange={e => setPayment({ ...payment, cardName: e.target.value })} className="w-full h-12 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 focus:ring-2 focus:ring-primary outline-none transition-all" placeholder="Pr  nom NOM" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Numéro de carte *</label>
+                                        <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Num  ro de carte *</label>
                                         <div className="relative">
                                             <input required value={payment.cardNumber} onChange={e => setPayment({ ...payment, cardNumber: e.target.value.replace(/\D/g, '').slice(0, 16).replace(/(.{4})/g, '$1 ').trim() })} maxLength={19} className="w-full h-12 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 pr-14 focus:ring-2 focus:ring-primary outline-none transition-all tracking-widest" placeholder="0000 0000 0000 0000" />
                                             <div className="absolute right-4 top-1/2 -translate-y-1/2 flex gap-1">
@@ -308,14 +308,14 @@ export default function PressingCheckoutPage() {
                                     <div className="flex items-start gap-3 mt-2">
                                         <input type="checkbox" id="agree" required checked={agree} onChange={e => setAgree(e.target.checked)} className="mt-1 size-4 accent-primary" />
                                         <label htmlFor="agree" className="text-sm text-slate-600 dark:text-slate-400">
-                                            J&apos;accepte les <Link href="/legal/terms" className="text-primary underline">CGU</Link> et la <Link href="/legal/privacy" className="text-primary underline">Politique de confidentialité</Link>. Je comprends que mon abonnement sera facturé mensuellement.
+                                            J&apos;accepte les <Link href="/legal/terms" className="text-primary underline">CGU</Link> et la <Link href="/legal/privacy" className="text-primary underline">Politique de confidentialit  </Link>. Je comprends que mon abonnement sera factur   mensuellement.
                                         </label>
                                     </div>
                                 </div>
 
                                 <div className="flex gap-3 mt-8">
                                     <button type="button" onClick={() => setStep(2)} className="px-6 py-4 rounded-2xl border border-slate-200 dark:border-slate-700 font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
-                                        ← Retour
+                                            Retour
                                     </button>
                                     <button type="submit" disabled={processing} className="flex-1 bg-primary text-white py-4 rounded-2xl font-black text-lg hover:bg-blue-700 transition-all shadow-xl shadow-primary/20 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-3">
                                         {processing ? (
@@ -327,14 +327,14 @@ export default function PressingCheckoutPage() {
                                                 Traitement en cours...
                                             </>
                                         ) : (
-                                            `Confirmer et payer ${totalPrice}€/mois →`
+                                            `Confirmer et payer ${totalPrice}   /mois    `
                                         )}
                                     </button>
                                 </div>
 
                                 {/* Trust badges */}
                                 <div className="mt-8 flex flex-wrap gap-4 justify-center text-xs text-slate-400">
-                                    {['🔒 Paiement crypté SSL', '🏦 Certifié PCI-DSS', '🇫🇷 Hébergé en France', '✅ Satisfait ou remboursé'].map((b, i) => (
+                                    {['     Paiement crypt   SSL', '     Certifi   PCI-DSS', '         H  berg   en France', '    Satisfait ou rembours  '].map((b, i) => (
                                         <span key={i} className="flex items-center gap-1">{b}</span>
                                     ))}
                                 </div>

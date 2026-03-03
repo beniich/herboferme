@@ -24,7 +24,7 @@ export default function TeamCard({ team, onAssign }: Props) {
                 </span>
                 {team.location && (
                     <p className="text-xs text-gray-500 mt-1">
-                        📍 {team.location.lat.toFixed(4)}, {team.location.lng.toFixed(4)}
+                             {team.location.lat.toFixed(4)}, {team.location.lng.toFixed(4)}
                     </p>
                 )}
             </div>

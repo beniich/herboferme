@@ -234,7 +234,7 @@ export default function TeamsPage() {
                         <p className="text-sm text-slate-500 font-medium">Average Response</p>
                         <div className="mt-2 flex items-baseline gap-2">
                             <span className="text-3xl font-bold">42m</span>
-                            <span className="text-xs font-semibold text-emerald-500">↓ 4% vs prev week</span>
+                            <span className="text-xs font-semibold text-emerald-500">    4% vs prev week</span>
                         </div>
                     </div>
                 </div>

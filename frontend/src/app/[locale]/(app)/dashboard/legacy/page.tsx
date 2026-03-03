@@ -17,7 +17,7 @@ const ComplaintManagementSystem = () => {
             statut: 'En cours',
             equipe: 'Eau',
             description: 'Fuite importante au niveau du compteur',
-            source: 'Téléphone'
+            source: 'T  l  phone'
         },
         {
             id: 'REC-002',
@@ -25,8 +25,8 @@ const ComplaintManagementSystem = () => {
             nom: 'Bennani',
             prenom: 'Fatima',
             telephone: '0623456789',
-            adresse: '42 Avenue Hassan II, Salé',
-            nature: 'Panne électrique',
+            adresse: '42 Avenue Hassan II, Sal  ',
+            nature: 'Panne   lectrique',
             priorite: 'Haute',
             statut: 'Nouvelle',
             equipe: null,
@@ -39,22 +39,22 @@ const ComplaintManagementSystem = () => {
             nom: 'Idrissi',
             prenom: 'Ahmed',
             telephone: '0634567890',
-            adresse: '78 Rue Oued Fès, Rabat',
+            adresse: '78 Rue Oued F  s, Rabat',
             nature: 'Menuiserie',
             priorite: 'Normal',
-            statut: 'Résolue',
+            statut: 'R  solue',
             equipe: 'Menuiserie',
-            description: 'Réparation porte d\'entrée',
-            source: 'Téléphone'
+            description: 'R  paration porte d\'entr  e',
+            source: 'T  l  phone'
         }
     ]);
 
     const [equipes, setEquipes] = useState([
         { id: 1, nom: 'Eau', disponible: true, membres: 3, interventionsJour: 2, localisation: 'Agdal' },
-        { id: 2, nom: 'Électricité', disponible: true, membres: 4, interventionsJour: 3, localisation: 'Hassan' },
+        { id: 2, nom: '  lectricit  ', disponible: true, membres: 4, interventionsJour: 3, localisation: 'Hassan' },
         { id: 3, nom: 'Menuiserie', disponible: false, membres: 2, interventionsJour: 1, localisation: 'En intervention' },
         { id: 4, nom: 'Soudure', disponible: true, membres: 2, interventionsJour: 0, localisation: 'Atelier' },
-        { id: 5, nom: 'Maçonnerie', disponible: true, membres: 3, interventionsJour: 1, localisation: 'Souissi' },
+        { id: 5, nom: 'Ma  onnerie', disponible: true, membres: 3, interventionsJour: 1, localisation: 'Souissi' },
         { id: 6, nom: 'Plomberie', disponible: true, membres: 3, interventionsJour: 2, localisation: 'Youssoufia' },
         { id: 7, nom: 'Peinture', disponible: true, membres: 2, interventionsJour: 0, localisation: 'Atelier' },
         { id: 8, nom: 'Climatisation', disponible: false, membres: 2, interventionsJour: 2, localisation: 'En intervention' },
@@ -70,23 +70,23 @@ const ComplaintManagementSystem = () => {
         nature: '',
         description: '',
         priorite: 'Normal',
-        source: 'Téléphone'
+        source: 'T  l  phone'
     });
 
     const [notifications, setNotifications] = useState([
-        { id: 1, message: 'Nouvelle réclamation REC-002 assignée', time: '5 min', type: 'new' },
-        { id: 2, message: 'Équipe Eau a terminé REC-001', time: '15 min', type: 'completed' },
-        { id: 3, message: 'Réclamation urgente en attente', time: '30 min', type: 'urgent' }
+        { id: 1, message: 'Nouvelle r  clamation REC-002 assign  e', time: '5 min', type: 'new' },
+        { id: 2, message: '  quipe Eau a termin   REC-001', time: '15 min', type: 'completed' },
+        { id: 3, message: 'R  clamation urgente en attente', time: '30 min', type: 'urgent' }
     ]);
 
-    const [selectedMonth] = useState('Février 2026');
+    const [selectedMonth] = useState('F  vrier 2026');
 
     const naturesReclamation = [
         'Fuite d\'eau',
-        'Panne électrique',
+        'Panne   lectrique',
         'Menuiserie',
         'Soudure',
-        'Maçonnerie',
+        'Ma  onnerie',
         'Plomberie',
         'Peinture',
         'Climatisation',
@@ -114,13 +114,13 @@ const ComplaintManagementSystem = () => {
             nature: '',
             description: '',
             priorite: 'Normal',
-            source: 'Téléphone'
+            source: 'T  l  phone'
         });
         setNotifications([
-            { id: notifications.length + 1, message: `Nouvelle réclamation ${newId} créée`, time: 'maintenant', type: 'new' },
+            { id: notifications.length + 1, message: `Nouvelle r  clamation ${newId} cr    e`, time: 'maintenant', type: 'new' },
             ...notifications
         ]);
-        alert(`Réclamation ${newId} créée avec succès !`);
+        alert(`R  clamation ${newId} cr    e avec succ  s !`);
     };
 
     const assignTeam = (complaintId: string, teamName: string) => {
@@ -128,7 +128,7 @@ const ComplaintManagementSystem = () => {
             c.id === complaintId ? { ...c, equipe: teamName, statut: 'En cours' } : c
         ));
         setNotifications([
-            { id: notifications.length + 1, message: `${complaintId} assignée à l'équipe ${teamName}`, time: 'maintenant', type: 'assigned' },
+            { id: notifications.length + 1, message: `${complaintId} assign  e    l'  quipe ${teamName}`, time: 'maintenant', type: 'assigned' },
             ...notifications
         ]);
     };
@@ -143,8 +143,8 @@ const ComplaintManagementSystem = () => {
         switch (statut) {
             case 'Nouvelle': return 'bg-blue-100 text-blue-800';
             case 'En cours': return 'bg-yellow-100 text-yellow-800';
-            case 'Résolue': return 'bg-green-100 text-green-800';
-            case 'Fermée': return 'bg-gray-100 text-gray-800';
+            case 'R  solue': return 'bg-green-100 text-green-800';
+            case 'Ferm  e': return 'bg-gray-100 text-gray-800';
             default: return 'bg-gray-100 text-gray-800';
         }
     };
@@ -163,7 +163,7 @@ const ComplaintManagementSystem = () => {
         total: complaints.length,
         nouvelles: complaints.filter(c => c.statut === 'Nouvelle').length,
         enCours: complaints.filter(c => c.statut === 'En cours').length,
-        resolues: complaints.filter(c => c.statut === 'Résolue').length,
+        resolues: complaints.filter(c => c.statut === 'R  solue').length,
         urgentes: complaints.filter(c => c.priorite === 'Urgent').length
     };
 
@@ -176,9 +176,9 @@ const ComplaintManagementSystem = () => {
                 <div className="flex space-x-4 overflow-x-auto p-2">
                     {[
                         { id: 'dashboard', label: 'Tableau de bord', icon: BarChart3 },
-                        { id: 'nouvelle', label: 'Nouvelle réclamation', icon: Phone },
-                        { id: 'reclamations', label: 'Réclamations', icon: MessageSquare },
-                        { id: 'equipes', label: 'Équipes', icon: Users },
+                        { id: 'nouvelle', label: 'Nouvelle r  clamation', icon: Phone },
+                        { id: 'reclamations', label: 'R  clamations', icon: MessageSquare },
+                        { id: 'equipes', label: '  quipes', icon: Users },
                         { id: 'planning', label: 'Planning', icon: Calendar }
                     ].map(tab => (
                         <button
@@ -227,7 +227,7 @@ const ComplaintManagementSystem = () => {
                 </div>
             )}
 
-            {/* Liste des Réclamations */}
+            {/* Liste des R  clamations */}
             {activeTab === 'reclamations' && (
                 <div className="bg-white p-6 rounded shadow">
                     <h2 className="text-lg font-bold">Liste Prototype</h2>

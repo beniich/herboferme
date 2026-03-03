@@ -1,4 +1,4 @@
-﻿import { NextFunction, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import { Membership } from '../models/Membership.js';
 
 /**
@@ -10,14 +10,14 @@ export const requireOrganization = async (req: any, res: Response, next: NextFun
     const userId = req.user?._id || req.user?.id;
     if (!userId) {
       console.warn('[Org Middleware] User ID missing from request user context');
-      return res.status(401).json({ message: 'Non authentifiÃ©' });
+      return res.status(401).json({ message: 'Non authentifi    ' });
     }
 
     // Get organization ID from header
     const organizationId = req.headers['x-organization-id'];
     if (!organizationId) {
       return res.status(400).json({
-        message: 'En-tÃªte x-organization-id requis',
+        message: 'En-t    te x-organization-id requis',
       });
     }
 
@@ -30,7 +30,7 @@ export const requireOrganization = async (req: any, res: Response, next: NextFun
 
     if (!membership) {
       return res.status(403).json({
-        message: 'AccÃ¨s refusÃ© Ã  cette organisation',
+        message: 'Acc    s refus         cette organisation',
       });
     }
 
@@ -81,7 +81,7 @@ export const requireRole = (roles: string | string[]) => {
 
       if (!hasPermission) {
         return res.status(403).json({
-          message: `RÃ´le requis: ${allowedRoles.join(' ou ')}`,
+          message: `R    le requis: ${allowedRoles.join(' ou ')}`,
         });
       }
 

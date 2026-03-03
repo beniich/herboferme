@@ -41,7 +41,7 @@ export const OrganizationSelector: React.FC = () => {
         return (
             <Button variant="outline" size="sm" className="gap-2">
                 <Plus className="h-4 w-4" />
-                Créer une organisation
+                Cr  er une organisation
             </Button>
         );
     }
@@ -68,7 +68,7 @@ export const OrganizationSelector: React.FC = () => {
                     </div>
                     <div className="hidden sm:flex flex-col items-start">
                         <span className="text-sm font-semibold truncate max-w-[120px]">
-                            {activeOrganization?.name || 'Sélectionner...'}
+                            {activeOrganization?.name || 'S  lectionner...'}
                         </span>
                         <span className="text-xs text-slate-500 uppercase tracking-wider font-medium">
                             {activeOrganization?.subscription?.plan || 'Gratuit'}
@@ -111,7 +111,7 @@ export const OrganizationSelector: React.FC = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => router.push('/org-select')} className="cursor-pointer">
                     <LayoutGrid className="h-4 w-4 mr-2" />
-                    Gérer les organisations
+                    G  rer les organisations
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

@@ -1,4 +1,4 @@
-﻿import { Router, Request, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import { body } from 'express-validator';
 import { validator } from '../middleware/validator.js';
 import { authenticate as protect } from '../middleware/security.js';
@@ -27,7 +27,7 @@ const requireAdmin = async (req: any, res: Response, next: any) => {
 
         next();
     } catch (error) {
-        res.status(500).json({ message: 'Erreur de vérification des droits' });
+        res.status(500).json({ message: 'Erreur de v  rification des droits' });
     }
 };
 
@@ -49,7 +49,7 @@ router.get('/organizations/:orgId/members', protect, async (req: any, res: Respo
         });
 
         if (!requesterMembership) {
-            return res.status(403).json({ message: 'Accès refusé' });
+            return res.status(403).json({ message: 'Acc  s refus  ' });
         }
 
         const members = await Membership.find({ organizationId: orgId })
@@ -83,7 +83,7 @@ router.post(
     requireAdmin,
     [
         body('email').isEmail().withMessage('Email invalide'),
-        body('role').isIn(['ADMIN', 'MEMBER', 'TECHNICIAN']).withMessage('Rôle invalide')
+        body('role').isIn(['ADMIN', 'MEMBER', 'TECHNICIAN']).withMessage('R  le invalide')
     ],
     validator,
     async (req: any, res: Response) => {
@@ -93,12 +93,12 @@ router.post(
             const inviterId = req.user._id;
 
             // Find user by email
-            let user = await User.findOne({ email });
+            const user = await User.findOne({ email });
 
             // If user doesn't exist, we should theoretically create a placeholder or send an invite email
             // For this MVP, we'll require the user to exist
             if (!user) {
-                return res.status(404).json({ message: 'Utilisateur non trouvé avec cet email' });
+                return res.status(404).json({ message: 'Utilisateur non trouv   avec cet email' });
             }
 
             // Check if already a member
@@ -108,7 +108,7 @@ router.post(
             });
 
             if (existingMembership) {
-                return res.status(409).json({ message: 'Cet utilisateur est déjà membre ou invité' });
+                return res.status(409).json({ message: 'Cet utilisateur est d  j   membre ou invit  ' });
             }
 
             // Create membership
@@ -124,7 +124,7 @@ router.post(
 
             res.status(201).json({
                 success: true,
-                message: 'Invitation envoyée',
+                message: 'Invitation envoy  e',
                 membership
             });
 
@@ -144,7 +144,7 @@ router.patch(
     protect,
     requireAdmin,
     [
-        body('roles').isArray().withMessage('Roles doit être un tableau')
+        body('roles').isArray().withMessage('Roles doit   tre un tableau')
     ],
     validator,
     async (req: any, res: Response) => {
@@ -190,7 +190,7 @@ router.delete(
 
             await Membership.findByIdAndDelete(membershipId);
 
-            res.json({ success: true, message: 'Membre retiré' });
+            res.json({ success: true, message: 'Membre retir  ' });
         } catch (error: any) {
             res.status(500).json({ message: error.message });
         }

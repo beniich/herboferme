@@ -1,10 +1,10 @@
-﻿/**
- * routes/fleet.routes.ts â€” Gestion de la flotte
+/**
+ * routes/fleet.routes.ts          Gestion de la flotte
  */
 
 import { Router } from 'express';
-import { authenticate } from '../middleware/authenticate.js';
-import { authorize, requireFarmAccess } from '../middleware/authorize.js';
+import { authenticate } from '../middleware/authenticate';
+import { authorize, requireFarmAccess } from '../middleware/authorize';
 import { HERBUTE_ROUTES } from '@reclamtrack/shared';
 
 const router = Router();
@@ -21,7 +21,7 @@ router.get('/vehicles', async (req, res, next) => {
 // POST /api/fleet/vehicles
 router.post('/vehicles', authorize('admin', 'manager'), async (req, res, next) => {
   try {
-    res.status(201).json({ message: 'VÃ©hicule crÃ©Ã©', data: req.body });
+    res.status(201).json({ message: 'V    hicule cr        ', data: req.body });
   } catch (err) { next(err); }
 });
 

@@ -38,7 +38,7 @@ const useNotifications = () => {
 
             // Map priority/type to toast style
             if (priority === 'urgent' || type === 'alert') {
-                toast.error(`${title}: ${message}`, { ...toastOptions, icon: '🚨' });
+                toast.error(`${title}: ${message}`, { ...toastOptions, icon: '    ' });
                 return;
             }
 
@@ -51,13 +51,13 @@ const useNotifications = () => {
                     toast.error(`${title}: ${message}`, toastOptions);
                     break;
                 case 'warning':
-                    toast.success(`${title}: ${message}`, { ...toastOptions, icon: '⚠️' });
+                    toast.success(`${title}: ${message}`, { ...toastOptions, icon: '      ' });
                     break;
                 case 'complaint_assigned':
-                    toast(`${title}: ${message}`, { ...toastOptions, icon: '📋' });
+                    toast(`${title}: ${message}`, { ...toastOptions, icon: '    ' });
                     break;
                 default:
-                    toast(`${title}: ${message}`, { ...toastOptions, icon: 'ℹ️' });
+                    toast(`${title}: ${message}`, { ...toastOptions, icon: '      ' });
             }
         };
 

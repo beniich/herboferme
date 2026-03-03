@@ -1,6 +1,6 @@
 /**
- * Wrapper autour de fetch qui détecte le header X-Error-Id.
- * Si le header est présent, dispatch un événement 'debug-error'.
+ * Wrapper autour de fetch qui d  tecte le header X-Error-Id.
+ * Si le header est pr  sent, dispatch un   v  nement 'debug-error'.
  */
 export const fetchWithErrorId = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
     try {

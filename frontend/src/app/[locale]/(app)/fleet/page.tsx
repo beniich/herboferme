@@ -17,7 +17,7 @@ export default function FleetPage() {
             try {
                 setIsLoading(true);
                 const data = await fleetApi.getVehicles();
-                // Le backend consolidé peut renvoyer { data: [...] } ou [...] directement
+                // Le backend consolid   peut renvoyer { data: [...] } ou [...] directement
                 setVehicles(Array.isArray(data) ? data : (data as any).data || []);
             } catch (error) {
                 console.error('Error fetching fleet:', error);
@@ -61,7 +61,7 @@ export default function FleetPage() {
                         <span className="material-symbols-outlined">dashboard</span>
                         <span className="text-sm font-medium">Fleet Overview</span>
                     </a>
-                    {/* Liens conservés pour l'UI */}
+                    {/* Liens conserv  s pour l'UI */}
                     <a className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-[#242447] text-slate-600 dark:text-[#9292c8] transition-colors" href="#">
                         <span className="material-symbols-outlined">error</span>
                         <span className="text-sm font-medium">Complaints Log</span>
@@ -146,7 +146,7 @@ export default function FleetPage() {
                                     <tr className="bg-slate-50 dark:bg-[#242447]/50 text-slate-500 dark:text-[#9292c8] text-[11px] font-bold uppercase tracking-wider">
                                         <th className="px-6 py-4 border-b border-slate-100 dark:border-slate-800">Vehicle</th>
                                         <th className="px-6 py-4 border-b border-slate-100 dark:border-slate-800">Model</th>
-                                        <th className="px-6 py-4 border-b border-slate-100 dark:border-slate-800">Km / Année</th>
+                                        <th className="px-6 py-4 border-b border-slate-100 dark:border-slate-800">Km / Ann  e</th>
                                         <th className="px-6 py-4 border-b border-slate-100 dark:border-slate-800">Status</th>
                                     </tr>
                                 </thead>
@@ -184,7 +184,7 @@ export default function FleetPage() {
                                     ))}
                                     {filteredVehicles.length === 0 && (
                                         <tr>
-                                            <td colSpan={4} className="px-6 py-10 text-center text-slate-500">Aucun véhicule trouvé</td>
+                                            <td colSpan={4} className="px-6 py-10 text-center text-slate-500">Aucun v  hicule trouv  </td>
                                         </tr>
                                     )}
                                 </tbody>

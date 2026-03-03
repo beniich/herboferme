@@ -16,7 +16,7 @@ export const Header = () => (
             </h2>
         </div>
 
-        {/* Navigation principal – visible sur lg+ */}
+        {/* Navigation principal     visible sur lg+ */}
         <nav className="hidden lg:flex items-center gap-6">
             <Link href="/admin/devops" className="text-primary font-medium">
                 Dashboard
@@ -65,7 +65,7 @@ export const Header = () => (
                 <Icon name="settings" />
             </button>
 
-            {/* Avatar – replace with user image */}
+            {/* Avatar     replace with user image */}
             <div className="size-9 rounded-full bg-primary/20 border border-primary/40 overflow-hidden">
                 <img
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuByCMQor8ht-aBrywH_iytyW_KdNlom3blLU-b6YCJoHZfFQQBmBqcVGVrj61FGxDdpJcnXaB94gX5z0CV1zgtQ5aBf5wsb4frxjqWiIg5lw_OvA92fNzByIa5lMR4ex22SRnG-bZfMy6JZKjaO7j6OxTvjh4qWPcRQpaZRxdrmWAUaP4aJC7A5SQ93H_aa9m6BJ5mkxz3cTlhHleTRi3-XLkflqvp1cxlX4-59m8LCCBIYZljD7aKpOzdYKuzYpRyUPCvMb8gAuB8s"

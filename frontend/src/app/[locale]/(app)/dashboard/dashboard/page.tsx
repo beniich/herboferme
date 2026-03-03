@@ -20,7 +20,7 @@ export default function OperationsDashboard() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Operations Dashboard</h2>
-                    <p className="text-slate-500 text-sm">Real-time intervention monitoring for Rabat-Salé sector.</p>
+                    <p className="text-slate-500 text-sm">Real-time intervention monitoring for Rabat-Sal   sector.</p>
                 </div>
                 <div className="flex items-center gap-2">
                     <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-1.5 flex items-center gap-2 text-sm font-medium">
@@ -117,7 +117,7 @@ export default function OperationsDashboard() {
                             </div>
                             <div className="space-y-1">
                                 <p className="text-sm font-semibold leading-snug">New complaint reported</p>
-                                <p className="text-xs text-slate-500">Hydrant leak reported in Salé Marina sector by citizen ID #882.</p>
+                                <p className="text-xs text-slate-500">Hydrant leak reported in Sal   Marina sector by citizen ID #882.</p>
                                 <p className="text-[10px] font-bold text-primary uppercase">Just Now</p>
                             </div>
                         </div>

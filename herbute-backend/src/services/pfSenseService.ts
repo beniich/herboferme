@@ -1,4 +1,4 @@
-﻿import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import https from 'https';
 
 interface PfSenseConfig {
@@ -148,7 +148,7 @@ export class PfSenseService {
 
     try {
       const response = await this.client.get('/interface/stats');
-      const interfaces = response.data.data || {};
+      const interfaces = response.data.data || { /* Intentionally empty */ };
 
       return Object.keys(interfaces).map((name) => {
         const iface = interfaces[name];
@@ -194,7 +194,7 @@ export class PfSenseService {
       return {
         cpu: '45%',
         memory: '62%',
-        temperature: '52Â°C',
+        temperature: '52    C',
         uptime: '15 days',
         states: 1250,
         statesMax: 50000,

@@ -32,7 +32,7 @@ export default function ComplaintDetailPage() {
                 setComplaint(data);
             } catch (err: any) {
                 console.error(err);
-                setError(err.response?.status === 404 ? "Réclamation introuvable" : "Erreur de chargement");
+                setError(err.response?.status === 404 ? "R  clamation introuvable" : "Erreur de chargement");
             } finally {
                 setLoading(false);
             }
@@ -60,7 +60,7 @@ export default function ComplaintDetailPage() {
                     onClick={() => router.back()}
                     className="px-6 py-2 bg-slate-100 dark:bg-slate-800 rounded-xl text-sm font-bold hover:bg-slate-200 transition-colors"
                 >
-                    Retour à la liste
+                    Retour    la liste
                 </button>
             </div>
         );
@@ -72,15 +72,15 @@ export default function ComplaintDetailPage() {
         {
             id: '1',
             type: 'created',
-            title: 'Réclamation Créée',
-            description: 'La réclamation a été transmise au système.',
+            title: 'R  clamation Cr    e',
+            description: 'La r  clamation a   t   transmise au syst  me.',
             timestamp: complaint.createdAt,
         },
         ...(complaint.status !== 'nouvelle' ? [{
             id: '2',
             type: 'assigned',
-            title: 'Assigné à l\'équipe',
-            description: `Le ticket est géré par ${(complaint.assignedTeamId as any)?.name || 'l\'équipe technique'}.`,
+            title: 'Assign      l\'  quipe',
+            description: `Le ticket est g  r   par ${(complaint.assignedTeamId as any)?.name || 'l\'  quipe technique'}.`,
             timestamp: complaint.updatedAt,
             actor: (complaint.technicianId as any)?.name || 'Superviseur',
         }] : [])
@@ -97,7 +97,7 @@ export default function ComplaintDetailPage() {
                             className="text-sm font-semibold text-slate-400 hover:text-primary transition-colors flex items-center gap-1"
                         >
                             <ArrowLeft className="w-3 h-3" />
-                            Réclamations
+                            R  clamations
                         </Link>
                         <span className="text-slate-600">/</span>
                         <span className="text-sm font-bold text-primary"> #{complaint.number || complaint._id.slice(-6)}</span>
@@ -132,7 +132,7 @@ export default function ComplaintDetailPage() {
                     </button>
                     <button className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:brightness-110 transition-all shadow-lg shadow-primary/20">
                         <Edit className="w-4 h-4" />
-                        Éditer
+                          diter
                     </button>
                 </div>
             </div>
@@ -159,11 +159,11 @@ export default function ComplaintDetailPage() {
                     {/* Details Section */}
                     <section className="bg-white dark:bg-slate-900 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
                         <h3 className="text-lg font-black text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-4 mb-6 uppercase tracking-tight">
-                            Description du Problème
+                            Description du Probl  me
                         </h3>
                         <div className="space-y-6">
                             <div className="text-slate-600 dark:text-slate-300 text-base leading-relaxed italic">
-                                "{complaint.description || "Aucune description détaillée n'a été fournie pour cette réclamation."}"
+                                "{complaint.description || "Aucune description d  taill  e n'a   t   fournie pour cette r  clamation."}"
                             </div>
 
                             {complaint.priority === 'urgent' && (
@@ -172,7 +172,7 @@ export default function ComplaintDetailPage() {
                                     <div className="space-y-1">
                                         <p className="text-sm font-black text-rose-600 dark:text-rose-400 uppercase tracking-widest">Alerte Prioritaire</p>
                                         <p className="text-sm text-rose-700 dark:text-rose-300 leading-relaxed font-medium">
-                                            Cette réclamation a été marquée comme critique. Une intervention immédiate est requise pour assurer la continuité du service et la sécurité publique.
+                                            Cette r  clamation a   t   marqu  e comme critique. Une intervention imm  diate est requise pour assurer la continuit   du service et la s  curit   publique.
                                         </p>
                                     </div>
                                 </div>
@@ -246,7 +246,7 @@ export default function ComplaintDetailPage() {
                                     {complaint.isAnonymous ? 'Citoyen Anonyme' : `${complaint.firstName} ${complaint.lastName}`}
                                 </p>
                                 <p className="text-[10px] font-bold text-primary uppercase tracking-widest mt-1">
-                                    Déclarant {complaint.isAnonymous ? 'Inconnu' : 'Vérifié'}
+                                    D  clarant {complaint.isAnonymous ? 'Inconnu' : 'V  rifi  '}
                                 </p>
                             </div>
 
@@ -257,8 +257,8 @@ export default function ComplaintDetailPage() {
                                             <Phone className="w-4 h-4" />
                                         </div>
                                         <div>
-                                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.1em]">Téléphone</p>
-                                            <p className="text-sm font-bold text-slate-700 dark:text-slate-300">{complaint.phone || 'Non renseigné'}</p>
+                                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.1em]">T  l  phone</p>
+                                            <p className="text-sm font-bold text-slate-700 dark:text-slate-300">{complaint.phone || 'Non renseign  '}</p>
                                         </div>
                                     </div>
                                 )}
@@ -276,7 +276,7 @@ export default function ComplaintDetailPage() {
                             {!complaint.isAnonymous && (
                                 <button className="w-full mt-8 py-4 rounded-2xl bg-primary text-white font-black text-[10px] uppercase tracking-widest shadow-xl shadow-primary/25 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-3">
                                     <MessageSquare className="w-4 h-4" />
-                                    Contacter le déclarant
+                                    Contacter le d  clarant
                                 </button>
                             )}
                         </div>
@@ -287,14 +287,14 @@ export default function ComplaintDetailPage() {
                         <div className="absolute -right-10 -bottom-10 size-48 bg-primary/10 rounded-full blur-[80px] group-hover:scale-125 transition-transform duration-700"></div>
 
                         <div className="flex items-center justify-between relative z-10">
-                            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-white/40">Contrôles</h3>
+                            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-white/40">Contr  les</h3>
                             <MoreHorizontal className="w-4 h-4 text-white/20" />
                         </div>
 
                         <div className="grid grid-cols-2 gap-3 relative z-10">
                             <button className="flex flex-col items-center gap-3 py-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-emerald-500 hover:text-white hover:border-emerald-500 transition-all group/btn">
                                 <ShieldCheck className="w-6 h-6 text-emerald-500 group-hover/btn:text-white" />
-                                <span className="text-[10px] font-black uppercase tracking-widest">Résoudre</span>
+                                <span className="text-[10px] font-black uppercase tracking-widest">R  soudre</span>
                             </button>
                             <button className="flex flex-col items-center gap-3 py-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-primary hover:text-white hover:border-primary transition-all group/btn">
                                 <User className="w-6 h-6 text-primary group-hover/btn:text-white" />

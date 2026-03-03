@@ -30,7 +30,7 @@ export default function DrFailoverDashboard() {
                     </div>
                     <div>
                         <h1 className="text-lg font-black tracking-tight uppercase">Disaster Recovery Console</h1>
-                        <p className="text-xs text-rose-100 font-medium">Authorized Personnel Only • Level 5 Access Required</p>
+                        <p className="text-xs text-rose-100 font-medium">Authorized Personnel Only     Level 5 Access Required</p>
                     </div>
                 </div>
 
@@ -176,7 +176,7 @@ export default function DrFailoverDashboard() {
                                 </div>
                                 <div className="flex-1">
                                     <h4 className="font-bold text-sm">Scheduled Chaos Drill</h4>
-                                    <p className="text-xs text-slate-500">Oct 12, 2023 • Duration: 45m</p>
+                                    <p className="text-xs text-slate-500">Oct 12, 2023     Duration: 45m</p>
                                 </div>
                                 <span className="px-2 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-500 text-xs font-bold rounded">Pass</span>
                             </div>
@@ -186,7 +186,7 @@ export default function DrFailoverDashboard() {
                                 </div>
                                 <div className="flex-1">
                                     <h4 className="font-bold text-sm">Database Switchover Test</h4>
-                                    <p className="text-xs text-slate-500">Sep 28, 2023 • Duration: 12m</p>
+                                    <p className="text-xs text-slate-500">Sep 28, 2023     Duration: 12m</p>
                                 </div>
                                 <span className="px-2 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-500 text-xs font-bold rounded">Pass</span>
                             </div>
@@ -196,7 +196,7 @@ export default function DrFailoverDashboard() {
                                 </div>
                                 <div className="flex-1">
                                     <h4 className="font-bold text-sm">Full Region Evacuation</h4>
-                                    <p className="text-xs text-slate-500">Aug 05, 2023 • Duration: 1h 20m</p>
+                                    <p className="text-xs text-slate-500">Aug 05, 2023     Duration: 1h 20m</p>
                                 </div>
                                 <span className="px-2 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-500 text-xs font-bold rounded">Partial</span>
                             </div>

@@ -64,11 +64,11 @@ export default function EducationDashboard() {
                 <nav className="flex-1 space-y-1">
                     {[
                         { id: 'dashboard', icon: LayoutDashboard, label: 'Tableau de Bord' },
-                        { id: 'students', icon: Users, label: 'Élèves' },
+                        { id: 'students', icon: Users, label: '  l  ves' },
                         { id: 'teachers', icon: UserCircle, label: 'Professeurs' },
                         { id: 'schedule', icon: Calendar, label: 'Emploi du Temps' },
                         { id: 'grades', icon: BarChart3, label: 'Carnet de Notes' },
-                        { id: 'settings', icon: Settings, label: 'Paramètres' },
+                        { id: 'settings', icon: Settings, label: 'Param  tres' },
                     ].map((item) => (
                         <button
                             key={item.id}
@@ -100,7 +100,7 @@ export default function EducationDashboard() {
                         <Search className="w-4 h-4 text-slate-500" />
                         <input
                             type="text"
-                            placeholder="RECHERCHER UN ÉLÈVE, UN COURS..."
+                            placeholder="RECHERCHER UN   L  VE, UN COURS..."
                             className="bg-transparent border-none outline-none text-[10px] font-black tracking-widest w-full placeholder:text-slate-600"
                         />
                     </div>
@@ -127,8 +127,8 @@ export default function EducationDashboard() {
                 <div className="p-10 space-y-10 overflow-y-auto">
                     <div className="flex items-end justify-between">
                         <div>
-                            <h2 className="text-3xl font-display font-black uppercase italic tracking-tighter text-white">Synthèse Académique</h2>
-                            <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mt-1">Secteur : Rabat-Centre • Lycée Excellence</p>
+                            <h2 className="text-3xl font-display font-black uppercase italic tracking-tighter text-white">Synth  se Acad  mique</h2>
+                            <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mt-1">Secteur : Rabat-Centre     Lyc  e Excellence</p>
                         </div>
                         <div className="flex gap-4">
                             <button className="px-6 py-3 glass-card rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:bg-white/5 transition-all">
@@ -144,7 +144,7 @@ export default function EducationDashboard() {
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                         {[
                             { label: 'Performance Moyenne', value: '16.8/20', trend: '+2.5%', color: 'text-green-500', icon: TrendingUp },
-                            { label: 'Taux de Présence', value: '94.2%', trend: '-0.8%', color: 'text-red-500', icon: TrendingDown },
+                            { label: 'Taux de Pr  sence', value: '94.2%', trend: '-0.8%', color: 'text-red-500', icon: TrendingDown },
                             { label: 'Effectif Total', value: '1,248', trend: 'STABLE', color: 'text-slate-500', icon: Users },
                             { label: 'Alertes Critiques', value: '03', trend: 'ACTION REQUIS', color: 'text-brand-orange', icon: Bell },
                         ].map((stat, i) => (
@@ -164,7 +164,7 @@ export default function EducationDashboard() {
                         {/* Performance Chart */}
                         <div className="lg:col-span-2 glass-card rounded-[3rem] p-10 space-y-8">
                             <div className="flex items-center justify-between">
-                                <h3 className="text-lg font-black uppercase italic tracking-tighter">Évolution des Résultats</h3>
+                                <h3 className="text-lg font-black uppercase italic tracking-tighter">  volution des R  sultats</h3>
                                 <select className="bg-white/5 border border-white/10 rounded-lg px-3 py-1 text-[10px] font-black uppercase outline-none cursor-pointer">
                                     <option>S1 - 2024</option>
                                     <option>S2 - 2024</option>
@@ -206,12 +206,12 @@ export default function EducationDashboard() {
 
                         {/* Recent Activity */}
                         <div className="glass-card rounded-[3rem] p-10 space-y-8">
-                            <h3 className="text-lg font-black uppercase italic tracking-tighter">Événements Proches</h3>
+                            <h3 className="text-lg font-black uppercase italic tracking-tighter">  v  nements Proches</h3>
                             <div className="space-y-6">
                                 {[
                                     { title: 'Examen de Math', time: 'Demain, 08:30', type: 'exam', icon: Clock },
-                                    { title: 'Réunion Parents', time: 'Jeu, 16:45', type: 'meeting', icon: Users },
-                                    { title: 'Conseil Classe', time: '22 Fév, 14:00', type: 'admin', icon: CheckCircle2 },
+                                    { title: 'R  union Parents', time: 'Jeu, 16:45', type: 'meeting', icon: Users },
+                                    { title: 'Conseil Classe', time: '22 F  v, 14:00', type: 'admin', icon: CheckCircle2 },
                                 ].map((event, i) => (
                                     <div key={i} className="flex items-center gap-4 group">
                                         <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all">
@@ -234,27 +234,27 @@ export default function EducationDashboard() {
                     {/* Student List Table */}
                     <div className="glass-card rounded-[3rem] p-10">
                         <div className="flex items-center justify-between mb-8">
-                            <h3 className="text-lg font-black uppercase italic tracking-tighter">Élèves sous Surveillance IA</h3>
-                            <div className="text-[10px] text-brand-orange font-black uppercase tracking-widest cursor-pointer hover:underline">Algorithme Prédictif Actif</div>
+                            <h3 className="text-lg font-black uppercase italic tracking-tighter">  l  ves sous Surveillance IA</h3>
+                            <div className="text-[10px] text-brand-orange font-black uppercase tracking-widest cursor-pointer hover:underline">Algorithme Pr  dictif Actif</div>
                         </div>
                         <div className="overflow-x-auto">
                             <table className="w-full text-left">
                                 <thead>
                                     <tr className="border-b border-white/5">
-                                        <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Élève</th>
+                                        <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">  l  ve</th>
                                         <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Classe</th>
                                         <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Moyenne</th>
-                                        <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Probabilité Décrochage</th>
-                                        <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Dernière Action</th>
+                                        <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Probabilit   D  crochage</th>
+                                        <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Derni  re Action</th>
                                         <th className="pb-6 text-[9px] font-black uppercase tracking-widest text-slate-500"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {[
                                         { name: 'Sarah Benckley', grade: '2nde B', score: '17.4', risk: '2%', status: 'Progressif', color: 'text-green-500' },
-                                        { name: 'Marc Dupont', grade: '1ère C', score: '08.2', risk: '64%', status: 'Critique', color: 'text-brand-orange' },
+                                        { name: 'Marc Dupont', grade: '1  re C', score: '08.2', risk: '64%', status: 'Critique', color: 'text-brand-orange' },
                                         { name: 'Yassine Alami', grade: 'Termiale G', score: '12.5', risk: '15%', status: 'Stable', color: 'text-blue-500' },
-                                        { name: 'Emma Wilson', grade: '3ème A', score: '14.8', risk: '5%', status: 'Stable', color: 'text-blue-500' },
+                                        { name: 'Emma Wilson', grade: '3  me A', score: '14.8', risk: '5%', status: 'Stable', color: 'text-blue-500' },
                                     ].map((student, i) => (
                                         <tr key={i} className="border-b border-white/[0.02] hover:bg-white/[0.01] transition-all">
                                             <td className="py-6">

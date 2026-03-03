@@ -1,4 +1,4 @@
-﻿import { Router, Response } from 'express';
+import { Router, Response } from 'express';
 import { body } from 'express-validator';
 import { validator } from '../middleware/validator.js';
 import { authenticate as protect } from '../middleware/security.js';
@@ -27,7 +27,7 @@ router.get('/organizations/:orgId/members', protect, async (req: any, res: Respo
         });
 
         if (!userMembership) {
-            return res.status(403).json({ message: 'Accès refusé' });
+            return res.status(403).json({ message: 'Acc  s refus  ' });
         }
 
         // Get all members
@@ -98,7 +98,7 @@ router.post(
             });
 
             if (existing) {
-                return res.status(409).json({ message: 'Déjà membre de cette organisation' });
+                return res.status(409).json({ message: 'D  j   membre de cette organisation' });
             }
 
             // Create membership
@@ -202,14 +202,14 @@ router.delete('/:membershipId', protect, async (req: any, res: Response) => {
             const organization = await Organization.findById(membership.organizationId);
             if (organization && organization.ownerId.toString() === membership.userId.toString()) {
                 return res.status(403).json({
-                    message: 'Impossible de retirer le propriétaire'
+                    message: 'Impossible de retirer le propri  taire'
                 });
             }
         }
 
         await membership.deleteOne();
 
-        res.json({ success: true, message: 'Membre retiré' });
+        res.json({ success: true, message: 'Membre retir  ' });
     } catch (error: any) {
         res.status(500).json({ message: error.message });
     }

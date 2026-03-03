@@ -7,7 +7,7 @@ interface TabsContextValue {
   value: string
   onValueChange: (value: string) => void
 }
-const TabsContext = React.createContext<TabsContextValue>({ value: '', onValueChange: () => {} })
+const TabsContext = React.createContext<TabsContextValue>({ value: '', onValueChange: () => { /* Intentionally empty */ } })
 
 // --- Tabs Root ---
 interface TabsProps {

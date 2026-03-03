@@ -143,7 +143,7 @@ export default function InfrastructureDriftPage() {
                                 </div>
                                 <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/5">
                                     <span className="material-symbols-outlined text-amber-500">swap_horiz</span>
-                                    <p className="text-xs">Update <span className="font-bold font-mono">tags.Environment</span> ("Dev" → "Production")</p>
+                                    <p className="text-xs">Update <span className="font-bold font-mono">tags.Environment</span> ("Dev"     "Production")</p>
                                 </div>
                             </div>
                         </div>

@@ -396,7 +396,7 @@ export default function KubernetesNodeDashboard() {
                 {/* Footer Meta Info */}
                 <footer className="px-6 md:px-20 py-8 border-t border-slate-200 dark:border-slate-800 mt-auto">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p className="text-xs text-slate-500 dark:text-slate-400">© 2024 Kubernetes Cluster Manager v2.4.0-stable</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">   2024 Kubernetes Cluster Manager v2.4.0-stable</p>
                         <div className="flex gap-6">
                             <a href="#" className="text-xs text-slate-500 dark:text-slate-400 hover:text-blue-600">Docs</a>
                             <a href="#" className="text-xs text-slate-500 dark:text-slate-400 hover:text-blue-600">API Reference</a>
