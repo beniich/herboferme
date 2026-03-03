@@ -88,10 +88,10 @@
     "vitest": "^3.2.4"
   },
   "optionalDependencies": {
+    "@next/swc-linux-x64-gnu": "npm:null@*",
+    "@next/swc-linux-x64-musl": "15.1.12",
     "@parcel/watcher": "^2.5.0",
-    "@parcel/watcher-linux-x64-glibc": "^2.5.0",
-    "@next/swc-linux-x64-gnu": "15.1.12",
-    "@next/swc-linux-x64-musl": "15.1.12"
+    "@parcel/watcher-linux-x64-glibc": "^2.5.6"
   },
   "engines": {
     "node": ">=20.0.0"

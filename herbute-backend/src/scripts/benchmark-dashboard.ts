@@ -48,7 +48,7 @@ async function benchmark() {
     console.log('Creating mock data...');
 
     // Create Animals
-    const animals = [];
+    const animals: any[] = [];
     for (let i = 0; i < 500; i++) {
         animals.push({
             organizationId,
@@ -62,7 +62,7 @@ async function benchmark() {
     await Animal.insertMany(animals);
 
     // Create IT Tickets
-    const tickets = [];
+    const tickets: any[] = [];
     const statuses = ['new', 'assigned', 'in_progress', 'pending', 'resolved', 'closed'];
     const priorities = ['low', 'medium', 'high', 'urgent', 'critical'];
     const user = await User.findOne();
@@ -79,10 +79,10 @@ async function benchmark() {
             sla: { breached: i % 10 === 0 }
         });
     }
-    await ITTicket.insertMany(tickets);
+    await (ITTicket as any).insertMany(tickets);
 
     // Create Complaints
-    const complaints = [];
+    const complaints: any[] = [];
     const cStatuses = ['nouvelle', 'en cours', 'rÃ©solue', 'fermÃ©e', 'rejetÃ©e'];
     for (let i = 0; i < 500; i++) {
         complaints.push({
@@ -99,15 +99,15 @@ async function benchmark() {
             status: cStatuses[i % cStatuses.length]
         });
     }
-    await Complaint.insertMany(complaints);
+    await (Complaint as any).insertMany(complaints);
 
     // Create Teams and Assignments
     const teams = await Team.insertMany([
-        { name: 'Team A', organizationId, color: '#ff0000' },
-        { name: 'Team B', organizationId, color: '#00ff00' }
+        { name: 'Team A', organizationId, color: '#ff0000' } as any,
+        { name: 'Team B', organizationId, color: '#00ff00' } as any
     ]);
 
-    const assignments = [];
+    const assignments: any[] = [];
     const complaint = await Complaint.findOne({ organizationId });
     for (let i = 0; i < 100; i++) {
         assignments.push({
@@ -116,7 +116,7 @@ async function benchmark() {
             status: i % 3 === 0 ? 'terminé' : 'en cours'
         });
     }
-    await Assignment.insertMany(assignments);
+    await (Assignment as any).insertMany(assignments);
 
     console.log('Data ready. Starting benchmark...');
 
