@@ -43,11 +43,11 @@ const VALID_STATUSES = ['ouvert', 'en cours', 'rÃ©solu', 'fermÃ©'];
 // â”€â”€ Validators â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const createComplaintValidators = [
-  body('title').trim().isLength({ min: 3, max: 200 }).withMessage('Titre: 3 Ã  200 caractÃ¨res'),
+  body('title').trim().isLength({ min: 3, max: 200 }).withMessage('Titre: 3 Ã  200 caractÃ¨res'),
   body('description')
     .trim()
     .isLength({ min: 10, max: 5000 })
-    .withMessage('Description: 10 Ã  5000 caractÃ¨res'),
+    .withMessage('Description: 10 Ã  5000 caractÃ¨res'),
   body('priority')
     .optional()
     .isIn(VALID_PRIORITIES)
