@@ -95,7 +95,7 @@ export class NotificationService {
         const notification: NotificationPayload = {
             type: 'complaint_assigned',
             title: 'Nouvelle RÃ©clamation AssignÃ©e',
-            message: `Une rÃ©clamation "${complaint.title}" a Ã©tÃ© assignÃ©e Ã  votre Ã©quipe`,
+            message: `Une rÃ©clamation "${complaint.title}" a Ã©tÃ© assignÃ©e Ã  votre Ã©quipe`,
             data: {
                 complaintId: complaint._id,
                 category: complaint.category,
@@ -115,8 +115,8 @@ export class NotificationService {
     async notifyStatusChange(complaintId: string, oldStatus: string, newStatus: string, userIds: string[]) {
         const notification: NotificationPayload = {
             type: 'status_update',
-            title: 'Statut de RÃ©clamation Mis Ã  Jour',
-            message: `Le statut de la rÃ©clamation est passÃ© de "${oldStatus}" Ã  "${newStatus}"`,
+            title: 'Statut de RÃ©clamation Mis Ã  Jour',
+            message: `Le statut de la rÃ©clamation est passÃ© de "${oldStatus}" Ã  "${newStatus}"`,
             data: {
                 complaintId,
                 oldStatus,
@@ -136,7 +136,7 @@ export class NotificationService {
     async sendUrgentAlert(message: string, recipientIds?: string[]) {
         const notification: NotificationPayload = {
             type: 'alert',
-            title: 'âš ï¸ Alerte Urgente',
+            title: 'âš ï¸ Alerte Urgente',
             message,
             priority: 'urgent',
             timestamp: new Date()

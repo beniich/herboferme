@@ -51,9 +51,9 @@ router.get('/', [protect, requireOrganization], async (req: any, res, next) => {
                 { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
                 { $group: { _id: '$priority', count: { $sum: 1 } } }
             ]),
-            slaBreach: await ITTicket.countDocuments({ 
-                organizationId, 
-                'sla.breached': true 
+            slaBreach: await ITTicket.countDocuments({
+                organizationId,
+                'sla.breached': true
             })
         };
 
