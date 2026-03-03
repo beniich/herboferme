@@ -34,10 +34,10 @@ const Gauge = memo(({ value, max, label, unit, color }: {
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
       <svg width="72" height="72" viewBox="0 0 72 72">
         <circle cx="36" cy="36" r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="6"
-          strokeDasharray={\`\${arc} \${2 * Math.PI * r}\`} strokeLinecap="round"
+          strokeDasharray={`${arc} ${2 * Math.PI * r}`} strokeLinecap="round"
           transform="rotate(135 36 36)" />
         <circle cx="36" cy="36" r={r} fill="none" stroke={color} strokeWidth="6"
-          strokeDasharray={\`\${dash} \${arc - dash}\`} strokeLinecap="round"
+          strokeDasharray={`${dash} ${arc - dash}`} strokeLinecap="round"
           transform="rotate(135 36 36)"
           style={{ transition: 'stroke-dasharray 0.6s ease' }} />
         <text x="36" y="38" textAnchor="middle" fill={color} fontSize="13" fontFamily="monospace" fontWeight="700">
@@ -118,7 +118,7 @@ export default function IoTDashboardPage() {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch(\`\${API_URL}/api/iot/latest\`);
+        const res = await fetch(`${API_URL}/api/iot/latest`);
         const data = await res.json();
         setSensors(data?.data ?? []);
       } catch { /* ignore */ }
@@ -129,7 +129,7 @@ export default function IoTDashboardPage() {
   // WebSocket pour données temps réel
   useEffect(() => {
     const WS_URL = process.env.NEXT_PUBLIC_SOCKET_URL?.replace('http', 'ws') ?? 'ws://localhost:2065';
-    const ws     = new WebSocket(\`\${WS_URL}/ws/iot\`);
+    const ws     = new WebSocket(`${WS_URL}/ws/iot`);
     wsRef.current = ws;
 
     ws.onopen = () => {
@@ -191,7 +191,7 @@ export default function IoTDashboardPage() {
       {/* KPIs globaux */}
       <div className="kpi-grid kpi-grid-4" style={{ marginBottom: '20px' }}>
         {[
-          { icon: '📡', label: 'Capteurs actifs',   value: sensors.filter(s => s.status === 'online').length, unit: \`/ \${sensors.length}\`, color: 'var(--blue)' },
+          { icon: '📡', label: 'Capteurs actifs',   value: sensors.filter(s => s.status === 'online').length, unit: `/ ${sensors.length}`, color: 'var(--blue)' },
           { icon: '💧', label: 'Hum. sol moy.',     value: avgSoilMoisture, unit: '%',  color: 'var(--teal)'  },
           { icon: '🌡️', label: 'T° air moyenne',    value: avgTemp,         unit: '°C', color: 'var(--amber)' },
           { icon: '🔔', label: 'Alertes actives',   value: alertCount,      unit: '',   color: alertCount > 0 ? 'var(--red)' : 'var(--green)' },

@@ -113,7 +113,7 @@ export default memo(function NdviMap({ parcels, onParcelSelect }: Props) {
             <tr><td>Zones stress</td><td><b>${parcel.stressZones?.length}</b></td></tr>
           </table>
           ${parcel.recommendation?.action
-            ? \`<div style="margin-top: 8px; padding: 6px; background: \${color}22; border-radius: 4px; font-size: 11px;">⚡ \${parcel.recommendation.action}</div>\`
+            ? `<div style="margin-top: 8px; padding: 6px; background: ${color}22; border-radius: 4px; font-size: 11px;">⚡ ${parcel.recommendation.action}</div>`
             : ''}
         </div>
       `, { maxWidth: 250 });

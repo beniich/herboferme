@@ -123,7 +123,7 @@ export default function MapPage() {
   const [selected, setSelected] = useState<ParcelAnalysis | null>(null);
 
   const { data: parcels = [], isLoading, mutate } = useSWR(
-    orgId ? `ndvi-\${orgId}` : null,
+    orgId ? `ndvi-${orgId}` : null,
     () => fetchParcelAnalyses(orgId),
     { revalidateOnFocus: false, dedupingInterval: 300_000 }
   );
