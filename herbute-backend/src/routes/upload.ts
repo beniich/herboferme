@@ -1,7 +1,11 @@
-﻿import { Router } from 'express';
+import { Router } from 'express';
 import { upload } from '../middleware/upload.js';
+import { authenticate, requireOrganization } from '../middleware/security.js';
 
 const router = Router();
+
+// All upload routes require authentication and organization context
+router.use(authenticate, requireOrganization);
 
 // POST /api/upload
 router.post('/', upload.single('file'), (req, res) => {
