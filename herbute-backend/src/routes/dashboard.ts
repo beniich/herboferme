@@ -13,91 +13,140 @@ const router = express.Router();
 router.get('/', [protect, requireOrganization], async (req: any, res, next) => {
     try {
         const organizationId = req.organizationId;
+        const orgIdObj = new mongoose.Types.ObjectId(organizationId);
 
-        // 1. Agriculture Stats
-        const latestKPI = await FarmKPI.findOne({ organizationId }).sort({ year: -1, month: -1 });
-        const animals = await Animal.find({ organizationId });
-        const crops = await Crop.find({ organizationId });
+        // Execute all top-level queries in parallel to avoid sequential blocking
+        const [latestKPI, animalStats, cropStats, itStatsResult, complaintStats, teamStats] = await Promise.all([
+            // 1. Latest Financial KPI
+            FarmKPI.findOne({ organizationId }).sort({ year: -1, month: -1 }).lean(),
 
-        const agroStats = {
-            financials: latestKPI || {
-                totalRevenue: 0,
-                totalExpenses: 0,
-                netProfit: 0,
-                cashFlow: 0
-            },
-            cheptel: {
-                total: animals.reduce((sum, a) => sum + a.count, 0),
-                poultry: animals.filter(a => a.type.toLowerCase().includes('poul')).reduce((sum, a) => sum + a.count, 0),
-                bovine: animals.filter(a => a.type.toLowerCase().includes('vache') || a.type.toLowerCase().includes('bovin')).reduce((sum, a) => sum + a.count, 0)
-            },
-            cultures: {
-                totalHa: 218, // Could be aggregated from parcel models
-                categories: await Crop.aggregate([
-                    { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
-                    { $group: { _id: '$category', count: { $sum: 1 } } }
-                ])
-            }
-        };
-
-        // 2. IT (GLPI) Stats
-        const itStats = {
-            total: await ITTicket.countDocuments({ organizationId }),
-            byStatus: await ITTicket.aggregate([
-                { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
-                { $group: { _id: '$status', count: { $sum: 1 } } }
-            ]),
-            byPriority: await ITTicket.aggregate([
-                { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
-                { $group: { _id: '$priority', count: { $sum: 1 } } }
-            ]),
-            slaBreach: await ITTicket.countDocuments({ 
-                organizationId, 
-                'sla.breached': true 
-            })
-        };
-
-        // 3. Maintenance/Operations (Complaints) Stats
-        const totalComplaints = await Complaint.countDocuments({ organizationId });
-        const statusStats = await Complaint.aggregate([
-            { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
-            { $group: { _id: '$status', count: { $sum: 1 } } }
-        ]);
-
-        const teamStats = await Team.aggregate([
-            { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
-            {
-                $lookup: {
-                    from: 'assignments',
-                    localField: '_id',
-                    foreignField: 'teamId',
-                    as: 'assignments'
-                }
-            },
-            {
-                $project: {
-                    name: 1,
-                    color: 1,
-                    activeAssignments: {
-                        $size: {
-                            $filter: {
-                                input: '$assignments',
-                                as: 'a',
-                                cond: { $ne: ['$$a.status', 'terminé'] }
+            // 2. Animal Statistics (Aggregated on server to avoid fetching 1000s of docs)
+            Animal.aggregate([
+                { $match: { organizationId: orgIdObj } },
+                {
+                    $group: {
+                        _id: null,
+                        totalCount: { $sum: '$count' },
+                        poultryCount: {
+                            $sum: {
+                                $cond: [{ $regexMatch: { input: '$type', regex: /poul/i } }, '$count', 0]
+                            }
+                        },
+                        bovineCount: {
+                            $sum: {
+                                $cond: [
+                                    { $regexMatch: { input: '$type', regex: /vache|bovin/i } },
+                                    '$count',
+                                    0
+                                ]
                             }
                         }
                     }
                 }
-            }
+            ]),
+
+            // 3. Crop Statistics
+            Crop.aggregate([
+                { $match: { organizationId: orgIdObj } },
+                { $group: { _id: '$category', count: { $sum: 1 } } }
+            ]),
+
+            // 4. IT Ticket Statistics (Consolidated into single $facet query)
+            ITTicket.aggregate([
+                { $match: { organizationId: orgIdObj } },
+                {
+                    $facet: {
+                        total: [{ $count: 'count' }],
+                        byStatus: [{ $group: { _id: '$status', count: { $sum: 1 } } }],
+                        byPriority: [{ $group: { _id: '$priority', count: { $sum: 1 } } }],
+                        slaBreach: [
+                            { $match: { 'sla.breached': true } },
+                            { $count: 'count' }
+                        ]
+                    }
+                }
+            ]),
+
+            // 5. Complaint Statistics (Consolidated into single $facet query)
+            Complaint.aggregate([
+                { $match: { organizationId: orgIdObj } },
+                {
+                    $facet: {
+                        total: [{ $count: 'count' }],
+                        byStatus: [{ $group: { _id: '$status', count: { $sum: 1 } } }]
+                    }
+                }
+            ]),
+
+            // 6. Team & Assignment Statistics
+            Team.aggregate([
+                { $match: { organizationId: orgIdObj } },
+                {
+                    $lookup: {
+                        from: 'assignments',
+                        localField: '_id',
+                        foreignField: 'teamId',
+                        as: 'assignments'
+                    }
+                },
+                {
+                    $project: {
+                        name: 1,
+                        color: 1,
+                        activeAssignments: {
+                            $size: {
+                                $filter: {
+                                    input: '$assignments',
+                                    as: 'a',
+                                    cond: { $ne: ['$$a.status', 'terminé'] }
+                                }
+                            }
+                        }
+                    }
+                }
+            ])
         ]);
+
+        // Process Animal aggregate results
+        const animals = animalStats[0] || { totalCount: 0, poultryCount: 0, bovineCount: 0 };
+
+        // Process IT stats from facet
+        const it = itStatsResult[0];
+        const processedItStats = {
+            total: it?.total[0]?.count || 0,
+            byStatus: it?.byStatus || [],
+            byPriority: it?.byPriority || [],
+            slaBreach: it?.slaBreach[0]?.count || 0
+        };
+
+        // Process Complaint stats from facet
+        const complaints = complaintStats[0];
+        const totalComplaints = complaints?.total[0]?.count || 0;
+        const statusStats = complaints?.byStatus || [];
 
         res.json({
             success: true,
-            agro: agroStats,
-            it: itStats,
+            agro: {
+                financials: latestKPI || {
+                    totalRevenue: 0,
+                    totalExpenses: 0,
+                    netProfit: 0,
+                    cashFlow: 0
+                },
+                cheptel: {
+                    total: animals.totalCount,
+                    poultry: animals.poultryCount,
+                    bovine: animals.bovineCount
+                },
+                cultures: {
+                    totalHa: 218,
+                    categories: cropStats
+                }
+            },
+            it: processedItStats,
             maintenance: {
                 total: totalComplaints,
-                byStatus: statusStats.reduce((acc: any, curr) => ({ ...acc, [curr._id]: curr.count }), {}),
+                byStatus: statusStats.reduce((acc: any, curr: any) => ({ ...acc, [curr._id]: curr.count }), {}),
                 teamStats
             }
         });
