@@ -37,10 +37,12 @@
   --shadow-electric: 0 0 20px rgba(254, 127, 45, 0.35), 0 0 40px rgba(254, 127, 45, 0.15);
   --border-electric: 2px solid #FE7F2D;
   --bg-electric: rgba(254, 127, 45, 0.05);
+  --glass:       rgba(255, 255, 255, 0.75);
+  --glass-border:rgba(255, 255, 255, 0.2);
 
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
   background: var(--bg);
   font-family: var(--font-body);
   color: var(--text);
@@ -90,6 +92,13 @@
   color: var(--text3);
   letter-spacing: 1.5px;
   text-transform: uppercase;
+}
+
+/* ── LAYOUT ── */
+.agro-theme .layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
 }
 
 /* ── SIDEBAR ── */
@@ -426,7 +435,11 @@
 .agro-theme .cg-12 { grid-template-columns: 1fr 2fr; }
 
 /* ── PAGE ── */
-.agro-theme .page       { display: none; padding: 16px; }
+.agro-theme .page {
+  display: none;
+  padding: 24px 32px;
+  width: 100%;
+}
 .agro-theme .page.active { display: block; animation: fadeInPage 0.3s ease; }
 
 @keyframes fadeInPage {
@@ -520,4 +533,16 @@
 
 @media (pointer: fine) {
   .agro-custom-cursor-ring { display: block; }
+}
+
+/* ── UTILITIES ── */
+.agro-theme .glass-effect {
+  background: var(--glass) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid var(--glass-border) !important;
+}
+
+.agro-theme .shadow-electric {
+  box-shadow: var(--shadow-electric) !important;
 }

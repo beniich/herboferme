@@ -178,7 +178,7 @@ export default function PublicLayout({
                             </p>
                             <div className="flex gap-6">
                                 {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
-                                    <a key={i} href="#" className="w-14 h-14 rounded-2xl bg-[var(--bg)] flex items-center justify-center text-[var(--green)] hover:bg-[var(--green)] hover:text-white transition-all shadow-sm border border-[var(--border)] group">
+                                    <a key={i} href="#" title="Social Link" className="w-14 h-14 rounded-2xl bg-[var(--bg)] flex items-center justify-center text-[var(--green)] hover:bg-[var(--green)] hover:text-white transition-all shadow-sm border border-[var(--border)] group">
                                         <Icon size={22} className="group-hover:scale-110 transition-transform" />
                                     </a>
                                 ))}
