@@ -6,10 +6,10 @@
 
 @layer base {
   :root {
-    /* ── Tailwind / shadcn mapping → palette #F5FBE6 #215E61 #233D4D #FE7F2D ── */
+    /* ── Tailwind / shadcn mapping ── */
 
-    --background:       74 60% 94%;   /* #F5FBE6 Soft Mint */
-    --foreground:       203 37% 22%;  /* #233D4D Midnight Blue */
+    --background:       74 60% 94%;   /* #F5FBE6 Soft Mint BG */
+    --foreground:       203 37% 22%;  /* #233D4D Midnight Blue Text */
 
     --card:             0 0% 100%;
     --card-foreground:  203 37% 22%;
@@ -17,7 +17,7 @@
     --popover:          0 0% 100%;
     --popover-foreground: 203 37% 22%;
 
-    --primary:          183 49% 25%;  /* #215E61 Dark Teal */
+    --primary:          183 49% 25%;  /* #215E61 Dark Teal Buttons */
     --primary-foreground: 0 0% 100%;
 
     --secondary:        74 60% 94%;   /* #F5FBE6 */
@@ -26,15 +26,15 @@
     --muted:            74 40% 90%;
     --muted-foreground: 203 20% 45%;
 
-    --accent:           23 99% 59%;   /* #FE7F2D Pumpkin Orange */
+    --accent:           23 99% 59%;   /* #FE7F2D Pumpkin Orange Titles */
     --accent-foreground: 0 0% 100%;
 
     --destructive:      347 77% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border:           203 37% 22% / 0.12;
+    --border:           203 37% 22% / 0.15; /* #233D4D base for borders */
     --input:            203 37% 22% / 0.10;
-    --ring:             183 49% 25%;  /* #215E61 */
+    --ring:             183 49% 25%;  /* #215E61 Teal rings */
 
     --radius: 0.5rem;
   }
@@ -42,28 +42,18 @@
   .dark {
     --background:       183 49% 8%;
     --foreground:       74 60% 94%;
-
     --card:             183 49% 10%;
     --card-foreground:  74 60% 94%;
-
     --popover:          183 49% 10%;
     --popover-foreground: 74 60% 94%;
-
     --primary:          183 49% 35%;
     --primary-foreground: 0 0% 100%;
-
     --secondary:        183 49% 14%;
     --secondary-foreground: 74 60% 90%;
-
     --muted:            183 49% 14%;
     --muted-foreground: 183 30% 60%;
-
     --accent:           23 99% 59%;
     --accent-foreground: 0 0% 100%;
-
-    --destructive:      0 62% 45%;
-    --destructive-foreground: 0 0% 100%;
-
     --border:           183 49% 25% / 0.25;
     --input:            183 49% 25% / 0.20;
     --ring:             183 49% 35%;
@@ -71,106 +61,42 @@
 }
 
 @layer base {
-  * { @apply border-border; }
+  * { 
+    border-color: #233D4D; /* Midnight Blue Borders defined in request */
+  }
+
+  h1, h2, h3, h4, h5, h6 { 
+    color: #FE7F2D; /* Pumpkin Orange Titles defined in request */
+  }
+
   html { @apply scroll-smooth; }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    background-color: #F5FBE6; /* Soft Mint Background defined in request */
     -webkit-font-smoothing: antialiased;
   }
 }
 
 @layer components {
-  /* ── Glass card avec teinte mint ── */
-  .glass-card {
-    background: rgba(245, 251, 230, 0.75);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(33, 94, 97, 0.15);
-    box-shadow: var(--shadow-card);
-  }
-
-  /* ── Premium card ── */
-  .premium-card {
-    @apply bg-white rounded-2xl border;
-    border-color: rgba(35, 61, 77, 0.10);
-    box-shadow: var(--shadow-card);
-    transition: transform var(--transition-base), box-shadow var(--transition-base);
-  }
-  .premium-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-premium);
-  }
-
-  /* ── Badges de statut ── */
-  .badge-success { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800; }
-  .badge-warning { background: rgba(254, 127, 45, 0.15); color: #cc5d10; @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold; }
-  .badge-error   { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-700; }
-  .badge-info    { background: rgba(33, 94, 97, 0.12); color: #215E61; @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold; }
-
-  /* ── Boutons ── */
-  .btn-brand-primary {
-    background: #215E61;
-    color: #F5FBE6;
-    @apply px-4 py-2 rounded-lg font-medium transition-all;
-    box-shadow: 0 4px 12px rgba(33, 94, 97, 0.25);
-  }
-  .btn-brand-primary:hover {
-    background: #2c7a7e;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(33, 94, 97, 0.35);
-  }
-
-  .btn-brand-accent {
-    background: #FE7F2D;
+  /* ── Special brand button ── */
+  .brand-primary-button {
+    background-color: #215E61; /* Dark Teal Buttons defined in request */
     color: #ffffff;
-    @apply px-4 py-2 rounded-lg font-medium transition-all;
-    box-shadow: 0 4px 12px rgba(254, 127, 45, 0.25);
-  }
-  .btn-brand-accent:hover {
-    background: #ff9e5e;
-    transform: translateY(-1px);
+    @apply px-4 py-2 rounded-lg font-medium transition-all hover:bg-opacity-90;
+    box-shadow: var(--shadow-sm);
   }
 
-  /* ── Titre de page (orange accent) ── */
-  .page-title-brand {
-    color: #FE7F2D;
-    font-family: var(--font-display);
-    font-weight: 800;
-  }
-  .page-label-brand {
-    color: #FE7F2D;
-    font-family: var(--font-mono);
-    font-size: var(--font-size-xs);
-    letter-spacing: 2px;
-    text-transform: uppercase;
+  /* ── Sidebar specific styles ── */
+  .sidebar-container {
+    background-color: #215E61; /* Teal sidebar as requested */
+    border-right: 1px solid #233D4D; /* Navy border as requested */
   }
 
-  /* ── Sidebar pill active ── */
-  .nav-active-pill {
-    background: rgba(254, 127, 45, 0.15);
-    border-left: 3px solid #FE7F2D;
-    color: #FE7F2D;
-  }
-
-  /* ── Gradient mint ── */
-  .bg-brand-gradient {
-    background: linear-gradient(135deg, #F5FBE6 0%, #e5f0c8 100%);
-  }
-  .bg-sidebar-gradient {
-    background: linear-gradient(180deg, #215E61 0%, #164143 100%);
-  }
-
-  /* ── Micro-animations ── */
-  .animate-fade-in { animation: fadeIn 0.4s ease-out both; }
-  .animate-slide-up { animation: slideUp 0.35s ease-out both; }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
+  /* ── Glass card ── */
+  .glass-card {
+    background: rgba(245, 251, 230, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid #233D4D; /* Border Navy */
   }
 }

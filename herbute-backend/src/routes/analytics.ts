@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import path from 'path';
 import { authenticate as auth } from '../middleware/security.js';
 import { requireOrganization } from '../middleware/security.js';
-import { Complaint } from '../models/Complaint.js';
+import { Complaint } from '../modules/complaint/complaint.model.js';
 import { Feedback } from '../models/Feedback.js';
 import { Organization } from '../models/Organization.js';
 import { saveExport } from '../services/storageService.js';

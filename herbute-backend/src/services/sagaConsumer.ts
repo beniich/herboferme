@@ -1,5 +1,5 @@
 ﻿import { consumer } from '../config/kafka.js';
-import { Complaint } from '../models/Complaint.js';
+import { Complaint } from '../modules/complaint/complaint.model.js';
 import { logger } from '../utils/logger.js';
 
 export const startSagaConsumer = async () => {

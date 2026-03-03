@@ -1,253 +1,137 @@
 'use client';
 
 import Link from 'next/link';
+import { Sprout, BarChart3, ShieldCheck, Cpu, Layout, BookOpen, ArrowRight, Mail, Calendar, Clock, User, Briefcase, MapPin, Globe, Rocket, Zap, Heart, Search, Bell, MemoryStick as Memory, Shield, RefreshCw, Smartphone, HelpCircle } from 'lucide-react';
 
 export default function SystemInfoPage() {
     return (
-        <div className="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased transition-colors duration-300">
-            <div className="layout-container flex h-full grow flex-col">
-                {/* Top Navigation Bar */}
-                <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-6 md:px-20 lg:px-40 py-4 bg-white dark:bg-slate-900/50 backdrop-blur-md sticky top-0 z-50">
-                    <div className="flex items-center gap-8">
-                        <Link href="/" className="flex items-center gap-3 text-primary">
-                            <div className="size-8 flex items-center justify-center rounded-lg bg-primary/10">
-                                <span className="material-symbols-outlined text-primary">cloud</span>
-                            </div>
-                            <h2 className="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">CloudIndustrie</h2>
-                        </Link>
-                        <nav className="hidden md:flex items-center gap-9">
-                            <Link className="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="/dashboard">Dashboard</Link>
-                            <Link className="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="/complaints/list">Work Orders</Link>
-                            <Link className="text-slate-900 dark:text-white text-sm font-bold leading-normal border-b-2 border-primary" href="/system-info">System Info</Link>
-                        </nav>
-                    </div>
-                    <div className="flex flex-1 justify-end gap-4 items-center">
-                        <label className="hidden lg:flex flex-col min-w-40 h-10 max-w-64">
-                            <div className="flex w-full flex-1 items-stretch rounded-xl h-full bg-slate-100 dark:bg-slate-800">
-                                <div className="text-slate-500 flex items-center justify-center pl-4">
-                                    <span className="material-symbols-outlined text-[20px]">search</span>
-                                </div>
-                                <input className="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:ring-0 h-full placeholder:text-slate-500 text-sm pl-2" placeholder="Search system docs..." value="" />
-                            </div>
-                        </label>
-                        <button className="flex size-10 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-                            <span className="material-symbols-outlined text-[20px]">notifications</span>
-                        </button>
-                        <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-slate-200 dark:border-slate-700" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBu9xYS9IJJYPjFYsIYjZt8GZwMFYMGBoyR-A3EdQnMfgvKwKgHVhEZfGPwc9owpwvORhtOizux2VxzTBIOcx-B8krDUg4gcUmCEgeMQq2xQyfR9_8BXea1DaTsgwJaW6dSSLBxJVcE4dpi0NaGCxgt7qvIuSSPiqacLiJZOA-JhkueSjSiSDxmuR-6u8OILDmI4Mk0Y4VGiv2fHU5xqHQ0pzwmek_jCZ2UL1MPAadLcXCLdDdrpvdIisJeeiOxC5UGWcJahDzGfjCB")' }}></div>
-                    </div>
-                </header>
-
-                {/* Main Content Area */}
-                <main className="flex flex-1 flex-col px-6 md:px-20 lg:px-40 py-10 max-w-[1440px] mx-auto w-full">
-                    {/* Hero Section */}
-                    <section className="mb-16">
-                        <div className="flex flex-col md:flex-row items-center gap-10 bg-white dark:bg-slate-900 p-8 lg:p-12 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden relative">
-                            <div className="flex-1 z-10">
-                                <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-bold tracking-wider uppercase rounded-full mb-4">Operations Guide</span>
-                                <h1 className="text-slate-900 dark:text-white text-4xl lg:text-5xl font-black leading-tight tracking-[-0.033em] mb-4">
-                                    Flux Technologique
-                                </h1>
-                                <p className="text-slate-600 dark:text-slate-400 text-lg max-w-xl leading-relaxed">
-                                    Notre mission est de propulser votre croissance à travers une infrastructure robuste,
-                                    IA-native et sécurisée par des protocoles de nouvelle génération.
-                                </p>
-                                <div className="flex flex-wrap gap-4 mt-8">
-                                    <button className="bg-primary text-white px-6 py-3 rounded-xl font-bold text-sm flex items-center gap-2 hover:opacity-90 transition-all">
-                                        <span className="material-symbols-outlined text-[18px]">play_circle</span>
-                                        System Demo
-                                    </button>
-                                    <button className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-                                        Download Documentation
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="flex-1 w-full max-w-md relative hidden md:block">
-                                <div className="absolute -inset-4 bg-primary/20 blur-3xl rounded-full"></div>
-                                <img
-                                    className="rounded-xl relative z-10 shadow-2xl border border-slate-200 dark:border-slate-700"
-                                    alt="Data visualization dashboard representing workflow statistics"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAahQQho0cRcV1gpY7dzsyYA913Jkkc4PtkQQSH58UgHtbqT_dR05eIwLrC2tKMkUgRMfN0LE_vFOrUTDUr7ZWblXG2VGT9tFTagUvZmCtHjCt6NWIw7bCeFtg0zITqGcaRd9HwFY45MDCL_U1E4hTcTbmJKlgh8W1RGkRBJwmMJeI1Jn4NmvVjeFuweRq7Mov6dHkPSsqbwHVtytsOjPx_w_GE2aazDldpEAI3ErJKEjH3LhigowEyjr6PbEOrTl0oxnXNyciIRrcW"
-                                />
-                            </div>
+        <div className="bg-[var(--bg)] text-[var(--text)] font-sans min-h-screen">
+            <main>
+                {/* Hero Section */}
+                <section className="relative py-24 lg:py-40 bg-[var(--sidebar-bg)] overflow-hidden shadow-2xl">
+                    <div className="absolute inset-0 z-0 opacity-20 bg-[radial-gradient(circle_at_50%_100%,var(--green)_0%,transparent_60%)]"></div>
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
+                    
+                    <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+                        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--green)]/20 border border-[var(--green)]/30 text-[var(--green)] text-[10px] font-black uppercase tracking-[0.3em] mb-12 backdrop-blur-md">
+                            <ShieldCheck className="w-4 h-4 text-[var(--gold)]" />
+                            Guide des Opérations de Précision
                         </div>
-                    </section>
-
-                    {/* Step-by-Step Infographic */}
-                    <section className="mb-20">
-                        <div className="text-center mb-12">
-                            <h2 className="text-slate-900 dark:text-white text-3xl font-bold tracking-tight mb-2">Cycle de Vie des Services</h2>
-                            <p className="text-slate-500">De l'expression du besoin à l'optimisation continue de vos performances.</p>
+                        <h1 className="text-5xl md:text-8xl font-black text-white mb-10 leading-tight italic uppercase tracking-tighter">
+                            Flux <br />
+                            <span className="text-[var(--gold)] not-italic underline underline-offset-[16px]">Technologique.</span>
+                        </h1>
+                        <p className="text-xl md:text-2xl text-white/70 max-w-3xl mx-auto mb-16 font-normal leading-relaxed opacity-90">
+                            Notre mission est de propulser votre croissance agricole à travers une infrastructure robuste, IA-native et sécurisée par des protocoles de nouvelle génération.
+                        </p>
+                        <div className="flex flex-wrap justify-center gap-8">
+                            <button className="bg-[var(--green)] text-white px-10 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] flex items-center gap-3 hover:scale-105 transition-all shadow-2xl shadow-[var(--green)]/20">
+                                <Rocket className="w-5 h-5" />
+                                Démo du Système
+                            </button>
+                            <button className="bg-white/10 text-white border border-white/20 px-10 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-white/20 transition-all backdrop-blur-md">
+                                Documentation Technique
+                            </button>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 relative">
+                    </div>
+                </section>
+
+                {/* Step-by-Step Infographic */}
+                <section className="py-24 bg-white relative">
+                    <div className="max-w-7xl mx-auto px-6">
+                        <div className="text-center mb-20">
+                            <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--green)] mb-4 italic">Cycle de Vie</h2>
+                            <h3 className="text-4xl md:text-5xl font-black text-[var(--text)] italic uppercase tracking-tighter">Processus de <span className="text-[var(--green)] not-italic underline underline-offset-8">Précision.</span></h3>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-5 gap-12 relative">
                             {/* Connecting Line (Desktop) */}
-                            <div className="hidden md:block absolute top-[44px] left-0 w-full h-1 bg-slate-200 dark:bg-slate-800 -z-0"></div>
+                            <div className="hidden md:block absolute top-[60px] left-0 w-full h-[2px] bg-[var(--border)] -z-0"></div>
 
-                            {/* Step 1 */}
-                            <div className="flex flex-col items-center text-center group z-10">
-                                <div className="size-20 rounded-full bg-white dark:bg-slate-900 border-4 border-primary flex items-center justify-center text-primary shadow-lg mb-6 group-hover:scale-110 transition-transform">
-                                    <span className="material-symbols-outlined text-3xl">hub</span>
+                            {[
+                                { step: "01", title: "Capture", desc: "Collecte des données via capteurs IoT et imagerie satellite.", icon: <Cpu className="w-8 h-8" /> },
+                                { step: "02", title: "Audit IA", desc: "Analyse algorithmique pour identifier les zones de stress.", icon: <Zap className="w-8 h-8" /> },
+                                { step: "03", title: "Application", desc: "Déploiement ciblé des ressources et intrants agricoles.", icon: <RefreshCw className="w-8 h-8" /> },
+                                { step: "04", title: "Monitoring", desc: "Suivi en temps réel de l'évolution des parcelles.", icon: <BarChart3 className="w-8 h-8" /> },
+                                { step: "05", title: "Optimisation", desc: "Ajustement continu pour maximiser le rendement final.", icon: <Rocket className="w-8 h-8" /> },
+                            ].map((s, i) => (
+                                <div key={i} className="flex flex-col items-center text-center group z-10">
+                                    <div className="size-28 rounded-[2.5rem] bg-white border-2 border-[var(--border)] group-hover:border-[var(--green)] flex items-center justify-center text-[var(--text3)] group-hover:text-[var(--green)] shadow-xl shadow-black/[0.02] mb-8 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                                        {s.icon}
+                                    </div>
+                                    <span className="text-[10px] font-black text-[var(--green)] uppercase tracking-[0.3em] mb-3 italic">Étape {s.step}</span>
+                                    <h3 className="text-[var(--text)] font-black text-xl mb-3 italic uppercase tracking-tight">{s.title}</h3>
+                                    <p className="text-[var(--text2)] text-xs leading-relaxed opacity-80 font-normal">{s.desc}</p>
                                 </div>
-                                <span className="text-xs font-bold text-primary uppercase tracking-widest mb-1">Étape 01</span>
-                                <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">Capture</h3>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Identification de vos besoins en ressources (GPU, CPU, Stockage).</p>
-                            </div>
-
-                            {/* Step 2 */}
-                            <div className="flex flex-col items-center text-center group z-10">
-                                <div className="size-20 rounded-full bg-white dark:bg-slate-900 border-4 border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-400 group-hover:border-primary group-hover:text-primary shadow-sm mb-6 group-hover:scale-110 transition-all">
-                                    <span className="material-symbols-outlined text-3xl">psychology</span>
-                                </div>
-                                <span className="text-xs font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest mb-1 group-hover:text-primary">Étape 02</span>
-                                <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">Audit IA</h3>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Analyse algorithmique pour optimiser la configuration de votre instance.</p>
-                            </div>
-
-                            {/* Step 3 */}
-                            <div className="flex flex-col items-center text-center group z-10">
-                                <div className="size-20 rounded-full bg-white dark:bg-slate-900 border-4 border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-400 group-hover:border-primary group-hover:text-primary shadow-sm mb-6 group-hover:scale-110 transition-all">
-                                    <span className="material-symbols-outlined text-3xl">rocket_launch</span>
-                                </div>
-                                <span className="text-xs font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest mb-1 group-hover:text-primary">Étape 03</span>
-                                <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">Déploiement</h3>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Provisioning instantané de votre environnement Cloud sécurisé.</p>
-                            </div>
-
-                            {/* Step 4 */}
-                            <div className="flex flex-col items-center text-center group z-10">
-                                <div className="size-20 rounded-full bg-white dark:bg-slate-900 border-4 border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-400 group-hover:border-primary group-hover:text-primary shadow-sm mb-6 group-hover:scale-110 transition-all">
-                                    <span className="material-symbols-outlined text-3xl">radar</span>
-                                </div>
-                                <span className="text-xs font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest mb-1 group-hover:text-primary">Étape 04</span>
-                                <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">Monitoring</h3>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Surveillance 24/7 de la performance et détection proactive des menaces.</p>
-                            </div>
-
-                            {/* Step 5 */}
-                            <div className="flex flex-col items-center text-center group z-10">
-                                <div className="size-20 rounded-full bg-white dark:bg-slate-900 border-4 border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-400 group-hover:border-primary group-hover:text-primary shadow-sm mb-6 group-hover:scale-110 transition-all">
-                                    <span className="material-symbols-outlined text-3xl">trending_up</span>
-                                </div>
-                                <span className="text-xs font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest mb-1 group-hover:text-primary">Étape 05</span>
-                                <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">Optimisation</h3>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Ajustement continu pour garantir un ROI maximal de votre infrastructure.</p>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* Team Capabilities Grid */}
-                    <section className="mb-20">
-                        <div className="flex items-center justify-between mb-10">
-                            <div>
-                                <h2 className="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">Expertise Technique</h2>
-                                <p className="text-slate-500">Domaines d'intervention spécialisés de CloudIndustrie.</p>
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {/* IA & Computing */}
-                            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:shadow-lg transition-all cursor-default group">
-                                <div className="size-12 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 flex items-center justify-center mb-5 group-hover:bg-primary group-hover:text-white transition-colors">
-                                    <span className="material-symbols-outlined">memory</span>
-                                </div>
-                                <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">IA & Computing</h3>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Optimisation de clusters GPU NVIDIA A100 et déploiement de modèles LLM.</p>
-                            </div>
-                            {/* Cybersecurity */}
-                            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:shadow-lg transition-all cursor-default group">
-                                <div className="size-12 rounded-lg bg-amber-50 dark:bg-amber-900/20 text-amber-600 flex items-center justify-center mb-5 group-hover:bg-primary group-hover:text-white transition-colors">
-                                    <span className="material-symbols-outlined">security</span>
-                                </div>
-                                <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">Cyber-blindage</h3>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Protection ESET Enterprise, isolation CloudLinux et audits de vulnérabilité.</p>
-                            </div>
-                            {/* Cloud Architecture */}
-                            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:shadow-lg transition-all cursor-default group">
-                                <div className="size-12 rounded-lg bg-orange-50 dark:bg-orange-900/20 text-orange-600 flex items-center justify-center mb-5 group-hover:bg-primary group-hover:text-white transition-colors">
-                                    <span className="material-symbols-outlined">cloud_sync</span>
-                                </div>
-                                <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">Cloud Architecture</h3>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Design de réseaux hybrides, CDN LiteSpeed et orchestration de conteneurs.</p>
-                            </div>
-                            {/* Managed Services */}
-                            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:shadow-lg transition-all cursor-default group">
-                                <div className="size-12 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-600 flex items-center justify-center mb-5 group-hover:bg-primary group-hover:text-white transition-colors">
-                                    <span className="material-symbols-outlined">support_agent</span>
-                                </div>
-                                <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-2">Support Managé</h3>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Infogérance 24/7 proactive par nos ingénieurs experts en infrastructure.</p>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* Dashboard Statistics Brief */}
-                    <section className="mb-10 p-8 rounded-xl bg-primary text-white flex flex-col md:flex-row items-center justify-between gap-8">
-                        <div className="flex-1">
-                            <h2 className="text-2xl font-bold mb-2">Performance en Temps Réel</h2>
-                            <p className="text-white/80 leading-relaxed">Nos systèmes gèrent actuellement des milliers d'instances avec un taux de disponibilité de 99.99%.</p>
-                        </div>
-                        <div className="flex gap-4">
-                            <div className="text-center px-6 border-r border-white/20">
-                                <div className="text-3xl font-black">12m</div>
-                                <div className="text-xs font-bold uppercase tracking-widest text-white/70">Avg response</div>
-                            </div>
-                            <div className="text-center px-6">
-                                <div className="text-3xl font-black">89</div>
-                                <div className="text-xs font-bold uppercase tracking-widest text-white/70">Active Teams</div>
-                            </div>
-                        </div>
-                        <Link href="/dashboard" className="bg-white text-primary px-8 py-4 rounded-xl font-bold hover:bg-slate-100 transition-colors whitespace-nowrap text-center">
-                            View Active Dashboard
-                        </Link>
-                    </section>
-                </main>
-
-                {/* Footer */}
-                <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 md:px-20 lg:px-40 py-12">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-                        <div className="col-span-1 md:col-span-2">
-                            <div className="flex items-center gap-3 text-primary mb-6">
-                                <span className="material-symbols-outlined text-3xl">cloud</span>
-                                <h2 className="text-slate-900 dark:text-white text-xl font-bold tracking-tight">CloudIndustrie Portal</h2>
-                            </div>
-                            <p className="text-slate-500 dark:text-slate-400 max-w-sm mb-6">
-                                Bâtir un monde plus rapide et plus sécurisé grâce aux technologies d'infrastructure de pointe.
-                            </p>
-                            <div className="flex gap-4">
-                                <a className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-primary transition-colors" href="#">
-                                    <span className="material-symbols-outlined text-[20px]">language</span>
-                                </a>
-                                <a className="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-primary transition-colors" href="#">
-                                    <span className="material-symbols-outlined text-[20px]">mail</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 className="text-slate-900 dark:text-white font-bold mb-4">Portal Links</h4>
-                            <ul className="space-y-3">
-                                <li><Link className="text-slate-500 dark:text-slate-400 hover:text-primary text-sm transition-colors" href="/system-info">Operational Flow</Link></li>
-                                <li><Link className="text-slate-500 dark:text-slate-400 hover:text-primary text-sm transition-colors" href="/knowledge">Field Guidelines</Link></li>
-                                <li><Link className="text-slate-500 dark:text-slate-400 hover:text-primary text-sm transition-colors" href="/reports">Compliance Reports</Link></li>
-                                <li><Link className="text-slate-500 dark:text-slate-400 hover:text-primary text-sm transition-colors" href="/knowledge">Safety Protocols</Link></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 className="text-slate-900 dark:text-white font-bold mb-4">Support</h4>
-                            <ul className="space-y-3">
-                                <li><Link className="text-slate-500 dark:text-slate-400 hover:text-primary text-sm transition-colors" href="/messages">Technical Helpdesk</Link></li>
-                                <li><Link className="text-slate-500 dark:text-slate-400 hover:text-primary text-sm transition-colors" href="#">API Documentation</Link></li>
-                                <li><Link className="text-slate-500 dark:text-slate-400 hover:text-primary text-sm transition-colors" href="#">System Status</Link></li>
-                                <li><Link className="text-slate-500 dark:text-slate-400 hover:text-primary text-sm transition-colors" href="/admin">Contact Admin</Link></li>
-                            </ul>
+                            ))}
                         </div>
                     </div>
-                    <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p className="text-slate-400 text-xs">© {new Date().getFullYear()} Cloudindustrie Ltd. Toutes les données opérationnelles sont sécurisées.</p>
-                        <div className="flex gap-6">
-                            <Link className="text-slate-400 text-xs hover:text-primary transition-colors" href="#">Privacy Policy</Link>
-                            <Link className="text-slate-400 text-xs hover:text-primary transition-colors" href="#">Terms of Service</Link>
+                </section>
+
+                {/* Team Capabilities Grid */}
+                <section className="py-24 bg-[var(--bg)]/50">
+                    <div className="max-w-7xl mx-auto px-6">
+                        <div className="mb-20">
+                            <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--text3)] mb-4 italic">Expertise</h2>
+                            <h3 className="text-4xl md:text-5xl font-black text-[var(--text)] italic uppercase tracking-tighter">Domaines d'Intervention <span className="text-[var(--gold)] not-italic underline underline-offset-8">Agro-Tech.</span></h3>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                            {[
+                                { title: "IA & Agronomie", desc: "Modèles prédictifs de maladies et optimisation des sols.", icon: <Zap className="w-6 h-6" />, color: "bg-blue-500" },
+                                { title: "IoT & Capteurs", desc: "Réseau de capteurs sol et stations météo connectées.", icon: <Smartphone className="w-6 h-6" />, color: "bg-orange-500" },
+                                { title: "Cloud Souverain", desc: "Hébergement sécurisé des données agricoles au Maroc.", icon: <Globe className="w-6 h-6" />, color: "bg-[var(--green)]" },
+                                { title: "Support Expert", desc: "Assistance agronomique et technique 24h/24 et 7j/7.", icon: <HelpCircle className="w-6 h-6" />, color: "bg-[var(--gold)]" },
+                            ].map((cap, i) => (
+                                <div key={i} className="bg-white p-10 rounded-[3rem] border border-[var(--border)] hover:border-[var(--green)]/50 hover:shadow-2xl transition-all duration-500 group cursor-default">
+                                    <div className={`size-14 rounded-2xl ${cap.color} text-white flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-lg`}>
+                                        {cap.icon}
+                                    </div>
+                                    <h3 className="text-[var(--text)] font-black text-xl mb-4 italic uppercase tracking-tight">{cap.title}</h3>
+                                    <p className="text-[var(--text2)] text-sm leading-relaxed opacity-90 font-normal">{cap.desc}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
-                </footer>
-            </div>
+                </section>
+
+                {/* Dashboard Statistics Brief */}
+                <section className="py-24 px-6 bg-[var(--sidebar-bg)] relative overflow-hidden shadow-2xl">
+                    <div className="absolute inset-0 z-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1592982537447-7440770cbfc9?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center"></div>
+                    <div className="absolute bottom-0 right-0 w-96 h-96 bg-[var(--green)] opacity-5 blur-[120px] rounded-full"></div>
+                    
+                    <div className="relative z-10 max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-16">
+                        <div className="flex-1 space-y-6 text-center md:text-left">
+                            <h2 className="text-4xl md:text-6xl font-black text-white italic uppercase tracking-tighter leading-tight">Performance <br /><span className="text-[var(--gold)] not-italic underline underline-offset-8">en Temps Réel.</span></h2>
+                            <p className="text-white/60 text-xl font-normal max-w-2xl leading-relaxed opacity-90">Nos systèmes gèrent actuellement des milliers d'hectares avec une précision chirurgicale et une disponibilité totale.</p>
+                        </div>
+                        
+                        <div className="flex flex-col sm:flex-row gap-12 items-center">
+                            <div className="text-center px-8 border-r border-white/10 group">
+                                <div className="text-5xl md:text-6xl font-black text-white italic group-hover:text-[var(--gold)] transition-colors">12m</div>
+                                <div className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mt-3">Réponse Moy.</div>
+                            </div>
+                            <div className="text-center px-8 group">
+                                <div className="text-5xl md:text-6xl font-black text-white italic group-hover:text-[var(--green)] transition-colors">89</div>
+                                <div className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mt-3">Experts Actifs</div>
+                            </div>
+                            <Link href="/dashboard" className="bg-white text-[var(--sidebar-bg)] px-12 py-6 rounded-2xl font-black text-xs uppercase tracking-[0.3em] hover:scale-105 transition-all shadow-2xl">
+                                Voir Dashboard
+                            </Link>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="py-20 border-t border-[var(--border)] bg-white text-center">
+                    <div className="max-w-7xl mx-auto px-6 h-full flex flex-col items-center justify-center space-y-12">
+                        <div className="flex flex-wrap justify-center gap-12 text-[10px] font-black text-[var(--text3)] uppercase tracking-[0.4em]">
+                            <Link href="/help" className="hover:text-[var(--green)] transition-colors">Support Tech</Link>
+                            <Link href="/services" className="hover:text-[var(--green)] transition-colors">Nos Solutions</Link>
+                            <Link href="/contact" className="hover:text-[var(--green)] transition-colors">Contact Expert</Link>
+                        </div>
+                    </div>
+                </section>
+            </main>
         </div>
     );
 }

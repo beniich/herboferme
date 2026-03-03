@@ -1,11 +1,8 @@
-﻿import { NextFunction, Request, Response } from 'express';
-import AuditLog from '../models/AuditLog.js';
-import { complaintService } from '../services/complaintService.js';
-import { eventBus } from '../services/eventBus.js';
+import { NextFunction, Request, Response } from 'express';
+import AuditLog from '../../models/AuditLog.js';
+import { complaintService } from './complaint.service.js';
+import { eventBus } from '../../services/eventBus.js';
 
-/**
- * Standard API response format
- */
 const formatResponse = (data: any, message?: string) => ({
   success: true,
   data,
@@ -19,10 +16,6 @@ const formatError = (message: string, statusCode: number = 400) => ({
 });
 
 export class ComplaintController {
-  /**
-   * GET /api/complaints
-   * Get all complaints with optional filters
-   */
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
       const filters = {
@@ -42,10 +35,6 @@ export class ComplaintController {
     }
   }
 
-  /**
-   * GET /api/complaints/:id
-   * Get a single complaint by ID
-   */
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
       const complaint = await complaintService.getComplaintById(
@@ -58,10 +47,6 @@ export class ComplaintController {
     }
   }
 
-  /**
-   * POST /api/complaints
-   * Create a new complaint
-   */
   async create(req: Request, res: Response, next: NextFunction) {
     try {
       const userId = (req as any).user?._id;
@@ -73,8 +58,6 @@ export class ComplaintController {
       };
       const complaint = await complaintService.createComplaint(complaintData);
 
-      // Create Method
-      // Audit Log
       if (userId) {
         await AuditLog.create({
           action: 'CREATE_TICKET',
@@ -86,12 +69,10 @@ export class ComplaintController {
         });
       }
 
-      // ... inside create method
-      // Kafka Event
       await eventBus.publish('complaint-events', 'COMPLAINT_CREATED', {
         complaintId: (complaint as any)._id,
         userId: userId,
-        title: req.body.title, // Add Title
+        title: req.body.title,
         category: req.body.category,
         priority: req.body.priority,
         status: 'nouvelle',
@@ -104,10 +85,6 @@ export class ComplaintController {
     }
   }
 
-  /**
-   * PUT /api/complaints/:id
-   * Update a complaint
-   */
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const complaint = await complaintService.updateComplaint(
@@ -116,9 +93,6 @@ export class ComplaintController {
         (req as any).organizationId
       );
 
-      // Kafka Event (only if status changed or just general update?)
-      // We publish generic update, consumer filters if needed.
-      // Or specifically status.
       if (req.body.status) {
         await eventBus.publish('complaint-events', 'COMPLAINT_STATUS_UPDATED', {
           complaintId: req.params.id,
@@ -134,10 +108,6 @@ export class ComplaintController {
     }
   }
 
-  /**
-   * DELETE /api/complaints/:id
-   * Delete a complaint
-   */
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
       await complaintService.deleteComplaint(req.params.id as string, (req as any).organizationId);
@@ -147,10 +117,6 @@ export class ComplaintController {
     }
   }
 
-  /**
-   * GET /api/complaints/stats
-   * Get complaint statistics
-   */
   async getStats(req: Request, res: Response, next: NextFunction) {
     try {
       const stats = await complaintService.getComplaintStats((req as any).organizationId);
@@ -160,10 +126,6 @@ export class ComplaintController {
     }
   }
 
-  /**
-   * POST /api/complaints/:id/approve
-   * Approve a complaint (change status to 'en cours')
-   */
   async approve(req: Request, res: Response, next: NextFunction) {
     try {
       const userId = (req as any).user?._id;
@@ -175,7 +137,6 @@ export class ComplaintController {
         userId
       );
 
-      // Audit Log
       if (userId) {
         await AuditLog.create({
           action: 'APPROVE_COMPLAINT',
@@ -187,7 +148,6 @@ export class ComplaintController {
         });
       }
 
-      // Kafka Event
       await eventBus.publish('complaint-events', 'COMPLAINT_APPROVED', {
         complaintId: complaint._id,
         approvedBy: userId,
@@ -201,10 +161,6 @@ export class ComplaintController {
     }
   }
 
-  /**
-   * POST /api/complaints/:id/reject
-   * Reject a complaint with a reason
-   */
   async reject(req: Request, res: Response, next: NextFunction) {
     try {
       const userId = (req as any).user?._id;
@@ -222,7 +178,6 @@ export class ComplaintController {
         userId
       );
 
-      // Audit Log
       if (userId) {
         await AuditLog.create({
           action: 'REJECT_COMPLAINT',
@@ -238,12 +193,11 @@ export class ComplaintController {
         });
       }
 
-      // Kafka Event
       await eventBus.publish('complaint-events', 'COMPLAINT_REJECTED', {
         complaintId: complaint._id,
         rejectedBy: userId,
         rejectionReason,
-        status: 'rejetÃ©e',
+        status: 'rejetée',
         timestamp: new Date(),
       });
 

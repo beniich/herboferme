@@ -1,8 +1,8 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { body, param } from 'express-validator';
-import { authenticate, requireOrganization } from '../middleware/security.js';
-import { validator } from '../middleware/validator.js';
-import Animal from '../models/Animal.js';
+import { authenticate, requireOrganization } from '../../middleware/security.js';
+import { validator } from '../../middleware/validator.js';
+import { Animal } from './animals.model.js';
 
 const router = Router();
 router.use(authenticate, requireOrganization);
@@ -10,7 +10,7 @@ router.use(authenticate, requireOrganization);
 // GET /api/animals/stats
 router.get('/stats', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const organizationId = req.organizationId;
+    const organizationId = (req as any).organizationId;
     const filter: any = { organizationId };
     if (req.query.category) filter.category = req.query.category;
 
@@ -43,7 +43,7 @@ router.get('/stats', async (req: Request, res: Response, next: NextFunction) => 
 // GET /api/animals
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const filter: any = { organizationId: req.organizationId };
+    const filter: any = { organizationId: (req as any).organizationId };
     if (req.query.category) filter.category = req.query.category;
     if (req.query.status) filter.status = req.query.status;
     if (req.query.type) filter.type = req.query.type;
@@ -59,7 +59,7 @@ router.get('/:id',
   validator,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const animal = await Animal.findOne({ _id: req.params.id, organizationId: req.organizationId });
+      const animal = await Animal.findOne({ _id: req.params.id, organizationId: (req as any).organizationId });
       if (!animal) return res.status(404).json({ success: false, message: 'Animal introuvable' });
       res.json({ success: true, data: animal });
     } catch (err) { next(err); }
@@ -83,7 +83,7 @@ router.post('/',
     try {
       const animal = await Animal.create({
         ...req.body,
-        organizationId: req.organizationId,
+        organizationId: (req as any).organizationId,
       });
       res.status(201).json({ success: true, data: animal });
     } catch (err) { next(err); }
@@ -97,7 +97,7 @@ router.put('/:id',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const animal = await Animal.findOneAndUpdate(
-        { _id: req.params.id, organizationId: req.organizationId },
+        { _id: req.params.id, organizationId: (req as any).organizationId },
         { $set: req.body },
         { new: true, runValidators: true }
       );
@@ -113,7 +113,7 @@ router.delete('/:id',
   validator,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const animal = await Animal.findOneAndDelete({ _id: req.params.id, organizationId: req.organizationId });
+      const animal = await Animal.findOneAndDelete({ _id: req.params.id, organizationId: (req as any).organizationId });
       if (!animal) return res.status(404).json({ success: false, message: 'Animal introuvable' });
       res.json({ success: true, message: 'Supprimé avec succès' });
     } catch (err) { next(err); }

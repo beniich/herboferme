@@ -1,9 +1,9 @@
 ﻿import { authenticate as protect, requireOrganization } from '../middleware/security.js';
-import { Complaint } from '../models/Complaint.js';
+import { Complaint } from '../modules/complaint/complaint.model.js';
 import { Team } from '../models/Team.js';
-import Animal from '../models/Animal.js';
-import Crop from '../models/Crop.js';
-import FarmKPI from '../models/FarmKPI.js';
+import { Animal } from '../modules/agro/animals.model.js';
+import { Crop } from '../modules/agro/crops.model.js';
+import { FarmKPI } from '../modules/agro/finance.model.js';
 import ITTicket from '../models/ITTicket.js';
 import mongoose from 'mongoose';
 import { Router } from 'express';
@@ -16,9 +16,9 @@ router.get('/', [protect, requireOrganization], async (req: any, res, next) => {
         const organizationId = req.organizationId;
 
         // 1. Agriculture Stats
-        const latestKPI = await FarmKPI.findOne({ organizationId }).sort({ year: -1, month: -1 });
-        const animals = await Animal.find({ organizationId });
-        const crops = await Crop.find({ organizationId });
+        const latestKPI = await FarmKPI.findOne({ organizationId: new mongoose.Types.ObjectId(organizationId) }).sort({ year: -1, month: -1 });
+        const animals = await Animal.find({ organizationId: new mongoose.Types.ObjectId(organizationId) });
+        const crops = await Crop.find({ organizationId: new mongoose.Types.ObjectId(organizationId) });
 
         const agroStats = {
             financials: latestKPI || {
@@ -33,8 +33,8 @@ router.get('/', [protect, requireOrganization], async (req: any, res, next) => {
                 bovine: animals.filter(a => a.type.toLowerCase().includes('vache') || a.type.toLowerCase().includes('bovin')).reduce((sum, a) => sum + a.count, 0)
             },
             cultures: {
-                totalHa: 218, // Could be aggregated from parcel models
-                categories: await Crop.aggregate([
+                totalHa: 218, 
+                categories: await (Crop as any).aggregate([
                     { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
                     { $group: { _id: '$category', count: { $sum: 1 } } }
                 ])
@@ -43,7 +43,7 @@ router.get('/', [protect, requireOrganization], async (req: any, res, next) => {
 
         // 2. IT (GLPI) Stats
         const itStats = {
-            total: await ITTicket.countDocuments({ organizationId }),
+            total: await ITTicket.countDocuments({ organizationId: new mongoose.Types.ObjectId(organizationId) }),
             byStatus: await ITTicket.aggregate([
                 { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
                 { $group: { _id: '$status', count: { $sum: 1 } } }
@@ -53,14 +53,14 @@ router.get('/', [protect, requireOrganization], async (req: any, res, next) => {
                 { $group: { _id: '$priority', count: { $sum: 1 } } }
             ]),
             slaBreach: await ITTicket.countDocuments({ 
-                organizationId, 
+                organizationId: new mongoose.Types.ObjectId(organizationId), 
                 'sla.breached': true 
             })
         };
 
         // 3. Maintenance/Operations (Complaints) Stats
-        const totalComplaints = await Complaint.countDocuments({ organizationId });
-        const statusStats = await Complaint.aggregate([
+        const totalComplaints = await Complaint.countDocuments({ organizationId: new mongoose.Types.ObjectId(organizationId) });
+        const statusStats = await (Complaint as any).aggregate([
             { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
             { $group: { _id: '$status', count: { $sum: 1 } } }
         ]);

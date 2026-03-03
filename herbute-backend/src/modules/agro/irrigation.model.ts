@@ -3,8 +3,8 @@ import mongoose, { Document, Schema } from 'mongoose';
 export interface IIrrigationLog extends Document {
   organizationId: mongoose.Types.ObjectId;
   plotId: string;
-  volume: number; // in m3
-  duration: number; // in minutes
+  volume: number;
+  duration: number;
   date: Date;
   status: 'COMPLETED' | 'SCHEDULED' | 'IN_PROGRESS';
   method: 'DRIP' | 'SPRINKLER' | 'SURFACE';
@@ -36,4 +36,4 @@ const IrrigationLogSchema: Schema = new Schema({
   timestamps: true
 });
 
-export default mongoose.model<IIrrigationLog>('IrrigationLog', IrrigationLogSchema);
+export const IrrigationLog = mongoose.model<IIrrigationLog>('IrrigationLog', IrrigationLogSchema);

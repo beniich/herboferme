@@ -1,4 +1,4 @@
-﻿import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 
 export interface ICrop extends Document {
   organizationId: mongoose.Types.ObjectId;
@@ -9,8 +9,8 @@ export interface ICrop extends Document {
   plantedDate: Date;
   expectedHarvestDate?: Date;
   harvestedAt?: Date;
-  estimatedYield: number;    // yieldEstimate alias
-  surface: number;           // area in ha
+  estimatedYield: number;
+  surface: number;
   notes?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -30,29 +30,13 @@ const CropSchema: Schema = new Schema({
   notes:               { type: String },
 }, { timestamps: true });
 
-// ─── INDEXES OPTIMISÉS ────────────────────────────────────────────────────────
-
-// 1. Requête principale — useCrops() + page production
-//    find({ organizationId }) — le plus fréquent, couvre toutes les listes
 CropSchema.index({ organizationId: 1, status: 1 });
-
-// 2. Filtrage par catégorie — dashboard byCategory (forêt, légumes, herbes...)
 CropSchema.index({ organizationId: 1, category: 1 });
-
-// 3. Tri chronologique — liste paginée, rapports
 CropSchema.index({ organizationId: 1, createdAt: -1 });
-
-// 4. Suivi des récoltes par période — rapports & analytics
-//    find({ organizationId, harvestedAt: { $gte, $lte } })
 CropSchema.index({ organizationId: 1, harvestedAt: -1 });
-
-// 5. Cultures par parcelle/plot — page /parcelles
 CropSchema.index({ plotId: 1, status: 1 });
-
-// 6. Recherche full-text — barre de recherche
 CropSchema.index({ name: 'text', notes: 'text' });
 
-// ─── AGGREGATION DASHBOARD (byStatus + byCategory en 1 requête) ───────────────
 (CropSchema as any).statics.getDashboardStats = async function(organizationId: string) {
   return this.aggregate([
     { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
@@ -81,4 +65,5 @@ CropSchema.index({ name: 'text', notes: 'text' });
   ]);
 };
 
-export default mongoose.model<ICrop>('Crop', CropSchema);
+export const Crop = mongoose.model<ICrop>('Crop', CropSchema);
+export default Crop;

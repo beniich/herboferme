@@ -1,25 +1,24 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { body, param } from 'express-validator';
-import { authenticate, requireOrganization } from '../middleware/security.js';
-import { validator } from '../middleware/validator.js';
-import FarmTransaction from '../models/FarmTransaction.js';
-import FarmKPI from '../models/FarmKPI.js';
+import { authenticate, requireOrganization } from '../../middleware/security.js';
+import { validator } from '../../middleware/validator.js';
+import { FarmTransaction, FarmKPI } from './finance.model.js';
+import mongoose from 'mongoose';
 
 const router = Router();
 router.use(authenticate, requireOrganization);
 
-// ─── HELPER: Recalculate KPI for a month ───
 async function recalculateKPI(organizationId: string, year: number, month: number) {
   const start = new Date(year, month - 1, 1);
   const end = new Date(year, month, 0, 23, 59, 59);
 
   const [revenues, expenses] = await Promise.all([
     FarmTransaction.aggregate([
-      { $match: { organizationId, type: 'recette', date: { $gte: start, $lte: end } } },
+      { $match: { organizationId: new mongoose.Types.ObjectId(organizationId), type: 'recette', date: { $gte: start, $lte: end } } },
       { $group: { _id: null, total: { $sum: '$amount' } } }
     ]),
     FarmTransaction.aggregate([
-      { $match: { organizationId, type: 'depense', date: { $gte: start, $lte: end } } },
+      { $match: { organizationId: new mongoose.Types.ObjectId(organizationId), type: 'depense', date: { $gte: start, $lte: end } } },
       { $group: { _id: null, total: { $sum: '$amount' } } }
     ])
   ]);
@@ -27,16 +26,15 @@ async function recalculateKPI(organizationId: string, year: number, month: numbe
   const totalRevenue = revenues[0]?.total || 0;
   const totalExpenses = expenses[0]?.total || 0;
   await FarmKPI.findOneAndUpdate(
-    { organizationId, month, year },
+    { organizationId: new mongoose.Types.ObjectId(organizationId), month, year },
     { totalRevenue, totalExpenses, netProfit: totalRevenue - totalExpenses, cashFlow: totalRevenue - totalExpenses },
     { upsert: true, new: true }
   );
 }
 
-// GET /api/finance/stats
 router.get('/stats', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const orgId = req.organizationId!;
+    const orgId = new mongoose.Types.ObjectId((req as any).organizationId);
     const now = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
@@ -81,21 +79,19 @@ router.get('/stats', async (req: Request, res: Response, next: NextFunction) => 
   } catch (err) { next(err); }
 });
 
-// GET /api/finance/kpis
 router.get('/kpis', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const now = new Date();
     const month = parseInt(req.query.month as string) || now.getMonth() + 1;
     const year = parseInt(req.query.year as string) || now.getFullYear();
-    const kpi = await FarmKPI.findOne({ organizationId: req.organizationId, month, year });
+    const kpi = await FarmKPI.findOne({ organizationId: (req as any).organizationId, month, year });
     res.json({ success: true, data: kpi || { totalRevenue: 0, totalExpenses: 0, netProfit: 0, cashFlow: 0, month, year } });
   } catch (err) { next(err); }
 });
 
-// GET /api/finance/transactions
 router.get('/transactions', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const filter: any = { organizationId: req.organizationId };
+    const filter: any = { organizationId: (req as any).organizationId };
     if (req.query.type) filter.type = req.query.type;
     if (req.query.sector) filter.sector = req.query.sector;
     if (req.query.category) filter.category = req.query.category;
@@ -115,7 +111,6 @@ router.get('/transactions', async (req: Request, res: Response, next: NextFuncti
   } catch (err) { next(err); }
 });
 
-// POST /api/finance/transactions
 router.post('/transactions',
   [
     body('description').notEmpty().withMessage('Description requise'),
@@ -130,45 +125,41 @@ router.post('/transactions',
     try {
       const transaction = await FarmTransaction.create({
         ...req.body,
-        organizationId: req.organizationId,
+        organizationId: (req as any).organizationId,
         date: req.body.date ? new Date(req.body.date) : new Date(),
       });
-      // Recalculate KPI for the transaction's month
       const d = transaction.date;
-      await recalculateKPI(req.organizationId!, d.getFullYear(), d.getMonth() + 1);
+      await recalculateKPI((req as any).organizationId!, d.getFullYear(), d.getMonth() + 1);
       res.status(201).json({ success: true, data: transaction });
     } catch (err) { next(err); }
   }
 );
 
-// PUT /api/finance/transactions/:id
 router.put('/transactions/:id',
   param('id').isMongoId(), validator,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const transaction = await FarmTransaction.findOneAndUpdate(
-        { _id: req.params.id, organizationId: req.organizationId },
+        { _id: req.params.id, organizationId: (req as any).organizationId },
         { $set: req.body },
         { new: true, runValidators: true }
       );
       if (!transaction) return res.status(404).json({ success: false, message: 'Transaction introuvable' });
-      // Recalculate KPI
       const d = transaction.date;
-      await recalculateKPI(req.organizationId!, d.getFullYear(), d.getMonth() + 1);
+      await recalculateKPI((req as any).organizationId!, d.getFullYear(), d.getMonth() + 1);
       res.json({ success: true, data: transaction });
     } catch (err) { next(err); }
   }
 );
 
-// DELETE /api/finance/transactions/:id
 router.delete('/transactions/:id',
   param('id').isMongoId(), validator,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const transaction = await FarmTransaction.findOneAndDelete({ _id: req.params.id, organizationId: req.organizationId });
+      const transaction = await FarmTransaction.findOneAndDelete({ _id: req.params.id, organizationId: (req as any).organizationId });
       if (!transaction) return res.status(404).json({ success: false, message: 'Transaction introuvable' });
       const d = transaction.date;
-      await recalculateKPI(req.organizationId!, d.getFullYear(), d.getMonth() + 1);
+      await recalculateKPI((req as any).organizationId!, d.getFullYear(), d.getMonth() + 1);
       res.json({ success: true, message: 'Supprimé avec succès' });
     } catch (err) { next(err); }
   }

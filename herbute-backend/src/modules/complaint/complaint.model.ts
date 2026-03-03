@@ -1,18 +1,15 @@
-﻿import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 
-export type ComplaintStatus = 'nouvelle' | 'en cours' | 'rÃ©solue' | 'fermÃ©e' | 'rejetÃ©e';
+export type ComplaintStatus = 'nouvelle' | 'en cours' | 'résolue' | 'fermée' | 'rejetée';
 export type Priority = 'low' | 'medium' | 'high' | 'urgent';
 
 export interface IComplaint extends Document {
   number: string;
-  // Step 1: Info
   category: string;
   subcategory: string;
   priority: Priority;
   title: string;
   description: string;
-
-  // Step 2: Location
   address: string;
   city: string;
   district: string;
@@ -23,25 +20,18 @@ export interface IComplaint extends Document {
     latitude: number;
     longitude: number;
   };
-
-  // Step 3: Files
   photos?: string[];
   documents?: { name: string; url: string }[];
   audioNote?: string;
-
-  // Step 4: Contact (if not anonymous)
   isAnonymous: boolean;
   firstName?: string;
   lastName?: string;
   email?: string;
   phone?: string;
-
-  // Workflow
   status: ComplaintStatus;
   assignedTeamId?: mongoose.Types.ObjectId;
   technicianId?: mongoose.Types.ObjectId;
   assignedAt?: Date;
-
   rejectionReason?: string;
   organizationId: mongoose.Types.ObjectId;
   createdAt: Date;
@@ -50,9 +40,7 @@ export interface IComplaint extends Document {
 
 const ComplaintSchema: Schema = new Schema(
   {
-    number: { type: String, unique: true }, // Auto-generated
-
-    // Step 1
+    number: { type: String, unique: true },
     category: { type: String, required: true },
     subcategory: { type: String, required: true },
     priority: {
@@ -62,8 +50,6 @@ const ComplaintSchema: Schema = new Schema(
     },
     title: { type: String, required: true },
     description: { type: String, required: true },
-
-    // Step 2
     address: { type: String, required: true },
     city: { type: String, required: true },
     district: { type: String, required: true },
@@ -74,8 +60,6 @@ const ComplaintSchema: Schema = new Schema(
       latitude: { type: Number },
       longitude: { type: Number },
     },
-
-    // Step 3
     photos: [{ type: String }],
     documents: [
       {
@@ -84,18 +68,14 @@ const ComplaintSchema: Schema = new Schema(
       },
     ],
     audioNote: { type: String },
-
-    // Step 4
     isAnonymous: { type: Boolean, default: false },
     firstName: { type: String },
     lastName: { type: String },
     email: { type: String },
     phone: { type: String },
-
-    // Workflow
     status: {
       type: String,
-      enum: ['nouvelle', 'en cours', 'rÃ©solue', 'fermÃ©e', 'rejetÃ©e'],
+      enum: ['nouvelle', 'en cours', 'résolue', 'fermée', 'rejetée'],
       default: 'nouvelle',
     },
     rejectionReason: { type: String },
@@ -107,11 +87,9 @@ const ComplaintSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-// Index for organization filtering
 ComplaintSchema.index({ organizationId: 1, status: 1 });
 ComplaintSchema.index({ organizationId: 1, createdAt: -1 });
 
-// Auto-generate unique complaint number
 ComplaintSchema.pre<IComplaint>('save', function (next) {
   if (this.isNew && !this.number) {
     const datePart = new Date().toISOString().slice(0, 10).replace(/-/g, '');

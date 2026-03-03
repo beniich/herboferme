@@ -1,6 +1,6 @@
 ﻿import { Types } from 'mongoose';
 import { Team, ITeam } from '../models/Team.js';
-import { Complaint, IComplaint } from '../models/Complaint.js';
+import { Complaint, IComplaint } from '../modules/complaint/complaint.model.js';
 
 interface TeamScore {
     teamId: Types.ObjectId;

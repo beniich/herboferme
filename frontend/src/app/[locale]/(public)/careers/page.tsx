@@ -1,86 +1,70 @@
+'use client';
+
 import Link from 'next/link';
+import { Sprout, BarChart3, ShieldCheck, Cpu, Layout, BookOpen, ArrowRight, Mail, Calendar, Clock, User, Briefcase, MapPin, Globe, Rocket, Award, Zap, Heart } from 'lucide-react';
 
 const jobs = [
-    { title: 'Senior Full-Stack Engineer', dept: 'Engineering', location: 'Remote / Global', type: 'Full-time', badge: '🔥 Hot' },
-    { title: 'SaaS Product Manager', dept: 'Product', location: 'London / NYC', type: 'Full-time', badge: null },
-    { title: 'Growth Business Lead', dept: 'Sales', location: 'Singapore / Remote', type: 'Full-time', badge: '🆕 New' },
-    { title: 'React Native Expert', dept: 'Engineering', location: 'Remote', type: 'Contract', badge: null },
-    { title: 'Success Manager Pro', dept: 'Customer Success', location: 'Paris', type: 'Full-time', badge: '🆕 New' },
-    { title: 'Cloud Infrastructure Intern', dept: 'Engineering', location: 'Berlin', type: 'Internship', badge: null },
+    { title: 'Ingénieur Full-Stack Agro-Tech', dept: 'Engineering', location: 'Remote / Maroc', type: 'CDI', badge: '🔥 Urgent' },
+    { title: 'Product Manager Système IoT', dept: 'Produit', location: 'Casablanca / Hybride', type: 'CDI', badge: null },
+    { title: 'Expert Agronome Data Science', dept: 'R&D', location: 'Agadir / Remote', type: 'CDI', badge: '🆕 Nouveau' },
+    { title: 'Développeur React Native / Mobile', dept: 'Engineering', location: 'Remote', type: 'Freelance', badge: null },
+    { title: 'Customer Success Manager Agro', dept: 'Support', location: 'Meknès', type: 'CDI', badge: '🆕 Nouveau' },
+    { title: 'Stagiaire Infrastructure Cloud', dept: 'Engineering', location: 'Casablanca', type: 'Stage', badge: null },
 ];
 
 const perks = [
-    { icon: 'distance', title: 'Global Remote', desc: 'Work from anywhere with our fully distributed culture.' },
-    { icon: 'show_chart', title: 'Equity Package', desc: 'Own a piece of the revolution with competitive stock options.' },
-    { icon: 'school', title: 'Learning Stacks', desc: 'Annual $2,500 budget for courses, books, and conferences.' },
-    { icon: 'public', title: 'Citizen Impact', desc: 'Your code directly improves infrastructure for millions.' },
-    { icon: 'health_and_safety', title: 'Elite Health', desc: '100% covered premium insurance for you and your kin.' },
-    { icon: 'celebration', title: 'Global Summits', desc: 'Twice-a-year off-sites in world-class destinations.' },
+    { icon: <Globe className="w-8 h-8" />, title: 'Culture Distribuée', desc: 'Travaillez d\'où vous voulez, que ce soit à la ferme ou en ville.' },
+    { icon: <Zap className="w-8 h-8" />, title: 'Impact Réel', desc: 'Vos lignes de code améliorent directement la vie des agriculteurs.' },
+    { icon: <Award className="w-8 h-8" />, title: 'Budget Formation', desc: 'Un budget annuel de 25 000 DH pour vos formations et conférences.' },
+    { icon: <Rocket className="w-8 h-8" />, title: 'Équipement Premium', desc: 'Dernier MacBook Pro et setup de bureau complet chez vous.' },
+    { icon: <Heart className="w-8 h-8" />, title: 'Santé Élite', desc: 'Couverture santé premium à 100% pour vous et votre famille.' },
+    { icon: <MapPin className="w-8 h-8" />, title: 'Séminaires Nature', desc: 'Deux off-sites par an dans des domaines agricoles d\'exception.' },
 ];
 
 export default function CareersPage() {
     return (
-        <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 selection:bg-primary/30 font-display min-h-screen flex flex-col">
-            {/* Sticky Navigation */}
-            <header className="fixed top-0 w-full z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10">
-                <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-                    <Link href="/" className="flex items-center gap-3">
-                        <div className="bg-primary p-1.5 rounded-lg text-white">
-                            <span className="material-symbols-outlined text-2xl font-variation-fill">track_changes</span>
-                        </div>
-                        <h1 className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white uppercase">ReclamTrack <span className="text-primary">Pro</span></h1>
-                    </Link>
-                    <nav className="hidden md:flex items-center gap-10">
-                        <Link href="/about" className="text-sm font-semibold hover:text-primary transition-colors">About</Link>
-                        <Link href="/blog" className="text-sm font-semibold hover:text-primary transition-colors">Blog</Link>
-                        <Link href="/help" className="text-sm font-semibold hover:text-primary transition-colors">Help</Link>
-                        <Link href="/status" className="text-sm font-semibold hover:text-primary transition-colors">Status</Link>
-                    </nav>
-                    <Link href="/login" className="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg font-bold text-sm transition-all shadow-lg shadow-primary/20">
-                        Join the Team
-                    </Link>
-                </div>
-            </header>
-
-            <main className="flex-1 pt-20">
+        <div className="bg-[var(--bg)] text-[var(--text)] font-sans min-h-screen">
+            <main>
                 {/* Hero Section */}
-                <section className="relative py-24 lg:py-32 overflow-hidden bg-slate-900 dark:bg-black">
-                    <div className="absolute inset-0 z-0 opacity-40 bg-[radial-gradient(circle_at_50%_0%,#ec5b13_0%,transparent_50%)]"></div>
-                    <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-                        <div className="inline-flex items-center gap-2 py-1 px-3 rounded-full bg-primary/20 text-primary text-xs font-bold tracking-[0.2em] uppercase mb-8 border border-primary/30">
-                            <span className="material-symbols-outlined text-sm">stars</span>
-                            We are Hiring
+                <section className="relative py-24 lg:py-40 bg-[var(--sidebar-bg)] overflow-hidden shadow-2xl">
+                    <div className="absolute inset-0 z-0 opacity-20 bg-[radial-gradient(circle_at_50%_100%,var(--green)_0%,transparent_60%)]"></div>
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
+                    
+                    <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+                        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--green)]/20 border border-[var(--green)]/30 text-[var(--green)] text-[10px] font-black uppercase tracking-[0.3em] mb-12 backdrop-blur-md">
+                            <Rocket className="w-4 h-4 text-[var(--gold)]" />
+                            Nous recrutons des talents
                         </div>
-                        <h1 className="text-5xl md:text-7xl font-black text-white mb-8 leading-[1.1] tracking-tight">
-                            Build tools that <br />
-                            <span className="text-primary">Defy the Ordinary.</span>
+                        <h1 className="text-5xl md:text-8xl font-black text-white mb-10 leading-tight italic uppercase tracking-tighter">
+                            Cultivez le futur <br />
+                            <span className="text-[var(--gold)] not-italic underline underline-offset-[16px]">de l'agriculture.</span>
                         </h1>
-                        <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
-                            Join ReclamTrack Pro and help us architect the most transparent claims ecosystem on the planet. We're looking for outliers.
+                        <p className="text-xl md:text-2xl text-white/70 max-w-3xl mx-auto mb-16 font-normal leading-relaxed opacity-90">
+                            Rejoignez AgroMaître pour bâtir les outils de précision qui transforment le secteur agricole. Nous recherchons des passionnés, pas seulement des experts.
                         </p>
-                        <div className="flex flex-wrap justify-center gap-8 text-slate-400 text-sm font-bold uppercase tracking-widest">
-                            <span className="flex items-center gap-2"><span className="text-primary">•</span> 100% Distributed</span>
-                            <span className="flex items-center gap-2"><span className="text-primary">•</span> Series B Funded</span>
-                            <span className="flex items-center gap-2"><span className="text-primary">•</span> Impact Driven</span>
+                        <div className="flex flex-wrap justify-center gap-12 text-white/40 text-[10px] font-black uppercase tracking-[0.2em] border-t border-white/5 pt-12">
+                            <span className="flex items-center gap-3"><div className="w-1.5 h-1.5 bg-[var(--gold)] rounded-full"></div> 100% Distribué</span>
+                            <span className="flex items-center gap-3"><div className="w-1.5 h-1.5 bg-[var(--gold)] rounded-full"></div> Mission Sociale</span>
+                            <span className="flex items-center gap-3"><div className="w-1.5 h-1.5 bg-[var(--gold)] rounded-full"></div> Tech de Pointe</span>
                         </div>
                     </div>
                 </section>
 
                 {/* Cultural Perks */}
-                <section className="py-24 bg-white dark:bg-[#1a100a]">
+                <section className="py-24 bg-white">
                     <div className="max-w-7xl mx-auto px-6">
-                        <div className="text-center mb-16">
-                            <h2 className="text-primary font-bold text-sm tracking-[0.2em] uppercase mb-4">Elite Culture</h2>
-                            <h3 className="text-4xl font-black text-slate-900 dark:text-white">The Perks of Pro</h3>
+                        <div className="mb-20">
+                            <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--green)] mb-4 italic">Culture d'Excellence</h2>
+                            <h3 className="text-4xl md:text-5xl font-black text-[var(--text)] italic uppercase tracking-tighter">Pourquoi <span className="text-[var(--green)] not-italic underline underline-offset-8">nous rejoindre ?</span></h3>
                         </div>
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
                             {perks.map((p, i) => (
-                                <div key={i} className="p-8 rounded-2xl bg-background-light dark:bg-background-dark border border-primary/5 hover:border-primary/20 transition-all group">
-                                    <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
-                                        <span className="material-symbols-outlined text-3xl">{p.icon}</span>
+                                <div key={i} className="p-10 rounded-[3rem] bg-[var(--bg)] border border-[var(--border)] hover:border-[var(--green)]/30 hover:shadow-2xl transition-all duration-500 group">
+                                    <div className="w-16 h-16 bg-[var(--green)]/10 rounded-2xl flex items-center justify-center text-[var(--green)] mb-8 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                                        {p.icon}
                                     </div>
-                                    <h4 className="text-xl font-bold mb-2">{p.title}</h4>
-                                    <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{p.desc}</p>
+                                    <h4 className="text-2xl font-black mb-4 italic uppercase tracking-tight">{p.title}</h4>
+                                    <p className="text-[var(--text2)] text-sm leading-relaxed opacity-90 font-normal">{p.desc}</p>
                                 </div>
                             ))}
                         </div>
@@ -88,40 +72,43 @@ export default function CareersPage() {
                 </section>
 
                 {/* Open Positions */}
-                <section className="py-24" id="listings">
+                <section className="py-24 bg-[var(--bg)]/50" id="listings">
                     <div className="max-w-5xl mx-auto px-6">
-                        <div className="flex items-end justify-between mb-12">
+                        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
                             <div>
-                                <h2 className="text-primary font-bold text-sm tracking-[0.2em] uppercase mb-4">Opportunities</h2>
-                                <h3 className="text-4xl font-black text-slate-900 dark:text-white">Active Missions</h3>
+                                <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--text3)] mb-4 italic">Opportunités</h2>
+                                <h3 className="text-4xl md:text-5xl font-black text-[var(--text)] italic uppercase tracking-tighter">Missions <span className="text-[var(--gold)] not-italic decoration-[var(--gold)] underline underline-offset-8">Actives.</span></h3>
                             </div>
-                            <div className="hidden md:block text-right">
-                                <span className="text-4xl font-black text-primary">{jobs.length}</span>
-                                <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Open Channels</p>
+                            <div className="text-right flex items-center gap-6">
+                                <div className="text-5xl font-black text-[var(--green)] italic">{jobs.length}</div>
+                                <p className="text-[10px] font-black text-[var(--text3)] uppercase tracking-widest leading-tight">Canaux <br />ouverts</p>
                             </div>
                         </div>
 
-                        <div className="space-y-4">
+                        <div className="space-y-6">
                             {jobs.map((job, i) => (
-                                <div key={i} className="group relative bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl p-6 md:p-8 hover:border-primary/50 transition-all cursor-pointer shadow-sm hover:shadow-xl hover:shadow-primary/5">
-                                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                                        <div className="flex-1">
-                                            <div className="flex items-center gap-3 mb-2">
-                                                <h4 className="text-xl font-black group-hover:text-primary transition-colors">{job.title}</h4>
+                                <div key={i} className="group relative bg-white border border-[var(--border)] rounded-[2.5rem] p-8 md:p-12 hover:border-[var(--green)]/50 transition-all duration-500 cursor-pointer shadow-xl shadow-black/[0.01] hover:shadow-2xl hover:shadow-[var(--green)]/5">
+                                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-10">
+                                        <div className="flex-1 space-y-6">
+                                            <div className="flex items-center gap-4">
+                                                <h4 className="text-2xl md:text-3xl font-black group-hover:text-[var(--green)] transition-all italic uppercase tracking-tight">{job.title}</h4>
                                                 {job.badge && (
-                                                    <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest">
+                                                    <span className="px-3 py-1 rounded-full bg-[var(--green)]/10 text-[var(--green)] text-[10px] font-black uppercase tracking-widest border border-[var(--green)]/20 shadow-sm">
                                                         {job.badge}
                                                     </span>
                                                 )}
                                             </div>
-                                            <div className="flex flex-wrap items-center gap-4 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                                                <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-sm">hub</span> {job.dept}</span>
-                                                <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-sm">location_on</span> {job.location}</span>
-                                                <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-sm">schedule</span> {job.type}</span>
+                                            <div className="flex flex-wrap items-center gap-8 text-[10px] font-black text-[var(--text3)] uppercase tracking-[0.15em] border-t border-[var(--border)] pt-6">
+                                                <span className="flex items-center gap-2 group-hover:text-[var(--green)] transition-colors"><Briefcase className="w-4 h-4 text-[var(--gold)]" /> {job.dept}</span>
+                                                <span className="flex items-center gap-2"><MapPin className="w-4 h-4 text-[var(--gold)]" /> {job.location}</span>
+                                                <span className="flex items-center gap-2"><Clock className="w-4 h-4 text-[var(--gold)]" /> {job.type}</span>
                                             </div>
                                         </div>
-                                        <button className="bg-primary/5 group-hover:bg-primary text-primary group-hover:text-white h-12 w-12 md:h-14 md:w-14 rounded-xl flex items-center justify-center transition-all duration-300">
-                                            <span className="material-symbols-outlined">arrow_forward</span>
+                                        <button 
+                                            aria-label="Voir le poste"
+                                            className="bg-[var(--bg)] group-hover:bg-[var(--green)] text-[var(--text3)] group-hover:text-white h-16 w-16 md:h-20 md:w-20 rounded-3xl flex items-center justify-center transition-all duration-500 border border-[var(--border)] group-hover:border-[var(--green)] shadow-inner"
+                                        >
+                                            <ArrowRight className="w-8 h-8 group-hover:translate-x-1 transition-transform" />
                                         </button>
                                     </div>
                                 </div>
@@ -131,35 +118,31 @@ export default function CareersPage() {
                 </section>
 
                 {/* Spontaneous Applications */}
-                <section className="py-24 px-6 bg-slate-900 dark:bg-black relative overflow-hidden">
+                <section className="py-32 px-6 bg-[var(--sidebar-bg)] relative overflow-hidden shadow-2xl">
                     <div className="absolute inset-0 z-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1522071823991-b9671e3015b3?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center"></div>
-                    <div className="relative z-10 max-w-4xl mx-auto text-center py-12">
-                        <h2 className="text-3xl md:text-5xl font-black text-white mb-6">Didn't find your match?</h2>
-                        <p className="text-slate-400 text-lg mb-10 max-w-xl mx-auto">
-                            We're always scouting for designers, strategists, and engineers who challenge the status quo. Send us your mission brief.
+                    <div className="absolute bottom-0 right-0 w-96 h-96 bg-[var(--green)] opacity-5 blur-[120px] rounded-full"></div>
+                    
+                    <div className="relative z-10 max-w-4xl mx-auto text-center space-y-12">
+                        <h2 className="text-4xl md:text-6xl font-black text-white italic uppercase tracking-tighter leading-tight">Aucun poste ne vous <br /><span className="text-[var(--gold)] not-italic underline underline-offset-8">correspond ?</span></h2>
+                        <p className="text-white/60 text-xl font-normal max-w-2xl mx-auto leading-relaxed opacity-90">
+                            Nous sommes toujours à la recherche d'esprits brillants capables de bousculer le statu quo agricoles. Envoyez-nous votre vision.
                         </p>
-                        <Link href="/contact" className="inline-flex items-center gap-3 bg-white text-primary px-10 py-4 rounded-xl font-black text-lg hover:scale-105 transition-all">
-                            Shoot your shot <span className="material-symbols-outlined">send</span>
+                        <Link href="/contact" className="inline-flex items-center gap-4 bg-[var(--gold)] text-white px-12 py-6 rounded-2xl font-black text-xs uppercase tracking-[0.3em] hover:scale-105 transition-all shadow-2xl shadow-black/40">
+                            Candidature Spontanée <ArrowRight className="w-5 h-5" />
                         </Link>
                     </div>
                 </section>
-            </main>
 
-            <footer className="bg-slate-100 dark:bg-black/40 py-16 border-t border-primary/10 mt-auto">
-                <div className="max-w-7xl mx-auto px-6 text-center">
-                    <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mb-6">© {new Date().getFullYear()} ReclamTrack Pro. Join the Revolution.</p>
-                    <div className="flex justify-center gap-8 mb-8">
-                        <a className="size-10 rounded-full border border-primary/10 flex items-center justify-center hover:bg-primary/10 text-primary transition-colors cursor-pointer"><span className="material-symbols-outlined text-lg italic">public</span></a>
-                        <a className="size-10 rounded-full border border-primary/10 flex items-center justify-center hover:bg-primary/10 text-primary transition-colors cursor-pointer"><span className="material-symbols-outlined text-lg">code</span></a>
-                        <a className="size-10 rounded-full border border-primary/10 flex items-center justify-center hover:bg-primary/10 text-primary transition-colors cursor-pointer"><span className="material-symbols-outlined text-lg">group</span></a>
+                <section className="py-20 border-t border-[var(--border)] bg-white text-center">
+                    <div className="max-w-7xl mx-auto px-6 h-full flex flex-col items-center justify-center space-y-12">
+                        <div className="flex flex-wrap justify-center gap-12 text-[10px] font-black text-[var(--text3)] uppercase tracking-[0.4em]">
+                            <Link href="/legal/privacy" className="hover:text-[var(--green)] transition-colors">Politique de Confidentialité</Link>
+                            <Link href="/legal/terms" className="hover:text-[var(--green)] transition-colors">Conditions Générales</Link>
+                            <Link href="/help" className="hover:text-[var(--green)] transition-colors">Centre d'Aide</Link>
+                        </div>
                     </div>
-                    <div className="flex flex-wrap justify-center gap-8 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                        <Link href="/legal/privacy" className="hover:text-primary">Privacy Protocol</Link>
-                        <Link href="/legal/terms" className="hover:text-primary">Service Terms</Link>
-                        <Link href="/help" className="hover:text-primary">Support Base</Link>
-                    </div>
-                </div>
-            </footer>
+                </section>
+            </main>
         </div>
     );
 }
