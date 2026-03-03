@@ -93,7 +93,7 @@ router.post(
             const inviterId = req.user._id;
 
             // Find user by email
-            const user = await User.findOne({ email });
+            let user = await User.findOne({ email });
 
             // If user doesn't exist, we should theoretically create a placeholder or send an invite email
             // For this MVP, we'll require the user to exist

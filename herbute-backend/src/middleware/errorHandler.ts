@@ -114,7 +114,7 @@ const errorHandler = (err: unknown, req: Request, res: Response, _next: NextFunc
     res
       .status(409)
       .json(
-        buildResponse(`La valeur du champ '${field}' est dÃ©jÃ  utilisÃ©e`, 'CONFLICT', requestId)
+        buildResponse(`La valeur du champ '${field}' est dÃ©jÃ  utilisÃ©e`, 'CONFLICT', requestId)
       );
     return;
   }
