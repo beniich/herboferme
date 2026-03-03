@@ -17,11 +17,13 @@
     "docker:rebuild": "docker compose up -d --build",
     "docker:logs":    "docker compose logs -f"
   },
-  "devDependencies": {
-    "concurrently": "^8.2.2",
+  "dependencies": {
     "next": "15.1.12",
     "react": "19.0.0",
     "react-dom": "19.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   },
   "engines": {
     "node": ">=20.0.0"
