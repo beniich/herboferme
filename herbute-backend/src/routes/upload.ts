@@ -1,4 +1,4 @@
-﻿import { Router } from 'express';
+import { Router } from 'express';
 import { upload } from '../middleware/upload.js';
 import { authenticate, requireOrganization } from '../middleware/security.js';
 
