@@ -10,6 +10,7 @@
   "scripts": {
     "dev":        "concurrently \"npm run dev -w herbute-backend\" \"npm run dev -w frontend\"",
     "build":      "npm run build -w shared && npm run build -w herbute-backend && npm run build -w frontend",
+    "next":       "next",
     "type-check": "npm run type-check -w shared && npm run type-check -w herbute-backend && npm run type-check -w frontend",
     "generate-keys": "cd herbute-backend && bash generate-keys.sh",
     "docker:up":      "docker compose up -d",
@@ -18,7 +19,9 @@
     "docker:logs":    "docker compose logs -f"
   },
   "dependencies": {
-    "next": "15.1.12"
+    "next": "15.1.12",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
