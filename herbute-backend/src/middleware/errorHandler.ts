@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 ﻿/**
  * @file errorHandler.ts
  * @description Centralized, type-aware global error handler for Express.

@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 ﻿// db-generator.ts â€“ gÃ©nÃ¨re des mÃ©triques dynamiques pour l'administration de base de donnÃ©es
 import { clusters, queues } from './db-fixtures.js';
 
