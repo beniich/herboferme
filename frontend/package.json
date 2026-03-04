@@ -91,7 +91,8 @@
     "@parcel/watcher": "^2.5.0",
     "@parcel/watcher-linux-x64-glibc": "^2.5.0",
     "@next/swc-linux-x64-gnu": "15.1.12",
-    "@next/swc-linux-x64-musl": "15.1.12"
+    "@next/swc-linux-x64-musl": "15.1.12",
+    "@swc/core-linux-x64-gnu": "1.15.13"
   },
   "engines": {
     "node": ">=20.0.0"

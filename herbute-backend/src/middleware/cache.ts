@@ -35,17 +35,28 @@ export const CACHE_TTL = {
 
 const readCache = async (key: string): Promise<unknown | null> => {
   try {
-    if (redis) { const r = await redis.get(key); return r ? JSON.parse(r) : null; }
+    if (redis) {
+      const r = await redis.get(key);
+      return r ? JSON.parse(r) : null;
+    }
     const e = memStore.get(key);
-    return (e && e.expiresAt > Date.now()) ? e.data : null;
-  } catch { return null; }
+    return e && e.expiresAt > Date.now() ? e.data : null;
+  } catch (err) {
+    console.warn('[Cache] Read error:', err);
+    return null;
+  }
 };
 
 const writeCache = async (key: string, value: unknown, ttl: number): Promise<void> => {
   try {
-    if (redis) await redis.setEx(key, ttl, JSON.stringify(value));
-    else memStore.set(key, { data: value, expiresAt: Date.now() + ttl * 1000 });
-  } catch {}
+    if (redis) {
+      await redis.setEx(key, ttl, JSON.stringify(value));
+    } else {
+      memStore.set(key, { data: value, expiresAt: Date.now() + ttl * 1000 });
+    }
+  } catch (err) {
+    console.warn('[Cache] Write error:', err);
+  }
 };
 
 export const cacheMiddleware = (ttlSeconds: number = CACHE_TTL.default) =>
@@ -70,7 +81,11 @@ export const invalidateCache = async (urlPrefix: string): Promise<void> => {
       const keys: string[] = await redis.keys(`${prefix}*`);
       if (keys.length) await redis.del(keys);
     } else {
-      for (const k of memStore.keys()) if (k.startsWith(prefix)) memStore.delete(k);
+      for (const k of memStore.keys()) {
+        if (k.startsWith(prefix)) memStore.delete(k);
+      }
     }
-  } catch {}
+  } catch (err) {
+    console.warn('[Cache] Invalidation error:', err);
+  }
 };

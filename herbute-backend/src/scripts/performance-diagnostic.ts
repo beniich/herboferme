@@ -91,7 +91,7 @@ function printResults() {
         console.log('â”€'.repeat(50));
 
         metrics.forEach(metric => {
-            const icon = metric.status === 'good' ? 'âœ…' : metric.status === 'warning' ? 'âš ï¸' : 'âŒ';
+            const icon = metric.status === 'good' ? 'âœ…' : metric.status === 'warning' ? 'âš ï¸' : 'âŒ';
             console.log(`${icon} ${metric.metric}: ${metric.value.toFixed(2)} ${metric.unit}`);
         });
     }
@@ -105,7 +105,7 @@ function printResults() {
     console.log('RÃ‰SUMÃ‰');
     console.log('=====================================');
     console.log(`âœ… Bon: ${good}`);
-    console.log(`âš ï¸ Attention: ${warning}`);
+    console.log(`âš ï¸ Attention: ${warning}`);
     console.log(`âŒ Critique: ${critical}`);
     console.log(`Total: ${results.length} mÃ©triques testÃ©es\n`);
 }
