@@ -30,7 +30,7 @@ export const requireOrganization = async (req: any, res: Response, next: NextFun
 
     if (!membership) {
       return res.status(403).json({
-        message: 'AccÃ¨s refusÃ© Ã  cette organisation',
+        message: 'AccÃ¨s refusÃ© Ã  cette organisation',
       });
     }
 

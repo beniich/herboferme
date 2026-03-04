@@ -266,21 +266,21 @@ class NotificationService {
     });
   }
 
-  // Envoyer une notification Ã  tous
+  // Envoyer une notification Ã  tous
   broadcast(data: NotificationData) {
     if (this.io) {
       this.io.emit('notification', data);
     }
   }
 
-  // Envoyer une notification Ã  un utilisateur spÃ©cifique
+  // Envoyer une notification Ã  un utilisateur spÃ©cifique
   sendToUser(userId: string, data: NotificationData) {
     if (this.io) {
       this.io.to(userId).emit('notification', data);
     }
   }
 
-  // Envoyer une notification Ã  une salle spÃ©cifique
+  // Envoyer une notification Ã  une salle spÃ©cifique
   sendToRoom(room: string, data: NotificationData) {
     if (this.io) {
       this.io.to(room).emit('notification', data);
@@ -298,7 +298,7 @@ class NotificationService {
     const notification = {
       type: 'complaint_assigned',
       title: 'Nouvelle RÃ©clamation AssignÃ©e',
-      message: `Une rÃ©clamation "${complaint.title}" a Ã©tÃ© assignÃ©e Ã  votre Ã©quipe`,
+      message: `Une rÃ©clamation "${complaint.title}" a Ã©tÃ© assignÃ©e Ã  votre Ã©quipe`,
       data: {
         complaintId: complaint._id,
         category: complaint.category,
@@ -327,8 +327,8 @@ class NotificationService {
   ) {
     const notification = {
       type: 'status_update',
-      title: 'Statut de RÃ©clamation Mis Ã  Jour',
-      message: `Le statut de la rÃ©clamation est passÃ© de "${oldStatus}" Ã  "${newStatus}"`,
+      title: 'Statut de RÃ©clamation Mis Ã  Jour',
+      message: `Le statut de la rÃ©clamation est passÃ© de "${oldStatus}" Ã  "${newStatus}"`,
       data: {
         complaintId,
         oldStatus,
@@ -353,7 +353,7 @@ class NotificationService {
   async sendUrgentAlert(message: string, recipientIds?: string[]) {
     const notification = {
       type: 'alert',
-      title: 'âš ï¸ Alerte Urgente',
+      title: 'âš ï¸ Alerte Urgente',
       message,
       priority: 'urgent',
       timestamp: new Date(),

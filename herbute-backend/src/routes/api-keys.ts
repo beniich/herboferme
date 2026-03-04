@@ -50,7 +50,7 @@ router.post(
     return sendSuccess(
       res,
       {
-        message: 'âš ï¸ Save this key â€” it will not be shown again.',
+        message: 'âš ï¸ Save this key â€” it will not be shown again.',
         key: rawKey,
         id: apiKey._id,
         name: apiKey.name,
@@ -77,7 +77,7 @@ router.post(
     return sendSuccess(
       res,
       {
-        message: 'âš ï¸ Save this new key â€” it will not be shown again. The old key is now revoked.',
+        message: 'âš ï¸ Save this new key â€” it will not be shown again. The old key is now revoked.',
         key: rawKey,
         id: apiKey._id,
         name: apiKey.name,
