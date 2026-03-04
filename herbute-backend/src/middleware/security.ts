@@ -146,7 +146,7 @@ export const requireOrganization = async (
     });
 
     if (!membership) {
-      return next(new ForbiddenAppError('AccÃ¨s refusÃ© Ã  cette organisation', 'ORG_ACCESS_DENIED'));
+      return next(new ForbiddenAppError('AccÃ¨s refusÃ© Ã  cette organisation', 'ORG_ACCESS_DENIED'));
     }
 
     req.organizationId = organizationId;
