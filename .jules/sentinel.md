@@ -1,0 +1,4 @@
+## 2025-05-15 - [CRITICAL] Admin Authorization Bypass via Mock Middleware
+**Vulnerability:** The `adminOnly` middleware in `herbute-backend/src/routes/admin.ts` was a mock implementation that explicitly called `next()` in its failure branch, allowing any authenticated user (regardless of role) to access sensitive administrative endpoints (user lists, system stats, security metrics).
+**Learning:** Security placeholders or "dev-only" mocks frequently survive into higher environments and represent critical risks. Bypasses should never be coded directly into authorization logic, even with comments.
+**Prevention:** Always implement security middleware to fail-securely (deny access by default). Use environment-aware configuration for development overrides if absolutely necessary, but prioritize using real roles even in dev environments. Avoid local mock reimplementations of centralized security logic.
