@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 ﻿import { consumer } from '../config/kafka.js';
 import { Complaint } from '../models/Complaint.js';
 import { logger } from '../utils/logger.js';

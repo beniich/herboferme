@@ -46,7 +46,9 @@ jobs:
         run: cd frontend && npm ci
       
       - name: Build Test
-        run: cd frontend && npm run build
+        run: |
+          npm run build -w shared
+          cd frontend && npm run build
 
   # 3. Docker Build Check (Vérifie que les images se construisent sans erreur)
   docker-check:

@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 ﻿import { Server } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 import { logger } from '../utils/logger.js';
