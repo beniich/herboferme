@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import mongoose from 'mongoose';
+import { Request, Response, NextFunction } from 'express';
 
 // Mock models
 vi.mock('../models/Complaint.js', () => ({
@@ -35,15 +35,15 @@ vi.mock('../models/ITTicket.js', () => ({
 
 // Mock middleware
 vi.mock('../middleware/security.js', () => ({
-    authenticate: (req, res, next) => next(),
-    requireOrganization: (req, res, next) => {
+    authenticate: (req: Request, res: Response, next: NextFunction) => next(),
+    requireOrganization: (req: Request & { organizationId?: string }, res: Response, next: NextFunction) => {
         req.organizationId = '507f1f77bcf86cd799439011';
         next();
     }
 }));
 
 vi.mock('../middleware/cache.js', () => ({
-    cacheMiddleware: () => (req, res, next) => next(),
+    cacheMiddleware: () => (req: Request, res: Response, next: NextFunction) => next(),
     CACHE_TTL: { dashboard: 120 }
 }));
 
@@ -68,23 +68,23 @@ describe('Dashboard Route', () => {
 
     it('should return consolidated dashboard data', async () => {
         // Setup mock returns
-        (FarmKPI.findOne as any).mockReturnValue({
+        vi.mocked(FarmKPI.findOne).mockReturnValue({
             sort: vi.fn().mockReturnThis(),
             lean: vi.fn().mockResolvedValue({ totalRevenue: 1000, netProfit: 500 })
-        });
-        (Animal.aggregate as any).mockResolvedValue([{ total: 100, poultry: 60, bovine: 40 }]);
-        (Crop.aggregate as any).mockResolvedValue([{ _id: 'HERB', count: 5 }]);
-        (ITTicket.aggregate as any).mockResolvedValue([{
+        } as any);
+        vi.mocked(Animal.aggregate).mockResolvedValue([{ total: 100, poultry: 60, bovine: 40 }]);
+        vi.mocked(Crop.aggregate).mockResolvedValue([{ _id: 'HERB', count: 5 }]);
+        vi.mocked(ITTicket.aggregate).mockResolvedValue([{
             total: [{ count: 10 }],
             byStatus: [{ _id: 'new', count: 5 }],
             byPriority: [{ _id: 'high', count: 2 }],
             slaBreach: [{ count: 1 }]
         }]);
-        (Complaint.aggregate as any).mockResolvedValue([{
+        vi.mocked(Complaint.aggregate).mockResolvedValue([{
             total: [{ count: 20 }],
             byStatus: [{ _id: 'nouvelle', count: 10 }]
         }]);
-        (Team.aggregate as any).mockResolvedValue([{ name: 'Team A', color: 'red', activeAssignments: 2 }]);
+        vi.mocked(Team.aggregate).mockResolvedValue([{ name: 'Team A', color: 'red', activeAssignments: 2 }]);
 
         const response = await request(app).get('/api/dashboard');
 
@@ -107,15 +107,15 @@ describe('Dashboard Route', () => {
     });
 
     it('should handle empty results gracefully', async () => {
-        (FarmKPI.findOne as any).mockReturnValue({
+        vi.mocked(FarmKPI.findOne).mockReturnValue({
             sort: vi.fn().mockReturnThis(),
             lean: vi.fn().mockResolvedValue(null)
-        });
-        (Animal.aggregate as any).mockResolvedValue([]);
-        (Crop.aggregate as any).mockResolvedValue([]);
-        (ITTicket.aggregate as any).mockResolvedValue([{ total: [], byStatus: [], byPriority: [], slaBreach: [] }]);
-        (Complaint.aggregate as any).mockResolvedValue([{ total: [], byStatus: [] }]);
-        (Team.aggregate as any).mockResolvedValue([]);
+        } as any);
+        vi.mocked(Animal.aggregate).mockResolvedValue([]);
+        vi.mocked(Crop.aggregate).mockResolvedValue([]);
+        vi.mocked(ITTicket.aggregate).mockResolvedValue([{ total: [], byStatus: [], byPriority: [], slaBreach: [] }]);
+        vi.mocked(Complaint.aggregate).mockResolvedValue([{ total: [], byStatus: [] }]);
+        vi.mocked(Team.aggregate).mockResolvedValue([]);
 
         const response = await request(app).get('/api/dashboard');
 

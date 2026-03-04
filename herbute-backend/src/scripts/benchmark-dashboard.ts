@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { performance } from 'perf_hooks';
 
-const API_URL = 'http://localhost:2065/api';
-const EMAIL = 'admin@reclamtrack.com';
-const PASSWORD = 'Admin123!';
+const API_URL = process.env.API_URL || 'http://localhost:2065/api';
+const EMAIL = process.env.BENCHMARK_EMAIL || 'admin@reclamtrack.com';
+const PASSWORD = process.env.BENCHMARK_PASSWORD || 'Admin123!';
 
 async function benchmark() {
     try {
@@ -34,7 +34,7 @@ async function benchmark() {
         const durations: number[] = [];
         for (let i = 0; i < 10; i++) {
             const start = performance.now();
-            const res = await axios.get(`${API_URL}/dashboard`, config);
+            await axios.get(`${API_URL}/dashboard`, config);
             const end = performance.now();
             durations.push(end - start);
             process.stdout.write('.');
