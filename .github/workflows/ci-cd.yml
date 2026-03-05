@@ -19,7 +19,13 @@ jobs:
           cache: 'npm'
           cache-dependency-path: './herbute-backend/package-lock.json'
       
-      - name: Install Dependencies
+      - name: Install Monorepo Root Dependencies
+        run: npm install
+
+      - name: Build Shared Package
+        run: npm run build -w shared
+
+      - name: Install Backend Dependencies
         run: cd herbute-backend && npm ci
       
       - name: Lint
@@ -40,7 +46,13 @@ jobs:
           cache: 'npm'
           cache-dependency-path: './frontend/package-lock.json'
       
-      - name: Install Dependencies
+      - name: Install Monorepo Root Dependencies
+        run: npm install
+
+      - name: Build Shared Package
+        run: npm run build -w shared
+
+      - name: Install Frontend Dependencies
         run: cd frontend && npm ci
       
       - name: Build Test
