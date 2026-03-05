@@ -1,4 +1,4 @@
-﻿/**
+   /**
  * @file errorHandler.ts
  * @description Centralized, type-aware global error handler for Express.
  *              Handles: AppError, Mongoose ValidationError, Mongoose CastError,
@@ -41,12 +41,12 @@ const buildResponse = (
 });
 
 /**
- * Global Express error handler â€” must be the LAST middleware registered.
+ * Global Express error handler          must be the LAST middleware registered.
  */
 const errorHandler = (err: unknown, req: Request, res: Response, _next: NextFunction): void => {
   const requestId = req.id;
 
-  // â”€â”€ 1. Operational AppError â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //                  1. Operational AppError
   if (err instanceof AppError) {
     logger.warn(`[ErrorHandler] Operational error ${err.statusCode}/${err.code}: ${err.message}`, {
       requestId,
@@ -62,13 +62,13 @@ const errorHandler = (err: unknown, req: Request, res: Response, _next: NextFunc
     return;
   }
 
-  // â”€â”€ 2. JWT errors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //                  2. JWT errors
   if (err instanceof jwt.TokenExpiredError) {
     logger.warn(`[ErrorHandler] JWT expired: ${err.message}`, { requestId });
     res
       .status(401)
       .json(
-        buildResponse('Token expirÃ© â€” rafraÃ®chissez votre session', 'AUTH_TOKEN_EXPIRED', requestId)
+        buildResponse('Token expir              rafra    chissez votre session', 'AUTH_TOKEN_EXPIRED', requestId)
       );
     return;
   }
@@ -78,7 +78,7 @@ const errorHandler = (err: unknown, req: Request, res: Response, _next: NextFunc
     return;
   }
 
-  // â”€â”€ 3. Mongoose ValidationError â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //                  3. Mongoose ValidationError
   if (err instanceof MongooseError.ValidationError) {
     const details = Object.values(err.errors).map((e) => ({
       field: e.path,
@@ -88,12 +88,12 @@ const errorHandler = (err: unknown, req: Request, res: Response, _next: NextFunc
     res
       .status(422)
       .json(
-        buildResponse('Erreur de validation des donnÃ©es', 'VALIDATION_ERROR', requestId, details)
+        buildResponse('Erreur de validation des donn    es', 'VALIDATION_ERROR', requestId, details)
       );
     return;
   }
 
-  // â”€â”€ 4. Mongoose CastError (invalid ObjectId) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //                  4. Mongoose CastError (invalid ObjectId)
   if (err instanceof MongooseError.CastError) {
     logger.warn(`[ErrorHandler] Mongoose cast error on field '${err.path}': ${err.value}`, {
       requestId,
@@ -106,7 +106,7 @@ const errorHandler = (err: unknown, req: Request, res: Response, _next: NextFunc
     return;
   }
 
-  // â”€â”€ 5. Mongoose duplicate key (code 11000) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //                  5. Mongoose duplicate key (code 11000)
   const mongoErr = err as any;
   if (mongoErr?.code === 11000) {
     const field = Object.keys(mongoErr.keyPattern ?? {})[0] ?? 'champ';
@@ -114,23 +114,23 @@ const errorHandler = (err: unknown, req: Request, res: Response, _next: NextFunc
     res
       .status(409)
       .json(
-        buildResponse(`La valeur du champ '${field}' est dÃ©jÃ  utilisÃ©e`, 'CONFLICT', requestId)
+        buildResponse(`La valeur du champ '${field}' est d    j    utilis    e`, 'CONFLICT', requestId)
       );
     return;
   }
 
-  // â”€â”€ 6. Express body-parser SyntaxError (malformed JSON) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //                  6. Express body-parser SyntaxError (malformed JSON)
   if (err instanceof SyntaxError && (err as any).status === 400 && 'body' in err) {
     logger.warn(`[ErrorHandler] Malformed JSON body`, { requestId });
     res
       .status(400)
-      .json(buildResponse('Corps de requÃªte JSON invalide', 'INVALID_JSON', requestId));
+      .json(buildResponse('Corps de requ    te JSON invalide', 'INVALID_JSON', requestId));
     return;
   }
 
-  // â”€â”€ 7. Unknown / programming error â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //                  7. Unknown / programming error
   const unknownErr = err as Error;
-  logger.error(`[ErrorHandler] âŒ Unhandled server error: ${unknownErr?.message ?? 'Unknown'}`, {
+  logger.error(`[ErrorHandler]        Unhandled server error: ${unknownErr?.message ?? 'Unknown'}`, {
     requestId,
     stack: isDev ? unknownErr?.stack : undefined,
     path: req.path,
@@ -151,7 +151,7 @@ const errorHandler = (err: unknown, req: Request, res: Response, _next: NextFunc
 
 
 /**
- * Async route wrapper â€” eliminates try/catch boilerplate in every route.
+ * Async route wrapper          eliminates try/catch boilerplate in every route.
  */
 export function asyncHandler(
   fn: (req: Request, res: Response, next: NextFunction) => Promise<unknown>

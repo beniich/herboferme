@@ -1,4 +1,4 @@
-﻿import { Server } from 'http';
+   import { Server } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 import { logger } from '../utils/logger.js';
 
@@ -15,7 +15,7 @@ interface NotificationData {
   type: 'info' | 'success' | 'warning' | 'error';
   title: string;
   message: string;
-  userId?: string; // Pour notifications ciblÃ©es
+  userId?: string; // Pour notifications cibl    es
   timestamp: Date;
 }
 
@@ -32,11 +32,11 @@ class NotificationService {
 
     // Namespace principal pour les notifications
     this.io.on('connection', (socket) => {
-      logger.info(`ðŸ”” Client connectÃ©: ${socket.id}`);
+      logger.info(`           Client connect    : ${socket.id}`);
 
-      // Authentification (optionnel mais recommandÃ©)
+      // Authentification (optionnel mais recommand    )
       socket.on('authenticate', (token) => {
-        // Ici tu peux vÃ©rifier le token JWT
+        // Ici tu peux v    rifier le token JWT
         // et stocker userId dans socket.data.userId
         // socket.data.userId = 'user_' + ...;
       });
@@ -46,14 +46,14 @@ class NotificationService {
       });
 
       socket.on('disconnect', () => {
-        logger.info(`ðŸ”Œ Client dÃ©connectÃ©: ${socket.id}`);
+        logger.info(`          Client d    connect    : ${socket.id}`);
       });
 
       // --- WebRTC Signaling for SRTP Calls ---
       socket.on(
         'call-user',
         (data: { userToCall: string; signalData: any; from: string; fromName: string }) => {
-          logger.info(`ðŸ“ž Call initiated from ${data.from} to ${data.userToCall}`);
+          logger.info(`          Call initiated from ${data.from} to ${data.userToCall}`);
           this.io?.to(`user:${data.userToCall}`).emit('call-made', {
             signal: data.signalData,
             from: data.from,
@@ -63,14 +63,14 @@ class NotificationService {
       );
 
       socket.on('answer-call', (data: { to: string; signal: any }) => {
-        logger.info(`ðŸ“ž Call answered by ${socket.id} for ${data.to}`);
+        logger.info(`          Call answered by ${socket.id} for ${data.to}`);
         this.io
           ?.to(`user:${data.to}`)
           .emit('call-answered', { signal: data.signal, from: socket.id });
       });
 
       socket.on('reject-call', (data: { to: string }) => {
-        logger.info(`ðŸ“ž Call rejected by ${socket.id} for ${data.to}`);
+        logger.info(`          Call rejected by ${socket.id} for ${data.to}`);
         this.io?.to(`user:${data.to}`).emit('call-rejected', { from: socket.id });
       });
 
@@ -82,20 +82,20 @@ class NotificationService {
       // ---------------------------------------
     });
 
-    // Namespace /logs pour les logs en temps rÃ©el (Enterprise DB)
+    // Namespace /logs pour les logs en temps r    el (Enterprise DB)
     this.initLogsNamespace();
 
     // Namespace /scheduler pour le planning (Enterprise DB)
     this.initSchedulerNamespace();
 
-    // Namespace /security pour la sÃ©curitÃ© en temps rÃ©el
+    // Namespace /security pour la s    curit     en temps r    el
     this.initSecurityNamespace();
 
     return this.io;
   }
 
   /**
-   * Namespace /logs pour les logs de base de donnÃ©es en temps rÃ©el
+   * Namespace /logs pour les logs de base de donn    es en temps r    el
    */
   private initLogsNamespace() {
     if (!this.io) return;
@@ -112,7 +112,7 @@ class NotificationService {
       let message = '';
       switch (type) {
         case 'INFO':
-          message = 'Heartbeat OK â€“ all services healthy.';
+          message = 'Heartbeat OK          all services healthy.';
           break;
         case 'WARN':
           message = 'Replication lag > 100 ms on replica-2.';
@@ -134,7 +134,7 @@ class NotificationService {
     }
 
     logsNamespace.on('connection', (socket) => {
-      logger.info(`ðŸ”Œ Client log socket connected: ${socket.id}`);
+      logger.info(`          Client log socket connected: ${socket.id}`);
 
       const interval = setInterval(() => {
         socket.emit('log', randomLog());
@@ -142,13 +142,13 @@ class NotificationService {
 
       socket.on('disconnect', () => {
         clearInterval(interval);
-        logger.info(`ðŸ”Œ Client log socket disconnected: ${socket.id}`);
+        logger.info(`          Client log socket disconnected: ${socket.id}`);
       });
     });
   }
 
   /**
-   * Namespace /scheduler pour la synchronisation du planning en temps rÃ©el
+   * Namespace /scheduler pour la synchronisation du planning en temps r    el
    */
   private initSchedulerNamespace() {
     if (!this.io) return;
@@ -186,7 +186,7 @@ class NotificationService {
     }
 
     schedulerNamespace.on('connection', (socket) => {
-      logger.info(`ðŸ”Œ Client scheduler socket connected: ${socket.id}`);
+      logger.info(`          Client scheduler socket connected: ${socket.id}`);
 
       // Send initial sync
       socket.emit('scheduler:sync', {
@@ -219,13 +219,13 @@ class NotificationService {
         clearInterval(statusInterval);
         clearInterval(orderInterval);
         clearInterval(syncInterval);
-        logger.info(`ðŸ”Œ Client scheduler socket disconnected: ${socket.id}`);
+        logger.info(`          Client scheduler socket disconnected: ${socket.id}`);
       });
     });
   }
 
   /**
-   * Namespace /security pour la sÃ©curitÃ© et le monitoring pfSense en temps rÃ©el
+   * Namespace /security pour la s    curit     et le monitoring pfSense en temps r    el
    */
   private initSecurityNamespace() {
     if (!this.io) return;
@@ -233,12 +233,12 @@ class NotificationService {
     const securityNamespace = this.io.of('/security');
 
     securityNamespace.on('connection', (socket) => {
-      logger.info(`ðŸ”’ Client security socket connected: ${socket.id}`);
+      logger.info(`           Client security socket connected: ${socket.id}`);
 
       // Allow joining specific rooms if needed
       socket.on('join-room', (room: string) => {
         socket.join(room);
-        logger.info(`ðŸ”’ Client ${socket.id} joined room ${room}`);
+        logger.info(`           Client ${socket.id} joined room ${room}`);
       });
 
       // Simulation of pfSense logs if no real emitter is connected yet
@@ -261,26 +261,26 @@ class NotificationService {
 
       socket.on('disconnect', () => {
         clearInterval(logInterval);
-        logger.info(`ðŸ”’ Client security socket disconnected: ${socket.id}`);
+        logger.info(`           Client security socket disconnected: ${socket.id}`);
       });
     });
   }
 
-  // Envoyer une notification Ã  tous
+  // Envoyer une notification     tous
   broadcast(data: NotificationData) {
     if (this.io) {
       this.io.emit('notification', data);
     }
   }
 
-  // Envoyer une notification Ã  un utilisateur spÃ©cifique
+  // Envoyer une notification     un utilisateur sp    cifique
   sendToUser(userId: string, data: NotificationData) {
     if (this.io) {
       this.io.to(userId).emit('notification', data);
     }
   }
 
-  // Envoyer une notification Ã  une salle spÃ©cifique
+  // Envoyer une notification     une salle sp    cifique
   sendToRoom(room: string, data: NotificationData) {
     if (this.io) {
       this.io.to(room).emit('notification', data);
@@ -297,8 +297,8 @@ class NotificationService {
   async notifyComplaintAssigned(teamId: string, complaint: any) {
     const notification = {
       type: 'complaint_assigned',
-      title: 'Nouvelle RÃ©clamation AssignÃ©e',
-      message: `Une rÃ©clamation "${complaint.title}" a Ã©tÃ© assignÃ©e Ã  votre Ã©quipe`,
+      title: 'Nouvelle R    clamation Assign    e',
+      message: `Une r    clamation "${complaint.title}" a     t     assign    e     votre     quipe`,
       data: {
         complaintId: complaint._id,
         category: complaint.category,
@@ -312,7 +312,7 @@ class NotificationService {
     // Assuming team rooms are formatted as 'team:ID'
     if (this.io) {
       this.io.to(`team:${teamId}`).emit('notification', notification);
-      logger.info(`ðŸ“§ Notification sent to team ${teamId}: ${notification.title}`);
+      logger.info(`          Notification sent to team ${teamId}: ${notification.title}`);
     }
   }
 
@@ -327,8 +327,8 @@ class NotificationService {
   ) {
     const notification = {
       type: 'status_update',
-      title: 'Statut de RÃ©clamation Mis Ã  Jour',
-      message: `Le statut de la rÃ©clamation est passÃ© de "${oldStatus}" Ã  "${newStatus}"`,
+      title: 'Statut de R    clamation Mis     Jour',
+      message: `Le statut de la r    clamation est pass     de "${oldStatus}"     "${newStatus}"`,
       data: {
         complaintId,
         oldStatus,
@@ -343,7 +343,7 @@ class NotificationService {
         // The existing code has socket.join(room), so we need to ensure users join 'user:ID'
         this.io?.to(`user:${userId}`).emit('notification', notification);
       });
-      logger.info(`ðŸ“§ Status change notification sent to ${userIds.length} users`);
+      logger.info(`          Status change notification sent to ${userIds.length} users`);
     }
   }
 
@@ -353,7 +353,7 @@ class NotificationService {
   async sendUrgentAlert(message: string, recipientIds?: string[]) {
     const notification = {
       type: 'alert',
-      title: 'âš ï¸ Alerte Urgente',
+      title: '            Alerte Urgente',
       message,
       priority: 'urgent',
       timestamp: new Date(),
@@ -367,7 +367,7 @@ class NotificationService {
       } else {
         this.io.emit('notification', notification);
       }
-      logger.info(`ðŸ“¢ Urgent alert sent: ${message}`);
+      logger.info(`          Urgent alert sent: ${message}`);
     }
   }
 }
