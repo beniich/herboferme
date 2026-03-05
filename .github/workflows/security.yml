@@ -1,0 +1,63 @@
+name: Security & Quality Checks
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  security-validation:
+    runs-on: ubuntu-latest
+    
+    services:
+      mongodb:
+        image: mongo:6.0
+        ports:
+          - 27017:27017
+      redis:
+        image: redis:6-alpine
+        ports:
+          - 6379:6379
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: herbute-backend/package-lock.json
+
+      - name: Install Dependencies
+        working-directory: herbute-backend
+        run: npm ci
+
+      - name: Generate Security Keys (RS256)
+        working-directory: herbute-backend
+        run: node gen-keys.cjs
+
+      - name: Setup Environment
+        working-directory: herbute-backend
+        run: |
+          cp .env.example .env
+          echo "JWT_PRIVATE_KEY_PATH=keys/private.pem" >> .env
+          echo "JWT_PUBLIC_KEY_PATH=keys/public.pem" >> .env
+          echo "MONGODB_URI=mongodb://localhost:27017/herbute-test" >> .env
+
+      - name: Run RBAC Logic Tests
+        working-directory: herbute-backend
+        run: npx tsx src/scripts/check-auth-logic.ts
+
+      - name: Run E2E Security Validation
+        working-directory: herbute-backend
+        run: |
+          # Create superadmin first
+          npx tsx src/scripts/create-superadmin-safe.ts
+          # Run validation
+          npx tsx src/scripts/e2e-security-validation.ts
+
+      - name: Linting
+        working-directory: herbute-backend
+        run: npm run lint

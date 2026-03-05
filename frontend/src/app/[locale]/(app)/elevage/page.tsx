@@ -1,9 +1,27 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { animalsApi } from '@/lib/api';
+import React, { useState, useMemo } from 'react';
+import { useAnimalsData } from '@/hooks/useDomainData';
+import { apiClient } from '@/lib/api-client';
 import toast from 'react-hot-toast';
-import PageHeader from '@/components/layout/PageHeader';
+import { StatCard } from '@/components/shared/StatCard';
+import { Skeleton } from '@/components/shared/Skeleton';
+import { ErrorFallback } from '@/components/shared/ErrorFallback';
+import { 
+  Beef, 
+  TrendingUp, 
+  AlertCircle, 
+  Layers, 
+  MoreVertical, 
+  Edit2, 
+  Trash2, 
+  Plus, 
+  RefreshCw,
+  Search,
+  CheckCircle2,
+  Activity,
+  ArrowRight
+} from 'lucide-react';
 
 interface Animal {
   _id: string;
@@ -15,7 +33,6 @@ interface Animal {
   status: string;
   estimatedValue: number;
   notes?: string;
-  createdAt: string;
 }
 
 interface AnimalForm {
@@ -30,82 +47,99 @@ interface AnimalForm {
 }
 
 const EMPTY_FORM: AnimalForm = {
-  type: '', breed: '', category: 'LIVESTOCK', count: '', averageAge: '', status: 'ACTIVE', estimatedValue: '', notes: ''
+  type: '', 
+  breed: '', 
+  category: 'LIVESTOCK', 
+  count: '', 
+  averageAge: '', 
+  status: 'ACTIVE', 
+  estimatedValue: '', 
+  notes: ''
 };
 
-const STATUS_MAP: Record<string, { label: string; pill: string }> = {
-  PRODUCTION: { label: 'En production', pill: 'pill-green' },
-  ACTIVE:     { label: 'Actif',         pill: 'pill-green' },
-  GROWING:    { label: 'Croissance',    pill: 'pill-gold' },
-  LAYING:     { label: 'En ponte',      pill: 'pill-blue' },
-  SICK:       { label: 'Malade',        pill: 'pill-red' },
-  SOLD:       { label: 'Vendu',         pill: 'pill-brown' },
+const STATUS_MAP: Record<string, { label: string; color: string; icon: React.ReactNode }> = {
+  PRODUCTION: { label: 'En production', color: 'bg-emerald-500/10 text-emerald-500', icon: <Activity size={12} /> },
+  ACTIVE:     { label: 'Actif',         color: 'bg-emerald-500/10 text-emerald-500', icon: <CheckCircle2 size={12} /> },
+  GROWING:    { label: 'Croissance',    color: 'bg-amber-500/10 text-amber-500', icon: <TrendingUp size={12} /> },
+  LAYING:     { label: 'En ponte',      color: 'bg-blue-500/10 text-blue-500', icon: <Layers size={12} /> },
+  SICK:       { label: 'Malade',        color: 'bg-rose-500/10 text-rose-500', icon: <AlertCircle size={12} /> },
+  SOLD:       { label: 'Vendu',         color: 'bg-zinc-500/10 text-zinc-500', icon: <ArrowRight size={12} /> },
 };
 
-interface AnimalsPageProps {
-  category?: string;
-  pageTitle?: string;
-  pageLabel?: string;
-  pageIcon?: string;
-}
-
-export default function ElevagePage({ 
-  category = 'LIVESTOCK', 
-  pageTitle = 'Gestion du Cheptel Bovin & Ovin', 
-  pageLabel = 'Module Élevage', 
-  pageIcon = '🐄' 
-}: AnimalsPageProps) {
-  const [animals, setAnimals] = useState<Animal[]>([]);
-  const [stats, setStats] = useState({ totalAnimals: 0, totalValue: 0 });
-  const [loading, setLoading] = useState(true);
+export default function ElevagePage() {
+  const { items: rawAnimals, stats: domainStats, isLoading, error, refresh } = useAnimalsData();
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [form, setForm] = useState<AnimalForm>({ ...EMPTY_FORM, category });
+  const [form, setForm] = useState<AnimalForm>(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const fetchData = useCallback(async () => {
-    try {
-      setLoading(true);
-      const [animRes, statsRes] = await Promise.all([
-        animalsApi.getAll({ category }) as any,
-        animalsApi.getStats({ category }) as any,
-      ]);
-      setAnimals(animRes?.data || []);
-      setStats(statsRes?.data || { totalAnimals: 0, totalValue: 0 });
-    } catch {
-      toast.error('Erreur lors du chargement');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const animals = useMemo(() => {
+    const list = (rawAnimals as unknown as Animal[]) || [];
+    if (!searchTerm) return list;
+    const term = searchTerm.toLowerCase();
+    return list.filter(a => 
+      a.type.toLowerCase().includes(term) || 
+      a.breed.toLowerCase().includes(term)
+    );
+  }, [rawAnimals, searchTerm]);
 
-  useEffect(() => { fetchData(); }, [fetchData]);
+  const kpis = useMemo(() => {
+    const list = (rawAnimals as unknown as Animal[]) || [];
+    const totalTetes = list.reduce((s, a) => s + (a.count || 0), 0);
+    const totalVal = list.reduce((s, a) => s + (a.estimatedValue || 0), 0);
+    const sickCount = list.filter(a => a.status === 'SICK').length;
+    
+    return {
+      totalTetes,
+      totalVal: totalVal / 1000,
+      groups: list.length,
+      sickCount
+    };
+  }, [rawAnimals]);
 
   const openCreate = () => { setForm(EMPTY_FORM); setEditingId(null); setShowModal(true); };
+  
   const openEdit = (a: Animal) => {
-    setForm({ type: a.type, breed: a.breed, category: a.category, count: a.count, averageAge: a.averageAge, status: a.status, estimatedValue: a.estimatedValue, notes: a.notes || '' });
+    setForm({ 
+      type: a.type, 
+      breed: a.breed, 
+      category: a.category, 
+      count: a.count, 
+      averageAge: a.averageAge, 
+      status: a.status, 
+      estimatedValue: a.estimatedValue, 
+      notes: a.notes || '' 
+    });
     setEditingId(a._id);
     setShowModal(true);
   };
+
   const closeModal = () => { setShowModal(false); setEditingId(null); setForm(EMPTY_FORM); };
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
     try {
-      const payload = { ...form, count: Number(form.count), averageAge: Number(form.averageAge), estimatedValue: Number(form.estimatedValue) };
+      const payload = { 
+        ...form, 
+        count: Number(form.count), 
+        averageAge: Number(form.averageAge), 
+        estimatedValue: Number(form.estimatedValue) 
+      };
+      
       if (editingId) {
-        await animalsApi.update(editingId, payload);
-        toast.success('Animal modifié');
+        await apiClient.patch(`/api/animals/${editingId}`, payload);
+        toast.success('Animal mis à jour avec succès');
       } else {
-        await animalsApi.create(payload);
-        toast.success('Animal ajouté');
+        await apiClient.post('/api/animals', payload);
+        toast.success('Nouvel enregistrement ajouté');
       }
       closeModal();
-      fetchData();
-    } catch {
-      toast.error('Erreur lors de la sauvegarde');
+      refresh();
+    } catch (err: any) {
+      toast.error(err.response?.data?.error || 'Erreur lors de la sauvegarde');
     } finally {
       setSaving(false);
     }
@@ -113,162 +147,285 @@ export default function ElevagePage({
 
   const handleDelete = async (id: string) => {
     try {
-      await animalsApi.delete(id);
-      toast.success('Supprimé');
+      await apiClient.delete(`/api/animals/${id}`);
+      toast.success('Enregistrement supprimé');
       setDeleteId(null);
-      fetchData();
-    } catch {
-      toast.error('Erreur lors de la suppression');
+      refresh();
+    } catch (err: any) {
+      toast.error(err.response?.data?.error || 'Erreur lors de la suppression');
     }
   };
 
-  const totalTetes = animals.reduce((s, a) => s + a.count, 0);
-  const totalVal = animals.reduce((s, a) => s + a.estimatedValue, 0);
+  if (error) return <ErrorFallback onRetry={refresh} message="Impossible de charger le cheptel" />;
 
   return (
-    <div className="page active" id="page-elevage">
-      <div style={{ padding: '24px' }}>
-
-        <PageHeader 
-          label={pageLabel}
-          title={pageTitle}
-          subtitle="Suivi en temps réel · Données depuis la base de données"
-          labelColor="var(--amber)"
-          actions={
-            <button
-              onClick={openCreate}
-              style={{ padding: '10px 20px', background: 'rgba(200,146,26,0.15)', border: '1px solid rgba(200,146,26,0.4)', borderRadius: '10px', color: 'var(--gold2)', fontFamily: 'var(--font-mono)', fontSize: '12px', letterSpacing: '1px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}
-            >
-              ➕ Ajouter {category === 'POULTRY' ? 'un lot' : 'un animal'}
-            </button>
-          }
-        />
-
-        {/* KPI Cards */}
-        <div className="kpi-grid kpi-grid-4" style={{ marginBottom: '24px' }}>
-          <div className="kpi-card" style={{ '--kpi-color': 'var(--amber)' } as React.CSSProperties}>
-            <div className="kpi-icon">{pageIcon}</div>
-            <div className="kpi-label">Effectif Total</div>
-            <div className="kpi-value">{loading ? '—' : totalTetes}<span className="kpi-unit">{category === 'POULTRY' ? 'sujets' : 'têtes'}</span></div>
-          </div>
-          <div className="kpi-card" style={{ '--kpi-color': 'var(--gold)' } as React.CSSProperties}>
-            <div className="kpi-icon">💰</div>
-            <div className="kpi-label">Valeur Estimée</div>
-            <div className="kpi-value">{loading ? '—' : (totalVal / 1000).toFixed(0)}<span className="kpi-unit">KDH</span></div>
-          </div>
-          <div className="kpi-card" style={{ '--kpi-color': 'var(--green)' } as React.CSSProperties}>
-            <div className="kpi-icon">📋</div>
-            <div className="kpi-label">Groupes / Lots</div>
-            <div className="kpi-value">{loading ? '—' : animals.length}<span className="kpi-unit">lots</span></div>
-          </div>
-          <div className="kpi-card" style={{ '--kpi-color': 'var(--red)' } as React.CSSProperties}>
-            <div className="kpi-icon">⚠️</div>
-            <div className="kpi-label">En Alerte</div>
-            <div className="kpi-value">{loading ? '—' : animals.filter(a => a.status === 'SICK').length}<span className="kpi-unit">lots</span></div>
-          </div>
+    <div className="page active p-6 lg:p-10 space-y-8" id="page-elevage">
+      
+      {/* HEADER */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+        <div>
+          <div className="text-[10px] font-mono tracking-[3px] text-zinc-500 uppercase mb-1">Module Agriculture · Élevage</div>
+          <h1 className="text-3xl font-bold tracking-tight text-white mb-2 flex items-center gap-3">
+            <Beef className="text-amber-500" size={32} /> Gestion du Cheptel
+          </h1>
+          <p className="text-sm text-zinc-400">Suivi inventaire, santé et valorisation du bétail.</p>
         </div>
-
-        {/* Table */}
-        <div className="panel">
-          <div className="panel-header">
-            <div className="panel-title"><div className="dot" style={{ background: 'var(--amber)' }}></div>Inventaire Cheptel</div>
-            <div className="panel-action" onClick={fetchData} style={{ cursor: 'pointer' }}>↺ Actualiser</div>
+        <div className="flex gap-3 w-full md:w-auto">
+          <div className="relative flex-1 md:w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" size={16} />
+            <input 
+              type="text" 
+              placeholder="Rechercher..."
+              className="w-full pl-10 pr-4 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-sm text-white focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 outline-none transition-all"
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+            />
           </div>
-          <div className="panel-body" style={{ padding: 0 }}>
-            {loading ? (
-              <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text3)', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>Chargement…</div>
-            ) : animals.length === 0 ? (
-              <div style={{ padding: '40px', textAlign: 'center' }}>
-                <div style={{ fontSize: '32px', marginBottom: '12px' }}>{pageIcon}</div>
-                <div style={{ color: 'var(--text3)', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>Aucune donnée enregistrée</div>
-                <button onClick={openCreate} style={{ marginTop: '16px', padding: '8px 20px', background: 'rgba(200,146,26,0.15)', border: '1px solid rgba(200,146,26,0.4)', borderRadius: '8px', color: 'var(--gold2)', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px' }}>➕ Ajouter le premier lot</button>
-              </div>
-            ) : (
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>Type</th><th>Race</th><th>Nb</th><th>Âge Moy.</th><th>Statut</th><th style={{ textAlign: 'right' }}>Valeur (DH)</th><th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {animals.map(a => (
-                    <tr key={a._id}>
-                      <td>{pageIcon} {a.type}</td>
-                      <td>{a.breed}</td>
-                      <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 700 }}>{a.count}</td>
-                      <td style={{ fontFamily: 'var(--font-mono)' }}>{a.averageAge} mois</td>
-                      <td><span className={`pill ${STATUS_MAP[a.status]?.pill || 'pill-green'}`}>{STATUS_MAP[a.status]?.label || a.status}</span></td>
-                      <td style={{ textAlign: 'right', fontFamily: 'var(--font-mono)', color: 'var(--gold2)' }}>{a.estimatedValue.toLocaleString('fr-FR')}</td>
-                      <td style={{ textAlign: 'right' }}>
-                        <button onClick={() => openEdit(a)} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: '14px', marginRight: '8px' }} title="Modifier">✏️</button>
-                        <button onClick={() => setDeleteId(a._id)} style={{ background: 'none', border: 'none', color: 'var(--red)', cursor: 'pointer', fontSize: '14px' }} title="Supprimer">🗑️</button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-          </div>
+          <button 
+            onClick={openCreate}
+            className="flex items-center gap-2 px-5 py-2 bg-amber-500 hover:bg-amber-400 text-black rounded-lg text-sm font-bold transition-all shadow-lg shadow-amber-500/10"
+          >
+            <Plus size={18} /> Nouveau Lot
+          </button>
         </div>
       </div>
 
-      {/* Modal Formulaire */}
-      {showModal && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-          <div style={{ background: 'var(--panel)', border: '1px solid var(--border2)', borderRadius: '16px', padding: '28px', width: '100%', maxWidth: '520px', maxHeight: '90vh', overflowY: 'auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '22px', color: 'var(--cream)' }}>{editingId ? '✏️ Modifier' : `➕ Ajouter ${category === 'POULTRY' ? 'un lot' : 'un animal'}`}</h2>
-              <button onClick={closeModal} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: '20px' }}>✕</button>
+      {/* KPI GRID */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        {isLoading ? (
+          Array(4).fill(0).map((_, i) => <Skeleton key={i} type="card" />)
+        ) : (
+          <>
+            <StatCard 
+              label="Effectif Total" 
+              value={kpis.totalTetes} 
+              unit="têtes"
+              icon={<Beef size={20} />}
+              color="amber"
+            />
+            <StatCard 
+              label="Valeur Estimée" 
+              value={kpis.totalVal.toFixed(0)} 
+              unit="KDH"
+              icon={<TrendingUp size={20} />}
+              color="green"
+            />
+            <StatCard 
+              label="Groupes Actifs" 
+              value={kpis.groups} 
+              unit="lots"
+              icon={<Layers size={20} />}
+              color="blue"
+            />
+            <StatCard 
+              label="Alertes Santé" 
+              value={kpis.sickCount} 
+              unit="lots"
+              icon={<AlertCircle size={20} />}
+              color="red"
+            />
+          </>
+        )}
+      </div>
+
+      {/* MAIN TABLE PANEL */}
+      <div className="bg-zinc-950 border border-zinc-900 rounded-2xl overflow-hidden shadow-2xl">
+        <div className="p-6 border-b border-zinc-900 flex justify-between items-center bg-zinc-950/50">
+          <h3 className="text-sm font-bold text-zinc-100 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]"></span> Inventaire Cheptel
+          </h3>
+          <button onClick={refresh} className="text-zinc-500 hover:text-white transition-colors">
+            <RefreshCw size={16} className={isLoading ? 'animate-spin' : ''} />
+          </button>
+        </div>
+
+        <div className="overflow-x-auto">
+          {isLoading ? (
+            <div className="p-10"><Skeleton type="table" /></div>
+          ) : animals.length === 0 ? (
+            <div className="py-20 text-center space-y-4">
+              <Beef size={48} className="mx-auto text-zinc-800" />
+              <div className="text-zinc-500 font-medium italic">Aucun animal enregistré pour le moment.</div>
+              <button 
+                onClick={openCreate}
+                className="px-6 py-2 border border-zinc-800 rounded-xl text-xs font-bold text-zinc-400 hover:text-white hover:bg-zinc-900 transition-all"
+              >
+                Commencer l'inventaire
+              </button>
             </div>
-            <form onSubmit={handleSave}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                  <label>Type d&apos;animal *</label>
-                  <input type="text" value={form.type} onChange={e => setForm(f => ({ ...f, type: e.target.value }))} placeholder="Ex: Vaches laitières, Brebis…" required />
+          ) : (
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-zinc-900/40">
+                  <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500 border-b border-zinc-900">Type & Race</th>
+                  <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500 border-b border-zinc-900">Effectif</th>
+                  <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500 border-b border-zinc-900">Âge Moyen</th>
+                  <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500 border-b border-zinc-900">Statut</th>
+                  <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500 border-b border-zinc-900 text-right">Valeur Estimée</th>
+                  <th className="px-8 py-4 text-zinc-500 border-b border-zinc-900"></th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-zinc-900/50">
+                {animals.map(a => (
+                  <tr key={a._id} className="hover:bg-zinc-900/30 transition-colors group">
+                    <td className="px-8 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-amber-500">
+                          <Beef size={16} />
+                        </div>
+                        <div>
+                          <div className="text-xs font-bold text-white">{a.type}</div>
+                          <div className="text-[10px] text-zinc-500 uppercase font-mono">{a.breed}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className="text-sm font-bold text-zinc-200">{a.count}</span>
+                      <span className="text-[10px] text-zinc-500 ml-1 uppercase">Unit.</span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className="text-xs font-mono text-zinc-400">{a.averageAge} mois</span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${STATUS_MAP[a.status]?.color || 'bg-zinc-500/10 text-zinc-500'}`}>
+                        {STATUS_MAP[a.status]?.icon}
+                        {STATUS_MAP[a.status]?.label || a.status}
+                      </div>
+                    </td>
+                    <td className="px-8 py-4 text-right">
+                      <div className="text-sm font-mono font-bold text-amber-400">
+                        {a.estimatedValue?.toLocaleString('fr-FR')} <span className="text-[10px] font-normal text-zinc-500">DH</span>
+                      </div>
+                    </td>
+                    <td className="px-8 py-4 text-right opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex justify-end gap-2">
+                        <button onClick={() => openEdit(a)} className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-900 rounded-lg transition-all">
+                          <Edit2 size={14} />
+                        </button>
+                        <button onClick={() => setDeleteId(a._id)} className="p-2 text-zinc-500 hover:text-rose-500 hover:bg-rose-500/10 rounded-lg transition-all">
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
+
+      {/* MODAL FORM */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-zinc-950 border border-zinc-800 rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+            <div className="p-6 border-b border-zinc-900 flex justify-between items-center">
+              <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                {editingId ? <Edit2 className="text-amber-500" size={20} /> : <Plus className="text-amber-500" size={20} />}
+                {editingId ? 'Modifier le lot' : 'Nouveau lot de cheptel'}
+              </h2>
+              <button onClick={closeModal} className="text-zinc-500 hover:text-white transition-colors">✕</button>
+            </div>
+            
+            <form onSubmit={handleSave} className="p-8 space-y-6">
+              <div className="grid grid-cols-2 gap-6">
+                <div className="col-span-2 space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Type d'animal *</label>
+                  <input 
+                    type="text" 
+                    value={form.type} 
+                    onChange={e => setForm(f => ({ ...f, type: e.target.value }))}
+                    className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500/50 outline-none transition-all"
+                    placeholder="Ex: Vaches laitières, Brebis..." 
+                    required 
+                  />
                 </div>
-                <div className="form-group">
-                  <label>Race *</label>
-                  <input type="text" value={form.breed} onChange={e => setForm(f => ({ ...f, breed: e.target.value }))} placeholder="Ex: Holstein, Sardi…" required />
+                
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Race *</label>
+                  <input 
+                    type="text" 
+                    value={form.breed} 
+                    onChange={e => setForm(f => ({ ...f, breed: e.target.value }))}
+                    className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500/50 outline-none transition-all"
+                    placeholder="Ex: Holstein, Sardi..." 
+                    required 
+                  />
                 </div>
-                <div className="form-group">
-                  <label>Catégorie</label>
-                  <select title="Catégorie de l'animal" value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))}>
-                    <option value="LIVESTOCK">Élevage (Bovin/Ovin)</option>
-                    <option value="POULTRY">Volaille</option>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Effectif (têtes) *</label>
+                  <input 
+                    type="number" 
+                    value={form.count} 
+                    onChange={e => setForm(f => ({ ...f, count: e.target.value }))}
+                    className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500/50 outline-none transition-all"
+                    placeholder="0" 
+                    required 
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Âge moyen (mois)</label>
+                  <input 
+                    type="number" 
+                    value={form.averageAge} 
+                    onChange={e => setForm(f => ({ ...f, averageAge: e.target.value }))}
+                    className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500/50 outline-none transition-all"
+                    placeholder="0" 
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Statut</label>
+                  <select 
+                    value={form.status} 
+                    onChange={e => setForm(f => ({ ...f, status: e.target.value }))}
+                    className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500/50 outline-none transition-all appearance-none"
+                  >
+                    {Object.entries(STATUS_MAP).map(([key, val]) => (
+                      <option key={key} value={key}>{val.label}</option>
+                    ))}
                   </select>
                 </div>
-                <div className="form-group">
-                  <label>Nombre de têtes *</label>
-                  <input type="number" title="Nombre de têtes" value={form.count} onChange={e => setForm(f => ({ ...f, count: e.target.value }))} min={1} required placeholder="0" />
+
+                <div className="col-span-2 space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Valeur estimée totale (DH)</label>
+                  <input 
+                    type="number" 
+                    value={form.estimatedValue} 
+                    onChange={e => setForm(f => ({ ...f, estimatedValue: e.target.value }))}
+                    className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500/50 outline-none transition-all font-mono"
+                    placeholder="0" 
+                  />
                 </div>
-                <div className="form-group">
-                  <label>Âge moyen (mois) *</label>
-                  <input type="number" title="Âge moyen en mois" value={form.averageAge} onChange={e => setForm(f => ({ ...f, averageAge: e.target.value }))} min={0} step={0.1} required placeholder="0" />
-                </div>
-                <div className="form-group">
-                  <label>Statut</label>
-                  <select title="Statut de l'animal" value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))}>
-                    <option value="ACTIVE">Actif</option>
-                    <option value="PRODUCTION">En production</option>
-                    <option value="GROWING">Croissance</option>
-                    <option value="LAYING">En ponte</option>
-                    <option value="SICK">Malade</option>
-                    <option value="SOLD">Vendu</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label>Valeur estimée (DH)</label>
-                  <input type="number" value={form.estimatedValue} onChange={e => setForm(f => ({ ...f, estimatedValue: e.target.value }))} min={0} placeholder="0" />
-                </div>
-                <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                  <label>Notes</label>
-                  <textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} placeholder="Observations, traitements, remarques…" rows={3} style={{ resize: 'vertical' }} />
+
+                <div className="col-span-2 space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Observations</label>
+                  <textarea 
+                    value={form.notes} 
+                    onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
+                    rows={3}
+                    className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500/50 outline-none transition-all resize-none"
+                    placeholder="Traitements, alimentation, remarques..."
+                  />
                 </div>
               </div>
-              <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
-                <button type="button" onClick={closeModal} style={{ flex: 1, padding: '12px', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', borderRadius: '10px', color: 'var(--text2)', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>Annuler</button>
-                <button type="submit" disabled={saving} style={{ flex: 2, padding: '12px', background: 'rgba(200,146,26,0.2)', border: '1px solid rgba(200,146,26,0.4)', borderRadius: '10px', color: 'var(--gold2)', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px', letterSpacing: '1px', fontWeight: 700 }}>
-                  {saving ? 'Enregistrement…' : editingId ? 'Enregistrer' : 'Ajouter'}
+
+              <div className="flex gap-4 pt-4 border-t border-zinc-900">
+                <button 
+                  type="button" 
+                  onClick={closeModal}
+                  className="flex-1 px-6 py-3 rounded-xl border border-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-900 transition-all text-xs font-bold uppercase tracking-widest"
+                >
+                  Annuler
+                </button>
+                <button 
+                  type="submit" 
+                  disabled={saving}
+                  className="flex-[2] px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs uppercase tracking-widest transition-all disabled:opacity-50"
+                >
+                  {saving ? 'Enregistrement...' : editingId ? 'Mettre à jour' : 'Ajouter le lot'}
                 </button>
               </div>
             </form>
@@ -276,20 +433,35 @@ export default function ElevagePage({
         </div>
       )}
 
-      {/* Dialog Confirmation Suppression */}
+      {/* DELETE CONFIRMATION */}
       {deleteId && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ background: 'var(--panel)', border: '1px solid var(--red)', borderRadius: '16px', padding: '28px', maxWidth: '380px', textAlign: 'center' }}>
-            <div style={{ fontSize: '36px', marginBottom: '12px' }}>⚠️</div>
-            <h3 style={{ color: 'var(--cream)', marginBottom: '8px' }}>Confirmer la suppression</h3>
-            <p style={{ color: 'var(--text3)', fontFamily: 'var(--font-mono)', fontSize: '13px', marginBottom: '24px' }}>Cette action est irréversible.</p>
-            <div style={{ display: 'flex', gap: '12px' }}>
-              <button onClick={() => setDeleteId(null)} style={{ flex: 1, padding: '10px', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', borderRadius: '8px', color: 'var(--text2)', cursor: 'pointer' }}>Annuler</button>
-              <button onClick={() => handleDelete(deleteId)} style={{ flex: 1, padding: '10px', background: 'rgba(192,57,43,0.2)', border: '1px solid rgba(192,57,43,0.4)', borderRadius: '8px', color: '#e87070', cursor: 'pointer', fontWeight: 700 }}>Supprimer</button>
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+          <div className="bg-zinc-950 border border-zinc-800 rounded-2xl w-full max-w-sm p-8 text-center space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-200">
+            <div className="w-16 h-16 bg-rose-500/10 text-rose-500 rounded-full flex items-center justify-center mx-auto border border-rose-500/20">
+              <Trash2 size={32} />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-white mb-2">Supprimer ce lot ?</h3>
+              <p className="text-sm text-zinc-500">Cette action est définitive et supprimera toutes les données liées à ce lot d'animaux.</p>
+            </div>
+            <div className="flex gap-4">
+              <button 
+                onClick={() => setDeleteId(null)}
+                className="flex-1 px-4 py-3 rounded-xl border border-zinc-800 text-zinc-400 hover:text-white transition-all text-xs font-bold"
+              >
+                Annuler
+              </button>
+              <button 
+                onClick={() => handleDelete(deleteId)}
+                className="flex-1 px-4 py-3 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs transition-all"
+              >
+                Supprimer
+              </button>
             </div>
           </div>
         </div>
       )}
+
     </div>
   );
 }

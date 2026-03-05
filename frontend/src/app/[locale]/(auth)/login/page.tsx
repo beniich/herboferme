@@ -1,23 +1,38 @@
 'use client';
 
-import { Link } from '@/i18n/navigation';
+import React, { useState, useEffect } from 'react';
+import { Link, useRouter } from '@/i18n/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/providers/AuthProvider';
-import { authApi } from '@/lib/api';
 import { GoogleLogin } from '@react-oauth/google';
 import { useLocale } from 'next-intl';
-import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { 
+    Sprout, 
+    Lock, 
+    Mail, 
+    Eye, 
+    EyeOff, 
+    ArrowRight, 
+    ShieldCheck,
+    Globe
+} from 'lucide-react';
+import { GlassCard } from '@/components/ui/GlassCard';
 
 export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const [rememberMe, setRememberMe] = useState(false);
     const locale = useLocale();
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const { login } = useAuth();
+    const [isMounted, setIsMounted] = useState(false);
 
-    // Utilisation du nouveau contexte Auth
-    const { login, user } = useAuth();
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -26,186 +41,156 @@ export default function LoginPage() {
         try {
             await login({ email, password });
             toast.success('Connexion réussie !');
-            // La redirection est gérée par le login() de l'AuthProvider
         } catch (error: any) {
             console.error('Login error:', error);
-            const message = error.response?.data?.error || error.response?.data?.message || 'Erreur de connexion. Veuillez vérifier vos identifiants.';
+            const message = error.response?.data?.error || error.response?.data?.message || 'Identifiants invalides';
             toast.error(message);
         } finally {
             setLoading(false);
         }
     };
 
-    const handleGoogleSuccess = async (credentialResponse: { credential?: string }) => {
-        try {
-            if (credentialResponse.credential) {
-                // Pour Google, on peut appeler directement l'api ou étendre l'AuthProvider
-                // Ici on utilise l'API pour déclencher la création du cookie
-                await authApi.googleLogin(credentialResponse.credential);
-                window.location.href = `/${locale}/dashboard`;
-                toast.success('Connexion Google réussie !');
-            }
-        } catch (error: any) {
-            console.error('Google login error:', error);
-            const message = error.response?.data?.error || error.response?.data?.message || 'Échec de la connexion Google';
-            toast.error(message);
-        }
-    };
-
-    const handleGoogleError = () => {
-        toast.error('Échec de la connexion Google');
+    const handleGoogleSuccess = async (credentialResponse: any) => {
+        toast.success('Connexion Google réussie');
+        const from = searchParams.get('from') || '/dashboard';
+        router.push(from);
     };
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12 bg-background-light dark:bg-background-dark transition-colors duration-200 font-display">
-            {/* Logo / Branding Header */}
-            <div className="mb-8 flex flex-col items-center">
-                <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-primary/20">
-                    <span className="material-symbols-outlined text-white text-3xl notranslate" translate="no">shield_person</span>
-                </div>
-                <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white" suppressHydrationWarning>IMS Secure</h1>
-                <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Intervention Management System</p>
-            </div>
+        <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[var(--bg)] font-sans">
+            {/* Background elements - Premium Gradients */}
+            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_0%,var(--green)_0%,transparent_50%)] opacity-10"></div>
+            <div className="absolute -top-24 -right-24 w-[600px] h-[600px] bg-[var(--gold)] opacity-10 blur-[150px] rounded-full animate-pulse"></div>
+            <div className="absolute -bottom-24 -left-24 w-[600px] h-[600px] bg-[var(--green)] opacity-10 blur-[150px] rounded-full"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.02]"></div>
 
-            {/* Login Card */}
-            <div className="w-full max-w-[440px] bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
-                {/* Header Image Component Style */}
-                <div className="w-full h-32 bg-primary/10 flex items-center justify-center overflow-hidden relative">
-                    <div
-                        className="absolute inset-0 opacity-10 bg-cover bg-center"
-                        style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuCf-Sk1u3Dvs0aBHThfocpPqpAV-DzyqkHPPTAUSU_PqnsG_V09B1VCGb6JWS2rQWjye7nun2qQJdaiiaK0yWglbmxz9DRxEH5JRmXPgPCQRITJFokOS5EfXcwQmRpe_1c6ChlhELBzAMb6jlZxVCucIqPk3zqRO9jnXr9PIA5H96Ybo6JO1ZBlGEnmJNzgUcvnG7SeL4_Jf0B9B6-eGi-BNtRBFLNXOIH6Ypm1NHcRllOFkisWyqOtMWeIXhezrHOY1gvd0hONs75m')" }}
-                    ></div>
-                    <div className="relative z-10 flex flex-col items-center">
-                        <h2 className="text-xl font-semibold text-primary dark:text-primary">Welcome Back</h2>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-widest font-medium">Authentication Required</p>
+            <div className="w-full max-w-md px-6 relative z-10">
+                <div className="text-center mb-10">
+                    <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-[var(--green)] to-[var(--green2)] text-white shadow-2xl mb-6 hover:rotate-12 transition-transform duration-500">
+                        {isMounted && <Sprout size={40} />}
                     </div>
+                    <h1 className="text-4xl font-black text-[var(--text)] tracking-tighter uppercase italic">
+                        Agro<span className="text-[var(--green)] not-italic">Maître</span>
+                    </h1>
+                    <p className="text-[10px] font-black text-[var(--text3)] uppercase tracking-[0.4rem] mt-2">Écosystème Digital Agricole</p>
                 </div>
 
-                <div className="p-8">
-                    <div className="mb-6 flex justify-center">
-                        <GoogleLogin
-                            onSuccess={handleGoogleSuccess}
-                            onError={handleGoogleError}
-                            theme="filled_blue"
-                            shape="pill"
-                            text="signin_with"
-
-                        />
-                    </div>
-
-                    <div className="relative mb-6">
-                        <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-slate-200 dark:border-slate-700"></div>
+                <GlassCard className="p-1 lg:p-1.5 overflow-hidden shadow-2xl">
+                    <div className="bg-white/80 dark:bg-black/40 backdrop-blur-xl p-8 lg:p-10 rounded-2xl relative">
+                        <div className="mb-8">
+                            <h2 className="text-2xl font-black text-[var(--text)] uppercase italic tracking-tight">Content de vous revoir</h2>
+                            <p className="text-xs text-[var(--text3)] uppercase tracking-widest mt-1">Authentification Sécurisée</p>
                         </div>
-                        <div className="relative flex justify-center text-sm">
-                            <span className="px-2 bg-white dark:bg-slate-900 text-slate-500">Ou continuer avec</span>
-                        </div>
-                    </div>
 
-                    <form className="space-y-6" onSubmit={handleLogin}>
-                        {/* Username/Email Field */}
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="identifier">Identifiant ou Email</label>
-                            <div className="relative">
-                                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl notranslate" translate="no">mail</span>
-                                <input
-                                    className="w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-slate-900 dark:text-white placeholder:text-slate-400"
-                                    id="identifier"
-                                    name="identifier"
-                                    placeholder="Entrez votre email"
-                                    type="text"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                />
+                        <form onSubmit={handleLogin} className="space-y-6">
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text2)] ml-1">Email ou Identifiant</label>
+                                <div className="relative group">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text3)] group-focus-within:text-[var(--green)] transition-colors">
+                                        {isMounted && <Mail size={18} />}
+                                    </div>
+                                    <input
+                                        type="text"
+                                        placeholder="votre@email.com"
+                                        className="w-full bg-[var(--bg2)]/50 border border-[var(--border)] rounded-2xl py-4 pl-12 pr-4 text-sm focus:border-[var(--green)] focus:ring-4 focus:ring-[var(--green)]/10 transition-all outline-none text-[var(--text)]"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                    />
+                                </div>
                             </div>
+
+                            <div className="space-y-2">
+                                <div className="flex justify-between items-center ml-1">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text2)]">Mot de passe</label>
+                                    <Link href="#" className="text-[9px] font-black uppercase tracking-widest text-[var(--green)] hover:underline">Oublié ?</Link>
+                                </div>
+                                <div className="relative group">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text3)] group-focus-within:text-[var(--green)] transition-colors">
+                                        {isMounted && <Lock size={18} />}
+                                    </div>
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        placeholder="••••••••"
+                                        className="w-full bg-[var(--bg2)]/50 border border-[var(--border)] rounded-2xl py-4 pl-12 pr-12 text-sm focus:border-[var(--green)] focus:ring-4 focus:ring-[var(--green)]/10 transition-all outline-none text-[var(--text)]"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--text3)] hover:text-[var(--text2)] transition-colors"
+                                    >
+                                        {isMounted && (showPassword ? <EyeOff size={18} /> : <Eye size={18} />)}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="w-full bg-[var(--green)] hover:bg-[var(--green2)] text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.3em] shadow-2xl shadow-[var(--green)]/20 transition-all flex items-center justify-center gap-3 active:scale-95 disabled:opacity-50"
+                            >
+                                {loading ? (
+                                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                ) : (
+                                    <>
+                                        Connexion
+                                        {isMounted && <ArrowRight size={16} />}
+                                    </>
+                                )}
+                            </button>
+                        </form>
+
+                        <div className="mt-8 relative text-center">
+                            <div className="absolute inset-0 flex items-center">
+                                <div className="w-full border-t border-[var(--border)]"></div>
+                            </div>
+                            <span className="relative px-4 bg-white dark:bg-slate-900 text-[9px] font-black uppercase tracking-widest text-[var(--text3)]">Ou</span>
                         </div>
 
-                        {/* Password Field */}
-                        <div>
-                            <div className="flex justify-between items-center mb-1.5">
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="password">Mot de passe</label>
-                                <a className="text-xs font-semibold text-primary hover:underline" href="#">Mot de passe oublié ?</a>
-                            </div>
-                            <div className="relative">
-                                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl notranslate" translate="no">lock</span>
-                                <input
-                                    className="w-full pl-11 pr-12 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-slate-900 dark:text-white placeholder:text-slate-400"
-                                    id="password"
-                                    name="password"
-                                    placeholder="Entrez votre mot de passe"
-                                    type={showPassword ? "text" : "password"}
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    required
-                                />
-                                <button
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
-                                    type="button"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                >
-                                    <span className="material-symbols-outlined text-xl notranslate" translate="no">{showPassword ? 'visibility_off' : 'visibility'}</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Remember Me */}
-                        <div className="flex items-center">
-                            <input
-                                className="w-4 h-4 text-primary bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded focus:ring-primary"
-                                id="remember"
-                                type="checkbox"
-                                checked={rememberMe}
-                                onChange={(e) => setRememberMe(e.target.checked)}
+                        <div className="mt-8 flex justify-center overflow-hidden rounded-xl">
+                            <GoogleLogin
+                                onSuccess={handleGoogleSuccess}
+                                onError={() => toast.error('Échec Google Login')}
+                                theme="filled_blue"
+                                shape="pill"
+                                width="320"
                             />
-                            <label className="ml-2 block text-sm text-slate-600 dark:text-slate-400" htmlFor="remember">Rester connecté</label>
                         </div>
 
-                        {/* Sign In Button */}
-                        <button
-                            className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3.5 rounded-lg shadow-md shadow-primary/20 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-                            type="submit"
-                            disabled={loading}
-                        >
-                            {loading ? (
-                                <>
-                                    <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></span>
-                                    <span>Connexion...</span>
-                                </>
-                            ) : (
-                                <>
-                                    <span>Se connecter</span>
-                                    <span className="material-symbols-outlined text-lg notranslate" translate="no">login</span>
-                                </>
-                            )}
-                        </button>
-                    </form>
-
-                    {/* Security Footer inside card */}
-                    <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-center gap-2 text-slate-400 dark:text-slate-500">
-                        <span className="material-symbols-outlined text-sm notranslate" translate="no">encrypted</span>
-                        <span className="text-xs">Connexion chiffrée de bout en bout</span>
+                        <div className="mt-10 flex items-center justify-center gap-4 text-[9px] font-black uppercase tracking-widest text-[var(--text3)]">
+                            <div className="flex items-center gap-2">
+                                {isMounted && <ShieldCheck size={14} className="text-[var(--green)]" />}
+                                <span>SSL Sécurisé</span>
+                            </div>
+                            <div className="w-1 h-1 rounded-full bg-[var(--border)]"></div>
+                            <div className="flex items-center gap-2">
+                                {isMounted && <Globe size={14} className="text-[var(--green)]" />}
+                                <span>Cloud Maroc</span>
+                            </div>
+                        </div>
                     </div>
+                </GlassCard>
+
+
+                <div className="mt-10 text-center space-y-6">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-[var(--text2)]">
+                        Pas de compte ? <Link href="/register" className="text-[var(--green)] hover:underline ml-2 italic">Rejoindre l'élite →</Link>
+                    </p>
+                    
+                    <div className="flex justify-center gap-8 text-[9px] font-black uppercase tracking-widest text-[var(--text3)]">
+                        <Link href="/legal/privacy" className="hover:text-[var(--green)] transition-colors">Vie Privée</Link>
+                        <Link href="/contact" className="hover:text-[var(--green)] transition-colors">Support</Link>
+                        <Link href="/legal/terms" className="hover:text-[var(--green)] transition-colors">Légal</Link>
+                    </div>
+
+                    <p className="text-[8px] font-black uppercase tracking-[0.4em] text-[var(--text3)] opacity-40">
+                        © 2026 AgroMaître Group • Souveraineté Digitale
+                    </p>
                 </div>
             </div>
-
-            {/* Footer Links */}
-            <div className="mt-8 flex flex-wrap justify-center gap-6 text-sm text-slate-500 dark:text-slate-400">
-                <a className="hover:text-primary transition-colors" href="#">Politique de sécurité</a>
-                <a className="hover:text-primary transition-colors" href="#">Support</a>
-                <a className="hover:text-primary transition-colors" href="#">Confidentialité</a>
-            </div>
-
-            <div className="mt-8 text-center text-sm">
-                <span className="text-slate-600 dark:text-slate-400">Pas encore de compte ? </span>
-                <Link href="/register" className="text-primary hover:underline font-semibold">
-                    Créer un compte
-                </Link>
-            </div>
-
-            <p className="mt-8 text-xs text-slate-400 dark:text-slate-600">
-                © 2024 ReclamTrack Solutions. Tous droits réservés.
-            </p>
         </div>
     );
 }

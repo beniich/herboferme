@@ -17,7 +17,7 @@ import bcrypt   from 'bcryptjs';
 import crypto   from 'crypto';
 import express  from 'express';
 import { authenticate } from '../middleware/authenticate.js';
-import { authorize }    from '../middleware/authorize.js';
+import { authorize, Permission } from '../middleware/authorize.js';
 import { User }         from '../models/user.model.js';
 import { Subscription } from '../models/subscription.model.js';
 import { sendActivationEmail, sendAdminNotification } from '../services/email.service.js';
@@ -176,9 +176,12 @@ router.post('/trial', async (req: Request, res: Response, next: NextFunction) =>
 
     // Générer les tokens pour redirection immédiate
     const { accessToken, refreshToken } = generateTokenPair({
-      id: user._id.toString(), email: user.email,
-      role: user.role, plan: user.plan,
-    });
+      id: user._id.toString(),
+      email: user.email,
+      role: user.role,
+      plan: user.plan,
+      organizationId: user.organizationId?.toString(),
+    } as any);
 
     res.cookie('access_token',  accessToken,  { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'strict', maxAge: 15*60*1000 });
     res.cookie('refresh_token', refreshToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'strict', maxAge: 7*24*60*60*1000, path: '/api/auth/refresh' });
@@ -343,11 +346,12 @@ router.get('/activate/:token', async (req: Request, res: Response, next: NextFun
 
     // Générer les cookies de session
     const { accessToken, refreshToken } = generateTokenPair({
-      id:    user._id.toString(),
+      id: user._id.toString(),
       email: user.email,
-      role:  user.role,
-      plan:  user.plan,
-    });
+      role: user.role,
+      plan: user.plan,
+      organizationId: user.organizationId?.toString(),
+    } as any);
 
     const isProduction = process.env.NODE_ENV === 'production';
     res.cookie('access_token',  accessToken,  { httpOnly: true, secure: isProduction, sameSite: 'strict', maxAge: 15*60*1000 });
@@ -363,7 +367,7 @@ router.get('/activate/:token', async (req: Request, res: Response, next: NextFun
 // GET /api/billing/subscription
 // Infos de l'abonnement courant (protégé)
 // ═══════════════════════════════════════════════════════
-router.get('/subscription', authenticate, async (req: Request, res: Response, next: NextFunction) => {
+router.get('/subscription', authenticate, authorize(Permission.BILLING_READ), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const sub = await Subscription.findOne({
       userId: req.user!.sub,
@@ -383,7 +387,7 @@ router.get('/subscription', authenticate, async (req: Request, res: Response, ne
 // POST /api/billing/cancel
 // Annuler l'abonnement (à la fin de la période)
 // ═══════════════════════════════════════════════════════
-router.post('/cancel', authenticate, async (req: Request, res: Response, next: NextFunction) => {
+router.post('/cancel', authenticate, authorize(Permission.BILLING_MANAGE), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const sub = await Subscription.findOne({ userId: req.user!.sub, status: 'active' });
     if (!sub?.stripeSubscriptionId) {
@@ -402,7 +406,7 @@ router.post('/cancel', authenticate, async (req: Request, res: Response, next: N
 // ═══════════════════════════════════════════════════════
 // GET /api/billing/invoices — Historique de facturation (admin)
 // ═══════════════════════════════════════════════════════
-router.get('/invoices', authenticate, authorize('admin', 'super_admin'), async (req: Request, res: Response, next: NextFunction) => {
+router.get('/invoices', authenticate, authorize(Permission.ADMIN_BILLING), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = await User.findById(req.user!.sub).select('stripeCustomerId');
     if (!user?.stripeCustomerId) return res.json({ data: [] });

@@ -28,23 +28,32 @@ RUN npm run build
 FROM node:20-alpine AS production
 WORKDIR /app
 
-# Utilisateur non-root pour la sécurité
-RUN addgroup -g 1001 -S herbute && \
+# Sécurité : installation de wget pour le healthcheck et création utilisateur
+RUN apk add --no-cache wget && \
+    addgroup -g 1001 -S herbute && \
     adduser  -u 1001 -S herbute -G herbute
 
-# Copier uniquement le nécessaire
+# Copier les fichiers de build et dépendances prod
 COPY --from=deps     --chown=herbute:herbute /prod_node_modules ./node_modules
 COPY --from=builder  --chown=herbute:herbute /app/dist          ./dist
 COPY --from=builder  --chown=herbute:herbute /app/package.json  ./
 
-# Dossier uploads
-RUN mkdir -p uploads && chown herbute:herbute uploads
+# IMPORTANT : Copier les clés pour RS256 (doivent être générées/présentes)
+# En production, il est recommandé de monter ce dossier via un volume secret ou Kubernetes Secrets
+COPY --chown=herbute:herbute keys/ ./keys/
+
+# Dossiers pour les données et logs
+RUN mkdir -p uploads logs && \
+    chown -R herbute:herbute uploads logs
 
 USER herbute
 
+ENV NODE_ENV=production
+ENV PORT=2065
+
 EXPOSE 2065
 
-HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=3 \
-    CMD wget -qO- http://localhost:2065/ || exit 1
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD wget -qO- http://localhost:2065/health || exit 1
 
 CMD ["node", "dist/server.js"]

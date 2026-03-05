@@ -2,7 +2,7 @@
 
 import { usePermissions } from '@/hooks/usePermissions';
 import { Permission, Role } from '@/lib/rbac/permissions';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { ReactNode, useEffect } from 'react';
 
 interface ProtectedRouteProps {

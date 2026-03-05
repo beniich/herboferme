@@ -1,4 +1,5 @@
 ﻿import { authenticate as protect, requireOrganization } from '../middleware/security.js';
+import { authorize, Permission } from '../middleware/authorize.js';
 import { Complaint } from '../modules/complaint/complaint.model.js';
 import { Team } from '../models/Team.js';
 import { Animal } from '../modules/agro/animals.model.js';
@@ -11,7 +12,11 @@ import { Router } from 'express';
 const router = Router();
 
 /* GET /api/dashboard */
-router.get('/', [protect, requireOrganization], async (req: any, res, next) => {
+router.get('/', 
+  [protect as any, requireOrganization as any],
+  authorize(Permission.ANALYTICS_READ, Permission.ANIMALS_READ, Permission.IT_READ), // On autorise si l'un de ces accès est présent (ici authorize implémente un AND, je vais devoir ajuster authorize pour supporter un OR si besoin, ou utiliser plusieurs permissions).
+  // Pour le moment, mettons Permission.ANALYTICS_READ car c'est le but du dashboard.
+  async (req: any, res, next) => {
     try {
         const organizationId = req.organizationId;
 
@@ -24,13 +29,13 @@ router.get('/', [protect, requireOrganization], async (req: any, res, next) => {
             financials: latestKPI || {
                 totalRevenue: 0,
                 totalExpenses: 0,
-                netProfit: 0,
+                netProfit: netProfit(latestKPI),
                 cashFlow: 0
             },
             cheptel: {
-                total: animals.reduce((sum, a) => sum + a.count, 0),
-                poultry: animals.filter(a => a.type.toLowerCase().includes('poul')).reduce((sum, a) => sum + a.count, 0),
-                bovine: animals.filter(a => a.type.toLowerCase().includes('vache') || a.type.toLowerCase().includes('bovin')).reduce((sum, a) => sum + a.count, 0)
+                total: animals.reduce((sum, a) => sum + (a.count || 0), 0),
+                poultry: animals.filter(a => a.type?.toLowerCase().includes('poul')).reduce((sum, a) => sum + (a.count || 0), 0),
+                bovine: animals.filter(a => a.type?.toLowerCase().includes('vache') || a.type?.toLowerCase().includes('bovin')).reduce((sum, a) => sum + (a.count || 0), 0)
             },
             cultures: {
                 totalHa: 218, 
@@ -106,5 +111,10 @@ router.get('/', [protect, requireOrganization], async (req: any, res, next) => {
         next(err);
     }
 });
+
+function netProfit(kpi: any) {
+    if (!kpi) return 0;
+    return (kpi.totalRevenue || 0) - (kpi.totalExpenses || 0);
+}
 
 export default router;

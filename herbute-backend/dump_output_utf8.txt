@@ -1,0 +1,28 @@
+(node:15964) [MONGOOSE] Warning: Duplicate schema index on {"slug":1} found. This is often due to declaring an index using both "index: true" and "schema.index()". Please remove the duplicate index definition.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Organizations: [
+  {
+    id: new ObjectId('69a38c7e2b344f3d335f0025'),
+    name: 'Domaine Al Baraka'
+  }
+]
+
+--- Org: Domaine Al Baraka (69a38c7e2b344f3d335f0025) ---
+Transactions (1):
+  Computed Revenue: 555676777
+  Computed Expenses: 0
+KPIs (1): [
+  {
+    _id: new ObjectId('69a38c7e2b344f3d335f002e'),
+    organizationId: new ObjectId('69a38c7e2b344f3d335f0025'),
+    totalRevenue: 0,
+    totalExpenses: 0,
+    netProfit: 0,
+    cashFlow: 0,
+    month: 3,
+    year: 2026,
+    createdAt: 2026-03-01T00:46:54.744Z,
+    updatedAt: 2026-03-01T19:44:28.877Z,
+    __v: 0
+  }
+]

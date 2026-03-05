@@ -46,38 +46,13 @@ export const step2Schema = z.object({
 
 // Étape 3: Documents et preuves
 export const step3Schema = z.object({
-    photos: z.array(z.object({
-        file: z.instanceof(File)
-            .refine((file) => file.size <= 5 * 1024 * 1024, 'La photo ne doit pas dépasser 5MB')
-            .refine(
-                (file) => ['image/jpeg', 'image/png', 'image/webp'].includes(file.type),
-                'Format accepté: JPG, PNG, WebP'
-            ),
-        preview: z.string().url(),
-        caption: z.string().max(200).optional(),
-    }))
+    photos: z.array(z.string().url())
         .min(1, 'Au moins une photo est requise')
         .max(5, 'Maximum 5 photos'),
-    documents: z.array(z.object({
-        file: z.instanceof(File)
-            .refine((file) => file.size <= 10 * 1024 * 1024, 'Le document ne doit pas dépasser 10MB')
-            .refine(
-                (file) => ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(file.type),
-                'Format accepté: PDF, DOC, DOCX'
-            ),
-        name: z.string(),
-    }))
+    documents: z.array(z.string().url())
         .max(3, 'Maximum 3 documents')
         .optional(),
-    audioNote: z.object({
-        file: z.instanceof(File)
-            .refine((file) => file.size <= 5 * 1024 * 1024, 'L\'enregistrement ne doit pas dépasser 5MB')
-            .refine(
-                (file) => ['audio/mpeg', 'audio/wav', 'audio/webm'].includes(file.type),
-                'Format accepté: MP3, WAV, WebM'
-            ),
-        duration: z.number().max(300, 'Durée maximum: 5 minutes'),
-    }).optional(),
+    audioNote: z.string().url().optional(),
 });
 
 // Étape 4: Informations du réclamant

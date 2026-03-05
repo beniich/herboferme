@@ -1,37 +1,39 @@
-/**
- * ═══════════════════════════════════════════════════════
- * utils/tokens.ts — Génération et vérification JWT RS256
- * ═══════════════════════════════════════════════════════
- */
-
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
-import { jwtConfig } from '../config/jwt.js';
-import type { JwtPayload, TokenPair, UserTokenData } from '@reclamtrack/shared';
+import { jwtConfig, JWTPayload } from '../config/jwt.js';
 
-// ─────────────────────────────────────────────
-// Génération d'une paire de tokens
-// Appelé UNIQUEMENT lors du login / refresh
-// ─────────────────────────────────────────────
+// Define local interfaces to avoid external dependency issues in this setup
+export interface UserTokenData {
+  id: string;
+  email: string;
+  role: string | string[];
+  farmId?: string;
+  plan?: string;
+  organizationId?: string;
+}
+
+export interface TokenPair {
+  accessToken: string;
+  refreshToken: string;
+  refreshTokenHash: string;
+  expiresIn: string;
+}
+
 export const generateTokenPair = (user: UserTokenData): TokenPair => {
-  const payload: Omit<JwtPayload, 'iat' | 'exp'> = {
-    sub:    user.id,
-    email:  user.email,
-    role:   user.role,
-    farmId: user.farmId,
-    plan:   user.plan,
-    org:    user.organizationId,
+  const payload: Omit<JWTPayload, 'iat' | 'exp'> = {
+    userId: user.id,
+    email: user.email,
+    organizationId: user.organizationId,
+    roles: Array.isArray(user.role) ? user.role : [user.role],
   };
 
   const accessToken = jwt.sign(payload, jwtConfig.privateKey, {
     algorithm: jwtConfig.algorithm as any,
     expiresIn: jwtConfig.accessTokenTtl as any,
-    issuer:    jwtConfig.issuer,
-    audience:  jwtConfig.audience,
+    issuer: jwtConfig.issuer,
+    audience: jwtConfig.audience,
   });
 
-  // Le refresh token est un token opaque (UUID hashé) — pas un JWT
-  // Stocké en DB → révocable individuellement sans blacklist Redis
   const refreshToken = crypto.randomBytes(64).toString('hex');
   const refreshTokenHash = crypto
     .createHash('sha256')
@@ -40,27 +42,20 @@ export const generateTokenPair = (user: UserTokenData): TokenPair => {
 
   return {
     accessToken,
-    refreshToken,      // Token brut → envoyé au client (cookie HttpOnly)
-    refreshTokenHash,  // Hash → stocké en DB
+    refreshToken,
+    refreshTokenHash,
     expiresIn: jwtConfig.accessTokenTtl,
   };
 };
 
-// ─────────────────────────────────────────────
-// Vérification d'un access token
-// Utilise UNIQUEMENT la clé publique
-// ─────────────────────────────────────────────
-export const verifyAccessToken = (token: string): JwtPayload => {
+export const verifyAccessToken = (token: string): JWTPayload => {
   return jwt.verify(token, jwtConfig.publicKey, {
-    algorithms: [jwtConfig.algorithm],
-    issuer:     jwtConfig.issuer,
-    audience:   jwtConfig.audience,
-  }) as JwtPayload;
+    algorithms: [jwtConfig.algorithm as any],
+    issuer: jwtConfig.issuer,
+    audience: jwtConfig.audience,
+  }) as JWTPayload;
 };
 
-// ─────────────────────────────────────────────
-// Hash d'un refresh token pour stockage DB
-// ─────────────────────────────────────────────
 export const hashRefreshToken = (token: string): string => {
   return crypto.createHash('sha256').update(token).digest('hex');
 };

@@ -6,14 +6,15 @@ import { useAuth } from '@/providers/AuthProvider';
 import { useOrgStore } from '@/store/orgStore';
 import { 
   Bell, 
-  Sun, 
-  Moon, 
   Plus, 
   ChevronRight, 
   Sprout, 
-  User, 
-  LogOut 
+  LogOut,
+  Menu,
+  X
 } from 'lucide-react';
+import { ThemeToggle } from './ThemeToggle';
+import { CurrencySelector } from '@/components/ui/CurrencySelector';
 
 const routeLabels: Record<string, string> = {
   '/dashboard': 'Vue Générale',
@@ -42,7 +43,7 @@ const routeLabels: Record<string, string> = {
   '/knowledge': 'Base de Connaissance',
   '/complaints': 'Réclamations',
   '/feedback': 'Feedback',
-  '/audit-logs': 'Journaux d\'Audit',
+  '/audit-logs': "Journaux d'Audit",
   '/settings': 'Paramètres',
   '/it-admin': 'Admin IT',
   '/admin': 'Administration',
@@ -55,8 +56,8 @@ export default function AgroTopBar() {
   const { user, logout } = useAuth();
   const { activeOrganization } = useOrgStore();
   const pathname = usePathname();
-  const [isLightMode, setIsLightMode] = useState(false);
   const [currentDate, setCurrentDate] = useState('');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     setCurrentDate(
@@ -69,14 +70,6 @@ export default function AgroTopBar() {
     );
   }, []);
 
-  const toggleTheme = () => {
-    const root = document.querySelector('.agro-theme');
-    if (root) {
-      root.classList.toggle('light-mode');
-      setIsLightMode(!isLightMode);
-    }
-  };
-
   const getBreadcrumb = () => {
     if (!pathname) return 'Vue Générale';
     const segments = pathname.split('/').filter(Boolean);
@@ -87,10 +80,6 @@ export default function AgroTopBar() {
     return 'Vue Générale';
   };
 
-  const handleLogout = () => {
-    logout();
-  };
-
   const userInitials = user
     ? `${user.prenom ? user.prenom[0] : ''}${user.nom ? user.nom[0] : ''}`.toUpperCase()
     : 'A';
@@ -98,148 +87,110 @@ export default function AgroTopBar() {
   return (
     <div className="topbar glass-effect" style={{
       height: '64px',
-      background: 'rgba(245, 251, 230, 0.8)', /* --bg with alpha */
+      background: 'var(--glass)',
       backdropFilter: 'blur(12px)',
       WebkitBackdropFilter: 'blur(12px)',
       borderBottom: '1px solid var(--border)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: '0 24px',
+      padding: '0 16px',
       position: 'sticky',
       top: 0,
-      zIndex: 50
+      zIndex: 50,
+      gap: '12px',
     }}>
-      <div className="topbar-logo" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      {/* Logo */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
         <div className="logo-icon" style={{
           width: '32px',
           height: '32px',
           borderRadius: '8px',
           background: 'linear-gradient(135deg, var(--green), var(--green2))',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: 'white'
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          color: 'white', flexShrink: 0
         }}>
-          <Sprout size={20} />
+          <Sprout size={18} />
         </div>
-        <div>
-          <div className="logo-text" style={{ fontSize: '16px', fontWeight: '700', color: 'var(--text)', letterSpacing: '-0.02em' }}>AgroMaître</div>
-          <div className="logo-sub" style={{ fontSize: '10px', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Domaine Agricole</div>
+        <div className="hidden sm:block">
+          <div style={{ fontSize: '15px', fontWeight: '700', color: 'var(--text)', letterSpacing: '-0.02em' }}>AgroMaître</div>
+          <div style={{ fontSize: '9px', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Domaine Agricole</div>
         </div>
       </div>
 
-      <div className="topbar-center" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px' }}>
-        <Link href="/dashboard" style={{ color: 'var(--text3)', textDecoration: 'none' }}>
+      {/* Breadcrumb — hidden on small screens */}
+      <div className="hidden md:flex" style={{ alignItems: 'center', gap: '6px', fontSize: '13px', flex: 1, overflow: 'hidden' }}>
+        <Link href="/dashboard" style={{ color: 'var(--text3)', textDecoration: 'none', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '120px' }}>
           {activeOrganization?.name || 'AgroMaître'}
         </Link>
-        <ChevronRight size={14} style={{ color: 'var(--text3)' }} />
-        <span id="breadcrumb" style={{ color: 'var(--gold)', fontWeight: '700', fontSize: '15px' }}>{getBreadcrumb()}</span>
+        <ChevronRight size={13} style={{ color: 'var(--text3)', flexShrink: 0 }} />
+        <span id="breadcrumb" style={{ color: 'var(--gold)', fontWeight: '700', fontSize: '14px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{getBreadcrumb()}</span>
       </div>
 
-      <div className="topbar-right" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-        <div className="topbar-date" style={{ fontSize: '13px', color: 'var(--text3)' }}>{currentDate}</div>
+      {/* Right Actions */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+        {/* Date — desktop only */}
+        <div className="hidden lg:block" style={{ fontSize: '12px', color: 'var(--text3)', whiteSpace: 'nowrap' }}>{currentDate}</div>
 
-        <div
-          className="theme-toggle"
-          title={isLightMode ? 'Mode sombre' : 'Mode clair'}
-          onClick={toggleTheme}
-          style={{ 
-            cursor: 'pointer',
-            padding: '8px',
-            borderRadius: '6px',
-            background: 'var(--bg3)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'var(--text2)'
-          }}
-        >
-          {isLightMode ? <Moon size={18} /> : <Sun size={18} />}
-        </div>
+        {/* Currency Selector */}
+        <CurrencySelector compact />
 
-        <Link href="/complaints" style={{ textDecoration: 'none' }}>
-          <div className="topbar-alert" style={{ 
-            cursor: 'pointer',
-            padding: '8px',
-            borderRadius: '6px',
-            background: 'var(--bg3)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'var(--text2)',
-            position: 'relative'
+        {/* Theme Toggle */}
+        <ThemeToggle />
+
+        {/* Notifications */}
+        <Link href="/complaints" style={{ textDecoration: 'none', flexShrink: 0 }}>
+          <div style={{ 
+            cursor: 'pointer', padding: '7px', borderRadius: '8px',
+            background: 'var(--bg3)', display: 'flex', alignItems: 'center',
+            justifyContent: 'center', color: 'var(--text2)', position: 'relative'
           }}>
-            <Bell size={18} />
+            <Bell size={17} />
             <span style={{
-              position: 'absolute',
-              top: '-3px',
-              right: '-3px',
-              width: '16px',
-              height: '16px',
-              background: 'var(--accent)',
-              border: '2px solid var(--bg)',
-              borderRadius: '50%',
-              fontSize: '10px',
-              color: 'white',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontWeight: '700'
+              position: 'absolute', top: '-3px', right: '-3px',
+              width: '15px', height: '15px',
+              background: 'var(--red)', border: '2px solid var(--bg)',
+              borderRadius: '50%', fontSize: '9px', color: 'white',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700'
             }}>2</span>
           </div>
         </Link>
 
+        {/* User / Logout */}
         <div
-          className="topbar-user"
-          onClick={handleLogout}
+          className="hidden sm:flex"
+          onClick={logout}
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            padding: '4px 12px 4px 4px',
-            borderRadius: '24px',
-            background: 'var(--bg3)',
-            cursor: 'pointer',
+            alignItems: 'center', gap: '8px',
+            padding: '4px 10px 4px 4px', borderRadius: '24px',
+            background: 'var(--bg3)', cursor: 'pointer',
             border: '1px solid var(--border)'
           }}
         >
-          <div className="topbar-avatar" style={{
-            width: '24px',
-            height: '24px',
-            borderRadius: '50%',
-            background: 'linear-gradient(135deg, #1e293b, #000)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '11px',
-            fontWeight: '600',
-            color: 'white',
-            border: '1px solid rgba(255,255,255,0.1)'
+          <div style={{
+            width: '26px', height: '26px', borderRadius: '50%',
+            background: 'linear-gradient(135deg, #215E61, #0a1a1b)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '11px', fontWeight: '700', color: 'white'
           }}>
             {userInitials}
           </div>
-          <span className="topbar-uname" style={{ fontSize: '13px', color: 'var(--text2)', fontWeight: '500' }}>
-            {user?.prenom || 'Admin'} {user?.nom ? user.nom[0] + '.' : ''}
+          <span className="hidden md:inline" style={{ fontSize: '12px', color: 'var(--text2)', fontWeight: '500', maxWidth: '80px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {user?.prenom || 'Admin'}
           </span>
-          <LogOut size={14} style={{ color: 'var(--text3)' }} />
+          <LogOut size={13} style={{ color: 'var(--text3)' }} />
         </div>
 
-        <Link href="/tasks" style={{ textDecoration: 'none' }}>
-          <button className="topbar-btn" style={{
-            padding: '8px 16px',
-            borderRadius: '6px',
-            background: 'var(--text)',
-            color: 'var(--bg)',
-            fontSize: '13px',
-            fontWeight: '600',
-            border: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            cursor: 'pointer'
+        {/* Quick Task button — desktop */}
+        <Link href="/tasks" style={{ textDecoration: 'none' }} className="hidden lg:block">
+          <button style={{
+            padding: '7px 14px', borderRadius: '8px',
+            background: 'var(--gold)', color: 'white',
+            fontSize: '12px', fontWeight: '700', border: 'none',
+            display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer',
+            whiteSpace: 'nowrap'
           }}>
-            <Plus size={16} />
+            <Plus size={14} />
             <span>Tâche</span>
           </button>
         </Link>

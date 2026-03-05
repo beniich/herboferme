@@ -8,7 +8,9 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 
 interface UploadedFile {
-    file: File;
+    file?: File;
+    name?: string;
+    size?: number;
     preview?: string;
     uploadedUrl?: string;
     progress?: number;
@@ -246,16 +248,18 @@ interface FilePreviewCardProps {
 }
 
 function FilePreviewCard({ file, onRemove, variant = 'compact' }: FilePreviewCardProps) {
-    const isImage = file.file.type.startsWith('image/');
-    const fileSize = (file.file.size / 1024).toFixed(1);
+    const isImage = file.file?.type.startsWith('image/') || file.uploadedUrl?.match(/\.(jpg|jpeg|png|webp|gif)$/i);
+    const fileName = file.file?.name || file.name || file.uploadedUrl?.split('/').pop() || 'Fichier';
+    const fileSize = file.file?.size ? (file.file.size / 1024).toFixed(1) : (file.size ? (file.size / 1024).toFixed(1) : '');
+    const previewUrl = file.preview || file.uploadedUrl;
 
     if (variant === 'compact') {
         return (
             <div className="relative group rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800 aspect-square">
-                {isImage && file.preview ? (
+                {isImage && previewUrl ? (
                     <Image
-                        src={file.preview}
-                        alt={file.file.name}
+                        src={previewUrl}
+                        alt={fileName}
                         fill
                         className="object-cover"
                     />
@@ -282,6 +286,7 @@ function FilePreviewCard({ file, onRemove, variant = 'compact' }: FilePreviewCar
                 {/* Remove Button */}
                 <button
                     onClick={onRemove}
+                    title="Supprimer"
                     className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                 >
                     <X className="w-3 h-3" />
@@ -294,10 +299,10 @@ function FilePreviewCard({ file, onRemove, variant = 'compact' }: FilePreviewCar
         <div className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
             {/* Icon/Preview */}
             <div className="shrink-0 w-12 h-12 bg-slate-200 dark:bg-slate-700 rounded-lg overflow-hidden flex items-center justify-center">
-                {isImage && file.preview ? (
+                {isImage && previewUrl ? (
                     <Image
-                        src={file.preview}
-                        alt={file.file.name}
+                        src={previewUrl}
+                        alt={fileName}
                         width={48}
                         height={48}
                         className="object-cover w-full h-full"
@@ -310,13 +315,13 @@ function FilePreviewCard({ file, onRemove, variant = 'compact' }: FilePreviewCar
             {/* Info */}
             <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-slate-700 dark:text-slate-300 truncate">
-                    {file.file.name}
+                    {fileName}
                 </p>
-                <p className="text-xs text-slate-500">
-                    {fileSize} KB
-                    {file.uploadedUrl && ' • Uploadé'}
-                    {file.error && ' • Erreur'}
-                </p>
+                <div className="flex items-center gap-2">
+                    {fileSize && <p className="text-xs text-slate-500">{fileSize} KB</p>}
+                    {file.uploadedUrl && <p className="text-xs text-green-500 font-medium whitespace-nowrap"> • Uploadé</p>}
+                    {file.error && <p className="text-xs text-red-500 font-medium whitespace-nowrap"> • Erreur</p>}
+                </div>
 
                 {/* Progress Bar */}
                 {file.progress !== undefined && file.progress < 100 && !file.error && (
@@ -332,6 +337,7 @@ function FilePreviewCard({ file, onRemove, variant = 'compact' }: FilePreviewCar
             {/* Remove Button */}
             <button
                 onClick={onRemove}
+                title="Supprimer"
                 className="shrink-0 p-1.5 hover:bg-red-100 dark:hover:bg-red-900/20 text-red-500 rounded-lg transition-colors"
             >
                 <X className="w-4 h-4" />

@@ -1,10 +1,12 @@
-﻿import cors from 'cors';
+﻿import express, { Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
-import express from 'express';
 import helmet from 'helmet';
 import { createServer } from 'http';
 import path from 'path';
 import { connectDB } from './config/db.js';
+import { connectRedis } from './config/redis.js';
+import { corsMiddleware } from './middleware/cors.js';
+import { httpsRedirect } from './middleware/https.js';
 import { envValidator } from './config/envValidator.js';
 import errorHandler from './middleware/errorHandler.js';
 import { globalLimiter } from './middleware/rateLimiters.js';
@@ -12,7 +14,6 @@ import { requestId } from './middleware/requestId.js';
 import { securityHeaders } from './middleware/security.js';
 import { logger } from './utils/logger.js';
 import { compressionMiddleware } from './middleware/compression.js';
-import { cacheMiddleware, CACHE_TTL } from './middleware/cache.js';
 // Config (charge et valide les clés JWT RS256 au démarrage)
 import './config/jwt.js';
 import { mountSoapService } from './routes/soap.mount.js';
@@ -53,6 +54,7 @@ import irrigationRoutes from './modules/agro/irrigation.routes.js';
 import infrastructureRoutes from './routes/infrastructure.js';
 import agentReportsRoutes from './routes/reports.agent.js';
 import { scheduleRecurringJobs } from './services/agent/queue.service.js';
+import { initSocket } from './services/socketService.js';
 
 // Validate environment
 envValidator();
@@ -68,22 +70,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser() as any);
 app.use(requestId as any);
 app.use(securityHeaders as any);
-app.use(
-  helmet({
-    crossOriginResourcePolicy: { policy: 'cross-origin' },
-  })
-);
 
-app.use(
-  cors({
-    origin: (process.env.ALLOWED_ORIGINS || 'http://localhost:3000,http://localhost:2070')
-      .split(',')
-      .map(o => o.trim()),
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'x-organization-id'],
-  })
-);
+app.use(httpsRedirect);
+app.use(helmet());
+app.use(corsMiddleware);
 
 app.use(compressionMiddleware as any);
 app.use('/api/', globalLimiter);
@@ -147,9 +137,19 @@ app.use('/api/infrastructure', infrastructureRoutes);
 // Agent IA — rapports & analyses
 app.use('/api/reports', agentReportsRoutes);
 
-// Health check
-app.get('/', (_req, res) => {
-  res.json({ status: 'ok', service: 'Herbute API' });
+// Health check (Docker & Dashboard)
+const getHealth = () => ({
+  status: mongoose.connection.readyState === 1 ? 'healthy' : 'unhealthy',
+  timestamp: new Date().toISOString(),
+  service: 'Herbute API',
+  uptime: process.uptime(),
+  db: mongoose.connection.readyState === 1 ? 'UP' : 'DOWN',
+});
+
+app.get('/', (_req, res) => res.json(getHealth()));
+app.get('/health', (_req, res) => {
+  const health = getHealth();
+  res.status(health.status === 'healthy' ? 200 : 503).json(health);
 });
 
 // Error handler
@@ -158,10 +158,20 @@ app.use(errorHandler);
 const start = async () => {
   try {
     await connectDB();
+    await connectRedis();
 
     const PORT = parseInt(process.env.PORT || '2065', 10);
     httpServer.listen(PORT, '0.0.0.0', async () => {
       logger.info(`✅ API Herbute écoute sur le port ${PORT} (0.0.0.0)`);
+      
+      // Initialize Socket.io
+      try {
+        initSocket(httpServer);
+        logger.info('✅ Socket.io Herbute initialisé avec succès');
+      } catch (socketErr) {
+        logger.error('❌ Échec initialisation Socket.io:', socketErr);
+      }
+
       // Monter le service SOAP une fois le serveur HTTP prêt
       try {
         mountSoapService(app, httpServer);
@@ -179,5 +189,7 @@ const start = async () => {
     process.exit(1);
   }
 };
+
+export { app };
 
 start();

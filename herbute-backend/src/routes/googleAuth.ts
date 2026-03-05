@@ -1,6 +1,5 @@
 ﻿import { Router, Request, Response, NextFunction } from 'express';
 import { OAuth2Client } from 'google-auth-library';
-import jwt from 'jsonwebtoken';
 import { User } from '../models/user.model.js';
 import { generateTokenPair } from '../utils/tokens.js';
 
@@ -75,8 +74,9 @@ router.post('/google', async (req: Request, res: Response, next: NextFunction) =
             email: user.email,
             role: user.role,
             farmId: user.farmId?.toString(),
-            plan: user.plan
-        });
+            plan: user.plan,
+            organizationId: user.organizationId?.toString()
+        } as any);
 
         // Set cookies (standard practice now)
         res.cookie('access_token', accessToken, { httpOnly: true, sameSite: 'strict' });

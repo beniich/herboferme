@@ -9,14 +9,18 @@ import { authEventBus } from './auth-event-bus';
 const getApiUrl = () => {
   if (typeof window !== 'undefined') {
     const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    const envUrl = process.env.NEXT_PUBLIC_API_URL;
     
-    // Si on navigue depuis un autre PC (réseau local ou internet) mais que le .env est fixé sur localhost
-    if (!isLocalhost && (!envUrl || envUrl.includes('localhost') || envUrl.includes('127.0.0.1'))) {
-      const port = envUrl ? new URL(envUrl).port : '2065';
-      return `${window.location.protocol}//${window.location.hostname}:${port || '2065'}`;
+    // Si la variable d'environnement existe, elle a toujours priorité pour l'API
+    if (process.env.NEXT_PUBLIC_API_URL) {
+      return process.env.NEXT_PUBLIC_API_URL;
+    }
+
+    // Fallback dynamique si on accède depuis le réseau local
+    if (!isLocalhost) {
+      return `${window.location.protocol}//${window.location.hostname}:2065`;
     }
   }
+  
   return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:2065';
 };
 

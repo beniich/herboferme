@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { useOrgStore } from '@/store/orgStore';
 import { useAuthStore } from '@/store/authStore';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 import {
     Building2,
     Plus,

@@ -42,6 +42,10 @@ const nextConfig = {
           source: '/ping',
           destination: `${backendUrl}/ping`,
         },
+        {
+          source: '/uploads/:path*',
+          destination: `${backendUrl}/uploads/:path*`,
+        },
       ];
     },
   }),

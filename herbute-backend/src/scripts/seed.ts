@@ -2,13 +2,14 @@
 import { config } from 'dotenv';
 import { User } from '../models/user.model.js';
 import { Team } from '../models/Team.js';
-import { Complaint } from '../models/Complaint.js';
+import { Complaint } from '../modules/complaint/complaint.model.js';
 import { Staff } from '../models/Staff.js';
 import { Organization } from '../models/Organization.js';
 import { Membership } from '../models/Membership.js';
-import Animal from '../models/Animal.js';
-import Crop from '../models/Crop.js';
-import FarmKPI from '../models/FarmKPI.js';
+import { Animal } from '../modules/agro/animals.model.js';
+import { Crop } from '../modules/agro/crops.model.js';
+import { FarmKPI, FarmTransaction } from '../modules/agro/finance.model.js';
+import { IrrigationLog } from '../modules/agro/irrigation.model.js';
 import ITAsset from '../models/ITAsset.js';
 import ITTicket from '../models/ITTicket.js';
 import bcrypt from 'bcryptjs';
@@ -35,6 +36,8 @@ const seedDatabase = async () => {
             Animal.deleteMany({}),
             Crop.deleteMany({}),
             FarmKPI.deleteMany({}),
+            FarmTransaction.deleteMany({}),
+            IrrigationLog.deleteMany({}),
             ITAsset.deleteMany({}),
             ITTicket.deleteMany({})
         ]);
@@ -70,12 +73,22 @@ const seedDatabase = async () => {
         });
 
         // --- SEED AGRICULTURE ---
+        
+        // Add Transactions for Stats
+        await FarmTransaction.create([
+            { organizationId: org._id, description: 'Vente Menthe Fine', category: 'VENTE', sector: 'Herbes', type: 'recette', amount: 45000, date: new Date() },
+            { organizationId: org._id, description: 'Vente Tomates Cerises', category: 'VENTE', sector: 'Légumes', type: 'recette', amount: 120000, date: new Date() },
+            { organizationId: org._id, description: 'Achat Engrais Azoté', category: 'INTRANT', sector: 'Cultures', type: 'depense', amount: 35000, date: new Date() },
+            { organizationId: org._id, description: 'Maintenance Système Pompe', category: 'MAINTENANCE', sector: 'Irrigation', type: 'depense', amount: 12000, date: new Date() },
+            { organizationId: org._id, description: 'Vente Lait (Mois)', category: 'VENTE', sector: 'Élevage', type: 'recette', amount: 85000, date: new Date() }
+        ]);
+
         await FarmKPI.create({
             organizationId: org._id,
-            totalRevenue: 1480000,
-            totalExpenses: 892000,
-            netProfit: 588000,
-            cashFlow: 284000,
+            totalRevenue: 250000,
+            totalExpenses: 47000,
+            netProfit: 203000,
+            cashFlow: 150000,
             month: new Date().getMonth() + 1,
             year: new Date().getFullYear()
         });
@@ -90,6 +103,11 @@ const seedDatabase = async () => {
             { organizationId: org._id, name: 'Menthe Nanah', category: 'HERB', plotId: 'P1-HERB', status: 'GROWING', estimatedYield: 5000 },
             { organizationId: org._id, name: 'Tomates Cerises', category: 'VEGETABLE', plotId: 'P2-LEG', status: 'READY', estimatedYield: 8000 },
             { organizationId: org._id, name: 'Oliviers', category: 'NURSERY', plotId: 'P3-PEP', status: 'PLANTED', estimatedYield: 2000 }
+        ]);
+
+        await IrrigationLog.create([
+            { organizationId: org._id, plotId: 'P1-HERB', volume: 450, duration: 120, method: 'DRIP', date: new Date() },
+            { organizationId: org._id, plotId: 'P2-LEG', volume: 800, duration: 180, method: 'SPRINKLER', date: new Date() }
         ]);
 
         logger.info('🌾 Seeding Agriculture: OK');

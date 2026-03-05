@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@/providers/AuthProvider';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { useEffect } from 'react';
 import AgroLayout from '@/components/layout/AgroLayout';
 import useNotifications from '@/hooks/useNotifications';

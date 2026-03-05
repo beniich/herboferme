@@ -1,11 +1,21 @@
 'use client';
 
-import { LoadingSpinner } from '@/components/LoadingSpinner';
+import React, { useState } from 'react';
+import { Link, useRouter } from '@/i18n/navigation';
 import { useAuth } from '@/providers/AuthProvider';
-import { Link } from '@/i18n/navigation';
-import { Eye, EyeOff, Lock, Mail, ShieldCheck, UserPlus } from 'lucide-react';
-import { useLocale } from 'next-intl';
-import { useState } from 'react';
+import { 
+    Sprout, 
+    Lock, 
+    Mail, 
+    Eye, 
+    EyeOff, 
+    UserPlus, 
+    ShieldCheck,
+    Globe,
+    User,
+    ArrowRight
+} from 'lucide-react';
+import { GlassCard } from '@/components/ui/GlassCard';
 import { toast } from 'react-hot-toast';
 
 export default function RegisterPage() {
@@ -16,132 +26,164 @@ export default function RegisterPage() {
     const [prenom, setPrenom] = useState('');
     const [loading, setLoading] = useState(false);
     const { login } = useAuth();
-    const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        setError(null);
 
         try {
-            // 1. Inscription via API Frontend
             const { authApi } = await import('@/lib/api');
             await authApi.register({ email, password, nom, prenom });
-            
-            // 2. Connexion automatique après inscription réussie
             await login({ email, password }); 
-            toast.success('Inscription réussie !');
+            toast.success('Bienvenue chez AgroMaître !');
         } catch (err: any) {
-            setError(err.response?.data?.error || "Erreur d'inscription");
-            toast.error("Échec de l'inscription");
+            const message = err.response?.data?.error || "Échec de l'inscription";
+            toast.error(message);
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12 bg-background-light dark:bg-background-dark">
-            <div className="mb-8 flex flex-col items-center">
-                <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-primary/20 text-white">
-                    <ShieldCheck className="w-8 h-8" />
+        <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[var(--bg)] font-sans">
+            {/* Background elements */}
+            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_0%,var(--green)_0%,transparent_50%)] opacity-10"></div>
+            <div className="absolute -top-24 -right-24 w-[600px] h-[600px] bg-[var(--gold)] opacity-10 blur-[150px] rounded-full"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.02]"></div>
+
+            <div className="w-full max-w-lg px-6 relative z-10 py-12">
+                <div className="text-center mb-10">
+                    <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-[var(--green)] to-[var(--green2)] text-white shadow-2xl mb-6">
+                        <UserPlus size={40} />
+                    </div>
+                    <h1 className="text-4xl font-black text-[var(--text)] tracking-tighter uppercase italic">
+                        Agro<span className="text-[var(--green)] not-italic">Maître</span>
+                    </h1>
+                    <p className="text-[10px] font-black text-[var(--text3)] uppercase tracking-[0.4rem] mt-2">Rejoindre la Révolution</p>
                 </div>
-                <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Inscription</h1>
-                <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Créer un nouveau compte</p>
-            </div>
 
-            <div className="w-full max-w-[440px] bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-800 p-8">
-                {error && <p className="text-red-600 mb-4 text-sm">{error}</p>}
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <label htmlFor="nom" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                                Nom
-                            </label>
-                            <input
-                                id="nom"
-                                type="text"
-                                required
-                                value={nom}
-                                onChange={(e) => setNom(e.target.value)}
-                                placeholder="Votre nom"
-                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-slate-900 dark:text-white outline-none"
-                            />
+                <GlassCard className="p-1 lg:p-1.5 overflow-hidden">
+                    <div className="bg-white/80 dark:bg-black/40 backdrop-blur-xl p-8 lg:p-10 rounded-2xl relative">
+                        <div className="mb-8">
+                            <h2 className="text-2xl font-black text-[var(--text)] uppercase italic tracking-tight">Créer un profil Agriculteur</h2>
+                            <p className="text-xs text-[var(--text3)] uppercase tracking-widest mt-1">Étape Unique vers l'IA</p>
                         </div>
-                        <div>
-                            <label htmlFor="prenom" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                                Prénom
-                            </label>
-                            <input
-                                id="prenom"
-                                type="text"
-                                required
-                                value={prenom}
-                                onChange={(e) => setPrenom(e.target.value)}
-                                placeholder="Votre prénom"
-                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-slate-900 dark:text-white outline-none"
-                            />
-                        </div>
-                    </div>
 
-                    <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                            Email
-                        </label>
-                        <div className="relative">
-                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-                            <input
-                                id="email"
-                                type="email"
-                                required
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="votre@email.com"
-                                className="w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-slate-900 dark:text-white outline-none"
-                            />
-                        </div>
-                    </div>
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text2)] ml-1">Nom</label>
+                                    <div className="relative group">
+                                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text3)] group-focus-within:text-[var(--green)] transition-colors">
+                                            <User size={18} />
+                                        </div>
+                                        <input
+                                            type="text"
+                                            placeholder="Benhakkou"
+                                            className="w-full bg-[var(--bg2)]/50 border border-[var(--border)] rounded-2xl py-4 pl-12 pr-4 text-sm focus:border-[var(--green)] focus:ring-4 focus:ring-[var(--green)]/10 transition-all outline-none"
+                                            value={nom}
+                                            onChange={(e) => setNom(e.target.value)}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text2)] ml-1">Prénom</label>
+                                    <div className="relative group">
+                                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text3)] group-focus-within:text-[var(--green)] transition-colors">
+                                            <User size={18} />
+                                        </div>
+                                        <input
+                                            type="text"
+                                            placeholder="Said"
+                                            className="w-full bg-[var(--bg2)]/50 border border-[var(--border)] rounded-2xl py-4 pl-12 pr-4 text-sm focus:border-[var(--green)] focus:ring-4 focus:ring-[var(--green)]/10 transition-all outline-none"
+                                            value={prenom}
+                                            onChange={(e) => setPrenom(e.target.value)}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            </div>
 
-                    <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                            Mot de passe
-                        </label>
-                        <div className="relative">
-                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-                            <input
-                                id="password"
-                                type={showPassword ? 'text' : 'password'}
-                                required
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="••••••••"
-                                className="w-full pl-11 pr-12 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-slate-900 dark:text-white outline-none"
-                            />
+                            <div className="space-y-2">
+                                <label className="text-[10px) font-black uppercase tracking-widest text-[var(--text2)] ml-1">Adresse Email</label>
+                                <div className="relative group">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text3)] group-focus-within:text-[var(--green)] transition-colors">
+                                        <Mail size={18} />
+                                    </div>
+                                    <input
+                                        type="email"
+                                        placeholder="contact@votre-domaine.ma"
+                                        className="w-full bg-[var(--bg2)]/50 border border-[var(--border)] rounded-2xl py-4 pl-12 pr-4 text-sm focus:border-[var(--green)] focus:ring-4 focus:ring-[var(--green)]/10 transition-all outline-none"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text2)] ml-1">Mot de passe</label>
+                                <div className="relative group">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text3)] group-focus-within:text-[var(--green)] transition-colors">
+                                        <Lock size={18} />
+                                    </div>
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        placeholder="••••••••"
+                                        className="w-full bg-[var(--bg2)]/50 border border-[var(--border)] rounded-2xl py-4 pl-12 pr-12 text-sm focus:border-[var(--green)] focus:ring-4 focus:ring-[var(--green)]/10 transition-all outline-none"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--text3)] hover:text-[var(--text2)] transition-colors"
+                                    >
+                                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
+                                </div>
+                            </div>
+
                             <button
-                                type="button"
-                                onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                                type="submit"
+                                disabled={loading}
+                                className="w-full bg-[var(--green)] hover:bg-[var(--green2)] text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.3em] shadow-2xl shadow-[var(--green)]/20 transition-all flex items-center justify-center gap-3 active:scale-95 disabled:opacity-50"
                             >
-                                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                {loading ? (
+                                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                ) : (
+                                    <>
+                                        Lancer l'Inscription
+                                        <ArrowRight size={16} />
+                                    </>
+                                )}
                             </button>
+                        </form>
+
+                        <div className="mt-10 flex items-center justify-center gap-4 text-[9px] font-black uppercase tracking-widest text-[var(--text3)]">
+                            <div className="flex items-center gap-2">
+                                <ShieldCheck size={14} className="text-[var(--green)]" />
+                                <span>100% Souverain</span>
+                            </div>
+                            <div className="w-1 h-1 rounded-full bg-[var(--border)]"></div>
+                            <div className="flex items-center gap-2">
+                                <Globe size={14} className="text-[var(--green)]" />
+                                <span>Infrastructure Maroc</span>
+                            </div>
                         </div>
                     </div>
+                </GlassCard>
 
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 rounded-lg shadow-md shadow-primary/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
-                    >
-                        {loading ? <LoadingSpinner /> : <UserPlus className="w-5 h-5" />}
-                        <span>{loading ? 'Inscription...' : "S'inscrire"}</span>
-                    </button>
-                </form>
-
-                <div className="mt-6 text-center text-sm">
-                    <span className="text-slate-600 dark:text-slate-400">Déjà un compte ? </span>
-                    <Link href="/login" className="text-primary hover:underline font-semibold">
-                        Se connecter
-                    </Link>
+                <div className="mt-10 text-center space-y-6">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-[var(--text2)]">
+                        Déjà inscrit ? <Link href="/login" className="text-[var(--green)] hover:underline ml-2 italic">Retourner au cockpit →</Link>
+                    </p>
+                    <p className="text-[8px] font-black uppercase tracking-[0.4em] text-[var(--text3)] opacity-40">
+                        © 2026 AgroMaître Group • L'Intelligence du Souss au Sahara
+                    </p>
                 </div>
             </div>
         </div>

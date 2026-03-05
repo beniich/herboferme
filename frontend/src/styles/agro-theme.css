@@ -4,29 +4,29 @@
  */
 
 .agro-theme {
-  /* ── Palette de base ── */
-  --bg:          #F5FBE6;        /* Soft Mint — fond principal */
+  /* ── Light Palette ── */
+  --bg:          #F5FBE6;
   --bg2:         #ffffff;
   --bg3:         #eef5d8;
   --panel:       #ffffff;
   --panel-active: rgba(33, 94, 97, 0.08);
-  --sidebar-bg:  #215E61;        /* Dark Teal — sidebar */
+  --sidebar-bg:  #215E61;
   --border:      rgba(35, 61, 77, 0.12);
   --border2:     rgba(35, 61, 77, 0.22);
-  --text:        #233D4D;        /* Midnight Blue — texte */
+  --text:        #233D4D;
   --text2:       #3a5b6d;
   --text3:       #6b7280;
   --green:       #215E61;
   --green2:      #2c7a7e;
   --green3:      #eef5d8;
-  --gold:        #FE7F2D;        /* Pumpkin Orange — accent */
+  --gold:        #FE7F2D;
   --gold2:       #ff9e5e;
   --amber:       #f97316;
   --red:         #e11d48;
   --blue:        #2563eb;
   --teal:        #0d9488;
   --purple:      #7c3aed;
-  --cream:       #233D4D;        /* Texte sur fonds clairs */
+  --cream:       #233D4D;
 
   --font-display: 'Sora', 'Inter', sans-serif;
   --font-body:    'Inter', system-ui, sans-serif;
@@ -49,6 +49,32 @@
   display: flex;
   flex-direction: column;
   transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* ── Dark Mode Overrides ── */
+.dark .agro-theme {
+  --bg:          #0a1a1b;        /* Deep Teal Night */
+  --bg2:         #122a2c;
+  --bg3:         #1d3c3f;
+  --panel:       #122a2c;
+  --panel-active: rgba(255, 255, 255, 0.05);
+  --sidebar-bg:  #0a1a1b;
+  --border:      rgba(245, 251, 230, 0.08);
+  --border2:     rgba(245, 251, 230, 0.15);
+  --text:        #F5FBE6;        /* Soft Mint text */
+  --text2:       #c1d1a1;
+  --text3:       #8a9a7a;
+  --green:       #F5FBE6;
+  --green2:      #eef5d8;
+  --green3:      #1d3c3f;
+  /* Orange remains orange but more vibrant */
+  --gold:        #ff8c3a;
+  --gold2:       #ffab6e;
+  
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --glass:       rgba(18, 42, 44, 0.8);
+  --glass-border:rgba(245, 251, 230, 0.1);
 }
 
 /* ── TOPBAR ── */
@@ -104,7 +130,7 @@
 /* ── SIDEBAR ── */
 .agro-theme .sidebar {
   width: 250px;
-  background: #215E61;
+  background: var(--sidebar-bg);
   border-right: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
   flex-direction: column;
@@ -545,4 +571,140 @@
 
 .agro-theme .shadow-electric {
   box-shadow: var(--shadow-electric) !important;
+}
+
+/* ── NO SCROLLBAR UTILITY ── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ─────────────────────────────────────────
+   RESPONSIVE — TABLET (≤ 1024px)
+───────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .agro-theme .sidebar {
+    width: 200px;
+  }
+  .agro-theme .sidebar.sidebar-collapsed {
+    width: 50px;
+  }
+  .agro-theme .page-title {
+    font-size: 24px;
+  }
+  .agro-theme .kpi-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .agro-theme .kpi-grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE — MOBILE (≤ 640px)
+───────────────────────────────────────── */
+@media (max-width: 640px) {
+  /* Layout — sidebar off-canvas */
+  .agro-theme .layout {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .agro-theme .sidebar {
+    position: absolute;
+    left: -260px;
+    top: 0;
+    bottom: 0;
+    width: 260px;
+    z-index: 200;
+    transition: left 0.3s ease, width 0.25s ease;
+    box-shadow: 8px 0 32px rgba(0,0,0,0.3);
+  }
+
+  .agro-theme .sidebar.mobile-open {
+    left: 0;
+  }
+
+  .agro-theme .sidebar.sidebar-collapsed {
+    left: -260px;
+    width: 260px;
+  }
+
+  .agro-theme .main {
+    width: 100%;
+  }
+
+  /* Topbar */
+  .agro-theme .topbar {
+    padding: 0 12px;
+    height: 56px;
+  }
+
+  /* Page */
+  .agro-theme .page {
+    padding: 16px !important;
+  }
+
+  .agro-theme .page-title {
+    font-size: 20px;
+  }
+
+  .agro-theme .page-label {
+    font-size: 9px;
+  }
+
+  /* KPI Grids — stack in 2 columns on mobile */
+  .agro-theme .kpi-grid-4,
+  .agro-theme .kpi-grid-3,
+  .agro-theme .kpi-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .agro-theme .kpi-card {
+    padding: 14px 12px;
+  }
+
+  .agro-theme .kpi-value {
+    font-size: 22px;
+  }
+
+  /* Panels */
+  .agro-theme .panel {
+    border-radius: 14px;
+  }
+
+  .agro-theme .panel-body {
+    padding: 12px;
+  }
+
+  .agro-theme .panel-header {
+    padding: 12px 14px;
+  }
+
+  /* Sidebar collapse button hidden on mobile */
+  .agro-theme .sidebar-collapse-btn {
+    display: none;
+  }
+}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE — VERY SMALL (≤ 380px)
+───────────────────────────────────────── */
+@media (max-width: 380px) {
+  .agro-theme .kpi-grid-4,
+  .agro-theme .kpi-grid-3 {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .agro-theme .kpi-value {
+    font-size: 18px;
+  }
+
+  .agro-theme .kpi-label {
+    font-size: 10px;
+  }
+
+  .agro-theme .page-title {
+    font-size: 18px;
+  }
 }

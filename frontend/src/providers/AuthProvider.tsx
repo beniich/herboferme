@@ -1,7 +1,8 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
+import { useSearchParams } from 'next/navigation';
 import { authApi } from '@/lib/api';
 import { authEventBus } from '@/lib/auth-event-bus';
 import { useAuthStore } from '@/store/authStore';
@@ -20,6 +21,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { user, setUser, setIsLoading } = useAuthStore();
   const [isLoading, setLoading] = useState(true);
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const checkSession = async () => {
     try {
@@ -53,14 +55,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Après le login, le cookie est posé par le backend
     // On récupère les données user depuis la réponse ou on appelle /me
     const userObj = response?.user ?? null;
+    const from = searchParams.get('from') || '/dashboard';
+
     if (userObj) {
       setUser(userObj);
       setLoading(false);
-      router.push('/dashboard');
+      router.push(from);
     } else {
       // Fallback : on vérifie la session
       await checkSession();
-      router.push('/dashboard');
+      router.push(from);
     }
   };
 

@@ -25,8 +25,9 @@ class NotificationService {
   init(server: Server) {
     this.io = new SocketIOServer(server, {
       cors: {
-        origin: process.env.FRONTEND_URL || '*', // Allow all for now or specify frontend URL
+        origin: process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : (process.env.FRONTEND_URL || '*'),
         methods: ['GET', 'POST'],
+        credentials: true
       },
     });
 
@@ -266,21 +267,21 @@ class NotificationService {
     });
   }
 
-  // Envoyer une notification Ã  tous
+  // Envoyer une notification à tous
   broadcast(data: NotificationData) {
     if (this.io) {
       this.io.emit('notification', data);
     }
   }
 
-  // Envoyer une notification Ã  un utilisateur spÃ©cifique
+  // Envoyer une notification à un utilisateur spécifique
   sendToUser(userId: string, data: NotificationData) {
     if (this.io) {
       this.io.to(userId).emit('notification', data);
     }
   }
 
-  // Envoyer une notification Ã  une salle spÃ©cifique
+  // Envoyer une notification à une salle spécifique
   sendToRoom(room: string, data: NotificationData) {
     if (this.io) {
       this.io.to(room).emit('notification', data);
@@ -297,8 +298,8 @@ class NotificationService {
   async notifyComplaintAssigned(teamId: string, complaint: any) {
     const notification = {
       type: 'complaint_assigned',
-      title: 'Nouvelle RÃ©clamation AssignÃ©e',
-      message: `Une rÃ©clamation "${complaint.title}" a Ã©tÃ© assignÃ©e Ã  votre Ã©quipe`,
+      title: 'Nouvelle Réclamation Assignée',
+      message: `Une réclamation "${complaint.title}" a été assignée à votre équipe`,
       data: {
         complaintId: complaint._id,
         category: complaint.category,
@@ -327,8 +328,8 @@ class NotificationService {
   ) {
     const notification = {
       type: 'status_update',
-      title: 'Statut de RÃ©clamation Mis Ã  Jour',
-      message: `Le statut de la rÃ©clamation est passÃ© de "${oldStatus}" Ã  "${newStatus}"`,
+      title: 'Statut de Réclamation Mis à Jour',
+      message: `Le statut de la réclamation est passé de "${oldStatus}" à "${newStatus}"`,
       data: {
         complaintId,
         oldStatus,

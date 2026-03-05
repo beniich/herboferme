@@ -49,8 +49,8 @@ export default function middleware(request: NextRequest) {
         return NextResponse.redirect(loginUrl);
     }
 
-    // Déjà connecté et tente d'accéder à /login → dashboard
-    if (isPublicRoute && isAuthenticated && pathWithoutLocale === '/login') {
+    // Déjà connecté et tente d'accéder à /login ou / → dashboard
+    if (isPublicRoute && isAuthenticated && (pathWithoutLocale === '/login' || pathWithoutLocale === '/')) {
         const dashboardUrl = new URL(`/${locale}/dashboard`, request.url);
         return NextResponse.redirect(dashboardUrl);
     }

@@ -3,7 +3,7 @@
 import { usePermissions } from '@/hooks/usePermissions';
 import { Role } from '@/lib/rbac/permissions';
 import { useAuthStore } from '@/store/authStore';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { useEffect, useState } from 'react';
 
 export default function AdminLayout({

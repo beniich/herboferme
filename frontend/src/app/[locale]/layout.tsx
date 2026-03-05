@@ -44,6 +44,10 @@ export function generateStaticParams() {
     return routing.locales.map((locale) => ({ locale }));
 }
 
+import { ThemeProvider } from '@/providers/ThemeProvider';
+
+// ... (previous imports)
+
 export default async function LocaleLayout({
     children,
     params
@@ -60,7 +64,7 @@ export default async function LocaleLayout({
     const messages = await getMessages();
 
     return (
-        <html lang={locale} className="light" suppressHydrationWarning>
+        <html lang={locale} suppressHydrationWarning>
             <head>
                 <link
                     rel="stylesheet"
@@ -68,20 +72,22 @@ export default async function LocaleLayout({
                 />
             </head>
             <body className={`${inter.variable} ${sora.variable} ${playfair.variable} ${outfit.variable} ${jetbrains.variable} font-sans antialiased agro-theme`}>
-                <NextIntlClientProvider messages={messages} locale={locale}>
-                    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
-                        <QueryProvider>
-                            <AuthProvider>
-                                <CallProvider>
-                                    {children}
-                                    <NotificationToast />
-                                    <DebugWidget />
-                                    <MiniMcLarenLoader />
-                                </CallProvider>
-                            </AuthProvider>
-                        </QueryProvider>
-                    </GoogleOAuthProvider>
-                </NextIntlClientProvider>
+                <ThemeProvider>
+                    <NextIntlClientProvider messages={messages} locale={locale}>
+                        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
+                            <QueryProvider>
+                                <AuthProvider>
+                                    <CallProvider>
+                                        {children}
+                                        <NotificationToast />
+                                        <DebugWidget />
+                                        <MiniMcLarenLoader />
+                                    </CallProvider>
+                                </AuthProvider>
+                            </QueryProvider>
+                        </GoogleOAuthProvider>
+                    </NextIntlClientProvider>
+                </ThemeProvider>
             </body>
         </html>
     );

@@ -32,7 +32,9 @@ import {
   ThumbsUp, 
   Activity,
   Settings,
-  Cpu
+  Cpu,
+  Ticket,
+  Server
 } from 'lucide-react';
 
 interface NavItem {
@@ -100,8 +102,10 @@ const navConfig: NavSection[] = [
     ],
   },
   {
-    title: 'SYSTÈME & SUPPORT',
+    title: 'IT & SUPPORT',
     items: [
+      { href: '/it-admin', icon: <Server size={18} />, label: 'Admin IT' },
+      { href: '/it-admin/glpi', icon: <Ticket size={18} />, label: 'GLPI — Tickets' },
       { href: '/complaints', icon: <AlertCircle size={18} />, label: 'Réclamations', badge: '2', badgeColor: 'gold' },
       { href: '/feedback', icon: <ThumbsUp size={18} />, label: 'Feedback' },
       { href: '/audit-logs', icon: <Activity size={18} />, label: 'Journaux d\'Audit' },

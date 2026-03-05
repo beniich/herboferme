@@ -1,39 +1,44 @@
-﻿/**
- * @file rateLimiters.ts
- * @description Pre-configured rate limiters to protect the API.
- * @module backend/middleware
- */
+﻿import rateLimit from 'express-rate-limit';
+import RedisStore from 'rate-limit-redis';
+import { redisClient } from '../config/redis.js';
 
-import rateLimit from 'express-rate-limit';
-import { AppError } from '../utils/AppError.js';
-
-// Base options to ensure standard AppError response for rate limits
-const baseLimitOptions = {
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-  handler: () => {
-    throw new AppError('Trop de requÃªtes â€” rÃ©essayez plus tard', 429, 'RATE_LIMIT_EXCEEDED');
-  },
-};
-
-/** Global limiter for all API routes (1000 requÃªtes / 15 minutes) */
+// 1. GENERAL API LIMITER (100 req/15min)
 export const globalLimiter = rateLimit({
-  ...baseLimitOptions,
+  store: new RedisStore({
+    sendCommand: (...args: string[]) => redisClient.sendCommand(args),
+    prefix: 'rl:global:',
+  }),
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,
+  message: 'Trop de requêtes, essayez plus tard',
+  standardHeaders: true, // Return RateLimit-* headers
+  legacyHeaders: false,
+});
+
+// 2. STRICT RATE LIMITER pour endpoints sensibles
+export const strictLimiter = rateLimit({
+  store: new RedisStore({
+    sendCommand: (...args: string[]) => redisClient.sendCommand(args),
+    prefix: 'rl:strict:',
+  }),
+  windowMs: 60 * 1000, // 1 minute
+  max: 5, // 5 requêtes/min
+  skipSuccessfulRequests: false,
+  keyGenerator: (req: any) => req.user?.id || req.ip || 'unknown', // Par utilisateur ou IP
+});
+
+// 3. LOGIN RATE LIMITER (10 essais/15min → blocage temporaire)
+export const loginLimiter = rateLimit({
+  store: new RedisStore({
+    sendCommand: (...args: string[]) => redisClient.sendCommand(args),
+    prefix: 'rl:login:',
+  }),
   windowMs: 15 * 60 * 1000,
-  max: 1000,
-});
-
-/** Strict limiter for login/auth endpoints (10 requÃªtes / 5 minutes) */
-export const authLimiter = rateLimit({
-  ...baseLimitOptions,
-  windowMs: 5 * 60 * 1000,
   max: 10,
-  skipSuccessfulRequests: true, // Only rate-limit FAILED logins!
-});
-
-/** Limiter for heavy endpoints / exports (30 requÃªtes / minute) */
-export const exportLimiter = rateLimit({
-  ...baseLimitOptions,
-  windowMs: 60 * 1000,
-  max: 30,
+  skipSuccessfulRequests: true, // Reset après succès
+  message: 'Trop de tentatives échouées. Réessayez dans 15 minutes',
+  handler: (req: any, res: any) => {
+    console.error(`[SECURITY] Brute force attempt: ${req.ip} - ${req.body?.email || 'Unknown'}`);
+    res.status(429).json({ error: 'Trop de tentatives échouées. Réessayez dans 15 minutes' });
+  },
 });

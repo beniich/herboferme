@@ -244,7 +244,7 @@ router.post('/login', authLimiter, async (req: Request, res: Response, next: Nex
       farmId:         user.farmId?.toString(),
       plan:           user.plan,
       organizationId: user.organizationId?.toString(),
-    });
+    } as any);
 
     // Stockage du refresh token hashÃ© en DB
     await RefreshToken.create({
@@ -315,7 +315,7 @@ router.post('/refresh', async (req: Request, res: Response, next: NextFunction) 
       farmId:         user.farmId?.toString(),
       plan:           user.plan,
       organizationId: user.organizationId?.toString(),
-    });
+    } as any);
 
     await RefreshToken.create({
       userId:    user._id,

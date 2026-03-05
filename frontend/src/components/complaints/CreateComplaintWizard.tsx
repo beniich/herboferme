@@ -8,16 +8,19 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 
-import { useState } from 'react'; // Ensure useState is imported
+import { useState } from 'react';
+import { useRouter } from '@/i18n/navigation';
+import { toast } from 'sonner';
 
 export function CreateComplaintWizard() {
+    const router = useRouter();
     const {
         currentStep,
-        currentForm: formRef, // Rename to allow casting
+        currentForm: formRef,
         goToNextStep,
         goToPreviousStep,
         saveDraft,
-        uploadFile, // Add uploadFile
+        uploadFile,
         submitComplaint,
         isSubmitting,
         isFirstStep,
@@ -25,32 +28,26 @@ export function CreateComplaintWizard() {
     } = useComplaintForm({
         enableAutosave: true,
         onSuccess: (complaintId) => {
-            console.log('Complaint created:', complaintId);
+            router.push(`/complaints/${complaintId}`);
         },
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const currentForm = formRef as any; // Cast to any to bypass TS union errors
+    const currentForm = formRef as any;
+    const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
 
-    // Local state to hold files to submit
-    const [files, setFiles] = useState<File[]>([]);
+    // Sync local state when form data is available (e.g. from drafts)
+    useEffect(() => {
+        if (currentStep === 3) {
+            const initialUrls = currentForm.getValues('photos') || [];
+            if (initialUrls.length > 0 && uploadedFiles.length === 0) {
+                setUploadedFiles(initialUrls.map((url: string) => ({ uploadedUrl: url, progress: 100 })));
+            }
+        }
+    }, [currentStep, currentForm, uploadedFiles.length]);
 
     const handleFileUpload = async (file: File) => {
         try {
-            // Upload immediately
-            const url = await uploadFile(file, 'photo');
-
-            // Update local state for UI
-            setFiles(prev => [...prev, file]);
-
-            // Update form data (assuming step 3 is active or we access step3Form via some means, 
-            // but here currentForm is step3Form when on step 3).
-            // We should ensure we are on step 3 or safely update step 3 data.
-            // CreateComplaintWizard renders step 3, so currentForm is step 3 form.
-            const currentPhotos = currentForm.getValues('photos') || [];
-            currentForm.setValue('photos', [...currentPhotos, url], { shouldValidate: true });
-
-            return url; // Return URL as preview (or use objectURL if preferred for speed)
+            return await uploadFile(file, 'photo');
         } catch (error) {
             console.error('Upload failed:', error);
             throw error;
@@ -80,7 +77,7 @@ export function CreateComplaintWizard() {
 
                             <div className="grid gap-2">
                                 <Label htmlFor="category">Catégorie *</Label>
-                                <select // Using native select for simplicity since Schema expects string enum and Select component needs manual integration with hook-form
+                                <select 
                                     {...currentForm.register('category')}
                                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                 >
@@ -204,16 +201,23 @@ export function CreateComplaintWizard() {
                             <h2 className="text-2xl font-bold">Preuves et Documents</h2>
 
                             <div className="space-y-4">
-                                <Label>Photos</Label>
+                                <Label>Photos (Au moins une requise)</Label>
                                 <FileUpload
                                     accept={{ 'image/*': ['.jpeg', '.jpg', '.png', '.webp'] }}
                                     maxFiles={5}
-                                    value={files.map(f => ({ file: f, preview: URL.createObjectURL(f) }))}
-                                    onChange={(uploadedFiles) => {
-                                        setFiles(uploadedFiles.map(uf => uf.file));
+                                    value={uploadedFiles}
+                                    onChange={(files) => {
+                                        setUploadedFiles(files);
+                                        const urls = files.filter(f => f.uploadedUrl).map(f => f.uploadedUrl as string);
+                                        currentForm.setValue('photos', urls, { shouldValidate: true });
                                     }}
                                     onUpload={handleFileUpload}
                                 />
+                                {currentForm.formState.errors.photos && (
+                                    <p className="text-red-500 text-sm mt-1">
+                                        {(currentForm.formState.errors.photos as any).message}
+                                    </p>
+                                )}
                                 <p className="text-sm text-slate-500">Ajouter des photos du problème (Max 5)</p>
                             </div>
                         </div>

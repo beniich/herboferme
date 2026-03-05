@@ -6,16 +6,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import {
-    step1Schema,
-    step2Schema,
-    step3Schema,
-    step4Schema,
-    Step1Data,
-    Step2Data,
-    Step3Data,
-    Step4Data,
-} from '@/lib/validations/complaint-form.validation';
+import { step1Schema, step2Schema, step3Schema, step4Schema, Step1Data, Step2Data, Step3Data, Step4Data } from '@/lib/validations/complaint-form.validation';
+import { apiClient } from '@/lib/api';
 
 const STORAGE_KEY = 'complaint_form_draft';
 const TOTAL_STEPS = 4;
@@ -160,35 +152,23 @@ export function useComplaintForm(options: UseComplaintFormOptions = {}) {
         const fileId = `${type}_${Date.now()}_${Math.random()}`;
 
         try {
-            const xhr = new XMLHttpRequest();
-
-            return new Promise((resolve, reject) => {
-                xhr.upload.addEventListener('progress', (e) => {
-                    if (e.lengthComputable) {
-                        const progress = Math.round((e.loaded / e.total) * 100);
+            const response = await apiClient.post<{ url: string }>('/api/upload', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+                onUploadProgress: (progressEvent) => {
+                    if (progressEvent.total) {
+                        const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
                         setUploadProgress((prev) => ({ ...prev, [fileId]: progress }));
                     }
-                });
-
-                xhr.addEventListener('load', () => {
-                    if (xhr.status === 200) {
-                        const response = JSON.parse(xhr.responseText);
-                        setUploadProgress((prev) => {
-                            const newProgress = { ...prev };
-                            delete newProgress[fileId];
-                            return newProgress;
-                        });
-                        resolve(response.url);
-                    } else {
-                        reject(new Error('Upload failed'));
-                    }
-                });
-
-                xhr.addEventListener('error', () => reject(new Error('Upload error')));
-
-                xhr.open('POST', '/api/upload');
-                xhr.send(formData);
+                },
             });
+
+            setUploadProgress((prev) => {
+                const newProgress = { ...prev };
+                delete newProgress[fileId];
+                return newProgress;
+            });
+
+            return response.url;
         } catch (error) {
             setUploadProgress((prev) => {
                 const newProgress = { ...prev };
@@ -234,17 +214,7 @@ export function useComplaintForm(options: UseComplaintFormOptions = {}) {
             };
 
             // Envoi au backend
-            const response = await fetch('/api/complaints', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(complaintData),
-            });
-
-            if (!response.ok) {
-                throw new Error('Erreur lors de la soumission');
-            }
-
-            const result = await response.json();
+            const result = await apiClient.post('/api/complaints', complaintData);
 
             // Succès
             clearDraft();
