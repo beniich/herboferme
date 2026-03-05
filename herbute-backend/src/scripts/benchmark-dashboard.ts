@@ -54,11 +54,12 @@ async function benchmark() {
         console.log(`Min: ${min.toFixed(2)}ms`);
         console.log(`Max: ${max.toFixed(2)}ms`);
 
-    } catch (error: any) {
-        if (error.code === 'ECONNREFUSED') {
+    } catch (error: unknown) {
+        const err = error as any;
+        if (err.code === 'ECONNREFUSED') {
             console.error('Error: Backend is not running. Please start the backend first.');
         } else {
-            console.error('Benchmark failed:', error.response?.data || error.message);
+            console.error('Benchmark failed:', err.response?.data || err.message);
         }
     }
 }
