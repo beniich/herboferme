@@ -1,4 +1,4 @@
-   import { consumer } from '../config/kafka.js';
+﻿import { consumer } from '../config/kafka.js';
 import { Complaint } from '../models/Complaint.js';
 import { logger } from '../utils/logger.js';
 
@@ -15,7 +15,7 @@ export const startSagaConsumer = async () => {
                     const payload = JSON.parse(value);
 
                     if (payload.type === 'COMPLAINT_ASSIGNED') {
-                        logger.info(`           [Saga] Backend received ASSIGNED for ${payload.complaintId}`);
+                        logger.info(`ðŸ”„ [Saga] Backend received ASSIGNED for ${payload.complaintId}`);
 
                         // Update Complaint
                         await Complaint.findByIdAndUpdate(payload.complaintId, {
@@ -23,29 +23,29 @@ export const startSagaConsumer = async () => {
                             status: 'en cours',
                             updatedAt: new Date()
                         });
-                        logger.info(`        [Saga] Complaint ${payload.complaintId} updated with Team ${payload.teamId}`);
+                        logger.info(`âœ… [Saga] Complaint ${payload.complaintId} updated with Team ${payload.teamId}`);
                     }
 
                     if (payload.type === 'ASSIGNMENT_FAILED') {
-                        logger.warn(`            [Saga] Backend received FAILED for ${payload.complaintId}`);
+                        logger.warn(`âš ï¸ [Saga] Backend received FAILED for ${payload.complaintId}`);
 
                         // Compensation: Escalate priority
                         await Complaint.findByIdAndUpdate(payload.complaintId, {
                             priority: 'urgent',
-                            // status: 'rejet    e'? No, keep new but urgent.
+                            // status: 'rejetÃ©e'? No, keep new but urgent.
                             updatedAt: new Date()
                         });
-                        logger.info(`              [Saga] Complaint ${payload.complaintId} priority escalated (Compensation)`);
+                        logger.info(`â†©ï¸ [Saga] Complaint ${payload.complaintId} priority escalated (Compensation)`);
                     }
 
                 } catch (err) {
-                    logger.error('       [Saga] Error processing message:', err);
+                    logger.error('âŒ [Saga] Error processing message:', err);
                 }
             }
         });
 
-        logger.info('        Saga Consumer started');
+        logger.info('âœ… Saga Consumer started');
     } catch (error) {
-        logger.error('       Failed to start Saga Consumer:', error);
+        logger.error('âŒ Failed to start Saga Consumer:', error);
     }
 };

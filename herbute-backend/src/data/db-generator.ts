@@ -1,4 +1,4 @@
-   // db-generator.ts          g    n    re des m    triques dynamiques pour l'administration de base de donn    es
+﻿// db-generator.ts â€“ gÃ©nÃ¨re des mÃ©triques dynamiques pour l'administration de base de donnÃ©es
 import { clusters, queues } from './db-fixtures.js';
 
 function randInt(min: number, max: number): number {
@@ -6,8 +6,8 @@ function randInt(min: number, max: number): number {
 }
 
 /**
- * Retourne un objet contenant les m    triques agr    g    es.
- * Les valeurs changent l    g    rement     chaque appel, ce qui simule du r    el.
+ * Retourne un objet contenant les mÃ©triques agrÃ©gÃ©es.
+ * Les valeurs changent lÃ©gÃ¨rement Ã  chaque appel, ce qui simule du rÃ©el.
  */
 export function generateMetrics() {
     // Lag moyen (ms) = sum(lag) * 1000 + jitter
@@ -15,7 +15,7 @@ export function generateMetrics() {
         .filter((c) => c.role === "replica")
         .reduce((sum, c) => sum + (c.lag || 0) * 1000, 0);
 
-    const jitter = randInt(-20, 30); //      ms pour le "live"
+    const jitter = randInt(-20, 30); // Â± ms pour le "live"
 
     return {
         replicationLagMs: Math.max(0, Math.round(avgLagMs + jitter)),
@@ -25,14 +25,14 @@ export function generateMetrics() {
             const success = Math.random() > 0.2;
             return success
                 ? `${randInt(1, 30)} min ago`
-                : "failed          see logs";
+                : "failed â€“ see logs";
         })(),
         activeNodes: randInt(10, 15),
     };
 }
 
 /**
- * G    n    re des donn    es dynamiques pour le dashboard NetViz
+ * GÃ©nÃ¨re des donnÃ©es dynamiques pour le dashboard NetViz
  */
 export function generateNetVizMetrics() {
     return {
@@ -44,7 +44,7 @@ export function generateNetVizMetrics() {
 }
 
 /**
- * G    n    re des donn    es dynamiques pour le dashboard Q-Manager
+ * GÃ©nÃ¨re des donnÃ©es dynamiques pour le dashboard Q-Manager
  */
 export function generateQueueMetrics() {
     return queues.map(q => ({
@@ -55,7 +55,7 @@ export function generateQueueMetrics() {
 }
 
 /**
- * G    n    re des donn    es dynamiques pour DBA Sentinel
+ * GÃ©nÃ¨re des donnÃ©es dynamiques pour DBA Sentinel
  */
 export function generateDBAMetrics() {
     return {
