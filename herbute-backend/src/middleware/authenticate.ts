@@ -53,7 +53,7 @@ export const authenticate = (
 
   try {
     const payload = verifyAccessToken(token);
-    // @ts-ignore - Le payload contient roles[] au lieu de role
+    // @ts-expect-error - Le payload contient roles[] au lieu de role
     req.user = payload;
     next();
   } catch (err: any) {

@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import request from 'supertest';
-// @ts-ignore
+// @ts-expect-error - module resolution may vary in CI
 import { app } from './server.js';
 import jwt from 'jsonwebtoken';
 import { jwtConfig } from './config/jwt.js';
 
-function generateTestToken(payload: any): string {
+function generateTestToken(payload: Record<string, unknown>): string {
   return jwt.sign(
     {
       ...payload,
@@ -14,7 +14,7 @@ function generateTestToken(payload: any): string {
     },
     jwtConfig.privateKey,
     {
-      algorithm: jwtConfig.algorithm as any,
+      algorithm: jwtConfig.algorithm as jwt.Algorithm,
       expiresIn: '1h',
     }
   );
