@@ -18,60 +18,112 @@ router.get('/',
   // Pour le moment, mettons Permission.ANALYTICS_READ car c'est le but du dashboard.
   async (req: any, res, next) => {
     try {
-        const organizationId = req.organizationId;
+        const organizationId = new mongoose.Types.ObjectId(req.organizationId);
 
-        // 1. Agriculture Stats
-        const latestKPI = await FarmKPI.findOne({ organizationId: new mongoose.Types.ObjectId(organizationId) }).sort({ year: -1, month: -1 });
-        const animals = await Animal.find({ organizationId: new mongoose.Types.ObjectId(organizationId) });
-        const crops = await Crop.find({ organizationId: new mongoose.Types.ObjectId(organizationId) });
+        // Optimization: Parallelize independent domain stats fetching using Promise.all
+        const [agroStats, itStats, maintenanceStats] = await Promise.all([
+            // 1. Agriculture Stats
+            (async () => {
+                const [latestKPI, animalStats, cropStats] = await Promise.all([
+                    FarmKPI.findOne({ organizationId }).sort({ year: -1, month: -1 }),
+                    Animal.aggregate([
+                        { $match: { organizationId } },
+                        {
+                            $group: {
+                                _id: null,
+                                total: { $sum: '$count' },
+                                poultry: {
+                                    $sum: {
+                                        $cond: [
+                                            { $regexMatch: { input: '$type', regex: /poul/i } },
+                                            '$count',
+                                            0
+                                        ]
+                                    }
+                                },
+                                bovine: {
+                                    $sum: {
+                                        $cond: [
+                                            {
+                                                $or: [
+                                                    { $regexMatch: { input: '$type', regex: /vache/i } },
+                                                    { $regexMatch: { input: '$type', regex: /bovin/i } }
+                                                ]
+                                            },
+                                            '$count',
+                                            0
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    ]),
+                    (Crop as any).aggregate([
+                        { $match: { organizationId } },
+                        { $group: { _id: '$category', count: { $sum: 1 } } }
+                    ])
+                ]);
 
-        const agroStats = {
-            financials: latestKPI || {
-                totalRevenue: 0,
-                totalExpenses: 0,
-                netProfit: netProfit(latestKPI),
-                cashFlow: 0
-            },
-            cheptel: {
-                total: animals.reduce((sum, a) => sum + (a.count || 0), 0),
-                poultry: animals.filter(a => a.type?.toLowerCase().includes('poul')).reduce((sum, a) => sum + (a.count || 0), 0),
-                bovine: animals.filter(a => a.type?.toLowerCase().includes('vache') || a.type?.toLowerCase().includes('bovin')).reduce((sum, a) => sum + (a.count || 0), 0)
-            },
-            cultures: {
-                totalHa: 218, 
-                categories: await (Crop as any).aggregate([
-                    { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
-                    { $group: { _id: '$category', count: { $sum: 1 } } }
-                ])
-            }
-        };
+                const cheptel = animalStats[0] || { total: 0, poultry: 0, bovine: 0 };
 
-        // 2. IT (GLPI) Stats
-        const itStats = {
-            total: await ITTicket.countDocuments({ organizationId: new mongoose.Types.ObjectId(organizationId) }),
-            byStatus: await ITTicket.aggregate([
-                { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
-                { $group: { _id: '$status', count: { $sum: 1 } } }
-            ]),
-            byPriority: await ITTicket.aggregate([
-                { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
-                { $group: { _id: '$priority', count: { $sum: 1 } } }
-            ]),
-            slaBreach: await ITTicket.countDocuments({ 
-                organizationId: new mongoose.Types.ObjectId(organizationId), 
-                'sla.breached': true 
-            })
-        };
+                return {
+                    financials: latestKPI || {
+                        totalRevenue: 0,
+                        totalExpenses: 0,
+                        netProfit: netProfit(latestKPI),
+                        cashFlow: 0
+                    },
+                    cheptel: {
+                        total: cheptel.total,
+                        poultry: cheptel.poultry,
+                        bovine: cheptel.bovine
+                    },
+                    cultures: {
+                        totalHa: 218,
+                        categories: cropStats
+                    }
+                };
+            })(),
 
-        // 3. Maintenance/Operations (Complaints) Stats
-        const totalComplaints = await Complaint.countDocuments({ organizationId: new mongoose.Types.ObjectId(organizationId) });
-        const statusStats = await (Complaint as any).aggregate([
-            { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
-            { $group: { _id: '$status', count: { $sum: 1 } } }
-        ]);
+            // 2. IT (GLPI) Stats - Consolidated into single aggregation
+            (async () => {
+                const [itStatsFacet] = await ITTicket.aggregate([
+                    { $match: { organizationId } },
+                    {
+                        $facet: {
+                            total: [{ $count: 'count' }],
+                            byStatus: [{ $group: { _id: '$status', count: { $sum: 1 } } }],
+                            byPriority: [{ $group: { _id: '$priority', count: { $sum: 1 } } }],
+                            slaBreach: [
+                                { $match: { 'sla.breached': true } },
+                                { $count: 'count' }
+                            ]
+                        }
+                    }
+                ]);
 
-        const teamStats = await Team.aggregate([
-            { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
+                return {
+                    total: itStatsFacet.total[0]?.count || 0,
+                    byStatus: itStatsFacet.byStatus,
+                    byPriority: itStatsFacet.byPriority,
+                    slaBreach: itStatsFacet.slaBreach[0]?.count || 0
+                };
+            })(),
+
+            // 3. Maintenance/Operations (Complaints) Stats - Consolidated
+            (async () => {
+                const [complaintStats, teamStats] = await Promise.all([
+                    Complaint.aggregate([
+                        { $match: { organizationId } },
+                        {
+                            $facet: {
+                                total: [{ $count: 'count' }],
+                                byStatus: [{ $group: { _id: '$status', count: { $sum: 1 } } }]
+                            }
+                        }
+                    ]),
+                    Team.aggregate([
+            { $match: { organizationId } },
             {
                 $lookup: {
                     from: 'assignments',
@@ -95,17 +147,25 @@ router.get('/',
                     }
                 }
             }
+        ])
+    ]);
+
+                const statusStats = complaintStats[0]?.byStatus || [];
+                const totalComplaints = complaintStats[0]?.total[0]?.count || 0;
+
+                return {
+                    total: totalComplaints,
+                    byStatus: statusStats.reduce((acc: any, curr: any) => ({ ...acc, [curr._id]: curr.count }), {}),
+                    teamStats
+                };
+            })()
         ]);
 
         res.json({
             success: true,
             agro: agroStats,
             it: itStats,
-            maintenance: {
-                total: totalComplaints,
-                byStatus: statusStats.reduce((acc: any, curr) => ({ ...acc, [curr._id]: curr.count }), {}),
-                teamStats
-            }
+            maintenance: maintenanceStats
         });
     } catch (err) {
         next(err);

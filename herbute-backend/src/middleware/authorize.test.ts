@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { authorize, requireFarmAccess } from './middleware/authorize.js';
-import { Permission } from './config/permissions.js';
+import { authorize, requireFarmAccess } from './authorize.js';
+import { Permission } from '../config/permissions.js';
 
 /**
  * Unit tests for authorize middleware logic.
