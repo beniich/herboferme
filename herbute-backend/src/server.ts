@@ -54,6 +54,16 @@ import financeRoutes from './modules/agro/finance.routes.js';
 import irrigationRoutes from './modules/agro/irrigation.routes.js';
 import infrastructureRoutes from './routes/infrastructure.js';
 import agentReportsRoutes from './routes/reports.agent.js';
+
+// AgroMaître Calendar & Operations Modules routes
+import agriCalendarRoutes from './routes/calendar.routes.js';
+import agriTeamsRoutes from './routes/teams.routes.js';
+import agriAttendanceRoutes from './routes/attendance.routes.js';
+import agriTasksRoutes from './routes/tasks.routes.js';
+import agriAccountingRoutes from './routes/accounting.routes.js';
+import agriBudgetsRoutes from './routes/budgets.routes.js';
+import agriInventoryRoutes from './routes/inventory.routes.js';
+import agriKnowledgeRoutes from './routes/knowledge.routes.js';
 import { scheduleRecurringJobs } from './services/agent/queue.service.js';
 import { initSocket } from './services/socketService.js';
 import adRoutes from './routes/ad.js';
@@ -158,6 +168,18 @@ app.use('/api/crops', cropsRoutes);
 app.use('/api/finance', financeRoutes);
 app.use('/api/irrigation', irrigationRoutes);
 app.use('/api/infrastructure', infrastructureRoutes);
+
+// AgroMaître Modules Additionnels
+app.use('/api/calendar', agriCalendarRoutes);
+app.use('/api/agro-teams', agriTeamsRoutes); // renamed to avoid conflict with generic /api/teams
+app.use('/api/attendance', agriAttendanceRoutes);
+app.use('/api/tasks', agriTasksRoutes);
+
+// AgroMaître Gestion & Ressources
+app.use('/api/agro-accounting', agriAccountingRoutes);
+app.use('/api/agro-budgets', agriBudgetsRoutes);
+app.use('/api/agro-inventory', agriInventoryRoutes);
+app.use('/api/agro-knowledge', agriKnowledgeRoutes);
 
 // Agent IA — rapports & analyses
 app.use('/api/reports', agentReportsRoutes);

@@ -32,7 +32,7 @@ const stripe = new Stripe(stripeApiKey, {
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 router.post(
   '/webhook',
-  globalLimiter,
+  globalLimiter as any,
   raw({ type: 'application/json' }), // raw body for signature verification
   asyncHandler(async (req: Request, res: Response) => {
     const sig = req.headers['stripe-signature'];

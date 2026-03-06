@@ -11,8 +11,8 @@ import mongoose from 'mongoose';
 import { connectDB } from '../config/db.js';
 
 // Import des modèles — les schemas contiennent les définitions d'indexes
-import Crop           from '../models/Crop.js';
-import Animal         from '../models/Animal.js';
+import { Crop }       from '../modules/agro/crops.model.js';
+import { Animal }     from '../modules/agro/animals.model.js';
 import AnalysisReport from '../models/AnalysisReport.model.js';
 
 // Couleurs terminal (sans dépendance externe)

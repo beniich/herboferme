@@ -37,9 +37,9 @@ export default function ITAdminDashboard() {
         api.get('/api/admin/it/tickets/stats'),
       ]);
 
-      const assetsStats = assetsRes.data.stats;
-      const networkStats = networkRes.data.stats;
-      const ticketsStats = ticketsRes.data.stats;
+      const assetsStats = assetsRes?.data?.stats || {};
+      const networkStats = networkRes?.data?.stats || {};
+      const ticketsStats = ticketsRes?.data?.stats || {};
 
       setStats({
         totalAssets: assetsStats.total || 0,

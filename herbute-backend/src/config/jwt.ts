@@ -41,9 +41,12 @@ export const jwtConfig = {
 
 export interface JWTPayload {
   userId: string;
+  sub?: string;
   email: string;
-  organizationId: string;
-  roles: string[]; // ['user', 'admin', 'manager']
+  role?: string;
+  roles?: string[];
+  organizationId?: string;
+  plan?: string;
   iat?: number;
   exp?: number;
 }

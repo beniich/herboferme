@@ -32,7 +32,7 @@
  */
 
 import { verifyAccessToken } from './tokens.js';
-import type { JwtPayload } from '@reclamtrack/shared';
+import type { JWTPayload } from '../config/jwt.js';
 
 // Opérations publiques (pas de WS-Security requis)
 const PUBLIC_OPERATIONS = new Set([
@@ -75,7 +75,7 @@ const extractTokenFromHeader = (soapHeader: Record<string, any>): string | null 
 // ─────────────────────────────────────────────
 export interface WsSecurityResult {
   authenticated: boolean;
-  user?: JwtPayload;
+  user?: JWTPayload;
   error?: string;
   errorCode?: string;
 }

@@ -6,7 +6,7 @@ import { generateTokenPair, hashRefreshToken, verifyAccessToken } from '../utils
 import { User } from '../models/user.model.js';
 import { Types } from 'mongoose';
 import { RefreshTokenError } from '../utils/AppError.js';
-import type { JwtPayload } from '@reclamtrack/shared';
+import type { JWTPayload } from '../config/jwt.js';
 
 export interface TokenPair {
   accessToken: string;
@@ -62,7 +62,7 @@ export const tokenService = {
     await RefreshToken.updateOne({ tokenHash }, { isRevoked: true });
   },
 
-  async introspect(rawToken: string): Promise<JwtPayload | null> {
+  async introspect(rawToken: string): Promise<JWTPayload | null> {
     try {
       return verifyAccessToken(rawToken);
     } catch {

@@ -52,6 +52,10 @@ router.post('/trigger', authenticate as any, async (req: Request, res: Response)
     const orgId = req.headers['x-organization-id'] as string;
     if (!orgId) return res.status(400).json({ message: 'Header x-organization-id requis' });
 
+    if (!analysisQueue) {
+      return res.status(503).json({ message: 'Service de file d\'attente (Redis) non disponible' });
+    }
+
     const job = await analysisQueue.add('daily_summary', {
       type: 'daily_summary',
       orgId,

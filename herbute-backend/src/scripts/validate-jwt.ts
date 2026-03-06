@@ -29,7 +29,7 @@ async function validateJWT() {
     console.log('✅ Token vérifié avec succès');
     console.log(`   userId: ${decoded.userId}`);
     console.log(`   email:  ${decoded.email}`);
-    console.log(`   roles:  ${decoded.roles.join(', ')}`);
+    console.log(`   roles:  ${(decoded.roles || []).join(', ')}`);
     console.log(`   org:    ${decoded.organizationId}`);
 
     // Check algorithm (RS256 vs HS256)

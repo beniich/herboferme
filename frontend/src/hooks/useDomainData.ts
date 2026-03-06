@@ -62,7 +62,11 @@ export function useCropsData(): UseDomainDataResult {
 }
 
 export function useFinanceData(): UseDomainDataResult {
-  return useDomainData('/api/finance', 300_000); // 5 min
+  return useDomainData('/api/agro-accounting/stats', 300_000); // 5 min
+}
+
+export function useBudgetsData(): UseDomainDataResult {
+  return useDomainData('/api/agro-budgets', 300_000); // 5 min
 }
 
 export function useIrrigationData(): UseDomainDataResult {
@@ -70,5 +74,9 @@ export function useIrrigationData(): UseDomainDataResult {
 }
 
 export function useInventoryData(): UseDomainDataResult {
-  return useDomainData('/api/inventory', 120_000);
+  return useDomainData('/api/agro-inventory', 120_000);
+}
+
+export function useKnowledgeData(): UseDomainDataResult {
+  return useDomainData('/api/agro-knowledge', 300_000);
 }

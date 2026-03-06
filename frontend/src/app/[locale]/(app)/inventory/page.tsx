@@ -12,6 +12,8 @@ import {
   Plus, Edit2, Trash2, X, Layers, Tag, Filter, ChevronDown
 } from 'lucide-react';
 
+import { agroInventoryApi } from '@/lib/api';
+
 // ─── Types ─────────────────────────────────────────────────────────────────
 interface InventoryItem {
   _id: string;
@@ -44,7 +46,7 @@ const UNITS = ['kg', 'L', 'unité', 'sac', 'tonne', 'boîte', 'paquet'];
 
 export default function InventoryPage() {
   const { items: rawItems, isLoading, error, refresh } = useInventoryData();
-  const items = (rawItems as unknown as InventoryItem[]) || [];
+  const items = (rawItems as any) || [];
 
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
@@ -57,20 +59,22 @@ export default function InventoryPage() {
 
   const filtered = useMemo(() => {
     const cat = filterCategory || activeCategory;
-    return items.filter(item => {
+    const list = Array.isArray(items) ? items : [];
+    return list.filter((item: any) => {
       const matchSearch = !searchTerm ||
-        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.code.toLowerCase().includes(searchTerm.toLowerCase());
+        item.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.code?.toLowerCase().includes(searchTerm.toLowerCase());
       const matchCategory = !cat || item.category === cat;
       return matchSearch && matchCategory;
     });
   }, [items, searchTerm, filterCategory, activeCategory]);
 
   const kpis = useMemo(() => {
-    const totalItems = items.length;
-    const lowStock = items.filter(i => i.currentStock <= i.minStock).length;
-    const totalValue = items.reduce((acc, i) => acc + (i.currentStock * i.price), 0);
-    const categoryCounts = items.reduce((acc: Record<string, number>, i) => {
+    const list = Array.isArray(items) ? items : [];
+    const totalItems = list.length;
+    const lowStock = list.filter((i: any) => i.currentStock <= i.minStock).length;
+    const totalValue = list.reduce((acc: number, i: any) => acc + (i.currentStock * i.price), 0);
+    const categoryCounts = list.reduce((acc: Record<string, number>, i: any) => {
       acc[i.category] = (acc[i.category] || 0) + 1;
       return acc;
     }, {});
@@ -80,7 +84,15 @@ export default function InventoryPage() {
   // ─── Actions ──────────────────────────────────────────────────────────────
   const openCreate = () => { setForm(EMPTY_FORM); setEditingId(null); setShowModal(true); };
   const openEdit = (item: InventoryItem) => {
-    setForm({ code: item.code, name: item.name, category: item.category, unit: item.unit, currentStock: item.currentStock, minStock: item.minStock, price: item.price });
+    setForm({ 
+      code: item.code, 
+      name: item.name, 
+      category: item.category, 
+      unit: item.unit, 
+      currentStock: item.currentStock, 
+      minStock: item.minStock, 
+      price: item.price 
+    });
     setEditingId(item._id);
     setShowModal(true);
   };
@@ -90,12 +102,17 @@ export default function InventoryPage() {
     e.preventDefault();
     setSaving(true);
     try {
-      const payload = { ...form, currentStock: Number(form.currentStock), minStock: Number(form.minStock), price: Number(form.price) };
+      const payload = { 
+        ...form, 
+        currentStock: Number(form.currentStock), 
+        minStock: Number(form.minStock), 
+        price: Number(form.price) 
+      };
       if (editingId) {
-        await apiClient.put(`/api/inventory/items/${editingId}`, payload);
+        await agroInventoryApi.update(editingId, payload);
         toast.success('Article mis à jour ✓');
       } else {
-        await apiClient.post('/api/inventory/items', payload);
+        await agroInventoryApi.create(payload);
         toast.success('Article ajouté ✓');
       }
       closeModal();
@@ -109,7 +126,7 @@ export default function InventoryPage() {
 
   const handleDelete = async (id: string) => {
     try {
-      await apiClient.delete(`/api/inventory/items/${id}`);
+      await agroInventoryApi.delete(id);
       toast.success('Article supprimé');
       setDeleteId(null);
       refresh();

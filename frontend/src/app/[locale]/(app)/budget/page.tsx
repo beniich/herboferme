@@ -1,127 +1,158 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { financeApi } from '@/lib/api';
-
-interface Stats {
-  month: { revenue: number; expenses: number; profit: number };
-  year: { revenue: number; expenses: number; profit: number };
-  bySector: { _id: string; revenue: number; expenses: number }[];
-}
+import React, { useMemo } from 'react';
+import { useBudgetsData, useFinanceData } from '@/hooks/useDomainData';
+import { StatCard } from '@/components/shared/StatCard';
+import { Skeleton } from '@/components/shared/Skeleton';
+import { ErrorFallback } from '@/components/shared/ErrorFallback';
+import { 
+  TrendingUp, TrendingDown, DollarSign, PieChart, 
+  RefreshCw, AlertTriangle, ChevronRight
+} from 'lucide-react';
+import { useCurrencyStore } from '@/store/currencyStore';
 
 export default function BudgetPage() {
-  const [stats, setStats] = useState<Stats | null>(null);
-  const [kpi, setKpi] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const { data: budgets, isLoading: budgetsLoading, error: budgetsError, refresh: refreshBudgets } = useBudgetsData();
+  const { data: financeStats, isLoading: financeLoading, error: financeError, refresh: refreshFinance } = useFinanceData();
+  const { format } = useCurrencyStore();
 
-  const fetchData = useCallback(async () => {
-    try {
-      setLoading(true);
-      const [statsRes, kpiRes] = await Promise.all([
-        financeApi.getStats() as any,
-        financeApi.getKPIs() as any,
-      ]);
-      setStats(statsRes?.data || null);
-      setKpi(kpiRes?.data || null);
-    } catch {
-      // silent
-    } finally {
-      setLoading(false);
+  const isLoading = budgetsLoading || financeLoading;
+  const error = budgetsError || financeError;
+  const refresh = () => { refreshBudgets(); refreshFinance(); };
+
+  // Global Finance Stats (from useFinanceData)
+  const fin = financeStats as any;
+  
+  // Active Budget (from useBudgetsData)
+  const activeBudget = useMemo(() => {
+    const list = budgets as any;
+    if (Array.isArray(list)) {
+      return list.find((b: any) => b.status === 'active') || list[0];
     }
-  }, []);
+    return null;
+  }, [budgets]);
 
-  useEffect(() => { fetchData(); }, [fetchData]);
+  const budgetStats = useMemo(() => {
+    if (!activeBudget) return null;
+    return {
+      totalBudgeted: activeBudget.totalBudgeted || 0,
+      totalSpent: activeBudget.totalSpent || 0,
+      remaining: (activeBudget.totalBudgeted || 0) - (activeBudget.totalSpent || 0),
+      percentage: activeBudget.totalBudgeted > 0 
+        ? (activeBudget.totalSpent / activeBudget.totalBudgeted) * 100 
+        : 0,
+      categories: activeBudget.categories || []
+    };
+  }, [activeBudget]);
 
-  const fmt = (n: number) => n.toLocaleString('fr-FR', { maximumFractionDigits: 0 });
-  const fmtK = (n: number) => (n / 1000).toFixed(1);
+  if (error) return <ErrorFallback onRetry={refresh} message="Impossible de charger les données financières" />;
 
   return (
     <div className="page active">
-      <div style={{ padding: '24px' }}>
-        <div className="page-header">
-          <div className="page-label" style={{ color: 'var(--gold)' }}>Module Finance</div>
-          <h1 className="page-title">Budget &amp; Tableau de Bord Financier</h1>
-          <div className="page-sub">Synthèse annuelle · Calculé automatiquement depuis les transactions</div>
+      <div className="p-6 lg:p-10 space-y-8">
+        <div className="flex justify-between items-end">
+          <div>
+            <div className="text-[10px] font-mono tracking-[3px] text-zinc-500 uppercase mb-1">Module Finance · Budgets</div>
+            <h1 className="text-3xl font-bold tracking-tight text-white mb-2 flex items-center gap-3">
+              <PieChart className="text-amber-500" size={32} /> Budget & Performance
+            </h1>
+            <p className="text-sm text-zinc-400">Synthèse annuelle · Calculé automatiquement depuis les transactions.</p>
+          </div>
+          <button onClick={refresh} title="Actualiser" className="p-2 text-zinc-500 hover:text-white transition-colors">
+            <RefreshCw size={18} className={isLoading ? 'animate-spin' : ''} />
+          </button>
         </div>
 
         {/* KPIs Annuels */}
-        <div className="kpi-grid kpi-grid-4" style={{ marginBottom: '24px' }}>
-          <div className="kpi-card" style={{ '--kpi-color': 'var(--green)' } as React.CSSProperties}>
-            <div className="kpi-icon">📈</div>
-            <div className="kpi-label">Chiffre d&apos;Affaires (Année)</div>
-            <div className="kpi-value">{loading ? '—' : fmtK(stats?.year.revenue || 0)}<span className="kpi-unit">KDH</span></div>
-          </div>
-          <div className="kpi-card" style={{ '--kpi-color': 'var(--red)' } as React.CSSProperties}>
-            <div className="kpi-icon">📉</div>
-            <div className="kpi-label">Charges Totales (Année)</div>
-            <div className="kpi-value">{loading ? '—' : fmtK(stats?.year.expenses || 0)}<span className="kpi-unit">KDH</span></div>
-          </div>
-          <div className="kpi-card" style={{ '--kpi-color': stats && stats.year.profit >= 0 ? 'var(--green)' : 'var(--red)' } as React.CSSProperties}>
-            <div className="kpi-icon">💎</div>
-            <div className="kpi-label">Bénéfice Net (Année)</div>
-            <div className="kpi-value">{loading ? '—' : fmtK(stats?.year.profit || 0)}<span className="kpi-unit">KDH</span></div>
-            {stats && <div className={`kpi-trend ${stats.year.profit >= 0 ? 'up' : 'down'}`}>{stats.year.profit >= 0 ? '▲ Positif' : '▼ Négatif'}</div>}
-          </div>
-          <div className="kpi-card" style={{ '--kpi-color': 'var(--gold)' } as React.CSSProperties}>
-            <div className="kpi-icon">🏦</div>
-            <div className="kpi-label">Marge Nette</div>
-            <div className="kpi-value">
-              {loading ? '—' : stats && stats.year.revenue > 0 ? ((stats.year.profit / stats.year.revenue) * 100).toFixed(1) : '0'}
-              <span className="kpi-unit">%</span>
-            </div>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          {isLoading ? Array(4).fill(0).map((_, i) => <Skeleton key={i} type="card" />) : (
+            <>
+              <StatCard label="Chiffre d'Affaires (An)" value={format(fin?.year?.income || 0, true)} icon={<TrendingUp size={20} />} color="green" />
+              <StatCard label="Charges Totales (An)" value={format(fin?.year?.expense || 0, true)} icon={<TrendingDown size={20} />} color="red" />
+              <StatCard label="Bénéfice Net (An)" value={format(fin?.year?.balance || 0, true)} icon={<DollarSign size={20} />} color={(fin?.year?.balance || 0) >= 0 ? "green" : "red"} />
+              <StatCard 
+                label="Marge Nette" 
+                value={fin?.year?.income > 0 ? ((fin.year.balance / fin.year.income) * 100).toFixed(1) : '0'} 
+                unit="%" 
+                icon={<PieChart size={20} />} 
+                color="amber" 
+              />
+            </>
+          )}
         </div>
 
-        {/* Mois en cours */}
-        <div className="content-grid cg-2" style={{ marginBottom: '18px' }}>
-          <div className="panel">
-            <div className="panel-header">
-              <div className="panel-title"><div className="dot" style={{ background: 'var(--green)' }}></div>Mois en Cours</div>
-            </div>
-            <div className="panel-body">
-              <div className="fin-row">
-                <div className="fin-label">Recettes</div>
-                <div className="fin-val fin-rec">+{fmt(stats?.month.revenue || 0)} DH</div>
-              </div>
-              <div className="fin-row">
-                <div className="fin-label">Dépenses</div>
-                <div className="fin-val fin-dep">-{fmt(stats?.month.expenses || 0)} DH</div>
-              </div>
-              <div className="fin-row" style={{ borderTop: '1px solid var(--border)', marginTop: '8px', paddingTop: '8px' }}>
-                <div className="fin-label" style={{ fontWeight: 700, color: 'var(--text)' }}>Solde Net</div>
-                <div className="fin-val" style={{ color: stats && stats.month.profit >= 0 ? 'var(--green2)' : '#e87070', fontFamily: 'var(--font-mono)', fontSize: '16px', fontWeight: 700 }}>
-                  {stats && stats.month.profit >= 0 ? '+' : ''}{fmt(stats?.month.profit || 0)} DH
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Suivi du Budget Actif */}
+          <div className="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 shadow-xl">
+            <h3 className="text-sm font-bold text-zinc-100 uppercase tracking-wider mb-6 flex items-center gap-2">
+              <AlertTriangle className="text-amber-500" size={18} /> Suivi du Budget: {activeBudget?.name || 'Aucun budget actif'}
+            </h3>
+            
+            {isLoading ? <Skeleton type="list" /> : !activeBudget ? (
+              <div className="py-10 text-center text-zinc-500 italic">Aucun budget défini.</div>
+            ) : (
+              <div className="space-y-6">
+                <div>
+                  <div className="flex justify-between mb-2 text-sm italic">
+                    <span className="text-zinc-400">Progression Globale</span>
+                    <span className="text-zinc-300 font-mono">{format(activeBudget.totalSpent)} / {format(activeBudget.totalBudgeted)}</span>
+                  </div>
+                  <div className="h-3 bg-zinc-900 rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full transition-all duration-1000 ${budgetStats!.percentage > 90 ? 'bg-rose-500' : 'bg-amber-500'}`}
+                      style={{ width: `${Math.min(budgetStats!.percentage, 100)}%` }}
+                    />
+                  </div>
+                  <div className="text-[10px] text-zinc-500 mt-1 text-right">{budgetStats!.percentage.toFixed(1)}% Consommé</div>
                 </div>
-              </div>
-            </div>
-          </div>
 
-          <div className="panel">
-            <div className="panel-header">
-              <div className="panel-title"><div className="dot" style={{ background: 'var(--teal)' }}></div>Performance par Secteur</div>
-            </div>
-            <div className="panel-body">
-              {loading ? (
-                <div style={{ color: 'var(--text3)', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>Chargement…</div>
-              ) : !stats || stats.bySector.length === 0 ? (
-                <div style={{ color: 'var(--text3)', fontFamily: 'var(--font-mono)', fontSize: '12px', textAlign: 'center', padding: '20px' }}>
-                  Ajoutez des transactions dans Comptabilité pour voir les stats
-                </div>
-              ) : (
-                stats.bySector.map(s => {
-                  const profit = s.revenue - s.expenses;
-                  const maxVal = Math.max(...stats.bySector.map(x => Math.abs(x.revenue - x.expenses)));
-                  const pct = maxVal > 0 ? Math.abs(profit / maxVal) * 100 : 0;
-                  return (
-                    <div key={s._id} className="mini-bar-row">
-                      <div className="mini-bar-info">
-                        <div className="mini-bar-name">{s._id}</div>
-                        <div className="mini-bar-val" style={{ color: profit >= 0 ? 'var(--green2)' : '#e87070' }}>
-                          {profit >= 0 ? '+' : ''}{fmtK(profit)} K DH
+                <div className="space-y-4 pt-4 border-t border-zinc-900">
+                  <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Par Catégorie</h4>
+                  {budgetStats?.categories.map((c: any) => {
+                    const pct = c.budgeted > 0 ? (c.spent / c.budgeted) * 100 : 0;
+                    return (
+                      <div key={c.name} className="space-y-1">
+                        <div className="flex justify-between text-xs">
+                          <span className="text-zinc-300">{c.name}</span>
+                          <span className="text-zinc-500 font-mono">{format(c.spent)}</span>
+                        </div>
+                        <div className="h-1 bg-zinc-900 rounded-full overflow-hidden">
+                          <div className="h-full bg-zinc-700" style={{ width: `${Math.min(pct, 100)}%` }} />
                         </div>
                       </div>
-                      <div className="mini-bar-track">
-                        <div className="mini-bar-fill" style={{ width: `${pct}%`, background: profit >= 0 ? 'var(--green2)' : '#e87070' }} />
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Performance par Secteur */}
+          <div className="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 shadow-xl">
+            <h3 className="text-sm font-bold text-zinc-100 uppercase tracking-wider mb-6 flex items-center gap-2">
+              <TrendingUp className="text-amber-500" size={18} /> Performance par Secteur
+            </h3>
+            <div className="space-y-5">
+              {isLoading ? <Skeleton type="list" /> : !fin || (fin.byCategory || []).length === 0 ? (
+                <div className="py-10 text-center text-zinc-500 italic">Aucune donnée sectorielle.</div>
+              ) : (
+                fin.byCategory.map((s: any) => {
+                  const profit = (s.revenue || 0) - (s.expenses || 0);
+                  const maxVal = Math.max(...fin.byCategory.map((x: any) => Math.abs(x.revenue)));
+                  const pct = maxVal > 0 ? (s.revenue / maxVal) * 100 : 0;
+                  return (
+                    <div key={s._id} className="space-y-2">
+                      <div className="flex justify-between text-xs font-medium">
+                        <span className="text-zinc-400">{s._id}</span>
+                        <span className={`font-mono font-bold ${profit >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                          {profit >= 0 ? '+' : ''}{format(profit, true)}
+                        </span>
+                      </div>
+                      <div className="h-1 bg-zinc-900 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full rounded-full transition-all duration-1000 ${profit >= 0 ? 'bg-emerald-500/50' : 'bg-rose-500/50'}`}
+                          style={{ width: `${pct}%` }}
+                        />
                       </div>
                     </div>
                   );
@@ -132,14 +163,20 @@ export default function BudgetPage() {
         </div>
 
         {/* CTA vers comptabilité */}
-        <div style={{ textAlign: 'center', padding: '20px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', borderRadius: '12px' }}>
-          <div style={{ fontSize: '18px', marginBottom: '8px' }}>💡</div>
-          <div style={{ color: 'var(--text3)', fontFamily: 'var(--font-mono)', fontSize: '12px', marginBottom: '12px' }}>
-            Pour saisir des transactions, rendez-vous dans le module Comptabilité
+        <div className="p-8 bg-zinc-950 border border-dashed border-zinc-800 rounded-2xl text-center space-y-4">
+          <div className="w-12 h-12 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto text-amber-500">
+            <DollarSign size={24} />
           </div>
-          <a href="/comptabilite" style={{ display: 'inline-block', padding: '8px 20px', background: 'rgba(200,146,26,0.15)', border: '1px solid rgba(200,146,26,0.4)', borderRadius: '8px', color: 'var(--gold2)', textDecoration: 'none', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
+          <div className="space-y-1">
+            <h4 className="text-lg font-bold text-white">Prêt à enregistrer ?</h4>
+            <p className="text-sm text-zinc-500">Saisissez vos recettes et dépenses dans le module Comptabilité pour mettre à jour ces indicateurs.</p>
+          </div>
+          <button 
+            onClick={() => window.location.href = '/comptabilite'}
+            className="px-6 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-sm font-bold text-zinc-200 hover:text-white hover:bg-zinc-800 hover:border-zinc-700 transition-all"
+          >
             Aller à la Comptabilité →
-          </a>
+          </button>
         </div>
       </div>
     </div>

@@ -20,7 +20,7 @@ import logger from '../utils/logger.js';
 const router = Router();
 
 // All SSH routes: authenticated + admin + rate limited
-router.use(authenticate, requireAdmin, sshLimiter);
+router.use(authenticate, requireAdmin, sshLimiter as any);
 
 /* â”€â”€ POST /api/ssh/rotate-password â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 router.post(

@@ -32,16 +32,21 @@ export interface UseFleetDataResponse {
 
 const fetcher = async (): Promise<FleetData> => {
   try {
-    const statsRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:2065'}/api/fleet/stats`, {
+    const statsRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/fleet/stats`, {
       headers: { 'x-organization-id': localStorage.getItem('orgId') || '' }
     });
     
-    const vehiclesRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:2065'}/api/fleet/vehicles`, {
+    const vehiclesRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/fleet/vehicles`, {
       headers: { 'x-organization-id': localStorage.getItem('orgId') || '' }
     });
 
     if (!statsRes.ok || !vehiclesRes.ok) {
-      throw new Error('Failed to fetch fleet data');
+      console.warn('Failed to fetch some fleet data, returning empty state');
+      return {
+        stats: { totalVehicles: 0, activeVehicles: 0, maintenanceCount: 0, horsServiceCount: 0 },
+        vehicles: [],
+        lastUpdated: new Date()
+      };
     }
 
     const statsData = await statsRes.json();

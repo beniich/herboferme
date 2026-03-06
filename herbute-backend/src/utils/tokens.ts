@@ -22,9 +22,12 @@ export interface TokenPair {
 export const generateTokenPair = (user: UserTokenData): TokenPair => {
   const payload: Omit<JWTPayload, 'iat' | 'exp'> = {
     userId: user.id,
+    sub: user.id,
     email: user.email,
     organizationId: user.organizationId,
+    role: Array.isArray(user.role) ? user.role[0] : user.role,
     roles: Array.isArray(user.role) ? user.role : [user.role],
+    plan: user.plan || 'none',
   };
 
   const accessToken = jwt.sign(payload, jwtConfig.privateKey, {

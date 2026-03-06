@@ -4,7 +4,7 @@
  * Traduit entre la persistance (MongoDB Document) et le Domaine (Entity).
  */
 import { CropEntity, CropProps } from '../../domain/entities/Crop.entity.js';
-import { ICrop } from '../../models/Crop.js';
+import { ICrop } from '../../modules/agro/crops.model.js';
 
 export class CropMapper {
   /**

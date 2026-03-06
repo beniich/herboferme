@@ -77,7 +77,7 @@ const clearAuthCookies = (res: Response): void => {
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // POST /api/auth/register
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-router.post('/register', authLimiter, async (req: Request, res: Response, next: NextFunction) => {
+router.post('/register', authLimiter as any, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password, nom, prenom, telephone, farmName, role = 'employe' } = req.body;
 
@@ -163,7 +163,7 @@ router.post('/register', authLimiter, async (req: Request, res: Response, next: 
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // POST /api/auth/login
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-router.post('/login', authLimiter, async (req: Request, res: Response, next: NextFunction) => {
+router.post('/login', authLimiter as any, async (req: Request, res: Response, next: NextFunction) => {
   try {
     if (!req.body) {
       return res.status(400).json({ error: 'Corps de requête manquant.' });
@@ -383,7 +383,7 @@ router.get('/me', authenticate, async (req: Request, res: Response, next: NextFu
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // POST /api/auth/forgot-password
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-router.post('/forgot-password', authLimiter, async (req: Request, res: Response, next: NextFunction) => {
+router.post('/forgot-password', authLimiter as any, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email } = req.body;
 
@@ -411,7 +411,7 @@ router.post('/forgot-password', authLimiter, async (req: Request, res: Response,
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // POST /api/auth/reset-password
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-router.post('/reset-password', authLimiter, async (req: Request, res: Response, next: NextFunction) => {
+router.post('/reset-password', authLimiter as any, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { token, password } = req.body;
 

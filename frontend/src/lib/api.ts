@@ -166,6 +166,40 @@ export const financeApi = {
   getKPIs: (params?: Record<string, string>) => apiClient.get('/api/finance/kpis' + (params ? '?' + new URLSearchParams(params).toString() : '')),
 };
 
+export const agroAccountingApi = {
+  getEntries: (params?: any) => apiClient.get('/api/agro-accounting/entries', { params }),
+  createEntry: (data: any) => apiClient.post('/api/agro-accounting/entries', data),
+  getStats: (params?: any) => apiClient.get('/api/agro-accounting/stats', { params }),
+};
+
+export const agroBudgetsApi = {
+  getAll: (params?: any) => apiClient.get('/api/agro-budgets', { params }),
+  getById: (id: string) => apiClient.get(`/api/agro-budgets/${id}`),
+  create: (data: any) => apiClient.post('/api/agro-budgets', data),
+  update: (id: string, data: any) => apiClient.patch(`/api/agro-budgets/${id}`, data),
+};
+
+export const agroInventoryApi = {
+  getAll: (params?: any) => apiClient.get('/api/agro-inventory', { params }),
+  getById: (id: string) => apiClient.get(`/api/agro-inventory/${id}`),
+  create: (data: any) => apiClient.post('/api/agro-inventory', data),
+  update: (id: string, data: any) => apiClient.patch(`/api/agro-inventory/${id}`, data),
+  updateStock: (id: string, quantity: number) => apiClient.patch(`/api/agro-inventory/${id}/stock`, { quantity }),
+};
+
+export const agroKnowledgeApi = {
+  getArticles: (params?: any) => apiClient.get('/api/agro-knowledge', { params }),
+  getArticle: (slug: string) => apiClient.get(`/api/agro-knowledge/${slug}`),
+  createArticle: (data: any) => apiClient.post('/api/agro-knowledge', data),
+};
+
+export const agroReportsApi = {
+  exportAccounting: (format: 'pdf' | 'excel', params?: any) => 
+    apiClient.get(`/api/agro-reports/accounting/${format}`, { params, responseType: 'blob' }),
+  exportInventory: (format: 'pdf' | 'excel', params?: any) => 
+    apiClient.get(`/api/agro-reports/inventory/${format}`, { params, responseType: 'blob' }),
+};
+
 export const irrigationApi = {
   getAll: (params?: Record<string, string>) => apiClient.get('/api/irrigation' + (params ? '?' + new URLSearchParams(params).toString() : '')),
   getStats: () => apiClient.get('/api/irrigation/stats'),

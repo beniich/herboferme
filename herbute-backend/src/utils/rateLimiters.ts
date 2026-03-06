@@ -12,8 +12,7 @@
 import rateLimit from 'express-rate-limit';
 import { Request, Response } from 'express';
 import { sendError } from '../utils/apiResponse.js';
-
-const rateLimitHandler = (req: Request, res: Response): void => {
+const rateLimitHandler = (req: any, res: any): void => {
   sendError(
     res,
     'Too many requests â€” please slow down and try again later.',

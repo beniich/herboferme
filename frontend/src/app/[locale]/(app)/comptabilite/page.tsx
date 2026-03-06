@@ -11,18 +11,11 @@ import {
   TrendingUp, TrendingDown, Wallet, BarChart3, Plus, Minus,
   RefreshCw, Search, Edit2, Trash2, X, ChevronDown, Layers, DollarSign
 } from 'lucide-react';
+import { agroAccountingApi, agroReportsApi } from '@/lib/api';
+
+import { useCurrencyStore } from '@/store/currencyStore';
 
 // ─── Types ─────────────────────────────────────────────────────────────────
-interface Transaction {
-  _id: string;
-  date: string;
-  description: string;
-  category: string;
-  sector: string;
-  type: 'recette' | 'depense';
-  amount: number;
-}
-
 interface TransactionForm {
   description: string;
   category: string;
@@ -30,13 +23,6 @@ interface TransactionForm {
   type: 'recette' | 'depense';
   amount: number | string;
   date: string;
-}
-
-interface FinanceStats {
-  month: { revenue: number; expenses: number; profit: number };
-  year: { revenue: number; expenses: number; profit: number };
-  bySector: { _id: string; revenue: number; expenses: number }[];
-  transactions: Transaction[];
 }
 
 // ─── Constants ─────────────────────────────────────────────────────────────
@@ -49,11 +35,11 @@ const CATEGORIES_DEPENSE = ['Intrants Agricoles', 'Alimentation Animaux', 'Sant�
 const SECTORS = ['Élevage Bovin', 'Élevage Ovin', 'Volaille', 'Maraîchage', 'Herbes & Aromates', 'Pépinière', 'Forêt', 'Général'];
 
 export default function ComptabilitePage() {
-  const { data: rawData, stats: rawStats, items: rawItems, isLoading, error, refresh } = useFinanceData();
+  const { data: rawData, isLoading, error, refresh } = useFinanceData();
+  const { format } = useCurrencyStore();
 
-  // Cast data
-  const finStats = (rawStats as unknown as FinanceStats | undefined);
-  const transactions: Transaction[] = useMemo(() => (rawItems as unknown as Transaction[]) || [], [rawItems]);
+  const stats = rawData as any;
+  const transactions = useMemo(() => stats?.recentEntries || [], [stats]);
 
   // UI state
   const [showModal, setShowModal] = useState(false);
@@ -65,22 +51,23 @@ export default function ComptabilitePage() {
   const [filterType, setFilterType] = useState<'' | 'recette' | 'depense'>('');
 
   const filtered = useMemo(() => {
-    return transactions.filter(t => {
-      const matchType = !filterType || t.type === filterType;
+    return transactions.filter((t: any) => {
+      const type = t.type === 'income' ? 'recette' : 'depense';
+      const matchType = !filterType || type === filterType;
       const matchSearch = !searchTerm ||
         t.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        t.sector.toLowerCase().includes(searchTerm.toLowerCase());
+        t.category.toLowerCase().includes(searchTerm.toLowerCase());
       return matchType && matchSearch;
     });
   }, [transactions, filterType, searchTerm]);
 
   const kpis = useMemo(() => ({
-    monthRevenue: finStats?.month?.revenue ?? 0,
-    monthExpenses: finStats?.month?.expenses ?? 0,
-    monthProfit: finStats?.month?.profit ?? 0,
-    yearRevenue: finStats?.year?.revenue ?? 0,
-    bySector: finStats?.bySector ?? [],
-  }), [finStats]);
+    monthRevenue: stats?.month?.income ?? 0,
+    monthExpenses: stats?.month?.expense ?? 0,
+    monthProfit: stats?.month?.balance ?? 0,
+    yearRevenue: stats?.year?.income ?? 0,
+    bySector: stats?.byCategory ?? [],
+  }), [stats]);
 
   // ─── Actions ──────────────────────────────────────────────────────────────
   const openCreate = (defaultType?: 'recette' | 'depense') => {
@@ -88,8 +75,15 @@ export default function ComptabilitePage() {
     setEditingId(null);
     setShowModal(true);
   };
-  const openEdit = (t: Transaction) => {
-    setForm({ description: t.description, category: t.category, sector: t.sector, type: t.type, amount: t.amount, date: t.date.split('T')[0] });
+  const openEdit = (t: any) => {
+    setForm({ 
+      description: t.description, 
+      category: t.category, 
+      sector: t.sector || 'Général', 
+      type: t.type === 'income' ? 'recette' : 'depense', 
+      amount: t.debit || t.credit, 
+      date: t.date.split('T')[0] 
+    });
     setEditingId(t._id);
     setShowModal(true);
   };
@@ -99,12 +93,23 @@ export default function ComptabilitePage() {
     e.preventDefault();
     setSaving(true);
     try {
-      const payload = { ...form, amount: Number(form.amount) };
+      const isIncome = form.type === 'recette';
+      const payload = { 
+        description: form.description,
+        category: form.category,
+        type: isIncome ? 'income' : 'expense',
+        debit: isIncome ? 0 : Number(form.amount),
+        credit: isIncome ? Number(form.amount) : 0,
+        date: form.date,
+        account: { number: '701', name: form.category } // Mock account for now
+      };
+
       if (editingId) {
-        await apiClient.put(`/api/finance/transactions/${editingId}`, payload);
+        // Update not yet in agroAccountingApi, using apiClient for now or handle in controller
+        await apiClient.put(`/api/agro-accounting/entries/${editingId}`, payload);
         toast.success('Transaction modifiée ✓');
       } else {
-        await apiClient.post('/api/finance/transactions', payload);
+        await agroAccountingApi.createEntry(payload);
         toast.success('Transaction enregistrée ✓');
       }
       closeModal();
@@ -118,12 +123,29 @@ export default function ComptabilitePage() {
 
   const handleDelete = async (id: string) => {
     try {
-      await apiClient.delete(`/api/finance/transactions/${id}`);
+      await apiClient.delete(`/api/agro-accounting/entries/${id}`);
       toast.success('Transaction supprimée');
       setDeleteId(null);
       refresh();
     } catch {
       toast.error('Erreur de suppression');
+    }
+  };
+
+  const handleExport = async (format: 'pdf' | 'excel') => {
+    try {
+      toast.loading(`Génération du rapport ${format.toUpperCase()}...`, { id: 'export' });
+      const response = await agroReportsApi.exportAccounting(format);
+      const url = window.URL.createObjectURL(new Blob([response as any]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `rapport-comptabilite-${new Date().getTime()}.${format === 'excel' ? 'xlsx' : 'pdf'}`);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode?.removeChild(link);
+      toast.success('Rapport prêt !', { id: 'export' });
+    } catch {
+      toast.error('Erreur lors de l\'export', { id: 'export' });
     }
   };
 
@@ -148,6 +170,25 @@ export default function ComptabilitePage() {
           <button onClick={refresh} className="p-2 text-zinc-500 hover:text-white transition-colors" title="Actualiser">
             <RefreshCw size={18} className={isLoading ? 'animate-spin' : ''} />
           </button>
+          
+          {/* EXPORTS */}
+          <div className="flex border border-zinc-900 rounded-lg overflow-hidden mr-2">
+            <button 
+              onClick={() => handleExport('pdf')}
+              className="p-2 bg-zinc-950 text-zinc-400 hover:text-rose-400 hover:bg-zinc-900 transition-colors border-r border-zinc-900"
+              title="Exporter PDF"
+            >
+              PDF
+            </button>
+            <button 
+              onClick={() => handleExport('excel')}
+              className="p-2 bg-zinc-950 text-zinc-400 hover:text-emerald-400 hover:bg-zinc-900 transition-colors"
+              title="Exporter Excel"
+            >
+              XLS
+            </button>
+          </div>
+
           <button
             onClick={() => openCreate('depense')}
             className="flex items-center gap-2 px-4 py-2 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 text-sm font-bold transition-all"
@@ -163,14 +204,13 @@ export default function ComptabilitePage() {
         </div>
       </div>
 
-      {/* KPI GRID */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         {isLoading ? Array(4).fill(0).map((_, i) => <Skeleton key={i} type="card" />) : (
           <>
-            <StatCard label="Recettes (Mois)" value={(kpis.monthRevenue / 1000).toFixed(1)} unit="KDH" icon={<TrendingUp size={20} />} color="green" />
-            <StatCard label="Dépenses (Mois)" value={(kpis.monthExpenses / 1000).toFixed(1)} unit="KDH" icon={<TrendingDown size={20} />} color="red" />
-            <StatCard label="Bénéfice (Mois)" value={(kpis.monthProfit / 1000).toFixed(1)} unit="KDH" trend={isProfit ? +2.4 : -1.8} icon={<Wallet size={20} />} color={isProfit ? 'green' : 'red'} />
-            <StatCard label="CA Annuel" value={(kpis.yearRevenue / 1000).toFixed(0)} unit="KDH" icon={<BarChart3 size={20} />} color="amber" />
+            <StatCard label="Recettes (Mois)" value={format(kpis.monthRevenue, true)} icon={<TrendingUp size={20} />} color="green" />
+            <StatCard label="Dépenses (Mois)" value={format(kpis.monthExpenses, true)} icon={<TrendingDown size={20} />} color="red" />
+            <StatCard label="Bénéfice (Mois)" value={format(kpis.monthProfit, true)} trend={isProfit ? +2.4 : -1.8} icon={<Wallet size={20} />} color={isProfit ? 'green' : 'red'} />
+            <StatCard label="CA Annuel" value={format(kpis.yearRevenue, true)} icon={<BarChart3 size={20} />} color="amber" />
           </>
         )}
       </div>
@@ -235,18 +275,18 @@ export default function ComptabilitePage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-zinc-900/40">
-                  {filtered.map(t => (
+                  {filtered.map((t: any) => (
                     <tr key={t._id} className="hover:bg-zinc-900/30 transition-colors group">
                       <td className="px-5 py-3 font-mono text-xs text-zinc-500 whitespace-nowrap">{new Date(t.date).toLocaleDateString('fr-FR')}</td>
                       <td className="px-5 py-3 text-zinc-200 font-medium truncate max-w-[180px]">{t.description}</td>
                       <td className="px-5 py-3 text-zinc-500 text-xs">{t.sector}</td>
                       <td className="px-5 py-3">
-                        <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${t.type === 'recette' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'}`}>
-                          {t.type === 'recette' ? '↑ Recette' : '↓ Dépense'}
+                        <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${t.type === 'income' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'}`}>
+                          {t.type === 'income' ? '↑ Recette' : '↓ Dépense'}
                         </span>
                       </td>
-                      <td className={`px-5 py-3 text-right font-mono font-bold ${t.type === 'recette' ? 'text-emerald-400' : 'text-rose-400'}`}>
-                        {t.type === 'recette' ? '+' : '-'}{t.amount.toLocaleString('fr-FR')} <span className="text-[10px] font-normal text-zinc-600">DH</span>
+                      <td className={`px-5 py-3 text-right font-mono font-bold ${t.type === 'income' ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        {t.type === 'income' ? '+' : '-'}{format(t.debit || t.credit || 0)}
                       </td>
                       <td className="px-3 py-3">
                         <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -276,16 +316,16 @@ export default function ComptabilitePage() {
               <Skeleton type="list" />
             ) : kpis.bySector.length === 0 ? (
               <p className="text-zinc-600 text-sm italic text-center py-10">Aucune donnée sectorielle</p>
-            ) : kpis.bySector.map(s => {
+            ) : kpis.bySector.map((s: any) => {
               const profit = s.revenue - s.expenses;
-              const maxVal = Math.max(...kpis.bySector.map(x => Math.abs(x.revenue)));
+              const maxVal = Math.max(...kpis.bySector.map((x: any) => Math.abs(x.revenue)));
               const pct = maxVal > 0 ? (s.revenue / maxVal) * 100 : 0;
               return (
                 <div key={s._id} className="space-y-2">
                   <div className="flex justify-between text-[11px] font-medium">
                     <span className="text-zinc-400 truncate">{s._id}</span>
                     <span className={`font-mono font-bold ${profit >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                      {profit >= 0 ? '+' : ''}{(profit / 1000).toFixed(1)} K
+                      {profit >= 0 ? '+' : ''}{format(profit, true)}
                     </span>
                   </div>
                   <div className="h-1 bg-zinc-900 rounded-full overflow-hidden">

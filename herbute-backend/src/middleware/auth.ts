@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { verifyToken, JWTPayload } from '../config/jwt.js';
 
 // Define custom user interface
-interface AuthRequest extends Request {
+interface AuthRequest extends Omit<Request, 'user'> {
   user?: JWTPayload;
 }
 

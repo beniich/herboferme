@@ -11,6 +11,7 @@ import {
   TrendingUp, TrendingDown, Tractor, AlertTriangle,
   Users, LineChart, Server, RefreshCw, Trees
 } from 'lucide-react';
+import { useCurrencyStore } from '@/store/currencyStore';
 
 // ─── TYPES ────────────────────────────────────────────────────────────────
 interface AlertItem {
@@ -34,6 +35,7 @@ export default function DashboardPage() {
     agro, it, maintenance,
     loading, refresh, error
   } = useDashboardData();
+  const { format } = useCurrencyStore();
 
   useEffect(() => {
     const d = new Date();
@@ -63,6 +65,7 @@ export default function DashboardPage() {
         <div className="flex gap-3 w-full md:w-auto">
           <button 
             onClick={refresh} 
+            title="Actualiser"
             className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all text-sm"
           >
             <RefreshCw size={14} className={loading ? 'animate-spin' : ''} /> Actualiser
@@ -81,29 +84,25 @@ export default function DashboardPage() {
           <>
             <StatCard 
               label="Chiffre d'Affaires" 
-              value={((agro?.financials?.totalRevenue ?? 0) / 1_000).toFixed(0)} 
-              unit="KDH"
+              value={format(agro?.financials?.totalRevenue ?? 0, true)} 
               icon={<TrendingUp size={20} />}
               color="green"
             />
             <StatCard 
               label="Charges Totales" 
-              value={((agro?.financials?.totalExpenses ?? 0) / 1_000).toFixed(0)} 
-              unit="KDH"
+              value={format(agro?.financials?.totalExpenses ?? 0, true)} 
               icon={<TrendingDown size={20} />}
               color="red"
             />
             <StatCard 
               label="Bénéfice Net" 
-              value={((agro?.financials?.netProfit ?? 0) / 1_000).toFixed(0)} 
-              unit="KDH"
+              value={format(agro?.financials?.netProfit ?? 0, true)} 
               icon={<TrendingUp size={20} />}
               color="amber"
             />
             <StatCard 
               label="Trésorerie (Est.)" 
-              value={((agro?.financials?.cashFlow ?? 0) / 1_000).toFixed(1)} 
-              unit="KDH"
+              value={format(agro?.financials?.cashFlow ?? 0, true)} 
               icon={<LineChart size={20} />}
               color="blue"
             />

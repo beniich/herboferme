@@ -3,7 +3,7 @@
  * Cercle 3 : Infrastructure
  * Implémente le contrat ICropRepository défini par le domaine.
  */
-import Crop from '../../models/Crop.js';
+import { Crop } from '../../modules/agro/crops.model.js';
 import { ICropRepository, CropFilters, CropStats } from '../../domain/repositories/ICropRepository.js';
 import { CropEntity } from '../../domain/entities/Crop.entity.js';
 import { CropMapper } from '../mappers/CropMapper.js';
