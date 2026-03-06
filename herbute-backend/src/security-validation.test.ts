@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import request from 'supertest';
-// @ts-expect-error
+// @ts-expect-error - Required for compilation
 import { app } from './server.js';
 import { generateToken } from './config/jwt.js';
 
