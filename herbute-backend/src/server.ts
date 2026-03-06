@@ -65,6 +65,9 @@ import sshManagementRoutes from './routes/ssh-management.js';
 import datasourceRoutes from './routes/datasource.routes.js';
 import eventsRoutes from './routes/events.js';
 import assignmentsRoutes from './routes/assignments.js';
+import metricsRoutes from './routes/metrics.js';
+import { metricsMiddleware } from './middleware/metrics.js';
+
 
 // Validate environment
 envValidator();
@@ -80,6 +83,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser() as any);
 app.use(requestId as any);
 app.use(securityHeaders as any);
+app.use(metricsMiddleware as any);
 
 app.use(httpsRedirect);
 app.use(helmet());
@@ -134,6 +138,7 @@ app.use('/api/ssh', sshManagementRoutes);
 app.use('/api/datasources', datasourceRoutes);
 app.use('/api/events', eventsRoutes);
 app.use('/api/assignments', assignmentsRoutes);
+app.use('/api/metrics', metricsRoutes);
 
 // Upload
 app.use('/api/upload', uploadRoutes);
