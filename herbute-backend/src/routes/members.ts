@@ -1,4 +1,4 @@
-﻿import { Router, Request, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import { body } from 'express-validator';
 import { validator } from '../middleware/validator.js';
 import { authenticate as protect } from '../middleware/security.js';
@@ -93,7 +93,7 @@ router.post(
             const inviterId = req.user._id;
 
             // Find user by email
-            let user = await User.findOne({ email });
+            const user = await User.findOne({ email });
 
             // If user doesn't exist, we should theoretically create a placeholder or send an invite email
             // For this MVP, we'll require the user to exist

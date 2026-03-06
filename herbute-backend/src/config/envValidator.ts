@@ -1,4 +1,4 @@
-﻿import { config } from 'dotenv';
+import { config } from 'dotenv';
 import path from 'path';
 import fs from 'fs';
 config({ path: path.join(process.cwd(), '.env') });

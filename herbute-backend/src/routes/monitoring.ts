@@ -1,4 +1,4 @@
-﻿import express, { Response } from 'express';
+import express, { Response } from 'express';
 import { authenticate as auth } from '../middleware/security.js';
 import { requireAdmin, requireOrganization } from '../middleware/security.js';
 import NetworkDevice from '../models/NetworkDevice.js';

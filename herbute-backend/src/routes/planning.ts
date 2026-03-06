@@ -1,4 +1,4 @@
-﻿/**
+/**
  * routes/planning.routes.ts â€” Planning, Scheduler, Interventions
  */
 

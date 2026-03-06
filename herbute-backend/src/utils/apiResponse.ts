@@ -1,4 +1,4 @@
-﻿/**
+/**
  * utils/apiResponse.ts
  * Standardized response shapes for all API endpoints.
  * Every response follows: { success, data|error, code, timestamp, requestId }

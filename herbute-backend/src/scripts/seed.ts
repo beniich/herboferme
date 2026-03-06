@@ -1,4 +1,4 @@
-﻿import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import { config } from 'dotenv';
 import { User } from '../models/user.model.js';
 import { Team } from '../models/Team.js';

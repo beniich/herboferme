@@ -1,4 +1,4 @@
-﻿import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { OAuth2Client } from 'google-auth-library';
 import { User } from '../models/user.model.js';
 import { generateTokenPair } from '../utils/tokens.js';

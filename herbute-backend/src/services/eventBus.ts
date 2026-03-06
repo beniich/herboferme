@@ -1,4 +1,4 @@
-﻿import { producer } from '../config/kafka.js';
+import { producer } from '../config/kafka.js';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 

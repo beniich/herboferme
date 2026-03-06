@@ -1,4 +1,4 @@
-﻿import { authenticate as protect, requireOrganization } from '../middleware/security.js';
+import { authenticate as protect, requireOrganization } from '../middleware/security.js';
 import { authorize, Permission } from '../middleware/authorize.js';
 import { Complaint } from '../modules/complaint/complaint.model.js';
 import { Team } from '../models/Team.js';

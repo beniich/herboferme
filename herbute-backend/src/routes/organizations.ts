@@ -1,4 +1,4 @@
-﻿import { Router, Request, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import { body } from 'express-validator';
 import { validator } from '../middleware/validator.js';
 import { authenticate as protect } from '../middleware/security.js';

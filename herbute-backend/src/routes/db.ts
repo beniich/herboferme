@@ -1,4 +1,4 @@
-﻿// routes/db.ts â€“ Routes pour l'administration de base de donnÃ©es (Enterprise DB Management)
+// routes/db.ts â€“ Routes pour l'administration de base de donnÃ©es (Enterprise DB Management)
 import express, { Request, Response } from 'express';
 import { generateMetrics, generateNetVizMetrics, generateQueueMetrics, generateDBAMetrics } from '../data/db-generator.js';
 import { clusters, backups, networkNodes, networkConnections, cloudCosts } from '../data/db-fixtures.js';

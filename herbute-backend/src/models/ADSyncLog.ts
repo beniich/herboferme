@@ -1,4 +1,4 @@
-﻿import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IADSyncLog extends Document {
   organizationId: mongoose.Types.ObjectId;

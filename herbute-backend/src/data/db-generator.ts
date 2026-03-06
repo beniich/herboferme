@@ -1,4 +1,4 @@
-﻿// db-generator.ts â€“ gÃ©nÃ¨re des mÃ©triques dynamiques pour l'administration de base de donnÃ©es
+// db-generator.ts â€“ gÃ©nÃ¨re des mÃ©triques dynamiques pour l'administration de base de donnÃ©es
 import { clusters, queues } from './db-fixtures.js';
 
 function randInt(min: number, max: number): number {
@@ -7,7 +7,7 @@ function randInt(min: number, max: number): number {
 
 /**
  * Retourne un objet contenant les mÃ©triques agrÃ©gÃ©es.
- * Les valeurs changent lÃ©gÃ¨rement Ã  chaque appel, ce qui simule du rÃ©el.
+ * Les valeurs changent lÃ©gÃ¨rement Ã  chaque appel, ce qui simule du rÃ©el.
  */
 export function generateMetrics() {
     // Lag moyen (ms) = sum(lag) * 1000 + jitter

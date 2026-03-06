@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file express.d.ts
  * @description Single source of truth for Express Request augmentation.
  *              All middleware attach to this interface â€” no more `req: any`.

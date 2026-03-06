@@ -1,4 +1,4 @@
-﻿/**
+/**
  * errorHandler.ts
  * Central error handling middleware â€” MUST be the last app.use() in index.ts.
  *

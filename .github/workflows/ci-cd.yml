@@ -20,13 +20,16 @@ jobs:
           cache-dependency-path: 'package-lock.json'
       
       - name: Install Dependencies
-        run: cd herbute-backend && npm ci
+        run: npm ci
       
-      - name: Lint
-        run: cd herbute-backend && npm run lint
+      - name: Build Shared
+        run: npm run build -w shared
+
+      - name: Lint Backend
+        run: npm run lint -w herbute-backend
       
-      - name: Build Test
-        run: cd herbute-backend && npm run build
+      - name: Build Backend
+        run: npm run build -w herbute-backend
 
   # 2. Validation du Frontend
   test-frontend:
@@ -41,10 +44,13 @@ jobs:
           cache-dependency-path: 'package-lock.json'
       
       - name: Install Dependencies
-        run: cd frontend && npm ci
+        run: npm ci
+
+      - name: Build Shared
+        run: npm run build -w shared
       
-      - name: Build Test
-        run: cd frontend && npm run build
+      - name: Build Frontend
+        run: npm run build -w frontend
 
   # 3. Docker Build Check (Vérifie que les images se construisent sans erreur)
   docker-check:

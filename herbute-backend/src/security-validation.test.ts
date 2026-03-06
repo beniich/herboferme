@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import request from 'supertest';
-// @ts-ignore
+// @ts-expect-error
 import { app } from './server.js';
 import { generateToken } from './config/jwt.js';
 

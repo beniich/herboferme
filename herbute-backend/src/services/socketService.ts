@@ -1,4 +1,4 @@
-﻿import { Server } from 'http';
+import { Server } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 import { logger } from '../utils/logger.js';
 
@@ -354,7 +354,7 @@ class NotificationService {
   async sendUrgentAlert(message: string, recipientIds?: string[]) {
     const notification = {
       type: 'alert',
-      title: 'âš ï¸ Alerte Urgente',
+      title: 'âš ï¸ Alerte Urgente',
       message,
       priority: 'urgent',
       timestamp: new Date(),

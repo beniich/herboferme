@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file auth.dto.ts
  * @description DTOs and validators for authentication routes.
  * @module backend/dto

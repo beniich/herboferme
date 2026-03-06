@@ -1,4 +1,4 @@
-﻿/**
+/**
  * models/Subscription.ts
  * Organization subscription â€” synced from Stripe via webhook.
  */

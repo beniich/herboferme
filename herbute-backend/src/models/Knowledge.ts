@@ -1,4 +1,4 @@
-﻿import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IKnoledgeBase extends Document { // SOP (Standard Operating Procedure)
     title: string;

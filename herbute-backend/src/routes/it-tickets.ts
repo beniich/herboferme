@@ -1,4 +1,4 @@
-﻿import express, { Response } from 'express';
+import express, { Response } from 'express';
 import { authenticate, requireOrganization } from '../middleware/security.js';
 import { authorize, Permission } from '../middleware/authorize.js';
 import ITTicket from '../models/ITTicket.js';

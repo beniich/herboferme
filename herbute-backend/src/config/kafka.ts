@@ -1,4 +1,4 @@
-﻿import kafkajs from 'kafkajs';
+import kafkajs from 'kafkajs';
 const { Kafka, logLevel } = kafkajs;
 
 const kafka = new Kafka({

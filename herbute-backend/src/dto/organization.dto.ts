@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file organization.dto.ts
  * @description DTOs and validators for organization and membership routes.
  * @module backend/dto

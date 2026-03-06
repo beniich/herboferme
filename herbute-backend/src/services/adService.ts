@@ -1,4 +1,4 @@
-﻿import ActiveDirectory from 'activedirectory2';
+import ActiveDirectory from 'activedirectory2';
 import ADSyncLog from '../models/ADSyncLog.js';
 import { Membership } from '../models/Membership.js';
 import { User } from '../models/user.model.js';

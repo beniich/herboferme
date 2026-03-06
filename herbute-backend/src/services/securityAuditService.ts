@@ -1,4 +1,4 @@
-﻿export interface AuditCheck {
+export interface AuditCheck {
     id: string;
     name: string;
     status: 'pass' | 'fail' | 'warn';

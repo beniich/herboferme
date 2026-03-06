@@ -1,4 +1,4 @@
-﻿/**
+/**
  * services/apiKeyService.ts
  * API key lifecycle management.
  * Raw keys are NEVER stored â€” only SHA-256 HMAC hashes.

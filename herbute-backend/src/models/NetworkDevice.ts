@@ -1,4 +1,4 @@
-﻿import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 
 export interface INetworkDevice extends Omit<Document, 'model'> {
   organizationId: mongoose.Types.ObjectId;

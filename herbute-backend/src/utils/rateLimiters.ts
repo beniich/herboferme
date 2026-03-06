@@ -1,4 +1,4 @@
-﻿/**
+/**
  * middleware/rateLimiters.ts
  * All express-rate-limit configurations in one place.
  * Uses in-memory store for development; swap to Redis store in production.

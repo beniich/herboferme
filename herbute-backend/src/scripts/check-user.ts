@@ -1,4 +1,4 @@
-﻿
+
 import mongoose from 'mongoose';
 import { User } from '../models/user.model.js';
 import { config } from 'dotenv';

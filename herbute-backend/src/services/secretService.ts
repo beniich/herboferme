@@ -1,4 +1,4 @@
-﻿import crypto from 'crypto';
+import crypto from 'crypto';
 import { Secret } from '../models/Secret.js';
 
 const ENCRYPTION_KEY = process.env.SECRET_ENCRYPTION_KEY || 'your-default-32-char-key-here-!!!'; // Must be 32 chars

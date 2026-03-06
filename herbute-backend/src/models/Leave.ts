@@ -1,4 +1,4 @@
-﻿import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
 export interface ILeave extends Document {
     staffId: mongoose.Types.ObjectId;

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * middleware/validator.ts
  * Wraps express-validator's validationResult into a consistent response.
  * Usage: router.post('/route', [...validationChains], validate, handler)
