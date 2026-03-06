@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import type { AxiosProgressEvent } from 'axios';
 import { step1Schema, step2Schema, step3Schema, step4Schema, Step1Data, Step2Data, Step3Data, Step4Data } from '@/lib/validations/complaint-form.validation';
 import { apiClient } from '@/lib/api';
 
@@ -154,7 +155,7 @@ export function useComplaintForm(options: UseComplaintFormOptions = {}) {
         try {
             const response = await apiClient.post<{ url: string }>('/api/upload', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
-                onUploadProgress: (progressEvent) => {
+                onUploadProgress: (progressEvent: AxiosProgressEvent) => {
                     if (progressEvent.total) {
                         const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
                         setUploadProgress((prev) => ({ ...prev, [fileId]: progress }));

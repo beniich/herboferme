@@ -2,7 +2,7 @@ import React from 'react';
 import { AlertOctagon, RefreshCw } from 'lucide-react';
 
 export interface ErrorFallbackProps {
-  error: Error | null;
+  error?: Error | null;
   onRetry?: () => void;
   message?: string;
   compact?: boolean;

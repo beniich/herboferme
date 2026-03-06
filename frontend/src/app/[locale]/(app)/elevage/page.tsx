@@ -66,8 +66,16 @@ const STATUS_MAP: Record<string, { label: string; color: string; icon: React.Rea
   SOLD:       { label: 'Vendu',         color: 'bg-zinc-500/10 text-zinc-500', icon: <ArrowRight size={12} /> },
 };
 
-export default function ElevagePage() {
+interface ElevagePageProps {
+  category?: string;
+  pageTitle?: string;
+  pageLabel?: string;
+  pageIcon?: string;
+}
+
+export default function ElevagePage({ category: _category, pageTitle, pageLabel, pageIcon }: ElevagePageProps = {}) {
   const { items: rawAnimals, stats: domainStats, isLoading, error, refresh } = useAnimalsData();
+  const _ = domainStats; // suppress unused warning
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<AnimalForm>(EMPTY_FORM);
@@ -99,7 +107,11 @@ export default function ElevagePage() {
     };
   }, [rawAnimals]);
 
-  const openCreate = () => { setForm(EMPTY_FORM); setEditingId(null); setShowModal(true); };
+  const openCreate = () => { 
+    setForm({ ...EMPTY_FORM, category: _category || 'LIVESTOCK' }); 
+    setEditingId(null); 
+    setShowModal(true); 
+  };
   
   const openEdit = (a: Animal) => {
     setForm({ 
@@ -164,9 +176,16 @@ export default function ElevagePage() {
       {/* HEADER */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <div className="text-[10px] font-mono tracking-[3px] text-zinc-500 uppercase mb-1">Module Agriculture · Élevage</div>
+          <div className="text-[10px] font-mono tracking-[3px] text-zinc-500 uppercase mb-1">{pageLabel || 'Module Agriculture · Élevage'}</div>
           <h1 className="text-3xl font-bold tracking-tight text-white mb-2 flex items-center gap-3">
-            <Beef className="text-amber-500" size={32} /> Gestion du Cheptel
+            {pageIcon ? (
+              <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-zinc-900 border border-zinc-800 text-2xl">
+                {pageIcon}
+              </span>
+            ) : (
+              <Beef className="text-amber-500" size={32} />
+            )} 
+            {pageTitle || 'Gestion du Cheptel'}
           </h1>
           <p className="text-sm text-zinc-400">Suivi inventaire, santé et valorisation du bétail.</p>
         </div>

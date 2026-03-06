@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from '@/i18n/navigation';
 import { 
     Sprout, 
@@ -21,6 +21,12 @@ import {
 } from 'lucide-react';
 
 export default function LandingPage() {
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
     return (
         <div className="flex flex-col bg-[var(--bg)]">
             {/* HERO SECTION - THE WOW FACTOR */}
@@ -54,10 +60,10 @@ export default function LandingPage() {
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
                         <Link href="/register" className="group w-full sm:w-auto px-12 py-6 bg-[var(--green)] text-white rounded-2xl font-black text-xs uppercase tracking-[0.3em] hover:bg-[var(--green2)] transition-all shadow-2xl shadow-[var(--green)]/30 flex items-center justify-center gap-4">
                             Démarrer l'Épopée
-                            <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
+                            {isMounted && <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />}
                         </Link>
                         <Link href="/about" className="w-full sm:w-auto px-12 py-6 bg-white/50 backdrop-blur-md border-2 border-[var(--border)] text-[var(--text)] rounded-2xl font-black text-xs uppercase tracking-[0.3em] hover:bg-white transition-all flex items-center justify-center gap-4 group">
-                            <PlayCircle size={18} className="text-[var(--green)]" />
+                            {isMounted && <PlayCircle size={18} className="text-[var(--green)]" />}
                             Découvrir la Vision
                         </Link>
                     </div>
@@ -125,7 +131,7 @@ export default function LandingPage() {
                             <div key={i} className="group p-12 bg-white rounded-[3.5rem] border border-[var(--border)] hover:border-[#FE7F2D] transition-all hover:shadow-electric hover:-translate-y-4 duration-500 relative overflow-hidden">
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--green)]/5 rounded-full translate-x-1/2 -translate-y-1/2 group-hover:scale-150 transition-transform duration-700"></div>
                                 <div className="mb-10 text-[var(--green)] group-hover:scale-110 transition-transform duration-500" style={{ color: tech.color }}>
-                                    {tech.icon}
+                                    {isMounted && tech.icon}
                                 </div>
                                 <h3 className="text-2xl font-black text-[var(--text)] mb-6 uppercase italic tracking-tighter">{tech.title}</h3>
                                 <p className="text-[var(--text2)] leading-relaxed opacity-70 group-hover:opacity-100 transition-opacity">{tech.desc}</p>

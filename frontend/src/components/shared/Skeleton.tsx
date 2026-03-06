@@ -3,7 +3,7 @@ import React from 'react';
 interface SkeletonProps {
   count?: number;
   className?: string;
-  type?: 'card' | 'list' | 'text' | 'chart';
+  type?: 'card' | 'list' | 'text' | 'chart' | 'table';
 }
 
 /** Carte KPI en chargement — s'insère dans une grille externe */
@@ -74,6 +74,7 @@ export const Skeleton = ({ type, count = 1, className }: SkeletonProps) => {
   switch (type) {
     case 'card':  return <CardSkeleton count={count} className={className} />;
     case 'list':  return <TableSkeleton count={count} className={className} />;
+    case 'table': return <TableSkeleton count={count} className={className} />;
     case 'chart': return <ChartSkeleton className={className} />;
     case 'text':  return <TextSkeleton lines={count} />;
     default:      return <div className={`animate-pulse bg-gray-200 rounded ${className}`} />;

@@ -35,6 +35,7 @@ export default memo(function NdviMap({ parcels, onParcelSelect }: Props) {
 
     const initMap = async () => {
       const L = (await import('leaflet')).default;
+      // @ts-ignore — no type declarations for leaflet CSS
       await import('leaflet/dist/leaflet.css');
       // @ts-ignore
       await import('leaflet.heat');

@@ -18,7 +18,7 @@ export function useFetch<T>(
 ): UseFetchResult<T> {
   const fetcher = useCallback(
     async (url: string): Promise<T> => {
-      const response = await apiClient.fetch<T>(url);
+      const response = await apiClient.get<T>(url);
       return response.data;
     },
     []

@@ -123,7 +123,7 @@ export default function PublicLayout({
 
                         <div className="flex items-center gap-6">
                             <Link href="/login" className="hidden sm:flex items-center gap-2 group text-[10px] font-black uppercase tracking-[0.2em] text-[var(--text3)] hover:text-[var(--green)] transition-all italic">
-                                <LogIn size={14} className="group-hover:-translate-x-1 transition-transform" />
+                                {isMounted && <LogIn size={14} className="group-hover:-translate-x-1 transition-transform" />}
                                 Connexion
                             </Link>
                             <Link href="/register" className="px-10 py-4 bg-[var(--green)] text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] hover:bg-[var(--green2)] transition-all shadow-2xl shadow-[var(--green)]/20 hover:scale-105 active:scale-95 italic">
@@ -179,7 +179,7 @@ export default function PublicLayout({
                                 La donnée au service de la terre.
                             </p>
                             <div className="flex gap-6">
-                                {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
+                                {isMounted && [Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
                                     <a key={i} href="#" title="Social Link" className="w-14 h-14 rounded-2xl bg-[var(--bg)] flex items-center justify-center text-[var(--green)] hover:bg-[var(--green)] hover:text-white transition-all shadow-sm border border-[var(--border)] group">
                                         <Icon size={22} className="group-hover:scale-110 transition-transform" />
                                     </a>
@@ -241,7 +241,7 @@ export default function PublicLayout({
                                         className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-xs font-black placeholder:text-white/20 outline-none focus:border-[var(--gold)] transition-all"
                                     />
                                     <button className="absolute right-2 top-2 p-3.5 bg-[var(--gold)] rounded-xl text-white hover:bg-[var(--gold)]/80 transition-all shadow-lg active:scale-95">
-                                        <ArrowRight size={18} />
+                                        {isMounted && <ArrowRight size={18} />}
                                     </button>
                                 </div>
                             </div>
@@ -278,11 +278,11 @@ export default function PublicLayout({
                 </div>
 
                 {/* Back to top pulse */}
-                <div 
+                 <div 
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                     className="fixed bottom-12 right-12 w-16 h-16 rounded-full bg-white border border-[var(--border)] shadow-2xl flex items-center justify-center text-[var(--green)] hover:bg-[var(--green)] hover:text-white transition-all cursor-pointer z-50 group hover:-translate-y-2 active:scale-95 clickable"
                 >
-                    <ChevronRight className="-rotate-90 group-hover:scale-110 transition-transform" />
+                    {isMounted && <ChevronRight className="-rotate-90 group-hover:scale-110 transition-transform" />}
                 </div>
             </footer>
 

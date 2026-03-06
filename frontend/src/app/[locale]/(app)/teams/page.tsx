@@ -55,7 +55,7 @@ export default function TeamsPage() {
                                         <tr key={team._id}>
                                             <td style={{ fontWeight: 700 }}>{team.name}</td>
                                             <td>{team.members?.length || 0} membre(s)</td>
-                                            <td style={{ fontFamily: 'var(--font-mono)' }}>{new Date(team.createdAt).toLocaleDateString()}</td>
+                                            <td style={{ fontFamily: 'var(--font-mono)' }}>{team.createdAt ? new Date(team.createdAt).toLocaleDateString() : '—'}</td>
                                             <td>
                                                 <button style={{ padding: '6px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: '6px', cursor: 'pointer', color: 'var(--text)' }}>Éditer</button>
                                             </td>

@@ -74,7 +74,7 @@ export default function HelpPage() {
                     ].map((item, i) => (
                         <Link key={i} href={item.href} className="group p-10 bg-white rounded-[2.5rem] border border-[var(--border)] hover:border-[#FE7F2D] hover:shadow-electric hover:-translate-y-4 transition-all duration-500 flex flex-col items-center text-center">
                             <div className="w-16 h-16 rounded-2xl bg-[var(--bg)] flex items-center justify-center text-[var(--green)] group-hover:bg-[var(--green)] group-hover:text-white transition-all mb-6">
-                                {React.cloneElement(item.icon as React.ReactElement, { size: 28 })}
+                                {React.cloneElement(item.icon as React.ReactElement<any>, { size: 28 })}
                             </div>
                             <span className="text-xs font-black text-[var(--text)] uppercase tracking-[0.2em] italic">{item.label}</span>
                         </Link>
@@ -91,7 +91,7 @@ export default function HelpPage() {
                         <div className="space-y-4">
                             {faqs.map((f, i) => (
                                 <a key={i} href={`#${i}`} className="flex items-center gap-4 p-6 rounded-2xl border border-transparent hover:border-[var(--border)] hover:bg-white transition-all group no-underline text-left">
-                                    <div className="text-[var(--text3)] group-hover:text-[var(--green)] transition-colors">{React.cloneElement(f.icon as React.ReactElement, { size: 20 })}</div>
+                                    <div className="text-[var(--text3)] group-hover:text-[var(--green)] transition-colors">{React.cloneElement(f.icon as React.ReactElement<any>, { size: 20 })}</div>
                                     <span className="text-sm font-black text-[var(--text)] uppercase tracking-tight italic opacity-60 group-hover:opacity-100 transition-opacity">{f.category}</span>
                                 </a>
                             ))}

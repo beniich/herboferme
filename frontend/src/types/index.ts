@@ -38,6 +38,8 @@ export interface Complaint {
 
     // Legacy support (optional)
     leakType?: string;
+    applicantName?: string;  // Alias for firstName + lastName (legacy backend)
+    nature?: string;         // Alias for category/subcategory (legacy backend)
 }
 
 export interface Team {
@@ -45,6 +47,8 @@ export interface Team {
     name: string;                // Eau, Électricité, …
     status: 'disponible' | 'intervention' | 'repos';
     location?: { lat: number; lng: number };
+    members?: Array<{ _id: string; name: string }>; // Populated member list
+    createdAt?: string;
 }
 
 export interface PlanningSlot {

@@ -92,6 +92,7 @@ export function FileUpload({
                 try {
                     const uploadPromises = newFiles.map(async (uploadFile, index) => {
                         try {
+                            if (!uploadFile.file) return;
                             const url = await onUpload(uploadFile.file);
 
                             // Mettre à jour avec l'URL
