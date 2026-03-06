@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import request from 'supertest';
-// @ts-expect-error - module resolution may vary in CI
+// @ts-ignore - module resolution may vary in CI
 import { app } from './server.js';
 import jwt from 'jsonwebtoken';
 import { jwtConfig } from './config/jwt.js';

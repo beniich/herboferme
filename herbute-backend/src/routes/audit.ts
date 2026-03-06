@@ -49,7 +49,7 @@ router.get('/', auth, async (req: Request, res: Response) => {
         });
     } catch (error: any) {
         logger.error('Error fetching audit logs:', error);
-        return sendError(res, 'Server error retrieving audit logs');
+        return sendError(res, 'Server error retrieving audit logs', 'FETCH_AUDIT_LOGS_ERROR', 500);
     }
 });
 
@@ -71,7 +71,7 @@ router.post('/', auth, async (req: Request, res: Response) => {
         return sendSuccess(res, log, 201);
     } catch (error: any) {
         logger.error('Error creating audit log:', error);
-        return sendError(res, 'Server error creating audit log');
+        return sendError(res, 'Server error creating audit log', 'CREATE_AUDIT_LOG_ERROR', 500);
     }
 });
 
