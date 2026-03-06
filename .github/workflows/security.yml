@@ -21,18 +21,20 @@ jobs:
           - 6379:6379
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'npm'
-          cache-dependency-path: herbute-backend/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install Dependencies
-        working-directory: herbute-backend
         run: npm ci
+
+      - name: Build Shared
+        run: npm run build -w shared
 
       - name: Generate Security Keys (RS256)
         working-directory: herbute-backend
