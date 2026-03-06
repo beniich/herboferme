@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useMemo } from 'react';
 import { useKnowledgeData } from '@/hooks/useDomainData';
 import { StatCard } from '@/components/shared/StatCard';
