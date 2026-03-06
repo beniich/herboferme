@@ -1,4 +1,4 @@
-﻿import { Router, Request, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import { authenticate as auth } from '../middleware/security.js';
 import { logger } from '../utils/logger.js';
 import { KnowledgeBase } from '../models/Knowledge.js';

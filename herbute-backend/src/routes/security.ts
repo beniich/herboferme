@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file security.ts
  * @description Security Center routes for compliance, firewall, and vulnerability scanning.
  * @module backend/routes

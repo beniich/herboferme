@@ -1,4 +1,4 @@
-﻿/**
+/**
  * routes/hr.routes.ts â€” Ressources Humaines (Agricole)
  */
 

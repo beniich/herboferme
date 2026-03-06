@@ -1,4 +1,4 @@
-﻿import { consumer } from '../config/kafka.js';
+import { consumer } from '../config/kafka.js';
 import { Complaint } from '../modules/complaint/complaint.model.js';
 import { logger } from '../utils/logger.js';
 
@@ -27,7 +27,7 @@ export const startSagaConsumer = async () => {
                     }
 
                     if (payload.type === 'ASSIGNMENT_FAILED') {
-                        logger.warn(`âš ï¸ [Saga] Backend received FAILED for ${payload.complaintId}`);
+                        logger.warn(`âš ï¸ [Saga] Backend received FAILED for ${payload.complaintId}`);
 
                         // Compensation: Escalate priority
                         await Complaint.findByIdAndUpdate(payload.complaintId, {

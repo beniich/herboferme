@@ -1,4 +1,4 @@
-﻿/**
+/**
  * â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
  * routes/auth.routes.ts â€” IAM complet (migrÃ© depuis ReclamTrack)
  * â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
@@ -93,7 +93,7 @@ router.post('/register', authLimiter, async (req: Request, res: Response, next: 
     const existing = await User.findOne({ email: email.toLowerCase() });
     if (existing) {
       return res.status(409).json({
-        error: 'Un compte avec cet email existe dÃ©jÃ .',
+        error: 'Un compte avec cet email existe dÃ©jÃ .',
         code:  'EMAIL_EXISTS',
       });
     }

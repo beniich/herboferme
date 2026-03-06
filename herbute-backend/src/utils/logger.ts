@@ -1,4 +1,4 @@
-﻿/**
+/**
  * utils/logger.ts
  * Centralized Winston logger.
  * - Structured JSON in production

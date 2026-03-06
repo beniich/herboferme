@@ -1,4 +1,4 @@
-﻿/**
+/**
  * routes/billing.ts
  * Stripe billing integration.
  *

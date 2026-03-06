@@ -1,4 +1,4 @@
-﻿/**
+/**
  * AppError.ts
  * Custom error class hierarchy for structured, predictable error handling.
  * All operational errors extend AppError so the error handler can distinguish

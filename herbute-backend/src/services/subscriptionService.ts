@@ -1,4 +1,4 @@
-﻿/**
+/**
  * services/subscriptionService.ts
  * Manages subscription plan enforcement.
  * Reads from DB (with simple in-process cache to avoid DB hits on every request).

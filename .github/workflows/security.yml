@@ -28,11 +28,13 @@ jobs:
         with:
           node-version: 18
           cache: 'npm'
-          cache-dependency-path: herbute-backend/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install Dependencies
-        working-directory: herbute-backend
         run: npm ci
+
+      - name: Build Shared
+        run: npm run build -w shared
 
       - name: Generate Security Keys (RS256)
         working-directory: herbute-backend
@@ -59,5 +61,4 @@ jobs:
           npx tsx src/scripts/e2e-security-validation.ts
 
       - name: Linting
-        working-directory: herbute-backend
-        run: npm run lint
+        run: npm run lint -w herbute-backend

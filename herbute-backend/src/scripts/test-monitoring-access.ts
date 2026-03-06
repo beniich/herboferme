@@ -1,4 +1,4 @@
-﻿import axios from 'axios';
+import axios from 'axios';
 
 const API_URL = 'http://localhost:5001';
 const FRONTEND_URL = 'http://localhost:3000';

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * routes/ssh-management.ts
  * SSH server management â€” requires admin role + SSH rate limiter.
  * All operations are audited.

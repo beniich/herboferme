@@ -1,4 +1,4 @@
-﻿/**
+/**
  * middleware/requestId.ts
  * Generates a UUID v4 per request, attaches to req.id and x-request-id header.
  * Used by error handler and logger for full request tracing.

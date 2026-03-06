@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file security.ts
  * @description Single source of truth for all Express security middleware.
  *              Handles authentication, organization context, RBAC, API key
@@ -146,7 +146,7 @@ export const requireOrganization = async (
     });
 
     if (!membership) {
-      return next(new ForbiddenAppError('AccÃ¨s refusÃ© Ã  cette organisation', 'ORG_ACCESS_DENIED'));
+      return next(new ForbiddenAppError('AccÃ¨s refusÃ© Ã  cette organisation', 'ORG_ACCESS_DENIED'));
     }
 
     req.organizationId = organizationId;

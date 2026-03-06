@@ -1,4 +1,4 @@
-﻿import snmp from 'snmp-native';
+import snmp from 'snmp-native';
 import ping from 'ping';
 import NetworkDevice from '../models/NetworkDevice.js';
 import ITAsset from '../models/ITAsset.js';

@@ -1,4 +1,4 @@
-﻿import fetch from 'node-fetch'; // Standard fetch might be available if node 18+
+import fetch from 'node-fetch'; // Standard fetch might be available if node 18+
 
 const BASE_URL = 'http://localhost:5001/api';
 

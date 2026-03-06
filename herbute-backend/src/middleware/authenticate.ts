@@ -53,7 +53,7 @@ export const authenticate = (
 
   try {
     const payload = verifyAccessToken(token);
-    // @ts-ignore - Le payload contient roles[] au lieu de role
+    // @ts-expect-error: Le payload contient roles[] au lieu de role
     req.user = payload;
     next();
   } catch (err: any) {
@@ -86,7 +86,7 @@ export const authenticateOptional = (
 
   if (token) {
     try {
-      // @ts-expect-error - Conformité JWTPayload vs JwtPayload
+      // @ts-expect-error: Conformité JWTPayload vs JwtPayload
       req.user = verifyAccessToken(token);
     } catch {
       // Token présent mais invalide → on ignore silencieusement

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file events.ts
  * @description HTTP fallback for Saga events if Kafka is disabled.
  * @module backend/routes

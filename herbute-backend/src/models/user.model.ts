@@ -1,4 +1,4 @@
-﻿/**
+/**
  * models/user.model.model.ts â€” SchÃ©ma Mongoose User
  * CentralisÃ© ici (source unique de vÃ©ritÃ©)
  * ImportÃ© par @reclamtrack/shared si nÃ©cessaire

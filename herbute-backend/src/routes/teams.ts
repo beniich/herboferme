@@ -1,4 +1,4 @@
-﻿import { Router } from 'express';
+import { Router } from 'express';
 import { authenticate as protect, requireAdmin as adminOnly } from '../middleware/security.js';
 import { requireOrganization } from '../middleware/security.js';
 import { Team } from '../models/Team.js';

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * models/ApiKey.ts
  * Stores API keys (hashed). Raw key is shown ONCE at generation, never stored.
  */

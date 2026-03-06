@@ -1,4 +1,4 @@
-﻿import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import os from 'os';
 import { performance } from 'perf_hooks';
 

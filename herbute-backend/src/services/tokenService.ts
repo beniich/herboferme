@@ -1,4 +1,4 @@
-﻿/**
+/**
  * services/tokenService.ts
  */
 import { RefreshToken } from '../models/refresh-token.model.js';

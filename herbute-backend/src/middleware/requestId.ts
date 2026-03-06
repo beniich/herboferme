@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file requestId.ts
  * @description Injects a unique trace ID into every request for distributed tracing
  *              and easier log correlation.
