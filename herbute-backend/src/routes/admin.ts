@@ -5,15 +5,30 @@ import { securityService } from '../services/securityService.js';
 
 const router = Router();
 
-// Middleware admin simulé si 'authorize' n'existe pas
+/**
+ * Middleware enforcing admin-only access.
+ * Checks for 'admin' or 'super_admin' roles in the JWT payload.
+ */
 const adminOnly = (req: Request, res: Response, next: any) => {
   const user = (req as any).user;
-  if (user && user.role === 'admin') {
+
+  // Extract roles from either 'roles' array or 'role' string (backward compatibility)
+  const userRoles = Array.isArray(user?.roles)
+    ? user.roles
+    : (user?.role ? [user.role] : []);
+
+  const isAdmin = userRoles.some((r: string) =>
+    ['admin', 'super_admin'].includes(r.toLowerCase())
+  );
+
+  if (isAdmin) {
     next();
   } else {
-    // Pour dev, on laisse passer ou on mock
-    // res.status(403).json({ message: 'Accès administrateur requis' });
-    next();
+    res.status(403).json({
+      success: false,
+      message: 'Accès administrateur requis',
+      code: 'ADMIN_REQUIRED'
+    });
   }
 };
 

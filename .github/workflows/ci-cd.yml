@@ -17,10 +17,13 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: './herbute-backend/package-lock.json'
+          cache-dependency-path: 'package-lock.json'
       
       - name: Install Dependencies
-        run: cd herbute-backend && npm ci
+        run: npm ci
+
+      - name: Build Shared
+        run: npm run build -w shared
       
       - name: Lint
         run: cd herbute-backend && npm run lint
@@ -38,10 +41,13 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: './frontend/package-lock.json'
+          cache-dependency-path: 'package-lock.json'
       
       - name: Install Dependencies
-        run: cd frontend && npm ci
+        run: npm ci
+
+      - name: Build Shared
+        run: npm run build -w shared
       
       - name: Build Test
         run: cd frontend && npm run build

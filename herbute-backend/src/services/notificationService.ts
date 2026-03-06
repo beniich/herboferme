@@ -26,7 +26,7 @@ export class NotificationService {
         });
 
         this.io.on('connection', (socket) => {
-            console.log(`âœ… Client connected: ${socket.id}`);
+            console.log(`✅ Client connected: ${socket.id}`);
 
             // User joins their personal room (based on userId)
             socket.on('join', (userId: string) => {
@@ -41,11 +41,11 @@ export class NotificationService {
             });
 
             socket.on('disconnect', () => {
-                console.log(`âŒ Client disconnected: ${socket.id}`);
+                console.log(`❌ Client disconnected: ${socket.id}`);
             });
         });
 
-        console.log('ðŸ”” Notification service initialized');
+        console.log('🔔 Notification service initialized');
         return this.io;
     }
 
@@ -59,7 +59,7 @@ export class NotificationService {
         }
 
         this.io.to(`user:${userId}`).emit('notification', notification);
-        console.log(`ðŸ“§ Notification sent to user ${userId}:`, notification.title);
+        console.log(`📧 Notification sent to user ${userId}:`, notification.title);
     }
 
     /**
@@ -72,7 +72,7 @@ export class NotificationService {
         }
 
         this.io.to(`team:${teamId}`).emit('notification', notification);
-        console.log(`ðŸ“§ Notification sent to team ${teamId}:`, notification.title);
+        console.log(`📧 Notification sent to team ${teamId}:`, notification.title);
     }
 
     /**
@@ -85,7 +85,7 @@ export class NotificationService {
         }
 
         this.io.emit('notification', notification);
-        console.log(`ðŸ“¢ Broadcast notification:`, notification.title);
+        console.log(`📢 Broadcast notification:`, notification.title);
     }
 
     /**
@@ -94,8 +94,8 @@ export class NotificationService {
     async notifyComplaintAssigned(teamId: string, complaint: any) {
         const notification: NotificationPayload = {
             type: 'complaint_assigned',
-            title: 'Nouvelle RÃ©clamation AssignÃ©e',
-            message: `Une rÃ©clamation "${complaint.title}" a Ã©tÃ© assignÃ©e Ã  votre Ã©quipe`,
+            title: 'Nouvelle Réclamation Assignée',
+            message: `Une réclamation "${complaint.title}" a été assignée à votre équipe`,
             data: {
                 complaintId: complaint._id,
                 category: complaint.category,
@@ -115,8 +115,8 @@ export class NotificationService {
     async notifyStatusChange(complaintId: string, oldStatus: string, newStatus: string, userIds: string[]) {
         const notification: NotificationPayload = {
             type: 'status_update',
-            title: 'Statut de RÃ©clamation Mis Ã  Jour',
-            message: `Le statut de la rÃ©clamation est passÃ© de "${oldStatus}" Ã  "${newStatus}"`,
+            title: 'Statut de Réclamation Mis à Jour',
+            message: `Le statut de la réclamation est passé de "${oldStatus}" à "${newStatus}"`,
             data: {
                 complaintId,
                 oldStatus,
@@ -136,7 +136,7 @@ export class NotificationService {
     async sendUrgentAlert(message: string, recipientIds?: string[]) {
         const notification: NotificationPayload = {
             type: 'alert',
-            title: 'âš ï¸ Alerte Urgente',
+            title: '⚠️ Alerte Urgente',
             message,
             priority: 'urgent',
             timestamp: new Date()
