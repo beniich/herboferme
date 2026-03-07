@@ -1,21 +1,9 @@
 ﻿import { Request, Response, Router } from 'express';
-import { authenticate as auth } from '../middleware/security.js';
+import { authenticate as auth, requireAdmin as adminOnly } from '../middleware/security.js';
 import { runSecurityAudit } from '../services/securityAuditService.js';
 import { securityService } from '../services/securityService.js';
 
 const router = Router();
-
-// Middleware admin simulé si 'authorize' n'existe pas
-const adminOnly = (req: Request, res: Response, next: any) => {
-  const user = (req as any).user;
-  if (user && user.role === 'admin') {
-    next();
-  } else {
-    // Pour dev, on laisse passer ou on mock
-    // res.status(403).json({ message: 'Accès administrateur requis' });
-    next();
-  }
-};
 
 // Types
 interface User {

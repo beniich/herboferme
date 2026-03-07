@@ -38,14 +38,18 @@ const readCache = async (key: string): Promise<unknown | null> => {
     if (redis) { const r = await redis.get(key); return r ? JSON.parse(r) : null; }
     const e = memStore.get(key);
     return (e && e.expiresAt > Date.now()) ? e.data : null;
-  } catch { return null; }
+  } catch {
+    return null;
+  }
 };
 
 const writeCache = async (key: string, value: unknown, ttl: number): Promise<void> => {
   try {
     if (redis) await redis.setEx(key, ttl, JSON.stringify(value));
     else memStore.set(key, { data: value, expiresAt: Date.now() + ttl * 1000 });
-  } catch {}
+  } catch (err) {
+    // Ignore cache write errors
+  }
 };
 
 export const cacheMiddleware = (ttlSeconds: number = CACHE_TTL.default) =>
@@ -72,5 +76,7 @@ export const invalidateCache = async (urlPrefix: string): Promise<void> => {
     } else {
       for (const k of memStore.keys()) if (k.startsWith(prefix)) memStore.delete(k);
     }
-  } catch {}
+  } catch (err) {
+    // Ignore cache invalidation errors
+  }
 };

@@ -1,10 +1,11 @@
 ﻿import { Router } from 'express';
 import { upload } from '../middleware/upload.js';
+import { authenticate } from '../middleware/security.js';
 
 const router = Router();
 
 // POST /api/upload
-router.post('/', upload.single('file'), (req, res) => {
+router.post('/', authenticate, upload.single('file'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: 'No file uploaded' });
     }

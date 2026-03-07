@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
 import request from 'supertest';
-// @ts-ignore
+// @ts-expect-error - app might have typing issues in some environments
 import { app } from './server.js';
-import { generateToken } from './config/jwt.js';
+import { generateTokenPair } from './utils/tokens.js';
 
 /**
  * Test de validation de la sécurité (E2E API)
@@ -13,32 +13,32 @@ describe('Security & Authorization Validation', () => {
   const orgB = '657c6b8c9c4c4e001f000002';
 
   // 1. Tokens pour différents rôles
-  const superAdminToken = generateToken({
-    userId: 'user-super',
+  const { accessToken: superAdminToken } = generateTokenPair({
+    id: 'user-super',
     email: 'super@herbute.test',
     organizationId: orgA,
-    roles: ['super_admin']
+    role: 'super_admin'
   });
 
-  const adminToken = generateToken({
-    userId: 'user-admin',
+  const { accessToken: adminToken } = generateTokenPair({
+    id: 'user-admin',
     email: 'admin@herbute.test',
     organizationId: orgA,
-    roles: ['admin']
+    role: 'admin'
   });
 
-  const workerToken = generateToken({
-    userId: 'user-worker',
+  const { accessToken: workerToken } = generateTokenPair({
+    id: 'user-worker',
     email: 'worker@herbute.test',
     organizationId: orgA,
-    roles: ['employe']
+    role: 'employe'
   });
 
-  const workerOrgBToken = generateToken({
-    userId: 'user-worker-b',
+  const { accessToken: workerOrgBToken } = generateTokenPair({
+    id: 'user-worker-b',
     email: 'worker-b@herbute.test',
     organizationId: orgB,
-    roles: ['employe']
+    role: 'employe'
   });
 
   describe('Authentication Barrier', () => {
