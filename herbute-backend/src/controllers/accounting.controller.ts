@@ -2,12 +2,24 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import AccountingEntry from '../models/AccountingEntry.js';
-import moment from 'moment';
 import { reportGenerator } from '../services/reportGenerator.js';
-import fs from 'fs';
+
+// Helper: resolve the organization/domain ID from the request user
+function getDomainId(req: any): mongoose.Types.ObjectId | null {
+  const id = req.user?.organizationId || req.user?.domain;
+  if (!id) return null;
+  try {
+    return new mongoose.Types.ObjectId(id);
+  } catch {
+    return null;
+  }
+}
 
 export const getEntries = async (req: any, res: Response) => {
   try {
+    const domainId = getDomainId(req);
+    if (!domainId) return res.status(400).json({ success: false, message: 'Organization non définie' });
+
     const {
       fiscalYear,
       fiscalPeriod,
@@ -18,9 +30,7 @@ export const getEntries = async (req: any, res: Response) => {
       endDate,
     } = req.query;
 
-    const query: any = {
-      domain: req.user.domain,
-    };
+    const query: any = { domain: domainId };
 
     if (fiscalYear) query.fiscalYear = parseInt(fiscalYear as string);
     if (fiscalPeriod) query.fiscalPeriod = parseInt(fiscalPeriod as string);
@@ -47,21 +57,21 @@ export const getEntries = async (req: any, res: Response) => {
       count: entries.length,
     });
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
 export const createEntry = async (req: any, res: Response) => {
   try {
+    const domainId = getDomainId(req);
+    if (!domainId) return res.status(400).json({ success: false, message: 'Organization non définie' });
+
     const date = req.body.date ? new Date(req.body.date) : new Date();
     const year = date.getFullYear();
-    
+
     // Generate reference
     const count = await AccountingEntry.countDocuments({
-      domain: req.user.domain,
+      domain: domainId,
       fiscalYear: year,
     });
     const reference = `REF-${year}-${String(count + 1).padStart(4, '0')}`;
@@ -70,8 +80,8 @@ export const createEntry = async (req: any, res: Response) => {
       ...req.body,
       date,
       reference,
-      domain: req.user.domain,
-      createdBy: req.user.id,
+      domain: domainId,
+      createdBy: req.user.userId || req.user.id,
       fiscalYear: year,
       fiscalPeriod: date.getMonth() + 1,
     });
@@ -82,29 +92,24 @@ export const createEntry = async (req: any, res: Response) => {
       message: 'Entry created successfully',
     });
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
 export const getGeneralLedger = async (req: any, res: Response) => {
   try {
+    const domainId = getDomainId(req);
+    if (!domainId) return res.status(400).json({ success: false, message: 'Organization non définie' });
+
     const { fiscalYear, accountNumber } = req.query;
 
     const query: any = {
-      domain: req.user.domain,
+      domain: domainId,
       status: 'validated',
     };
 
-    if (fiscalYear) {
-      query.fiscalYear = parseInt(fiscalYear as string);
-    }
-
-    if (accountNumber) {
-      query['account.number'] = accountNumber;
-    }
+    if (fiscalYear) query.fiscalYear = parseInt(fiscalYear as string);
+    if (accountNumber) query['account.number'] = accountNumber;
 
     const entries = await AccountingEntry.find(query).sort({ date: 1 });
 
@@ -126,20 +131,20 @@ export const getGeneralLedger = async (req: any, res: Response) => {
       finalBalance: cumulativeBalance,
     });
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
 export const downloadBalanceSheet = async (req: any, res: Response) => {
     try {
+        const domainId = getDomainId(req);
+        if (!domainId) return res.status(400).json({ success: false, message: 'Organization non définie' });
+
         const { fiscalYear } = req.query;
         const year = parseInt(fiscalYear as string) || new Date().getFullYear();
 
         const entries = await AccountingEntry.find({
-            domain: req.user.domain,
+            domain: domainId,
             fiscalYear: year,
             status: 'validated',
         });
@@ -181,20 +186,31 @@ export const downloadBalanceSheet = async (req: any, res: Response) => {
         
         res.download(filePath, `Bilan_${year}.pdf`, (err) => {
             if (err) console.error("Export error:", err);
-            // Optional: delete file after download
-            // fs.unlinkSync(filePath);
         });
     } catch (error: any) {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
 export const getStats = async (req: any, res: Response) => {
   try {
-    const domainId = new mongoose.Types.ObjectId(req.user.domain);
+    const domainId = getDomainId(req);
+
     const now = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
     const startOfYear = new Date(now.getFullYear(), 0, 1);
+
+    // If no domain, return empty stats instead of crashing
+    if (!domainId) {
+      return res.json({
+        success: true,
+        month: { income: 0, expense: 0, balance: 0 },
+        year: { income: 0, expense: 0, balance: 0 },
+        byCategory: [],
+        recentEntries: []
+      });
+    }
 
     const [monthStats, yearStats, byCategory, recentEntries] = await Promise.all([
       // Monthly Stats
@@ -233,7 +249,7 @@ export const getStats = async (req: any, res: Response) => {
       // Recent Entries
       AccountingEntry.find({ domain: domainId })
         .sort({ date: -1 })
-        .limit(5)
+        .limit(10)
     ]);
 
     const m = monthStats[0] || { income: 0, expense: 0 };

@@ -58,6 +58,7 @@ import agentReportsRoutes from './routes/reports.agent.js';
 // AgroMaître Calendar & Operations Modules routes
 import agriCalendarRoutes from './routes/calendar.routes.js';
 import agriTeamsRoutes from './routes/teams.routes.js';
+import aiRoutes from './routes/ai.routes.js';
 import agriAttendanceRoutes from './routes/attendance.routes.js';
 import agriTasksRoutes from './routes/tasks.routes.js';
 import agriAccountingRoutes from './routes/accounting.routes.js';
@@ -148,6 +149,9 @@ app.use('/api/ssh', sshManagementRoutes);
 app.use('/api/datasources', datasourceRoutes);
 app.use('/api/events', eventsRoutes);
 app.use('/api/assignments', assignmentsRoutes);
+
+// AI & Intelligence
+app.use('/api/ai', aiRoutes);
 app.use('/api/metrics', metricsRoutes);
 
 // Upload

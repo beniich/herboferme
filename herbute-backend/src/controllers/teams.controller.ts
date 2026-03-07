@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Team from '../models/AgriTeam';
+import Team from '../models/AgriTeam.js';
 
 export const getTeams = async (req: any, res: Response) => {
   try {

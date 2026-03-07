@@ -75,3 +75,30 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-brand-orange);
   font-family: var(--font-display);
 }
+
+/* ─────────────────────────────────────────
+   DARK MODE OVERRIDES (Ngrok Inspired)
+   #111114 · Cyan/Rose/Mint Accents
+───────────────────────────────────────── */
+.dark {
+  /* ── Core Palette ── */
+  --color-global-bg:   #0e0e11; /* Très sombre global */
+  --color-brand-teal:  #00c2ff; /* Cyan d'accent ngrok */
+  --color-brand-navy:  rgba(255, 255, 255, 0.08); /* Bordures subtiles */
+  --color-brand-orange: #f59e0b; /* Ambre/Or */
+  
+  /* ── Derived ── */
+  --color-primary-hover: #0088cc;
+  --color-border-faint:  rgba(255, 255, 255, 0.04);
+  --color-text-main:     #f0f0f0;
+
+  /* ── UI Elements ── */
+  --color-bg-card:       #16161a;
+  --color-bg-sidebar:    #0a0a0c;
+
+  /* ── Sémantiques ── */
+  --color-success: #00e5a0; /* Menthe ngrok */
+  --color-warning: #f59e0b;
+  --color-error:   #ff4d6d; /* Rose/Rouge ngrok */
+  --color-info:    var(--color-brand-teal);
+}

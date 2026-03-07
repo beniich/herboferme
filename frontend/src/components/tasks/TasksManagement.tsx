@@ -13,8 +13,10 @@ export default function TasksManagement() {
   });
   const [filters, setFilters] = useState({ status: '', priority: '' });
   const [search, setSearch] = useState('');
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     fetchTasks();
   }, [filters]);
 
@@ -72,6 +74,8 @@ export default function TasksManagement() {
     t.title.toLowerCase().includes(search.toLowerCase()) || 
     t.description?.toLowerCase().includes(search.toLowerCase())
   );
+
+  if (!isMounted) return null;
 
   return (
     <div className="p-6 bg-gray-50 dark:bg-gray-900 min-h-[calc(100vh-80px)]">

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import AgriEvent from '../models/AgriEvent';
+import AgriEvent from '../models/AgriEvent.js';
 import moment from 'moment';
 
 /**

@@ -8,8 +8,10 @@ export default function TeamsManagement() {
   const [stats, setStats] = useState<any>(null);
   const [filters, setFilters] = useState({ type: '', status: '' });
   const [search, setSearch] = useState('');
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     fetchTeams();
     fetchStats();
   }, [filters]);
@@ -64,6 +66,8 @@ export default function TeamsManagement() {
     t.name.toLowerCase().includes(search.toLowerCase()) || 
     (t.description && t.description.toLowerCase().includes(search.toLowerCase()))
   );
+
+  if (!isMounted) return null;
 
   return (
     <div className="p-6 bg-gray-50 dark:bg-gray-900 min-h-[calc(100vh-80px)]">

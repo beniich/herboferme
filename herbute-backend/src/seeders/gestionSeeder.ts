@@ -8,6 +8,10 @@ import AccountingEntry from '../models/AccountingEntry.js';
 import Budget from '../models/Budget.js';
 import InventoryItem from '../models/InventoryItem.js';
 import KnowledgeArticle from '../models/KnowledgeArticle.js';
+import AgriTeam from '../models/AgriTeam.js';
+import AgriEvent from '../models/AgriEvent.js';
+import AIConversation from '../models/AIConversation.js';
+import AIPrediction from '../models/AIPrediction.js';
 import slugify from 'slugify';
 
 const seedGestion = async () => {
@@ -188,7 +192,62 @@ const seedGestion = async () => {
     await InventoryItem.insertMany(inventory);
     console.log('✅ Inventory items seeded');
 
-    // --- 4. Knowledge Base Seed ---
+    // --- 4. Teams and Events Seed ---
+    await AgriTeam.deleteMany({ domain: domainId });
+    await AgriEvent.deleteMany({ domain: domainId });
+    
+    const team1 = await AgriTeam.create({ name: 'Équipe Céréales', type: 'cultures', leader: user._id, status: 'active', domain: domainId, createdBy: user._id });
+    const team2 = await AgriTeam.create({ name: 'Équipe Engins', type: 'maintenance', leader: user._id, status: 'active', domain: domainId, createdBy: user._id });
+
+    const startDate = new Date();
+    const endDate = new Date(startDate.getTime() + 2 * 60 * 60 * 1000); // +2 hours
+
+    await AgriEvent.create([
+        {
+            title: 'Semis Parcelle B',
+            type: 'culture_cycle',
+            startDate,
+            endDate,
+            assignedTeam: team1._id,
+            status: 'planned',
+            priority: 'high',
+            domain: domainId,
+            createdBy: user._id
+        },
+        {
+            title: 'Maintenance Tracteur John',
+            type: 'maintenance',
+            startDate: new Date(startDate.getTime() + 24 * 60 * 60 * 1000), // tomorrow
+            endDate: new Date(endDate.getTime() + 24 * 60 * 60 * 1000),
+            assignedTeam: team2._id,
+            status: 'planned',
+            priority: 'medium',
+            domain: domainId,
+            createdBy: user._id
+        }
+    ]);
+    console.log('✅ Teams and Events seeded');
+
+    // --- 5. AI Data Seed ---
+    await AIConversation.deleteMany({ userId: user._id as any });
+    await AIConversation.create({
+        userId: user._id,
+        title: 'Analyse mildiou',
+        messages: [
+            { role: 'user', content: 'J\'ai des taches blanches sur mes feuilles de tomates', timestamp: new Date() },
+            { role: 'assistant', content: 'Cela ressemble à du mildiou. Je vous conseille d\'appliquer un traitement cuprique rapidement.', timestamp: new Date() }
+        ],
+        model: 'gpt-4-agro'
+    });
+
+    await AIPrediction.deleteMany({ domainId });
+    await AIPrediction.create([
+        { domainId, type: 'yield', target: 'Blé Dur (Parcelle A)', predictionData: { estimatedYield: '45 qx/ha', variance: '+/- 2 qx' }, confidence: 90 },
+        { domainId, type: 'disease', target: 'Tomates (Serre 1)', predictionData: { riskLevel: 'Élevé', recommendation: 'Ventiler immédiatement' }, confidence: 85 }
+    ]);
+    console.log('✅ AI Data seeded');
+
+    // --- 6. Knowledge Base Seed ---
     await KnowledgeArticle.deleteMany({ domain: domainId });
     const articles = [
       {

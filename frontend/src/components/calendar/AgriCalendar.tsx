@@ -16,6 +16,7 @@ export default function AgriCalendar() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [weather, setWeather] = useState({ temp: 24, condition: 'Sunny', rain: 0 });
+  const [isMounted, setIsMounted] = useState(false);
 
   // Fetch events
   const fetchEvents = async () => {
@@ -52,6 +53,7 @@ export default function AgriCalendar() {
   };
 
   useEffect(() => {
+    setIsMounted(true);
     fetchEvents();
   }, [filters]);
 
@@ -67,6 +69,8 @@ export default function AgriCalendar() {
       default: return <Sun className="h-8 w-8 text-yellow-500" />;
     }
   };
+
+  if (!isMounted) return null;
 
   return (
     <div className="flex h-[calc(100vh-100px)] bg-gray-50 dark:bg-gray-900 overflow-hidden">

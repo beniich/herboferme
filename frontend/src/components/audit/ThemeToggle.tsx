@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 
 export default function ThemeToggle() {
     const [isDark, setIsDark] = useState<boolean>(false);
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
+        setIsMounted(true);
         const saved = localStorage.getItem("theme");
         const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         const initial = saved ? saved === "dark" : prefersDark;
@@ -28,7 +30,7 @@ export default function ThemeToggle() {
             title="Toggle dark mode"
         >
             <span className="material-symbols-outlined">
-                {isDark ? "dark_mode" : "light_mode"}
+                {isMounted ? (isDark ? "dark_mode" : "light_mode") : "light_mode"}
             </span>
         </button>
     );

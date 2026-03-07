@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Attendance from '../models/Attendance';
+import Attendance from '../models/Attendance.js';
 import moment from 'moment';
 
 export const getAttendance = async (req: any, res: Response) => {

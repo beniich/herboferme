@@ -9,8 +9,10 @@ import { Clock, UserCheck, AlertTriangle, CalendarDays, BarChart2 } from 'lucide
 export default function HRPlanning() {
   const [attendance, setAttendance] = useState<any[]>([]);
   const [stats, setStats] = useState<any>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     fetchAttendance();
     fetchStats();
   }, []);
@@ -67,6 +69,8 @@ export default function HRPlanning() {
       borderColor: color,
     };
   });
+
+  if (!isMounted) return null;
 
   return (
     <div className="p-6 bg-gray-50 dark:bg-gray-900 min-h-[calc(100vh-80px)]">

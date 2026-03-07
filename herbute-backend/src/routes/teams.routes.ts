@@ -1,5 +1,5 @@
 import express from 'express';
-import { authorize } from '../middleware/authorize';
+import { authenticate } from '../middleware/authenticate.js';
 import {
   getTeams,
   getTeamById,
@@ -10,18 +10,18 @@ import {
   removeMember,
   updatePerformance,
   getTeamStats,
-} from '../controllers/teams.controller';
+} from '../controllers/teams.controller.js';
 
 const router = express.Router();
 
-router.get('/', authorize, getTeams);
-router.get('/:id', authorize, getTeamById);
-router.post('/', authorize, createTeam);
-router.put('/:id', authorize, updateTeam);
-router.delete('/:id', authorize, deleteTeam);
-router.post('/:id/members', authorize, addMember);
-router.delete('/:id/members/:workerId', authorize, removeMember);
-router.put('/:id/performance', authorize, updatePerformance);
-router.get('/stats/overview', authorize, getTeamStats);
+router.get('/', authenticate, getTeams);
+router.get('/:id', authenticate, getTeamById);
+router.post('/', authenticate, createTeam);
+router.put('/:id', authenticate, updateTeam);
+router.delete('/:id', authenticate, deleteTeam);
+router.post('/:id/members', authenticate, addMember);
+router.delete('/:id/members/:workerId', authenticate, removeMember);
+router.put('/:id/performance', authenticate, updatePerformance);
+router.get('/stats/overview', authenticate, getTeamStats);
 
 export default router;

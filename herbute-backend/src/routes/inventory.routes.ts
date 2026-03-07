@@ -1,7 +1,7 @@
 // backend/routes/inventory.routes.ts
 import express from 'express';
 import { getInventory, createInventoryItem, updateMovement, getLowStockItems } from '../controllers/inventory.controller.js';
-import { authenticate } from '../middleware/auth.js';
+import { authenticate } from '../middleware/authenticate.js';
 
 const router = express.Router();
 

@@ -40,39 +40,39 @@
   }
 
   .dark {
-    --background:       183 49% 8%;
-    --foreground:       74 60% 94%;
-    --card:             183 49% 10%;
-    --card-foreground:  74 60% 94%;
-    --popover:          183 49% 10%;
-    --popover-foreground: 74 60% 94%;
-    --primary:          183 49% 35%;
+    --background:       240 10% 6%; /* #0e0e11 */
+    --foreground:       0 0% 94%;   /* #f0f0f0 */
+    --card:             240 8% 10%; /* #16161a */
+    --card-foreground:  0 0% 94%;
+    --popover:          240 8% 10%;
+    --popover-foreground: 0 0% 94%;
+    --primary:          194 100% 50%; /* #00c2ff cyan ngrok */
     --primary-foreground: 0 0% 100%;
-    --secondary:        183 49% 14%;
-    --secondary-foreground: 74 60% 90%;
-    --muted:            183 49% 14%;
-    --muted-foreground: 183 30% 60%;
-    --accent:           23 99% 59%;
+    --secondary:        240 8% 14%;
+    --secondary-foreground: 0 0% 90%;
+    --muted:            240 8% 14%;
+    --muted-foreground: 0 0% 65%;
+    --accent:           350 100% 65%; /* #ff4d6d pink ngrok */
     --accent-foreground: 0 0% 100%;
-    --border:           183 49% 25% / 0.25;
-    --input:            183 49% 25% / 0.20;
-    --ring:             183 49% 35%;
+    --border:           0 0% 100% / 0.08;
+    --input:            0 0% 100% / 0.08;
+    --ring:             194 100% 50%;
   }
 }
 
 @layer base {
   * { 
-    border-color: #233D4D; /* Midnight Blue Borders defined in request */
+    border-color: hsl(var(--border) / 1);
   }
 
   h1, h2, h3, h4, h5, h6 { 
-    color: #FE7F2D; /* Pumpkin Orange Titles defined in request */
+    color: var(--color-title, #FE7F2D); 
   }
 
   html { @apply scroll-smooth; }
   body {
     @apply bg-background text-foreground;
-    background-color: #F5FBE6; /* Soft Mint Background defined in request */
+    background-color: var(--color-global-bg, hsl(var(--background)));
     -webkit-font-smoothing: antialiased;
   }
 }

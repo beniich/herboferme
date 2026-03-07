@@ -1,7 +1,7 @@
 // backend/routes/knowledge.routes.ts
 import express from 'express';
 import { getArticles, createArticle, getArticleBySlug, voteHelpful } from '../controllers/knowledge.controller.js';
-import { authenticate } from '../middleware/auth.js';
+import { authenticate } from '../middleware/authenticate.js';
 
 const router = express.Router();
 

@@ -30,6 +30,11 @@ interface KanbanBoardProps {
 export const KanbanBoard: React.FC<KanbanBoardProps> = ({ interventions, onInterventionClick }) => {
     const [activeTab, setActiveTab] = useState<'todo' | 'progress' | 'done'>('todo');
     const [searchQuery, setSearchQuery] = useState('');
+    const [isMounted, setIsMounted] = useState(false);
+
+    React.useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     const filteredInterventions = interventions.filter(item => 
         item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -76,7 +81,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ interventions, onInter
                     <div className={cn("flex items-center gap-2 text-xs font-medium", isToday ? "text-red-500" : "text-slate-500 dark:text-slate-400")}>
                         {isToday ? <Clock className="w-4 h-4" /> : <CalendarDays className="w-4 h-4" />}
                         <span>
-                            {isToday ? "Due Today" : new Date(item.start).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                            {isMounted ? (isToday ? "Due Today" : new Date(item.start).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })) : "..."}
                         </span>
                     </div>
                     <div className="flex items-center gap-2">

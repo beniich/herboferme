@@ -3,7 +3,7 @@ import express from 'express';
 // Let's use the one that is standard in the project. The guide says '../middleware/auth'
 // I will use `authorize` as the user's project uses `import { authorize } from '../middleware/authorize';` based on previous files, but we'll import it as auth just in case.
 // Looking at the previous context, `authorize.test.ts` existed in `../middleware/authorize`. So we should use that.
-import { authorize } from '../middleware/authorize';
+import { authenticate } from '../middleware/authenticate.js';
 import {
   getEvents,
   getEventById,
@@ -13,32 +13,18 @@ import {
   getUpcomingTasks,
   getCultureCalendar,
   getEventStats,
-} from '../controllers/calendar.controller';
+} from '../controllers/calendar.controller.js';
 
 const router = express.Router();
 
 // Tous les événements (avec filtres)
-router.get('/events', authorize, getEvents);
-
-// Événement par ID
-router.get('/events/:id', authorize, getEventById);
-
-// Créer événement
-router.post('/events', authorize, createEvent);
-
-// Modifier événement
-router.put('/events/:id', authorize, updateEvent);
-
-// Supprimer événement
-router.delete('/events/:id', authorize, deleteEvent);
-
-// Tâches à venir
-router.get('/upcoming-tasks', authorize, getUpcomingTasks);
-
-// Calendrier des cultures
-router.get('/culture-calendar', authorize, getCultureCalendar);
-
-// Statistiques
-router.get('/stats', authorize, getEventStats);
+router.get('/events', authenticate, getEvents);
+router.get('/events/:id', authenticate, getEventById);
+router.post('/events', authenticate, createEvent);
+router.put('/events/:id', authenticate, updateEvent);
+router.delete('/events/:id', authenticate, deleteEvent);
+router.get('/upcoming-tasks', authenticate, getUpcomingTasks);
+router.get('/culture-calendar', authenticate, getCultureCalendar);
+router.get('/stats', authenticate, getEventStats);
 
 export default router;
