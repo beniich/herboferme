@@ -81,24 +81,24 @@ h1, h2, h3, h4, h5, h6 {
    #111114 · Cyan/Rose/Mint Accents
 ───────────────────────────────────────── */
 .dark {
-  /* ── Core Palette ── */
-  --color-global-bg:   #0e0e11; /* Très sombre global */
-  --color-brand-teal:  #00c2ff; /* Cyan d'accent ngrok */
-  --color-brand-navy:  rgba(255, 255, 255, 0.08); /* Bordures subtiles */
-  --color-brand-orange: #f59e0b; /* Ambre/Or */
+  /* ── Core Palette (User Custom) ── */
+  --color-global-bg:   #35013F; /* Deep Purple */
+  --color-brand-teal:  #951556; /* Magenta Primary */
+  --color-brand-navy:  rgba(233, 181, 210, 0.15); /* Soft Pinkish Border */
+  --color-brand-orange: #E9B5D2; /* Pinkish Accent */
   
   /* ── Derived ── */
-  --color-primary-hover: #0088cc;
-  --color-border-faint:  rgba(255, 255, 255, 0.04);
-  --color-text-main:     #f0f0f0;
+  --color-primary-hover: #b01a65;
+  --color-border-faint:  rgba(233, 181, 210, 0.08);
+  --color-text-main:     #E9B5D2;
 
   /* ── UI Elements ── */
-  --color-bg-card:       #16161a;
-  --color-bg-sidebar:    #0a0a0c;
+  --color-bg-card:       #561050; /* Plum Card */
+  --color-bg-sidebar:    #35013F; /* Deep Purple Sidebar */
 
-  /* ── Sémantiques ── */
-  --color-success: #00e5a0; /* Menthe ngrok */
+  /* ── Sémantiques (Adjusted for consistency) ── */
+  --color-success: #10b981; 
   --color-warning: #f59e0b;
-  --color-error:   #ff4d6d; /* Rose/Rouge ngrok */
-  --color-info:    var(--color-brand-teal);
+  --color-error:   #e11d48;
+  --color-info:    #951556;
 }

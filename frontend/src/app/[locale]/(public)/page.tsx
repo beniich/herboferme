@@ -75,7 +75,7 @@ export default function LandingPage() {
 
             {/* STATISTICS SECTION - SOCIAL PROOF */}
             <section className="relative -mt-24 z-20 px-6">
-                <div className="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-1 p-1 bg-gradient-to-r from-[#FE7F2D] to-[var(--green)] rounded-[3rem] overflow-hidden shadow-electric">
+                <div className="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-1 p-1 bg-gradient-to-r from-[var(--gold)] to-[var(--green)] rounded-[3rem] overflow-hidden shadow-electric">
                     {[
                         { label: "Domaines Actifs", value: "1,200+", sub: "Partout au Maroc" },
                         { label: "Rendement Moyen", value: "+28%", sub: "Sous 6 mois" },
@@ -128,7 +128,7 @@ export default function LandingPage() {
                                 color: "var(--green)"
                             },
                         ].map((tech, i) => (
-                            <div key={i} className="group p-12 bg-white rounded-[3.5rem] border border-[var(--border)] hover:border-[#FE7F2D] transition-all hover:shadow-electric hover:-translate-y-4 duration-500 relative overflow-hidden">
+                            <div key={i} className="group p-12 bg-[var(--bg2)] rounded-[3.5rem] border border-[var(--border)] hover:border-[var(--gold)] transition-all hover:shadow-electric hover:-translate-y-4 duration-500 relative overflow-hidden">
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--green)]/5 rounded-full translate-x-1/2 -translate-y-1/2 group-hover:scale-150 transition-transform duration-700"></div>
                                 <div className="mb-10 text-[var(--green)] group-hover:scale-110 transition-transform duration-500" style={{ color: tech.color }}>
                                     {isMounted && tech.icon}
@@ -149,12 +149,12 @@ export default function LandingPage() {
                     
                     <div className="relative z-10 text-center space-y-12">
                         <div className="text-[10px] font-black text-[var(--gold)] uppercase tracking-[0.6em] mb-8 italic">Prêt pour la Révolution ?</div>
-                        <h2 className="text-5xl lg:text-8xl font-black text-white italic uppercase tracking-tighter leading-[0.9]">
+                        <h2 className="text-5xl lg:text-8xl font-black text-[var(--text)] italic uppercase tracking-tighter leading-[0.9]">
                             Cultivons le <br />
                             <span className="text-[var(--green)] underline underline-offset-[12px] not-italic">Futur de la Terre.</span>
                         </h2>
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-8 pt-8">
-                            <Link href="/register" className="w-full sm:w-auto px-16 py-8 bg-[#FE7F2D] text-white rounded-[2rem] font-black text-sm uppercase tracking-[0.3em] hover:bg-[#ff9e5e] transition-all shadow-electric hover:scale-105">
+                            <Link href="/register" className="w-full sm:w-auto px-16 py-8 bg-[var(--gold)] text-[var(--bg)] rounded-[2rem] font-black text-sm uppercase tracking-[0.3em] hover:bg-[var(--gold2)] transition-all shadow-electric hover:scale-105">
                                 Créer mon Compte
                             </Link>
                             <Link href="/contact" className="w-full sm:w-auto px-16 py-8 bg-transparent border-2 border-white/20 text-white rounded-[2rem] font-black text-sm uppercase tracking-[0.3em] hover:bg-white/10 transition-all">
