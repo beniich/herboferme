@@ -33,6 +33,9 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Build Shared
+        run: npm run build -w shared
+
       - name: Generate Security Keys (RS256)
         working-directory: herbute-backend
         run: node gen-keys.cjs

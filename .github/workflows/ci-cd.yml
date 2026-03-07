@@ -21,6 +21,9 @@ jobs:
       
       - name: Install Dependencies
         run: npm ci
+
+      - name: Build Shared
+        run: npm run build -w shared
       
       - name: Lint
         run: cd herbute-backend && npm run lint
@@ -42,6 +45,9 @@ jobs:
       
       - name: Install Dependencies
         run: npm ci
+
+      - name: Build Shared
+        run: npm run build -w shared
       
       - name: Build Test
         run: cd frontend && npm run build

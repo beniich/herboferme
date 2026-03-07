@@ -77,7 +77,7 @@ async function testFrontendMetrics() {
 
 function printResults() {
     console.log('\n=====================================');
-    console.log('ðŸ” DIAGNOSTIC DE PERFORMANCE');
+    console.log('🔍 DIAGNOSTIC DE PERFORMANCE');
     console.log('=====================================\n');
 
     const serviceGroups = results.reduce((acc, result) => {
@@ -102,12 +102,12 @@ function printResults() {
     const critical = results.filter(r => r.status === 'critical').length;
 
     console.log('\n=====================================');
-    console.log('RÃ‰SUMÃ‰');
+    console.log('RÉSUMÉ');
     console.log('=====================================');
-    console.log(`âœ… Bon: ${good}`);
-    console.log(`âš ï¸ Attention: ${warning}`);
-    console.log(`âŒ Critique: ${critical}`);
-    console.log(`Total: ${results.length} mÃ©triques testÃ©es\n`);
+    console.log(`✅ Bon: ${good}`);
+    console.log(`⚠️ Attention: ${warning}`);
+    console.log(`❌ Critique: ${critical}`);
+    console.log(`Total: ${results.length} métriques testées\n`);
 }
 
 async function runDiagnostic() {

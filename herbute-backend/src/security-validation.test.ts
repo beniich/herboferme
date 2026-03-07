@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import request from 'supertest';
-// @ts-ignore
+// @ts-expect-error - app might have typing issues in some environments
 import { app } from './server.js';
 import { generateTokenPair } from './utils/tokens.js';
 

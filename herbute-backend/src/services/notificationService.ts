@@ -94,8 +94,8 @@ export class NotificationService {
     async notifyComplaintAssigned(teamId: string, complaint: any) {
         const notification: NotificationPayload = {
             type: 'complaint_assigned',
-            title: 'Nouvelle RÃ©clamation AssignÃ©e',
-            message: `Une rÃ©clamation "${complaint.title}" a Ã©tÃ© assignÃ©e Ã  votre Ã©quipe`,
+            title: 'Nouvelle Réclamation Assignée',
+            message: `Une réclamation "${complaint.title}" a été assignée à votre équipe`,
             data: {
                 complaintId: complaint._id,
                 category: complaint.category,
@@ -115,8 +115,8 @@ export class NotificationService {
     async notifyStatusChange(complaintId: string, oldStatus: string, newStatus: string, userIds: string[]) {
         const notification: NotificationPayload = {
             type: 'status_update',
-            title: 'Statut de RÃ©clamation Mis Ã  Jour',
-            message: `Le statut de la rÃ©clamation est passÃ© de "${oldStatus}" Ã  "${newStatus}"`,
+            title: 'Statut de Réclamation Mis à Jour',
+            message: `Le statut de la réclamation est passé de "${oldStatus}" à "${newStatus}"`,
             data: {
                 complaintId,
                 oldStatus,

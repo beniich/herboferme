@@ -6,8 +6,8 @@ function randInt(min: number, max: number): number {
 }
 
 /**
- * Retourne un objet contenant les mÃ©triques agrÃ©gÃ©es.
- * Les valeurs changent lÃ©gÃ¨rement Ã  chaque appel, ce qui simule du rÃ©el.
+ * Retourne un objet contenant les métriques agrégées.
+ * Les valeurs changent légèrement à chaque appel, ce qui simule du réel.
  */
 export function generateMetrics() {
     // Lag moyen (ms) = sum(lag) * 1000 + jitter
